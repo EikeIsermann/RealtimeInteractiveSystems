@@ -2,17 +2,19 @@ package edges
 
 import java.util.UUID
 import nodes.Node
-import scala.collection.immutable.HashMap
+import scala.collection.mutable
 
 /**
  * Created by Christian Treffs
  * Date: 05.11.13 17:00
  */
-abstract class Edge(_head: Node, _tail: Node) {
+abstract case class Edge(head: Node, tail: Node) {
   val id = UUID.randomUUID()
-  val head: Node = _head
-  val tail: Node = _tail
-  val attributes: HashMap = HashMap.empty()
+  val attributes = mutable.HashMap.empty[String, String]
 
+  head.connectChild(this, tail)
+  tail.connectParent(this, head)
+
+  def addAttribute(name: String, attr: String) = attributes.put(name, attr)
 
 }
