@@ -35,8 +35,9 @@ libraryDependencies  <++= (scalaVersion){scalaV => Seq(
   "org.scala-lang"            % "scala-reflect"           % scalaV withSources() withJavadoc(),
   "org.scala-lang"            % "scala-actors"            % scalaV withSources() withJavadoc(),
   "org.scala-lang.plugins"    % "continuations"           % scalaV withSources() withJavadoc(),
-  "com.typesafe.akka" %% "akka-actor"                     % "latest.integration" withSources() withJavadoc(),
-  "com.typesafe.akka" %% "akka-agent"                     % "latest.integration" withSources() withJavadoc()
+  "com.typesafe.akka"         %% "akka-actor"             % "latest.integration" withSources() withJavadoc(),
+  "com.typesafe.akka"         %% "akka-agent"             % "latest.integration" withSources() withJavadoc(),
+  "org.lwjgl.lwjgl"           % "lwjgl"                   %  "latest.integration" withSources() withJavadoc()
 )}
 
 transitiveClassifiers := Seq(
