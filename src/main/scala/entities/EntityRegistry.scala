@@ -16,7 +16,7 @@ class EntityRegistry extends mutable.Set[Entity] {
   
   def addEntity(e: Entity) = {
     entityBuffer += e
-
+    this
   }
   def removeEntity(e: Entity) = {
     entityBuffer -= e
@@ -27,7 +27,7 @@ class EntityRegistry extends mutable.Set[Entity] {
 
   def iterator: Iterator[Entity] = entityBuffer.iterator
 
-  def +=(elem: Entity): EntityRegistry = ???
+  def +=(elem: Entity): EntityRegistry = this
 
-  def -=(elem: Entity): EntityRegistry = ???
+  def -=(elem: Entity): EntityRegistry = this
 }

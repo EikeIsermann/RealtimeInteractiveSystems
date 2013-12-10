@@ -16,16 +16,16 @@ class Signal[T](private var value: T)(implicit val owner: ActorRef) {
 
   def update[A <: T](newValue: A)(implicit setterActor: ActorRef) {
     setterActor match {
-      case `owner` => notifyOtherObservers(newValue) // owner sets the new value -> notify observers
-      case _ => notifyMySelf(newValue) // tell the owner to set the new value
+      case `owner` => updateObservers(newValue) // owner sets the new value -> notify observers
+      case _       => updateSelf(newValue) // tell the owner to set the new value
     }
   }
 
-  private def notifyOtherObservers(value: T) {
+  private def updateObservers(value: T) {
     observers.foreach(ref => ref ! SignalUpdatedValue[T](this, value))
   }
 
-  private def notifyMySelf(value: T) {
+  private def updateSelf(value: T) {
     owner ! SignalUpdateValue[T](this, value)
   }
 
