@@ -1,4 +1,4 @@
-package main.scala.entities
+package main.scala.world.entities
 
 import scala.collection.mutable
 

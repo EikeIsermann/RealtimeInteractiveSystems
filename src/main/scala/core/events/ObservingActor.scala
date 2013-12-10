@@ -1,4 +1,4 @@
-package main.scala.eventsystem
+package main.scala.core.events
 
 import scala.collection.mutable
 import akka.actor.{ActorRef, Actor}

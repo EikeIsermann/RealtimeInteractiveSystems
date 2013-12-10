@@ -1,6 +1,6 @@
-package main.scala.actors
+package main.scala.core.events
 
-import main.scala.eventsystem.ObservingActor
+import main.scala.core.events.ObservingActor
 
 /**
  * Created by Christian Treffs

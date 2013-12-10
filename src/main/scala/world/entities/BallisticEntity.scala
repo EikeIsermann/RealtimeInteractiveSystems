@@ -1,4 +1,4 @@
-package main.scala.entities
+package main.scala.world.entities
 
 import main.scala.physics.Particle
 import main.scala.input.SimulationContext

@@ -1,8 +1,8 @@
-package edges
+package main.scala.gfx.scenegraph
 
 import java.util.UUID
-import nodes.Node
 import scala.collection.mutable
+import main.scala.gfx.scenegraph.Node
 
 /**
  * Created by Christian Treffs

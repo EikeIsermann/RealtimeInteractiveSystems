@@ -1,4 +1,4 @@
-package main.scala.eventsystem
+package main.scala.core.events
 
 import akka.actor.ActorRef
 

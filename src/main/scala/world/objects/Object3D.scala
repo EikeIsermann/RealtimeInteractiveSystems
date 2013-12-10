@@ -1,4 +1,4 @@
-package main.scala.objects
+package main.scala.world.objects
 
 /**
  * Created by Christian Treffs

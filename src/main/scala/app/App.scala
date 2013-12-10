@@ -1,8 +1,7 @@
 package main.scala.app
 
 import akka.actor.{Props, ActorSystem}
-import main.scala.actors.MyActor
-import main.scala.eventsystem.{ObserveSignal, Signal, TestMessage}
+import main.scala.core.events.{MyActor, Signal, ObserveSignal, TestMessage}
 
 /**
  * Created by Christian Treffs
