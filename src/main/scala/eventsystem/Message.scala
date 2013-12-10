@@ -1,5 +1,7 @@
 package main.scala.eventsystem
 
+import akka.actor.ActorRef
+
 /**
  * Created by Christian Treffs
  * Date: 12.11.13 16:35

@@ -28,7 +28,7 @@ trait ObservingActor extends Actor {
       case func: (Any => Unit)  => func.apply(value)
     }
 
-    case msg: SignalUpdateValue => msg.signal.update(msg.value)
+    case msg: SignalUpdateValue[_] => msg.signal.update(msg.value)(self)
 
     case x => receiveElse(x)
   }

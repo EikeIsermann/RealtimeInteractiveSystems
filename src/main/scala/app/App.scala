@@ -15,7 +15,7 @@ object App {
 
     val system = ActorSystem("mySystem")
 
-    val myActor = system.actorOf(Props[MyActor], "myActor")
+    implicit val myActor = system.actorOf(Props[MyActor], "myActor")
 
     myActor ! TestMessage("hallo")
 

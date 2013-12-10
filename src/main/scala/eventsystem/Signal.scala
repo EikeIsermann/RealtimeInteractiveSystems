@@ -14,15 +14,19 @@ class Signal[T](private var value: T)(implicit val owner: ActorRef) {
 
   def now() = value
 
-  def update(newValue: T)(implicit setterActor: ActorRef) {
-    if(setterActor == owner) {
-      // owner sets the new value -> notify observers
-      value = newValue
-      observers.foreach(_ ! SignalUpdatedValue(this, value))
-    } else {
-      // tell the owner to set the new value
-      owner ! SignalUpdateValue(this, newValue)
+  def update[A <: T](newValue: A)(implicit setterActor: ActorRef) {
+    setterActor match {
+      case `owner` => notifyOtherObservers(newValue) // owner sets the new value -> notify observers
+      case _ => notifyMySelf(newValue) // tell the owner to set the new value
     }
+  }
+
+  private def notifyOtherObservers(value: T) {
+    observers.foreach(ref => ref ! SignalUpdatedValue[T](this, value))
+  }
+
+  private def notifyMySelf(value: T) {
+    owner ! SignalUpdateValue[T](this, value)
   }
 
   def registerObserver(actor: ActorRef) {
