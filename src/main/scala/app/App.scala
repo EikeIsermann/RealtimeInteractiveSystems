@@ -2,7 +2,7 @@ package main.scala.app
 
 import akka.actor.{Props, ActorSystem}
 import main.scala.actors.MyActor
-import main.scala.eventsystem.{SignalObserve, Signal, TestMessage}
+import main.scala.eventsystem.{ObserveSignal, Signal, TestMessage}
 
 /**
  * Created by Christian Treffs
@@ -23,18 +23,11 @@ object App {
 
     val func = {x: Int => println("value" +x)}
 
-    myActor ! SignalObserve(sig)(func)
+    myActor ! ObserveSignal(sig)(func)
 
     sig.update(234)
 
-
-
-
-    //TODO:
-
-
-
-
+    sig.update(456)
 
 
   }

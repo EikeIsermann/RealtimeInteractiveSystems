@@ -6,5 +6,5 @@ package main.scala.input
  */
 class SimulationContext extends Context {
 
-  def updateDeltaT(): Long = ???
+  def updateDeltaT(): Long = 0L
 }

@@ -1,4 +1,4 @@
-package main.scala
+package main.scala.app
 
 import main.scala.input.SimulationContext
 import main.scala.entities._
@@ -7,16 +7,16 @@ import main.scala.entities._
  * Created by Christian Treffs
  * Date: 10.12.13 11:33
  */
-class SimpleBallisticDemo {
+object SimpleBallisticDemo {
 
-  val context: SimulationContext = null
+  def main(args: Array[String]) {
+  val context: SimulationContext = new SimulationContext
 
-  val entities: SimulationRegistry = null
+  val entities: SimulationRegistry = new SimulationRegistry
 
   entities.addEntity(new Camera())
   entities.addEntity(new Floor())
   entities.addEntity(new SimpleBallisticWeapon())
-
 
 
   entities.initAll(context)
@@ -27,6 +27,6 @@ class SimpleBallisticDemo {
 
   entities.renderAll(context)
 
-
+  }
 
 }

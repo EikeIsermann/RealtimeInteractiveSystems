@@ -7,23 +7,23 @@ import main.scala.input.SimulationContext
  * Date: 10.12.13 11:35
  */
 class Camera extends Entity{
-  def init(context: SimulationContext): Boolean = ???
+  def init(context: SimulationContext): Boolean = {false}
 
   /**
    * physics simulation process
    * @param context
    */
-  def simulate(context: SimulationContext): Boolean = ???
+  def simulate(context: SimulationContext): Boolean = {false}
 
   /**
    * rendering process
    * @param context
    */
-  def render(context: SimulationContext): Boolean = ???
+  def render(context: SimulationContext): Boolean = {false}
 
-  def exit(): Boolean = ???
+  def exit(): Boolean = {false}
 
-  def getEntityRegistry: EntityRegistry = ???
+  def getEntityRegistry: EntityRegistry = {null}
 
-  def setEntityRegistry: EntityRegistry = ???
+  def setEntityRegistry: EntityRegistry = {null}
 }

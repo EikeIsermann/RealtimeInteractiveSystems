@@ -10,31 +10,53 @@ import scala.collection.mutable
  */
 class Signal[T](private var value: T)(implicit val owner: ActorRef) {
 
+  /**
+   * all registered observers
+   */
   private val observers = new mutable.HashSet[ActorRef]()
 
+  /**
+   * the current value of the signal
+   * @return the value
+   */
   def now() = value
 
-  def update[A <: T](newValue: A)(implicit setterActor: ActorRef) {
-    setterActor match {
-      case `owner` => updateObservers(newValue) // owner sets the new value -> notify observers
-      case _       => updateSelf(newValue) // tell the owner to set the new value
+
+  /**
+   * register new observer-actor
+   * @param actor the observer
+   */
+  def registerObserver(actor: ActorRef) = observers.add(actor)
+
+  /**
+   * update the signal value and traverse the changes
+   * @param newValue the new signal value
+   * @param currentActor the actor that caused the value change
+   * @tparam A the type of the signal
+   * @return ?
+   */
+  def update[A <: T](newValue: A)(implicit currentActor: ActorRef) {
+    currentActor match {
+      case `owner` => updateObservers(newValue)
+      case _       => updateSelf(newValue)
     }
   }
 
-  private def updateObservers(value: T) {
-    observers.foreach(ref => ref ! SignalUpdatedValue[T](this, value))
+  /**
+   * tell the owner actor to update the value of this signal
+   * @param v the new value
+   */
+  private def updateSelf(v: T) {
+    owner ! UpdateSignalValue[T](this, v)
   }
 
-  private def updateSelf(value: T) {
-    owner ! SignalUpdateValue[T](this, value)
+  /**
+   * tell all observing actors to update (including yourself), if the updating actor is the owner of the signal
+   * @param v the new value
+   */
+  private def updateObservers(v: T) {
+    value = v //TODO: is this the right place to update the value?
+    observers.foreach(ref => ref ! PublishSignalValueUpdate[T](this, v))
   }
-
-  def registerObserver(actor: ActorRef) {
-    if(actor != owner) {
-      observers.add(actor)
-    }
-  }
-
-
 
 }

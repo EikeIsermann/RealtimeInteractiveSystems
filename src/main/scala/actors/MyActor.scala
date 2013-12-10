@@ -8,7 +8,7 @@ import main.scala.eventsystem.ObservingActor
  */
 class MyActor() extends ObservingActor {
 
-  protected def receiveElse(msg: Any): Unit = {
-
+  protected def unknownMessage(msg: Any): Unit = {
+    println(msg)
   }
 }
