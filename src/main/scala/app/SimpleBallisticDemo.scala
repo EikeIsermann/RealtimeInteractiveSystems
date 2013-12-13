@@ -1,7 +1,7 @@
 package main.scala.app
 
 import main.scala.input.SimulationContext
-import main.scala.entities._
+import main.scala.world.entities._
 
 /**
  * Created by Christian Treffs

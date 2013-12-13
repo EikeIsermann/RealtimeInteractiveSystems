@@ -2,7 +2,6 @@ package main.scala.gfx.scenegraph
 
 import java.util.UUID
 import scala.collection.mutable
-import main.scala.gfx.scenegraph.Edge
 
 /**
  * Created by Christian Treffs
