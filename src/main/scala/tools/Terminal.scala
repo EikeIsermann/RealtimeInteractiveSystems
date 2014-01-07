@@ -76,9 +76,9 @@ private class Terminal(readLineToFunc: Seq[(String) => Unit]) extends Thread {
     }
     else if(!line.isEmpty) {
       val a = line.split(Terminal.separator)
-      if(a.length > 1 && a(1).toLowerCase().trim == "help") {
+      /*if(a.length > 1 && a(1).toLowerCase().trim == "help") {
         return //TODO
-      }
+      }*/
     }
 
     line

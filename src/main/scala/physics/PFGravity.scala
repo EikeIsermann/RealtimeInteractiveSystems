@@ -5,5 +5,5 @@ package main.scala.physics
  * Date: 07.01.14 11:05
  */
 class PFGravity extends ParticleForce {
-
+  def updateForce(particle: Particle, deltaT: Long): Unit = ???
 }

@@ -8,7 +8,7 @@ import scala.collection.mutable
  */
 
 
-case class PFPair(particle: Particle, particleForce: ParticleForce) extends Tuple2(particle, particleForce)
+class PFPair(particle: Particle, particleForce: ParticleForce) extends Tuple2(particle, particleForce)
 
 class PFPairVector() extends mutable.ArrayBuffer[PFPair] {
   def make_pair(p: Particle, pf: ParticleForce)= new PFPair(p, pf)

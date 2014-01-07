@@ -2,12 +2,13 @@ package main.scala.app
 
 import akka.actor.{Props, ActorSystem}
 import main.scala.core.events.{MyActor, Signal, ObserveSignal, TestMessage}
+import ogl.app.Input
 
 /**
  * Created by Christian Treffs
  * Date: 19.11.13 16:39
  */
-object App {
+object App extends ogl.app.App{
 
 
   def main(args: Array[String]) {
@@ -31,4 +32,9 @@ object App {
 
   }
 
+  def init(): Unit = ???
+
+  def simulate(elapsed: Float, input: Input): Unit = ???
+
+  def display(width: Int, height: Int): Unit = ???
 }

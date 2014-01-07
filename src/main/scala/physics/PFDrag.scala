@@ -5,7 +5,5 @@ package main.scala.physics
  * Date: 07.01.14 11:26
  */
 class PFDrag extends ParticleForce{
-
-
-
+  def updateForce(particle: Particle, deltaT: Long): Unit = ???
 }

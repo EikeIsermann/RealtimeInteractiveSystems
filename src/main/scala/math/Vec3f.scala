@@ -27,17 +27,3 @@ final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.
 
 
 }
-
-object Test {
-  Vec3f() * Vec3f()
-
-
-
-  Vec3f() + Vec3f()
-  Vec3f() - Vec3f()
-
-
-
-  Vec3f() cross Vec3f()
-  Vec3f() dot Vec3f()
-}
