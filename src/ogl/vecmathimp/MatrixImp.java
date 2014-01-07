@@ -23,7 +23,7 @@ import static ogl.vecmathimp.FactoryDefault.vecmath;
  * 
  * @author henrik, marc
  */
-public final class MatrixImp implements Matrix {
+public class MatrixImp implements Matrix {
 
   private float[] values;
 

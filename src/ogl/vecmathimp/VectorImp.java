@@ -18,7 +18,7 @@ import org.lwjgl.BufferUtils;
  * @author henrik, marc
  */
 
-public final class VectorImp implements Comparable<Vector>, Vector {
+public class VectorImp implements Comparable<Vector>, Vector {
   
   public final float x, y, z;
   
