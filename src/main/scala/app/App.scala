@@ -26,7 +26,7 @@ object App extends ogl.app.App{
 
     val sig = new Signal[Int](2)
 
-    val func = {x: Int => println("value" +x)}
+    val func = {x: Int => x*x}
 
     myActor ! ObserveSignal(sig)(func)
 

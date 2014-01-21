@@ -19,7 +19,7 @@ case class TestMessage(msg: String) extends Message
  * @param observer the observer
  * @tparam T the type of the signal
  */
-case class ObserveSignal[T](signal: Signal[T])(val func: T => Unit)(implicit val observer: ActorRef) extends Message
+case class ObserveSignal[T](signal: Signal[T])(val func: T => Any)(implicit val observer: ActorRef) extends Message
 
 
 /**
