@@ -2,6 +2,7 @@ package main.scala.world.entities
 
 import main.scala.physics.Particle
 import main.scala.input.SimulationContext
+import main.scala.math.Vec3f
 
 /**
  * Created by Christian Treffs
@@ -30,4 +31,6 @@ class BallisticEntity extends Entity with Particle {
   def getEntityRegistry: EntityRegistry = ???
 
   def setEntityRegistry: EntityRegistry = ???
+
+  var currentForce: Vec3f = _
 }

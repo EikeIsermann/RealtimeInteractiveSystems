@@ -6,7 +6,7 @@ package main.scala.physics
  */
 class PFBuoyancy extends ParticleForce {
   def updateForce(particle: Particle, deltaT: Long): Unit = {
-
-    particle.addForce()
+      //TODO
+    //particle.addForce()
   }
 }

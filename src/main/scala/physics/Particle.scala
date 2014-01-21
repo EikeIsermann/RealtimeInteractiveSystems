@@ -8,7 +8,7 @@ import main.scala.math.Vec3f
  */
 trait Particle {
 
-  private var currentForce: Vec3f
+  var currentForce: Vec3f
 
   def addForce(force: Vec3f) = currentForce = currentForce + force
   def removeForce(force: Vec3f) = currentForce = currentForce - force
