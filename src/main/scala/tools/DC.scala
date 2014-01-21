@@ -1,4 +1,4 @@
-package main.scala.log
+package main.scala.tools
 
 /**
  * Created by Christian Treffs

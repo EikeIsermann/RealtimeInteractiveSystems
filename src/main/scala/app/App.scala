@@ -3,7 +3,7 @@ package main.scala.app
 import akka.actor.{Props, ActorSystem}
 import main.scala.core.events.{MyActor, Signal, ObserveSignal, TestMessage}
 import ogl.app.Input
-import main.scala.log.DC
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs
@@ -26,7 +26,7 @@ object App extends ogl.app.App{
 
     val sig = new Signal[Int](2)
 
-    val func = {x: Int => x*x}
+    val func = {x: Int => }
 
     myActor ! ObserveSignal(sig)(func)
 

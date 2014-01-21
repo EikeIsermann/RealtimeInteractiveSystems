@@ -2,7 +2,7 @@ package main.scala.core.events
 
 import akka.actor.ActorRef
 import scala.collection.mutable
-import main.scala.log.DC
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs
