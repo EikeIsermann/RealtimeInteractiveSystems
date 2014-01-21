@@ -2,12 +2,20 @@ package main.scala.core.events
 
 import akka.actor.ActorRef
 import scala.collection.mutable
+import main.scala.log.DC
 
 /**
  * Created by Christian Treffs
  * Date: 12.11.13 16:35
  */
 class Signal[T](private var value: T)(implicit val owner: ActorRef) {
+
+  /**
+   * last update time
+   */
+  private var _lastUpdate = 0L
+  def lastUpdate: Long = _lastUpdate
+  private def lastUpdate_= (timestamp: Long): Unit = _lastUpdate = timestamp
 
   /**
    * all registered observers
@@ -35,10 +43,12 @@ class Signal[T](private var value: T)(implicit val owner: ActorRef) {
    * @return ?
    */
   def update[A <: T](newValue: A)(implicit currentActor: ActorRef) {
+    lastUpdate = System.nanoTime()
     currentActor match {
       case `owner` => updateObservers(newValue)
       case _       => updateSelf(newValue)
     }
+    DC.log("Signal updated", this);
   }
 
   /**
@@ -56,6 +66,10 @@ class Signal[T](private var value: T)(implicit val owner: ActorRef) {
   private def updateObservers(v: T) {
     value = v //TODO: is this the right place to update the value?
     observers.foreach(ref => ref ! PublishSignalValueUpdate[T](this, v))
+    DC.log("Signal observers updated", this);
   }
 
+  override def toString: String = {
+    "Signal [t:"+value.getClass.getSimpleName+", @:"+lastUpdate+"] = '"+now()+"'"
+  }
 }

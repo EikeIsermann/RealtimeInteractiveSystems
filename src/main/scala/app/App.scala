@@ -3,6 +3,7 @@ package main.scala.app
 import akka.actor.{Props, ActorSystem}
 import main.scala.core.events.{MyActor, Signal, ObserveSignal, TestMessage}
 import ogl.app.Input
+import main.scala.log.DC
 
 /**
  * Created by Christian Treffs
@@ -12,6 +13,10 @@ object App extends ogl.app.App{
 
 
   def main(args: Array[String]) {
+
+    DC.debugLevel = 0
+
+
 
     val system = ActorSystem("mySystem")
 
