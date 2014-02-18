@@ -1,6 +1,7 @@
 package main.scala.world.entities
 
 import main.scala.input.SimulationContext
+import main.scala.math.Vec3f
 
 /**
  * Created by Christian Treffs
@@ -8,22 +9,42 @@ import main.scala.input.SimulationContext
  */
 abstract class Entity {
 
+  /**
+   * get the entity's name
+   * @return the name
+   */
+  def name: String
+
+  /**
+   * creation and initialisation process
+   */
   def init(context: SimulationContext): Boolean
 
   /**
    * physics simulation process
-   * @param context
    */
   def simulate(context: SimulationContext): Boolean
 
   /**
    * rendering process
-   * @param context
    */
   def render(context: SimulationContext): Boolean
 
-  def exit(): Boolean
+  /**
+   * destruction process
+   */
+  def destroy(): Boolean
 
-  def getEntityRegistry: EntityRegistry
-  def setEntityRegistry: EntityRegistry
+  /**
+   * get the lifetime of the entity
+   * lifetime <= 0 equals infinite lifetime
+   * @return lifetime in milliseconds
+   */
+  def lifetime: Long
+
+
+  override def toString: String = name
+
+  //def getEntityRegistry: EntityRegistry
+  //def setEntityRegistry: EntityRegistry
 }

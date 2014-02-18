@@ -17,7 +17,7 @@ import org.lwjgl.BufferUtils;
  * @author henrik
  *
  */
-public final class ColorImp implements Color, Comparable<Color> {
+public class ColorImp implements Color, Comparable<Color> {
 
   private final float r;
   private final float g;

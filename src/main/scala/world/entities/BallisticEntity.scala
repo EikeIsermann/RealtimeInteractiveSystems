@@ -25,12 +25,27 @@ class BallisticEntity extends Entity with Particle {
     false
   }
 
-  def exit(): Boolean = ???
 
-
-  def getEntityRegistry: EntityRegistry = ???
-
-  def setEntityRegistry: EntityRegistry = ???
 
   var currentForce: Vec3f = _
+
+
+
+  /**
+   * the lifetime of the entity
+   * lifetime <= 0 equals infinite lifetime
+   * @return lifetime in milliseconds
+   */
+  def lifetime: Long = 0L
+
+  /**
+   * get the entity's name
+   * @return the name
+   */
+  def name: String = ???
+
+  /**
+   * destruction process
+   */
+  def destroy(): Boolean = ???
 }

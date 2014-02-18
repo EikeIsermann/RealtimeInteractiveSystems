@@ -86,7 +86,7 @@ public final class Input {
     return vecmath.vector(cx / f, cy / f, 0);
   }
 
-  void setWindowSize(int w, int h) {
+  public void setWindowSize(int w, int h) {
     width = w;
     height = h;
   }

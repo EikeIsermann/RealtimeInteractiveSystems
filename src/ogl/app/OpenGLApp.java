@@ -10,6 +10,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
+import java.awt.*;
+
 /**
  * A simple framework for OpenGL applications.
  */

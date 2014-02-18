@@ -6,24 +6,37 @@ import main.scala.input.SimulationContext
  * Created by Christian Treffs
  * Date: 10.12.13 11:35
  */
-class Camera extends Entity{
-  def init(context: SimulationContext): Boolean = {false}
+class Camera extends Entity {
+  /**
+   * get the entity's name
+   * @return the name
+   */
+  def name: String = ???
+
+  /**
+   * creation and initialisation process
+   */
+  def init(context: SimulationContext): Boolean = ???
 
   /**
    * physics simulation process
-   * @param context
    */
-  def simulate(context: SimulationContext): Boolean = {false}
+  def simulate(context: SimulationContext): Boolean = ???
 
   /**
    * rendering process
-   * @param context
    */
-  def render(context: SimulationContext): Boolean = {false}
+  def render(context: SimulationContext): Boolean = ???
 
-  def exit(): Boolean = {false}
+  /**
+   * destruction process
+   */
+  def destroy(): Boolean = ???
 
-  def getEntityRegistry: EntityRegistry = {null}
-
-  def setEntityRegistry: EntityRegistry = {null}
+  /**
+   * get the lifetime of the entity
+   * lifetime <= 0 equals infinite lifetime
+   * @return lifetime in milliseconds
+   */
+  def lifetime: Long = ???
 }

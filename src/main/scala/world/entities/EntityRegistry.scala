@@ -1,27 +1,33 @@
 package main.scala.world.entities
 
 import scala.collection.mutable
+import main.scala.tools.DC
+import main.scala.input.SimulationContext
 
 /**
  * Created by Christian Treffs
  * Date: 10.12.13 11:22
  */
-class EntityRegistry extends mutable.Set[Entity] {
+abstract class EntityRegistry extends mutable.Set[Entity] {
 
 
   private val entityBuffer = mutable.ArrayBuffer[Entity]()
   
   def entities: Seq[Entity] = entityBuffer.toSeq
 
-  def execute(f: Entity => Boolean): Boolean = entities.forall(f)
+  def initAll(context: SimulationContext)
+  def simulateAll(context: SimulationContext)
+  def renderAll(context: SimulationContext)
   
   def addEntity(e: Entity): this.type = {
     entityBuffer += e
+    DC.log("Entity added", this)
     this
   }
 
   def removeEntity(e: Entity): this.type = {
     entityBuffer -= e
+    DC.log("Entity removed", this)
     this
   }
 

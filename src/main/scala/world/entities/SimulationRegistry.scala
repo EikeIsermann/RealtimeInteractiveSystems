@@ -1,6 +1,7 @@
 package main.scala.world.entities
 
 import main.scala.input.SimulationContext
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs
@@ -8,9 +9,11 @@ import main.scala.input.SimulationContext
  */
 class SimulationRegistry extends EntityRegistry {
 
-  def initAll(context: SimulationContext): Boolean = execute(_.init(context))
-  def simulateAll(context: SimulationContext): Boolean = execute(_.simulate(context))
-  def renderAll(context: SimulationContext): Boolean = execute(_.render(context))
-  def exitAll(): Boolean = execute(_.exit())
+  DC.log("SimulationRegistry", this)
 
+  def initAll(context: SimulationContext): Unit = entities.foreach(_.init(context))
+
+  def simulateAll(context: SimulationContext): Unit = entities.foreach(_.simulate(context))
+
+  def renderAll(context: SimulationContext): Unit = entities.foreach(_.render(context))
 }

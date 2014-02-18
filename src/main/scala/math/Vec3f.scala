@@ -9,10 +9,10 @@ package main.scala.math
 
 object Vec3f {
   implicit def Vec3f(vec: ogl.vecmath.Vector) = new Vec3f(vec.x, vec.y, vec.z)
+  implicit def Vec3f(equalXYZ: Float) = new Vec3f(equalXYZ, equalXYZ, equalXYZ)
 }
 
 final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.vecmathimp.VectorImp(x1: Float, y1: Float, z1: Float) {
-
 
 
   implicit def *(s: Float) = mult(s)
