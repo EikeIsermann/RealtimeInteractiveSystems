@@ -39,12 +39,22 @@ object DC {
    */
   def log(msg: String, arg: Any = "", level: Int = 0): String = {
     var ret = ""
+    val msg1 = if(arg != "") " --> "+arg else ""
     if(isValidDebugLevel(level)) {
       if(debugLevel <= level) {
-        ret = "["+msg+"] --> "+arg
+        ret = "["+msg+"]" + msg1
         println(ret)
       }
     }
     ret
   }
+
+  def warn(msg: String, arg: Any = ""): String = {
+    var ret = ""
+    val msg1 = if(arg != "") " --> "+arg else ""
+    ret = "[⚠ WARNING] "+msg + msg1
+    println(ret)
+    ret
+  }
+
 }

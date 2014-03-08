@@ -37,6 +37,7 @@ libraryDependencies  <++= (scalaVersion){scalaV => Seq(
   "org.scala-lang.plugins"    % "continuations"           % scalaV withSources() withJavadoc(),
   "com.typesafe.akka"         %% "akka-actor"             % "latest.integration" withSources() withJavadoc(),
   "com.typesafe.akka"         %% "akka-agent"             % "latest.integration" withSources() withJavadoc(),
+  "com.ardor3d"               % "ardor3d-collada"        % "0.9" withSources() withJavadoc(),
   "org.lwjgl.lwjgl"           % "lwjgl"                   % "2.9.1" withSources() withJavadoc()
 )}
 
