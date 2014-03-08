@@ -47,7 +47,7 @@ object Collada {
       val cf = new Collada(identifier, file)
 
       val end = System.currentTimeMillis()
-      DC.log("Collada imported in "+(end-start)+" ms", "GroupId: '"+identifier+"'\tMeshes: "+(cf.meshes.map(_.initialName)+" \t FilePath: "+file.getAbsoluteFile))
+      DC.log("Collada imported in "+(end-start)+" ms", "GroupId: '"+identifier+"'\tMeshes: "+cf.meshes.map(_.initialName)+" \t FilePath: "+file.getAbsoluteFile)
 
       cf
     }
