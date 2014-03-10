@@ -89,6 +89,16 @@ object Texture {
     Texture.load("/Users/ctreffs/Desktop/3DModels/roads/roadPLAZA.jpg")
     Texture.load("/Users/ctreffs/Desktop/3DModels/roads/roadSE.jpg")
     Texture.load("/Users/ctreffs/Desktop/3DModels/roads/roadSW.jpg")
+    Texture.load("/Users/ctreffs/Desktop/3DModels/Gradient.png")
+    Texture.load("/Users/ctreffs/Desktop/3DModels/hole.png")
+
+    Texture.load("/Users/ctreffs/Desktop/3DModels/T-90/TankChassisBody.png")
+    Texture.load("/Users/ctreffs/Desktop/3DModels/T-90/TankChassisTread.png")
+    Texture.load("/Users/ctreffs/Desktop/3DModels/T-90/TankMachineGun.png")
+    Texture.load("/Users/ctreffs/Desktop/3DModels/T-90/TankTurret.png")
+
+    Texture.load("/Users/ctreffs/Desktop/3DModels/SkyBox/SkyBox.jpg")
+    Texture.load("/Users/ctreffs/Desktop/3DModels/TexturedCube/companionCube.png")
 
 
   }
@@ -110,34 +120,33 @@ object Texture {
     textures.toList foreach (
       t => {
 
+        val w:Int = 200//t.width
+        val h:Int = (t.aspect*w).toInt
 
         t.bind()
+
+
         GL11.glBegin(GL11.GL_QUADS)
 
 
-
-        //bottom left
         GL11.glTexCoord2f(0, 0)
         GL11.glVertex2f(xPos + offsetX, yPos + offsetY)
 
-
         GL11.glTexCoord2f(1, 0)
-        GL11.glVertex2f(xPos + t.width + offsetX, yPos + offsetY)
+        GL11.glVertex2f(xPos + w + offsetX, yPos + offsetY)
 
         GL11.glTexCoord2f(1, 1)
-        GL11.glVertex2f(xPos + t.width + offsetX, yPos + t.height + offsetY)
+        GL11.glVertex2f(xPos + w + offsetX, yPos + h + offsetY)
 
         GL11.glTexCoord2f(0, 1)
-        GL11.glVertex2f(xPos + offsetX, yPos + t.height + offsetY)
-
-
+        GL11.glVertex2f(xPos + offsetX, yPos + h + offsetY)
 
         GL11.glEnd()
 
         //t.unbind()
-        offsetX = offsetX + t.width + 2
-        if (offsetX + t.width >= windowWidth) {
-          offsetY = offsetY + t.height + 2
+        offsetX = offsetX + w + 4
+        if (offsetX + w >= windowWidth) {
+          offsetY = offsetY + h + 4
           offsetX = 0
         }
 
@@ -184,6 +193,7 @@ sealed class Texture(texFile: File) {
   final var imageData: Array[Byte] = null
   final var imageBuffer: ByteBuffer = null
 
+  final var aspect: Float = -1
 
   private val start = System.currentTimeMillis()
 
@@ -199,7 +209,7 @@ sealed class Texture(texFile: File) {
   imageSize = width * height
   imageDataSize = channels * imageSize
 
-
+  aspect = height.toFloat/width.toFloat
 
   imageData = texBufferedImage.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 
@@ -271,7 +281,7 @@ sealed class Texture(texFile: File) {
    */
   def bind() {
     glEnable(GL11.GL_TEXTURE_2D)
-    GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE)
+    //GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE)
     //GL13.glActiveTexture(GL13.GL_TEXTURE0)
     glBindTexture(GL_TEXTURE_2D, texId)
   }
