@@ -1,7 +1,6 @@
 package main.scala.io
 
 
-
 /**
  * Created by Christian Treffs
  * Date: 10.03.14 10:17
@@ -15,5 +14,12 @@ object FileFactory {
   }
 
   def getExtension(filePath: String, withDot: Boolean): String = getExtension(new java.io.File(filePath), withDot)
+
+  def getPath(file: java.io.File): String = {
+    val pathWithFile = file.getAbsolutePath
+    val name = file.getName
+    val path = pathWithFile.reverse.replaceFirst(name.reverse, "").reverse
+    path
+  }
 
 }

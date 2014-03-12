@@ -25,16 +25,17 @@ object Collada {
     final val dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss"
     final val separator: String = " "
 
-    def load(filePathsAndIds: Seq[(String, String)]): Seq[Collada] = filePathsAndIds.map(l => load(l._1, l._2))
+    def load(filePathsAndIds: Map[Symbol, String]): Seq[Collada] = filePathsAndIds.map(x => load(x._1,x._2)).toSeq
+    def load(filePathsAndIds: Seq[(Symbol, String)]): Seq[Collada] = filePathsAndIds.map(l => load(l._1, l._2))
 
-    def load(identifier: String, filePath: String): Collada = {
+    def load(identifier: Symbol, filePath: String): Collada = {
       if(filePath == null || filePath.isEmpty) {
         throw new IllegalArgumentException("[ERROR] Can not import File '"+filePath+"'")
       }
       load(identifier, new File(filePath))
     }
 
-    def load(identifier: String, file: File): Collada =  {
+    def load(identifier: Symbol, file: File): Collada =  {
       val start = System.currentTimeMillis()
       if(!file.exists || !file.canRead || !file.isFile) {
         throw new IllegalArgumentException("[ERROR] Can not import File '"+file.getAbsoluteFile+"'")
@@ -46,13 +47,14 @@ object Collada {
 
       val cf = new Collada(identifier, file)
 
+      // init all meshes!!!
+      cf.meshes.map(_.init())
+
       val end = System.currentTimeMillis()
       DC.log("Collada imported in "+(end-start)+" ms", "GroupId: '"+identifier+"'\tMeshes: "+cf.meshes.map(_.initialName)+" \t FilePath: "+file.getAbsoluteFile)
 
       cf
     }
-
-
 
 }
 
@@ -61,9 +63,9 @@ object ColladaSemantic extends Enumeration {
   val BINORMAL, CONTINUITY, IMAGE, INPUT, WEIGHT, INTERPOLATION, INV_BIND_MATRIX, UV, VERTEX, JOINT, LINEAR_STEPS, NORMAL, OUTPUT, TEXCOORD, POSITION, MORPH_TARGET, MORPH_WEIGHT, TEXTANGENT, TANGENT = Value
 }
 
-sealed protected class Collada(identifier:String, colladaFile: File) {
+sealed protected class Collada(identifier:Symbol, colladaFile: File) {
 
-  val groudId: String = identifier
+  val groupId: Symbol = identifier
   private val f: File = colladaFile
   private val xml: Elem = XML.loadFile(f)
   private val df: SimpleDateFormat = new SimpleDateFormat(Collada.dateFormat)
@@ -119,7 +121,7 @@ sealed protected class Collada(identifier:String, colladaFile: File) {
 
     val meshes = new ListBuffer[Mesh]()
     sceneNodes foreach { node => {
-      val mesh = new Mesh(groudId, node.attribute("id").get.text, node.attribute("name").get.text)
+      val mesh = new Mesh(groupId, node.attribute("id").get.text, node.attribute("name").get.text)
       (node \ "matrix") foreach(
         tNode => {
           val trafo = parseToArray[Float](tNode.text.trim)
@@ -140,10 +142,56 @@ sealed protected class Collada(identifier:String, colladaFile: File) {
           }
 
 
-        //TODO: bind material
           //bind the material
         (geo \\ "instance_material" ).foreach(
-          mat => println(mat attributes)
+          mat => {
+            val target: String = mat.attribute("target").get.text
+            //val symbol: String = mat.attribute("symbol").get.text
+
+            (xml \ "library_materials" \\ "material" filter {_ \\ "@id" exists (_.text == target.replace("#", ""))}) foreach {
+              mat => {
+                val id: String = mat.attribute("id").get.text
+                val name: String = mat.attribute("name").get.text
+
+                (mat \ "instance_effect") foreach {
+                  ie => {
+                    val url = ie.attribute("url").get.text
+                    (xml \ "library_effects" \\ "effect" filter {_ \\ "@id" exists (_.text == url.replace("#", ""))}) foreach {
+                      eff => {
+                        val id = eff.attribute("id").get.text
+                        (eff \ "profile_COMMON" \ "newparam" \ "surface" filter {_ \\ "@type" exists (_.text == "2D")}) foreach {
+                          surf => {
+                            (surf \ "init_from") foreach {
+                              init => {
+                                val texId: String = init.text
+                                (xml \ "library_images" \\ "image" filter {_ \\ "@id" exists (_.text == texId)}) foreach {
+                                  img => {
+                                    (img \ "init_from") foreach {
+                                      tex => {
+                                        val textureFilePath: String = FileFactory.getPath(colladaFile)+tex.text
+                                        val texture = Texture.load(textureFilePath)
+
+                                        mesh.setTexId(texture.texId)
+                                      }
+
+
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+
+              }
+            }
+
+          }
+
           )
 
         })
@@ -223,7 +271,7 @@ sealed protected class Collada(identifier:String, colladaFile: File) {
     val p = (triangles \ "p" ).text.toString
 
     //mesh.setVcount(parseToArray[Int](vcount, count), material)
-    mesh.setP(parseToArray[Int](p, count), material)
+    mesh.setIndex(parseToArray[Int](p, count), material)
 
     mesh.isTriangles = true
     triangles foreach {
@@ -244,7 +292,7 @@ sealed protected class Collada(identifier:String, colladaFile: File) {
     val p = (polylist \ "p" ).text.toString
 
     mesh.setVcount(parseToArray[Int](vcount, count), material)
-    mesh.setP(parseToArray[Int](p, count), material)
+    mesh.setIndex(parseToArray[Int](p), material)
 
     mesh.isPolyList = true
     polylist foreach {
@@ -313,7 +361,7 @@ sealed protected class Collada(identifier:String, colladaFile: File) {
 
         ColladaSemantic.withName(semantic.toUpperCase) match {
           case ColladaSemantic.NORMAL => mesh.setNormals(arr, stride, strideCount)
-          case ColladaSemantic.VERTEX => mesh.setVertices(arr, stride, strideCount)
+          case ColladaSemantic.VERTEX => //mesh.setVertices(arr, stride, strideCount)
           case ColladaSemantic.POSITION => mesh.setPositions(arr, stride, strideCount)
           case ColladaSemantic.TEXCOORD => mesh.setTexCoords(arr, stride, strideCount)
           case _ => throw new IllegalArgumentException("Can not handle strange type")
@@ -329,10 +377,10 @@ sealed protected class Collada(identifier:String, colladaFile: File) {
 
   def parseToArray[T : ClassTag](string: String, entryCount: Int = -1, separator: String = Collada.separator): Array[T] = {
 
-    val strArr = string.split(separator)
+    val strArr = string.trim().split(separator)
     val count = if(entryCount == -1) strArr.length else entryCount
     val ret: Array[T] = Array.ofDim[T](count)
-    for (i <- 0 to count-1) {
+    for (i <- 0 until count) {
       ret(i) =  parseTo(strArr(i)).asInstanceOf[T]
     }
 
