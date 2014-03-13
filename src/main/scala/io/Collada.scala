@@ -48,10 +48,10 @@ object Collada {
       val cf = new Collada(identifier, file)
 
       // init all meshes!!!
-      cf.meshes.map(_.init())
+      cf.meshes.map(_.setBuffers())
 
       val end = System.currentTimeMillis()
-      DC.log("Collada imported in "+(end-start)+" ms", "GroupId: '"+identifier+"'\tMeshes: "+cf.meshes.map(_.initialName)+" \t FilePath: "+file.getAbsoluteFile)
+      DC.log("Collada imported in "+(end-start)+" ms", "GroupId: '"+identifier+"'\tMeshes: "+cf.meshes.map(_.name)+" \t FilePath: "+file.getAbsoluteFile)
 
       cf
     }
@@ -150,15 +150,15 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
 
             (xml \ "library_materials" \\ "material" filter {_ \\ "@id" exists (_.text == target.replace("#", ""))}) foreach {
               mat => {
-                val id: String = mat.attribute("id").get.text
-                val name: String = mat.attribute("name").get.text
+                //val id: String = mat.attribute("id").get.text
+                //val name: String = mat.attribute("name").get.text
 
                 (mat \ "instance_effect") foreach {
                   ie => {
                     val url = ie.attribute("url").get.text
                     (xml \ "library_effects" \\ "effect" filter {_ \\ "@id" exists (_.text == url.replace("#", ""))}) foreach {
                       eff => {
-                        val id = eff.attribute("id").get.text
+                        //val id = eff.attribute("id").get.text
                         (eff \ "profile_COMMON" \ "newparam" \ "surface" filter {_ \\ "@type" exists (_.text == "2D")}) foreach {
                           surf => {
                             (surf \ "init_from") foreach {
@@ -168,7 +168,7 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
                                   img => {
                                     (img \ "init_from") foreach {
                                       tex => {
-                                        val textureFilePath: String = FileFactory.getPath(colladaFile)+tex.text
+                                        val textureFilePath: String = File.getPath(colladaFile)+tex.text
                                         val texture = Texture.load(textureFilePath)
 
                                         mesh.setTexId(texture.texId)
@@ -255,7 +255,8 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
     vertices foreach {
       verticesRefNode => verticesRefNode \\ "input"  foreach {
         inputNode => {
-          val (node, semantic) = parseInput(inputNode)
+          val (node, semantic, offset) = parseInput(inputNode)
+          mesh.setOffset(semantic, offset)
           parseSource(node, semantic, mesh)
         }
       }
@@ -265,19 +266,14 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
   def parseTriangles(triangles: Node, mesh: Mesh): Mesh = {
     val count = triangles.attribute("count").get.text.toInt
     val material = triangles.attribute("material").get.text.toString
-
-
-    //val vcount = (triangles \ "vcount" ).text.toString
     val p = (triangles \ "p" ).text.toString
-
-    //mesh.setVcount(parseToArray[Int](vcount, count), material)
     mesh.setIndex(parseToArray[Int](p, count), material)
-
     mesh.isTriangles = true
     triangles foreach {
       trianglesRefNode => trianglesRefNode \\ "input" foreach {
         inputNode => {
-          val (node, semantic) = parseInput(inputNode)
+          val (node, semantic, offset) = parseInput(inputNode)
+          mesh.setOffset(semantic, offset)
           parseSource(node, semantic, mesh)
         }
       }
@@ -298,7 +294,8 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
     polylist foreach {
       polylistRefNode => polylistRefNode \\ "input" foreach {
         inputNode => {
-          val (node, semantic) = parseInput(inputNode)
+          val (node, semantic, offset) = parseInput(inputNode)
+          mesh.setOffset(semantic, offset)
           parseSource(node, semantic, mesh)
         }
       }
@@ -306,13 +303,14 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
     mesh
   }
   def parsePolygons(polygons: Node, mesh: Mesh): Mesh = {
-    val count = polygons.attribute("count").get.text.toInt
-    val material = polygons.attribute("material").get.text.toString
+    //val count = polygons.attribute("count").get.text.toInt
+    //val material = polygons.attribute("material").get.text.toString
     mesh.isPolygons = true
     polygons foreach {
       polygonsRefNode => polygonsRefNode \\ "input" foreach {
         inputNode => {
-          val (node, semantic) = parseInput(inputNode)
+          val (node, semantic, offset) = parseInput(inputNode)
+          mesh.setOffset(semantic, offset)
           parseSource(node, semantic, mesh)
         }
       }
@@ -321,8 +319,11 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
   }
 
 
-  def parseInput(inputNode: Node): (Node, String) = {
-    val (semantic, sourceId, offset) = (inputNode.attribute("semantic").get.toString(), inputNode.attribute("source").get.toString(),inputNode.attribute("offset"))
+  def parseInput(inputNode: Node): (Node, String, Int) = {
+    val (semantic, sourceId) = (inputNode.attribute("semantic").get.toString(), inputNode.attribute("source").get.toString())
+
+    var offset: Int = -1
+    inputNode.attribute("offset").foreach(o => offset = o.text.toInt)
 
     var node: Node = null
     (xml \\ "source" filter {_ \\ "@id" exists (_.text == sourceId.replace("#", ""))}) foreach { n =>
@@ -330,11 +331,10 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
     }
     (xml \\ "vertices" filter {_ \\ "@id" exists (_.text == sourceId.replace("#", ""))}) foreach {n =>
       n \ "input" foreach {p =>
-        //TODO: real integration of vertices - but working
         node = p
       }
     }
-    (node, semantic)
+    (node, semantic, offset)
   }
 
 

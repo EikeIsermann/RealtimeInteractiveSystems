@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Christian Treffs</author>
+      <authoring_tool>Blender 2.69.0 r60991</authoring_tool>
+    </contributor>
+    <created>2014-03-05T10:23:50</created>
+    <modified>2014-03-05T10:23:50</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="roadSW_jpg" name="roadSW_jpg">
+      <init_from>roadSW.jpg</init_from>
+    </image>
+    <image id="roadSE_jpg" name="roadSE_jpg">
+      <init_from>roadSE.jpg</init_from>
+    </image>
+    <image id="roadPLAZA_jpg" name="roadPLAZA_jpg">
+      <init_from>roadPLAZA.jpg</init_from>
+    </image>
+    <image id="roadNW_jpg" name="roadNW_jpg">
+      <init_from>roadNW.jpg</init_from>
+    </image>
+    <image id="roadNS_jpg" name="roadNS_jpg">
+      <init_from>roadNS.jpg</init_from>
+    </image>
+    <image id="roadNE_jpg" name="roadNE_jpg">
+      <init_from>roadNE.jpg</init_from>
+    </image>
+    <image id="roadEW_jpg_001" name="roadEW_jpg_001">
+      <init_from>roadEW.jpg</init_from>
+    </image>
+    <image id="roadNEWS_jpg" name="roadNEWS_jpg">
+      <init_from>roadNEWS.jpg</init_from>
+    </image>
+  </library_images>
+  <library_effects>
+    <effect id="RoadMaterial_007-effect">
+      <profile_COMMON>
+        <newparam sid="roadSW_jpg-surface">
+          <surface type="2D">
+            <init_from>roadSW_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="roadSW_jpg-sampler">
+          <sampler2D>
+            <source>roadSW_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="roadSW_jpg-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="RoadMaterial_006-effect">
+      <profile_COMMON>
+        <newparam sid="roadSE_jpg-surface">
+          <surface type="2D">
+            <init_from>roadSE_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="roadSE_jpg-sampler">
+          <sampler2D>
+            <source>roadSE_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="roadSE_jpg-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="RoadMaterial_005-effect">
+      <profile_COMMON>
+        <newparam sid="roadPLAZA_jpg-surface">
+          <surface type="2D">
+            <init_from>roadPLAZA_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="roadPLAZA_jpg-sampler">
+          <sampler2D>
+            <source>roadPLAZA_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="roadPLAZA_jpg-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="RoadMaterial_004-effect">
+      <profile_COMMON>
+        <newparam sid="roadNW_jpg-surface">
+          <surface type="2D">
+            <init_from>roadNW_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="roadNW_jpg-sampler">
+          <sampler2D>
+            <source>roadNW_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="roadNW_jpg-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="RoadNSMaterial-effect">
+      <profile_COMMON>
+        <newparam sid="roadNS_jpg-surface">
+          <surface type="2D">
+            <init_from>roadNS_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="roadNS_jpg-sampler">
+          <sampler2D>
+            <source>roadNS_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="roadNS_jpg-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="RoadMaterial_003-effect">
+      <profile_COMMON>
+        <newparam sid="roadNE_jpg-surface">
+          <surface type="2D">
+            <init_from>roadNE_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="roadNE_jpg-sampler">
+          <sampler2D>
+            <source>roadNE_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="roadNE_jpg-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="RoadMaterial_001-effect">
+      <profile_COMMON>
+        <newparam sid="roadEW_jpg_001-surface">
+          <surface type="2D">
+            <init_from>roadEW_jpg_001</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="roadEW_jpg_001-sampler">
+          <sampler2D>
+            <source>roadEW_jpg_001-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="roadEW_jpg_001-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="RoadMaterial-effect">
+      <profile_COMMON>
+        <newparam sid="roadNEWS_jpg-surface">
+          <surface type="2D">
+            <init_from>roadNEWS_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="roadNEWS_jpg-sampler">
+          <sampler2D>
+            <source>roadNEWS_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="roadNEWS_jpg-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="RoadMaterial_007-material" name="RoadMaterial_007">
+      <instance_effect url="#RoadMaterial_007-effect"/>
+    </material>
+    <material id="RoadMaterial_006-material" name="RoadMaterial_006">
+      <instance_effect url="#RoadMaterial_006-effect"/>
+    </material>
+    <material id="RoadMaterial_005-material" name="RoadMaterial_005">
+      <instance_effect url="#RoadMaterial_005-effect"/>
+    </material>
+    <material id="RoadMaterial_004-material" name="RoadMaterial_004">
+      <instance_effect url="#RoadMaterial_004-effect"/>
+    </material>
+    <material id="RoadNSMaterial-material" name="RoadNSMaterial">
+      <instance_effect url="#RoadNSMaterial-effect"/>
+    </material>
+    <material id="RoadMaterial_003-material" name="RoadMaterial_003">
+      <instance_effect url="#RoadMaterial_003-effect"/>
+    </material>
+    <material id="RoadMaterial_001-material" name="RoadMaterial_001">
+      <instance_effect url="#RoadMaterial_001-effect"/>
+    </material>
+    <material id="RoadMaterial-material" name="RoadMaterial">
+      <instance_effect url="#RoadMaterial-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="RoadSW-mesh" name="RoadSW">
+      <mesh>
+        <source id="RoadSW-mesh-positions">
+          <float_array id="RoadSW-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#RoadSW-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadSW-mesh-normals">
+          <float_array id="RoadSW-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#RoadSW-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadSW-mesh-map-0">
+          <float_array id="RoadSW-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#RoadSW-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="RoadSW-mesh-vertices">
+          <input semantic="POSITION" source="#RoadSW-mesh-positions"/>
+        </vertices>
+        <polylist material="RoadMaterial_007-material" count="2">
+          <input semantic="VERTEX" source="#RoadSW-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#RoadSW-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#RoadSW-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 0 0 1 3 0 2 0 1 3 2 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="RoadSE-mesh" name="RoadSE">
+      <mesh>
+        <source id="RoadSE-mesh-positions">
+          <float_array id="RoadSE-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#RoadSE-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadSE-mesh-normals">
+          <float_array id="RoadSE-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#RoadSE-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadSE-mesh-map-0">
+          <float_array id="RoadSE-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#RoadSE-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="RoadSE-mesh-vertices">
+          <input semantic="POSITION" source="#RoadSE-mesh-positions"/>
+        </vertices>
+        <polylist material="RoadMaterial_006-material" count="2">
+          <input semantic="VERTEX" source="#RoadSE-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#RoadSE-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#RoadSE-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 0 0 1 3 0 2 0 1 3 2 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="RoadPLAZA-mesh" name="RoadPLAZA">
+      <mesh>
+        <source id="RoadPLAZA-mesh-positions">
+          <float_array id="RoadPLAZA-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#RoadPLAZA-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadPLAZA-mesh-normals">
+          <float_array id="RoadPLAZA-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#RoadPLAZA-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadPLAZA-mesh-map-0">
+          <float_array id="RoadPLAZA-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#RoadPLAZA-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="RoadPLAZA-mesh-vertices">
+          <input semantic="POSITION" source="#RoadPLAZA-mesh-positions"/>
+        </vertices>
+        <polylist material="RoadMaterial_005-material" count="2">
+          <input semantic="VERTEX" source="#RoadPLAZA-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#RoadPLAZA-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#RoadPLAZA-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 0 0 1 3 0 2 0 1 3 2 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="RoadNW-mesh" name="RoadNW">
+      <mesh>
+        <source id="RoadNW-mesh-positions">
+          <float_array id="RoadNW-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#RoadNW-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadNW-mesh-normals">
+          <float_array id="RoadNW-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#RoadNW-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadNW-mesh-map-0">
+          <float_array id="RoadNW-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#RoadNW-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="RoadNW-mesh-vertices">
+          <input semantic="POSITION" source="#RoadNW-mesh-positions"/>
+        </vertices>
+        <polylist material="RoadMaterial_004-material" count="2">
+          <input semantic="VERTEX" source="#RoadNW-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#RoadNW-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#RoadNW-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 0 0 1 3 0 2 0 1 3 2 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="RoadNS-mesh" name="RoadNS">
+      <mesh>
+        <source id="RoadNS-mesh-positions">
+          <float_array id="RoadNS-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#RoadNS-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadNS-mesh-normals">
+          <float_array id="RoadNS-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#RoadNS-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadNS-mesh-map-0">
+          <float_array id="RoadNS-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#RoadNS-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="RoadNS-mesh-vertices">
+          <input semantic="POSITION" source="#RoadNS-mesh-positions"/>
+        </vertices>
+        <polylist material="RoadNSMaterial-material" count="2">
+          <input semantic="VERTEX" source="#RoadNS-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#RoadNS-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#RoadNS-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 0 0 1 3 0 2 0 1 3 2 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="RoadNE-mesh" name="RoadNE">
+      <mesh>
+        <source id="RoadNE-mesh-positions">
+          <float_array id="RoadNE-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#RoadNE-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadNE-mesh-normals">
+          <float_array id="RoadNE-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#RoadNE-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadNE-mesh-map-0">
+          <float_array id="RoadNE-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#RoadNE-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="RoadNE-mesh-vertices">
+          <input semantic="POSITION" source="#RoadNE-mesh-positions"/>
+        </vertices>
+        <polylist material="RoadMaterial_003-material" count="2">
+          <input semantic="VERTEX" source="#RoadNE-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#RoadNE-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#RoadNE-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 0 0 1 3 0 2 0 1 3 2 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="RoadEW-mesh" name="RoadEW">
+      <mesh>
+        <source id="RoadEW-mesh-positions">
+          <float_array id="RoadEW-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#RoadEW-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadEW-mesh-normals">
+          <float_array id="RoadEW-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#RoadEW-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadEW-mesh-map-0">
+          <float_array id="RoadEW-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#RoadEW-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="RoadEW-mesh-vertices">
+          <input semantic="POSITION" source="#RoadEW-mesh-positions"/>
+        </vertices>
+        <polylist material="RoadMaterial_001-material" count="2">
+          <input semantic="VERTEX" source="#RoadEW-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#RoadEW-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#RoadEW-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 0 0 1 3 0 2 0 1 3 2 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="RoadNEWS-mesh" name="RoadNEWS">
+      <mesh>
+        <source id="RoadNEWS-mesh-positions">
+          <float_array id="RoadNEWS-mesh-positions-array" count="12">1 -1 0 -0.9999999 -1 0 1 1 0 -0.9999999 1 0</float_array>
+          <technique_common>
+            <accessor source="#RoadNEWS-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadNEWS-mesh-normals">
+          <float_array id="RoadNEWS-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#RoadNEWS-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="RoadNEWS-mesh-map-0">
+          <float_array id="RoadNEWS-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#RoadNEWS-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="RoadNEWS-mesh-vertices">
+          <input semantic="POSITION" source="#RoadNEWS-mesh-positions"/>
+        </vertices>
+        <polylist material="RoadMaterial-material" count="2">
+          <input semantic="VERTEX" source="#RoadNEWS-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#RoadNEWS-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#RoadNEWS-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 0 0 1 3 0 2 0 1 3 2 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="RoadScene" name="RoadScene">
+      <node id="RoadSW" name="RoadSW" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#RoadSW-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="RoadMaterial_007-material" target="#RoadMaterial_007-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="RoadSE" name="RoadSE" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#RoadSE-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="RoadMaterial_006-material" target="#RoadMaterial_006-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="RoadPLAZA" name="RoadPLAZA" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#RoadPLAZA-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="RoadMaterial_005-material" target="#RoadMaterial_005-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="RoadNW" name="RoadNW" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#RoadNW-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="RoadMaterial_004-material" target="#RoadMaterial_004-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="RoadNS" name="RoadNS" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#RoadNS-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="RoadNSMaterial-material" target="#RoadNSMaterial-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="RoadNE" name="RoadNE" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#RoadNE-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="RoadMaterial_003-material" target="#RoadMaterial_003-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="RoadEW" name="RoadEW" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#RoadEW-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="RoadMaterial_001-material" target="#RoadMaterial_001-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="RoadNEWS" name="RoadNEWS" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#RoadNEWS-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="RoadMaterial-material" target="#RoadMaterial-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RoadScene"/>
+  </scene>
+</COLLADA>

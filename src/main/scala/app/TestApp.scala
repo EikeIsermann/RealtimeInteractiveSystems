@@ -6,7 +6,9 @@ import org.lwjgl.opengl.GL11._
 import org.lwjgl.opengl.GL20._
 import ogl.app.Util
 import main.scala.io.Mesh
-import main.scala.math.Mat4f
+import main.scala.math.{Vec3f, Mat4f}
+import main.scala.shader.Shader
+import main.scala.tools.HUD
 
 /**
  * Created by Christian Treffs
@@ -28,7 +30,9 @@ object TestApp {
 
 
 
-  var mesh: Mesh = null
+  var cube: Mesh = null
+  var tankChassisTread: Mesh = null
+  var tankChassisBody: Mesh = null
 
   var program: Int = -1
 
@@ -38,36 +42,7 @@ object TestApp {
 
   var meshes: Seq[Mesh] = Seq.empty[Mesh]
 
-  val vsSource: Array[CharSequence] = Array[CharSequence](
-    "uniform mat4 modelMatrix;",
-    "uniform mat4 viewMatrix;",
-    "uniform mat4 projectionMatrix;",
 
-
-    "attribute vec3 vertex;",
-    "attribute vec3 normal;",
-    "attribute vec2 texCoord;",
-    "attribute vec3 color;",
-    "varying vec3 fcolor;",
-    "varying vec2 ftexCoord;",
-
-    "void main() {",
-    "  fcolor = color;",
-    "  ftexCoord = texCoord;",
-    "  gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertex, 1);",
-    "}"
-  )
-
-  val fsSource: Array[CharSequence] = Array[CharSequence](
-    "varying vec3 fcolor;",
-    "varying vec2 ftexCoord;",
-    "uniform sampler2D tex;",
-
-    "void main() {",
-    " vec4 texColor = texture2D( tex, ftexCoord );",
-    "  gl_FragColor = texColor;",
-    "}"
-  )
 
   def initGL(width: Int, height: Int) {
     windowWidth = width
@@ -80,29 +55,6 @@ object TestApp {
     }
 
 
-    val vs: Int = glCreateShader(GL20.GL_VERTEX_SHADER)
-    glShaderSource(vs, vsSource)
-    glCompileShader(vs)
-    Util.checkCompilation(vs)
-
-
-
-    // Create and compile the fragment shader.
-    val fs: Int = glCreateShader(GL20.GL_FRAGMENT_SHADER)
-    glShaderSource(fs, fsSource)
-    glCompileShader(fs)
-    Util.checkCompilation(fs)
-
-    program = glCreateProgram
-    glAttachShader(program, vs)
-    glAttachShader(program, fs)
-
-
-
-    glShadeModel  (GL_SMOOTH);			// Enables Smooth Color Shading
-    glEnable      (GL_DEPTH_TEST)	// Enables Depth Testing
-    glEnable      (GL11.GL_BLEND) // enable alpha blending
-    glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
 
 
 
@@ -111,29 +63,21 @@ object TestApp {
     GL11.glMatrixMode(GL11.GL_PROJECTION_MATRIX)
     GL11.glLoadIdentity()
 
-
-
     //GL11.glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 1, -1);
     GL11.glOrtho(0, Display.getWidth, Display.getHeight, 0, 1, -1)
-
-
 
     GL11.glMatrixMode(GL11.GL_MODELVIEW)
     GL11.glLoadIdentity()
 
 
-
-    // Bind the vertex attribute data locations for this shader program. The
-    // shader expects to get vertex and color data from the mesh. This needs to
-    // be done *before* linking the program.
-    glBindAttribLocation(program, vertexAttributeIndex, "vertex")
-    glBindAttribLocation(program, normalsAttributeIndex, "normal")
-    glBindAttribLocation(program, texCoordsAttributeIndex, "texCoord")
+    // init the shader
+    val defaultShader = Shader.init()
 
 
-    // Link the shader program.
-    glLinkProgram(program)
-    Util.checkLinkage(program)
+
+    // set the shader as default for all the meshes
+    Mesh.defaultShader(defaultShader)
+
 
 
     GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
@@ -144,26 +88,40 @@ object TestApp {
    * Initialise resources
    */
   def init() {
-    val filePaths: Seq[(Symbol,String)] = Seq(
-      ('SkyBox, "/Users/ctreffs/Desktop/3DModels/SkyBox/SkyBox.dae"),
-     ('CompanionCube, "/Users/ctreffs/Desktop/3DModels/TexturedCube/CompanionCube.dae"),
-      ('Tank,"/Users/ctreffs/Desktop/3DModels/T-90/T-90.dae")//,
-      //("PhoneBooth","/Users/ctreffs/Desktop/3DModels/Phone_Booth/PhoneBooth.dae"),
-      //("Bush","/Users/ctreffs/Desktop/3DModels/Bush/Bush.dae"),
-     // ("Roads","/Users/ctreffs/Desktop/3DModels/roads/Roads.dae")//,
-      //("SimpleCube","/Users/ctreffs/Desktop/3DModels/SimpleCube/SimpleCube.dae")
-    )
 
-    Map[Symbol, String](
-      'SkyBox -> ""
+
+    val colladaFiles = Map[Symbol, String](
+      'SkyBox         -> "src/main/resources/SkyBox/SkyBox.dae",
+      'CompanionCube  -> "src/main/resources/CompanionCube/CompanionCube.dae",
+      'Tank           -> "src/main/resources/T-90/T-90.dae",
+      'PhoneBooth     -> "src/main/resources/PhoneBooth/PhoneBooth.dae",
+      'Roads          -> "src/main/resources/Roads/Roads.dae"
     )
 
 
-    Collada.load(filePaths)
+    Collada.load(colladaFiles)
 
-    mesh = Mesh.get('ChassisTread)
+
+
+    //mesh = Mesh.get('CompanionCube)
+
+    Mesh.get('CompanionCube).init(Vec3f(-0.2f,0.2f,-0.5f), Vec3f(0.04f, 0.04f, 0.04f), (Vec3f(1, 1,0), 45f))
+
+
+    val rot = (Vec3f(0,1,1), 90f)
+    val scale = Vec3f(0.0004f, 0.0004f, 0.0004f)
+    val pos = Vec3f(0,0f,-0.5f)
+
+
+
+    Mesh.get('ChassisBody).init(pos, scale, rot)
+    Mesh.get('ChassisTread).init(pos, scale, rot)
+
+    Mesh.get('Turret).init(pos, scale, rot)
+
 
   }
+
 
 
 
@@ -171,18 +129,23 @@ object TestApp {
 
     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT)
 
-    //TODO: shader, program, position, rot, scale
-    mesh.draw(program, vertexAttributeIndex, normalsAttributeIndex, texCoordsAttributeIndex)
+    Mesh.get('CompanionCube).draw()
+
+    Mesh.get('ChassisBody).draw()
+    Mesh.get('ChassisTread).draw()
 
 
 
-    //HUD.drawString("Hello", (1f,1f,1f), 100, 100, -0.5f)
+    Mesh.get('Turret).draw()
+    /*Mesh.get('MachineGun).draw()*/
+
+    HUD.drawString("Hello", (1f,1f,1f), 100, 100, 0.09f)
 
 
   }
 
   def main(args: Array[String]) {
-    initGL(800, 800)
+    initGL(900, 900)
     init()
 
     while (true) {

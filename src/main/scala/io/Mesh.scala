@@ -1,15 +1,24 @@
 package main.scala.io
 
-import main.scala.math.Vec3f
+import main.scala.math.{Mat4f, Vec3f}
 import main.scala.tools.DC
 import java.nio.{IntBuffer, FloatBuffer}
 import org.lwjgl.BufferUtils
 
 import org.lwjgl.opengl.GL11._
+import org.lwjgl.opengl.GL12._
+import org.lwjgl.opengl.GL13._
+import org.lwjgl.opengl.GL14._
+import org.lwjgl.opengl.GL15._
 import org.lwjgl.opengl.GL20._
+import org.lwjgl.opengl.GL21._
+import org.lwjgl.opengl.GL30._
+import org.lwjgl.opengl.GL31._
+import org.lwjgl.opengl.GL32._
 import ogl.app.MatrixUniform
 import ogl.vecmathimp.FactoryDefault
 import scala.collection.mutable
+import main.scala.shader.Shader
 
 
 /**
@@ -20,58 +29,85 @@ object Mesh {
   def from(colladaFiles: Seq[Collada]): Seq[Mesh] = colladaFiles.flatMap(_.meshes)
   def from(colladaFile: Collada): Seq[Mesh] = from(Seq(colladaFile))
 
+  private var defaultShader: Shader = null
   private val meshes: mutable.HashMap[Symbol, Mesh] = mutable.HashMap.empty
 
-  def get(name: Symbol): Mesh = meshes(name)
-  def getGroup(groupId: Symbol): Seq[Mesh] = meshes.values.filter(_.groupId==groupId).toSeq
+  def getByName(name: Symbol): Mesh = meshes(name)
+
+  def get(sym: Symbol): Mesh = {
+    val seq = getByGroup(sym)
+    if(seq.isEmpty) {
+      val m = getByName(sym)
+      if(m == null) {
+        throw new IllegalArgumentException("can not find mesh "+sym)
+      }
+      m
+    } else {
+      seq.head
+    }
+  }
+
+  def getByGroup(groupId: Symbol): Seq[Mesh] = meshes.values.filter(_.groupId==groupId).toSeq
+
+  def defaultShader(shader: Shader) {
+     defaultShader = shader
+  }
 }
 
-case class Mesh(groupId: Symbol, initialId: String, initialName: String) {
+trait MatrixFunctions[T] {
+  def scale(x: Float, y: Float, z: Float): T
+  def rotate(angle: Float, x: Float, y: Float, z: Float): T
+  def translate(x: Float, y:Float, z:Float): T
+  def mat(): T
+}
 
-  Mesh.meshes.put(Symbol(initialName), this)
+class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh] {
+
+  var groupId: Symbol = gId
+  var id: Symbol = Symbol(iId)
+  var name: Symbol = Symbol(iName)
+
+  Mesh.meshes.put(name, this)
 
   final val verticesStride: Int = 3
   final var texCoordsStride: Int = 2
   final var positionsStride: Int = 3
   final var normalsStride: Int = 3
 
-  var initialTransformation: Array[Float] = Array()
+  var initialTransformation: Mat4f = Mat4f.identity
+  var modelTransformation: Mat4f = Mat4f.identity
+
+  var dataBuffer: FloatBuffer = null
+  var dataBufferId: Int = -1
+
+  var vertexOffset: Int = -1
+  var normalOffset: Int = -1
+  var texCoordOffset: Int = -1
 
 
 
-
-
-  var positionsUnordered: Array[Vec3f] = Array()
+  var positionsUnordered: Array[Float] = Array()
   var positionsArray: Array[Float] = Array()
   var positionsBuffer: FloatBuffer = null
   var hasPositions: Boolean = false
 
-  var positions: Array[Vec3f] = Array()
-  var normals: Array[Vec3f] = Array()
-  var texCoords: Array[Vec3f] = Array()
-  
-  var normalsUnordered: Array[Vec3f] = Array()
+  var normalsUnordered: Array[Float] = Array()
   var normalsBuffer: FloatBuffer = null
   var normalsArray: Array[Float] = Array()
   var hasNormals: Boolean = false
-  var hasIndices: Boolean = false
-  var hasVcount: Boolean = false
-  var hasTexId: Boolean = false
 
-  var texCoordsUnordered: Array[Vec3f] = Array()
+  var texCoordsUnordered: Array[Float] = Array()
   var texCoordsArray: Array[Float] = Array()
   var texCoordsBuffer: FloatBuffer = null
   var hasTexCoords: Boolean = false
 
+  var hasIndices: Boolean = false
+  var hasVcount: Boolean = false
+  var hasTexId: Boolean = false
+
   var isPolygons: Boolean = false
   var isPolyList: Boolean = false
   var isTriangles: Boolean = false
-
-  var newPosIdx: Array[Int] = Array()
-  var newNormIdx: Array[Int] = Array()
-  var newTexIdx: Array[Int] = Array()
-
-  var iPos: IntBuffer = null
 
   var textureId: Int = -1
 
@@ -81,11 +117,56 @@ case class Mesh(groupId: Symbol, initialId: String, initialName: String) {
   var vcount: IntBuffer = null
 
   //P = Integer index über den Vertics
-  var indexBuffer: IntBuffer = null
   var indexArray: Array[Int] = Array()
 
   var hasInitialTransformation = false
 
+
+  def initRelativeTo(baseMesh: Mesh, position: Vec3f = null, scale: Vec3f = null, rotation: (Vec3f, Float) = null): Mesh = {
+    var mat: Mat4f = baseMesh.modelTransformation
+    if(position != null) {
+      mat = Mat4f.translation(position)* mat
+    }
+
+    if(rotation != null) {
+      val p = mat.getPosition
+      val t = Mat4f.translation(0,0,0) *mat
+      val f = Mat4f.rotation(rotation._1, rotation._2) * t
+      mat = Mat4f.translation(p) * mat
+    }
+
+
+    if(scale != null) {
+      mat =  mat * Mat4f.scale(scale)
+    }
+
+
+    // TODO keep initial trafo
+    modelTransformation = mat
+    this
+  }
+
+  //TODO: get scale from initial trafo -> INITIAL TRAFO!!!
+  def init(position: Vec3f = null, scale: Vec3f = null, rotation: (Vec3f, Float) = null): Mesh = {
+    var mat = Mat4f.identity
+    if(position != null) {
+      mat = mat * Mat4f.translation(position)
+    }
+
+    if(rotation != null) {
+      mat = mat * Mat4f.rotation(rotation._1, rotation._2)
+    }
+
+
+    if(scale != null) {
+      mat =  mat * Mat4f.scale(scale)
+    }
+
+
+    // TODO keep initial trafo
+    modelTransformation = mat
+    this
+  }
 
   protected def bindTexture() {
     if(hasTexId) {
@@ -93,43 +174,56 @@ case class Mesh(groupId: Symbol, initialId: String, initialName: String) {
     }
   }
 
-
-  def scale(x: Float, y: Float, z: Float): Mesh = {
-        //TODO:
-    this
-  }
-  def rotate(angle: Float, x: Float, y: Float, z: Float): Mesh = {
-    //TODO:
-    this
-  }
-
-  def translate(x: Float, y:Float, z:Float): Mesh = {
-        //TODO
-    this
+  def setOffset(semantic: String, offset:Int) {
+    semantic.toLowerCase match {
+      case "vertex"   => vertexOffset = offset
+      case "texcoord" => texCoordOffset = offset
+      case "normal"   => normalOffset = offset
+      case _ =>
+    }
   }
 
-  def init() {
-    //calcIndices()
-
-    val pArr = reorderArray(positionsArray, 3, indexArray, 0, 3)
-
-    positionsBuffer = BufferUtils.createFloatBuffer(pArr.length)
-    positionsBuffer.put(pArr)
+  def setBuffers() {
+    positionsArray = reorderArray(positionsUnordered, positionsStride, indexArray, vertexOffset, 3)
+    positionsBuffer = BufferUtils.createFloatBuffer(positionsArray.length)
+    positionsBuffer.put(positionsArray)
     positionsBuffer.rewind()
 
-    val nArr = reorderArray(normalsArray, 3, indexArray, 1, 3)
-
-    normalsBuffer = BufferUtils.createFloatBuffer(nArr.length)
-    normalsBuffer.put(nArr)
+    normalsArray = reorderArray(normalsUnordered, normalsStride, indexArray, normalOffset, 3)
+    normalsBuffer = BufferUtils.createFloatBuffer(normalsArray.length)
+    normalsBuffer.put(normalsArray)
     normalsBuffer.rewind()
 
-    val texArr = reorderArray(texCoordsArray, 2 , indexArray, 2, 3)
-    //val texArr = texCoordsArray
-    texCoordsBuffer = BufferUtils.createFloatBuffer(texArr.length)
-    texCoordsBuffer.put(texArr)
+    texCoordsArray = reorderArray(texCoordsUnordered, texCoordsStride , indexArray, texCoordOffset, 3)
+    texCoordsBuffer = BufferUtils.createFloatBuffer(texCoordsArray.length)
+    texCoordsBuffer.put(texCoordsArray)
     texCoordsBuffer.rewind()
 
-    println("Buffers created")
+
+    /*
+    dataBuffer = BufferUtils.createFloatBuffer(positionsArray.length+normalsArray.length+texCoordsArray.length)
+
+    dataBuffer.put(positionsArray)
+    dataBuffer.put(normalsArray)
+    dataBuffer.put(texCoordsArray)
+
+    dataBuffer.rewind()
+
+
+    val dataBufferId = glGenVertexArrays()
+
+    glBindVertexArray(dataBufferId)
+
+
+    //dataBufferId = glGenBuffers
+    glBindBuffer(GL_ARRAY_BUFFER, dataBufferId)
+    glBufferData(GL_ARRAY_BUFFER, dataBuffer, GL_READ_ONLY)
+
+
+    //glVertexAttribPointer(vertexAttributeIdx, 3, false, 0, dataBuffer)
+    //glEnableVertexAttribArray(vertexAttributeIdx)
+
+    println(dataBufferId)    */
 
   }
 
@@ -152,56 +246,38 @@ case class Mesh(groupId: Symbol, initialId: String, initialName: String) {
    * draw the mesh and texture it
    */
 
-  def draw(program: Int, vertexAttributeIdx: Int, normalsAttributeIdx: Int, texCoordAttributeIdx: Int, beforeFunc: Unit => Unit = {Unit => Unit}, afterFunc: Unit => Unit = {Unit => Unit}) {
+
+
+  def draw(shader: Shader = Mesh.defaultShader, beforeFunc: Unit => Unit = {Unit => Unit}, afterFunc: Unit => Unit = {Unit => Unit}) {
 
     beforeFunc()
 
-    // use program
-    glUseProgram(program)
-
-
-    // Bind the matrix uniforms to locations on this shader program. This needs
-    // to be done *after* linking the program.
-    //TODO: here? -> give shader
-    val modelMatrixUniform = new MatrixUniform(program, "modelMatrix")
-    val viewMatrixUniform = new MatrixUniform(program, "viewMatrix")
-    val projectionMatrixUniform = new MatrixUniform(program, "projectionMatrix")
-
-    viewMatrixUniform.set(FactoryDefault.vecmath.identityMatrix())
-    projectionMatrixUniform.set(FactoryDefault.vecmath.perspectiveMatrix(70f, 1, 0.1f, 20f ))
-
-    //modelMatrixUniform.set(FactoryDefault.vecmath.translationMatrix(0,0,-5f))
-    //val mat = FactoryDefault.vecmath.matrix(initialTransformation).mult(FactoryDefault.vecmath.translationMatrix(0,0.05f,0f))
-    val scale = FactoryDefault.vecmath.scaleMatrix(0.01f,0.01f,0.01f)
-    val rot = FactoryDefault.vecmath.rotationMatrix(Vec3f(0,1,0), 90)
-    modelMatrixUniform.set(FactoryDefault.vecmath.translationMatrix(0,0f,-8).mult(scale).mult(rot))
-
-    //println(mat.getPosition)
-
-
+    shader.useProgram()
+    shader.setModelMatrix(modelTransformation)
 
     bindTexture()
 
-    glVertexAttribPointer(vertexAttributeIdx, 3, false, 0, positionsBuffer)
-    glEnableVertexAttribArray(vertexAttributeIdx)
 
-    glVertexAttribPointer(normalsAttributeIdx, 3, false, 0, normalsBuffer)
-    glEnableVertexAttribArray(normalsAttributeIdx)
+    glVertexAttribPointer(shader.vertexAttributeIndex, 3, false, 0, positionsBuffer)
+    glEnableVertexAttribArray(shader.vertexAttributeIndex)
 
-    glVertexAttribPointer(texCoordAttributeIdx, 2, false, 0, texCoordsBuffer)
-    glEnableVertexAttribArray(texCoordAttributeIdx)
+    glVertexAttribPointer(shader.normalsAttributeIndex, 3, false, 0, normalsBuffer)
+    glEnableVertexAttribArray(shader.normalsAttributeIndex)
 
+    glVertexAttribPointer(shader.texCoordsAttributeIndex, 2, false, 0, texCoordsBuffer)
+    glEnableVertexAttribArray(shader.texCoordsAttributeIndex)
 
-    //TODO: vertices count
-
+    //TODO: correct limit
     glDrawArrays(polytype,0, positionsBuffer.limit()/3)
 
     afterFunc()
   }
 
-  def setInitialTransformation(arr: Array[Float]) {
-    initialTransformation = arr
+  def setInitialTransformation(mat: Mat4f): Mat4f = setInitialTransformation(mat.values)
+  def setInitialTransformation(arr: Array[Float]): Mat4f = {
+    initialTransformation = Mat4f(arr)
     hasInitialTransformation = true
+    initialTransformation
   }
 
   def setVcount(arr: Array[Int], material: String) {
@@ -231,42 +307,47 @@ case class Mesh(groupId: Symbol, initialId: String, initialName: String) {
 
   def setIndex(arr: Array[Int], material: String) {
     indexArray = arr
-
-    indexBuffer = BufferUtils.createIntBuffer(arr.length)
-    indexBuffer.put(arr)
-    indexBuffer.rewind()
     hasIndices = true
   }
 
-  def setNormals(arr: Array[Float], stride: Int, strideCount: Int) {
+  def setNormals(arr: Array[Float], stride: Int, count: Int) {
     normalsStride = stride
-    normalsArray = arr
+    normalsUnordered = arr
+    if(arr.length != stride*count) {
+      throw new IllegalArgumentException("normals count is wrong")
+    }
     hasNormals = true
   }
 
-  def setPositions(arr: Array[Float], stride: Int, strideCount: Int) {
+  def setPositions(arr: Array[Float], stride: Int, count: Int) {
     positionsStride = stride
-    positionsArray = arr
+    positionsUnordered = arr
+    if(arr.length != stride*count) {
+      throw new IllegalArgumentException("positions count is wrong")
+    }
     hasPositions = true
   }
 
 
-  def setTexCoords(arr: Array[Float], stride: Int, strideCount: Int) {
+  def setTexCoords(arr: Array[Float], stride: Int, count: Int) {
     texCoordsStride = stride
-    texCoordsArray = arr
+    texCoordsUnordered = arr
+    if(arr.length != stride*count) {
+      throw new IllegalArgumentException("tex coords count is wrong")
+    }
     hasTexCoords = true
   }
 
 
   def setTexId(id: Int) {
     if(hasTexId) {
-      throw new IllegalArgumentException("TexId already set "+this.initialName)
+      throw new IllegalArgumentException("TexId already set "+this.name)
     }
     textureId = id
     if(textureId != -1) {
       hasTexId = true
     } else {
-      DC.warn("No TexId was set ", initialName)
+      DC.warn("No TexId was set ", name)
     }
   }
 
@@ -291,64 +372,11 @@ case class Mesh(groupId: Symbol, initialId: String, initialName: String) {
     }
     ret
   }*/
+  override def mat(): Mesh = this
 
+  override def translate(x: Float, y: Float, z: Float): Mesh = this
 
+  override def rotate(angle: Float, x: Float, y: Float, z: Float): Mesh = this
 
-
-  //Vertex attributes
-  //• Normal vector.
-  //• Texture coordinates
-   /*
-  def calcIndices() {
-
-    newPosIdx = new Array[Int](indexArray.length/3)
-    newNormIdx = new Array[Int](indexArray.length/3)
-    newTexIdx = new Array[Int](indexArray.length/3)
-
-    var count = 0
-    for (c <- 0 until indexArray.length by 3) {
-      newPosIdx(count) = indexArray(c+vertexOffset)
-      newNormIdx(count) = indexArray(c+normalOffset)
-      newTexIdx(count) = indexArray(c+texCoordOffset)
-
-      count = count + 1
-
-    }
-
-    iPos = BufferUtils.createIntBuffer(newPosIdx.length)
-    iPos.put(newPosIdx)
-    iPos.rewind()
-  }
-  */
-
-  /*def reorderData() {
-
-    val newPosIdx: Array[Int] = new Array[Int](indexArray.length/3)
-    val newNormIdx: Array[Int] = new Array[Int](indexArray.length/3)
-    val newTexIdx: Array[Int] = new Array[Int](indexArray.length/3)
-
-    var count = 0
-    for (c <- 0 until indexArray.length by 3) {
-      newPosIdx(count) = indexArray(c+vertexOffset)
-      newNormIdx(count) = indexArray(c+normalOffset)
-      newTexIdx(count) = indexArray(c+texCoordOffset)
-
-      count = count + 1
-
-    }
-
-
-    positions = new Array[Vec3f](newPosIdx.length)
-    normals = new Array[Vec3f](newNormIdx.length)
-    texCoords = new Array[Vec3f](newTexIdx.length)
-
-
-
-    for(i <- 0 until newPosIdx.length) {
-      positions(i) = positionsUnordered(newPosIdx(i))
-      normals(i) = normalsUnordered(newNormIdx(i))
-      texCoords(i) = texCoordsUnordered(newTexIdx(i))
-    }
-
-  }*/
+  override def scale(x: Float, y: Float, z: Float): Mesh = this
 }

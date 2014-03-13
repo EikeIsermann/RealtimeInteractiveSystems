@@ -2,12 +2,13 @@ package main.scala.io
 
 import java.io.File
 import javax.imageio.ImageIO
-import java.awt.image.{DataBufferByte, BufferedImage}
+import java.awt.image.{AffineTransformOp, DataBufferByte, BufferedImage}
 import org.lwjgl.opengl._
 import java.nio.{ByteOrder, ByteBuffer}
 import org.lwjgl.opengl.GL11._
 import main.scala.tools.DC
 import scala.collection.mutable
+import java.awt.geom.AffineTransform
 
 
 /**
@@ -61,7 +62,7 @@ sealed class Texture(texFile: File) {
     throw new Exception("BufferedImage is null '" + texFile.getAbsoluteFile + "'")
   }
 
-  format = FileFactory.getExtension(texFile)
+  format = File.getExtension(texFile)
   width = texBufferedImage.getWidth
   height = texBufferedImage.getHeight
   channels = texBufferedImage.getRaster.getNumBands
@@ -69,6 +70,12 @@ sealed class Texture(texFile: File) {
   imageDataSize = channels * imageSize
 
   aspect = height.toFloat/width.toFloat
+
+  // Flip the image vertically
+  val tx = AffineTransform.getScaleInstance(1, -1)
+  tx.translate(0, -texBufferedImage.getHeight(null))
+  val op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR)
+  texBufferedImage = op.filter(texBufferedImage, null)
 
   imageData = texBufferedImage.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 
@@ -106,7 +113,6 @@ sealed class Texture(texFile: File) {
 
   imageBuffer.rewind() // necessary!
 
-
   // OGL
 
   glEnable(GL_TEXTURE_2D) //this is necessary
@@ -123,8 +129,6 @@ sealed class Texture(texFile: File) {
 
   glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR)
   glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR)
-
-
 
 
   // Load the texture image
