@@ -7,8 +7,8 @@ import main.scala.io.File
 
 import java.nio.ByteBuffer
 import ogl.app.{MatrixUniform, Util}
-import com.ardor3d.util.geom.BufferUtils
 import main.scala.math.Mat4f
+import org.lwjgl.BufferUtils
 
 /**
  * Created by Christian Treffs
