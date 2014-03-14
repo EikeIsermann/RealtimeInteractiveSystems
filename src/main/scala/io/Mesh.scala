@@ -29,7 +29,7 @@ object Mesh {
   def from(colladaFiles: Seq[Collada]): Seq[Mesh] = colladaFiles.flatMap(_.meshes)
   def from(colladaFile: Collada): Seq[Mesh] = from(Seq(colladaFile))
 
-  private var defaultShader: Shader = null
+  var defaultShader: Shader = null
   private val meshes: mutable.HashMap[Symbol, Mesh] = mutable.HashMap.empty
 
   def getByName(name: Symbol): Mesh = meshes(name)
@@ -248,11 +248,11 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
 
 
 
-  def draw(shader: Shader = Mesh.defaultShader, beforeFunc: Unit => Unit = {Unit => Unit}, afterFunc: Unit => Unit = {Unit => Unit}) {
+  def draw(shader: Shader = Mesh.defaultShader, modelTransformation: Mat4f, projectionMatrix: Mat4f, viewMatrix: Mat4f, beforeFunc: Unit => Unit = {Unit => Unit}, afterFunc: Unit => Unit = {Unit => Unit}) {
 
     beforeFunc()
 
-    shader.useProgram()
+    shader.useProgram(projectionMatrix, viewMatrix)
     shader.setModelMatrix(modelTransformation)
 
     bindTexture()

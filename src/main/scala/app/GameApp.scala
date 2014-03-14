@@ -3,11 +3,13 @@ package main.scala.app
 import ogl.app.{StopWatch, Input}
 import main.scala.tools.DC
 import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.{PixelFormat, Display, GL11}
-import main.scala.world.entities.{SimulationRegistry, Cube}
+import main.scala.world.entities.{MeshEntity, SimulationRegistry, Cube}
 import main.scala.input.SimulationContext
-import java.awt._
 import org.lwjgl.LWJGLException
+import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
+import main.scala.shader.Shader
+import main.scala.io.{Collada, Mesh}
+import main.scala.math.Mat4f
 
 /**
  * Created by Christian Treffs
@@ -42,130 +44,98 @@ object GameApp {
   }
 }
 
-class GameApp extends Frame with Runnable {
-
-
+class GameApp {
+  private var prefferedFPS: Int = -1
+  private var fieldOfView: Float = -1
+  private var nearPlane: Float = -1
+  private var farPlane: Float = -1
 
   var entities: SimulationRegistry = null
   var context: SimulationContext = null
-
   var input: Input = null
-
-  var multisampling = false
   var time: StopWatch = null
-  final var canvas: Canvas = null
-  final var textField: TextField = null
 
-  var running = false
-  var thread: Thread = new Thread(this)
-
-
-
-
-
-
-  override def run() {
-
-    try {
-      // embed opengl into canvas
-      Display.setParent(canvas)
-
-      if (multisampling) Display.create(new PixelFormat().withSamples(8))
-      else Display.create()
-
-      Display.setSwapInterval(1)
-      Display.setVSyncEnabled(true)
-    } catch {
-      case e: LWJGLException => e.printStackTrace(); return
-    }
-
-    //the game loop
-    loop()
-
-  }
-
-  def fullscreen(fullScreen: Boolean = true) {
-    if(fullScreen) {
-      val screen = GraphicsEnvironment.getLocalGraphicsEnvironment.getDefaultScreenDevice
-
-      setUndecorated(true)
-      setResizable(false)
-      screen.setFullScreenWindow(this)
-
-
-    }  else {
-      setPreferredSize(new Dimension(800 ,600))
-      pack()
-      setLocationRelativeTo(null)
-    }
-
-  }
 
   def start() {
-    try {
 
-      /*
-      val dm = new DisplayMode(width, height)
-      Display.setDisplayMode(dm)
-      Display.setTitle(title)
+    // set debug level
+    DC.debugLevel = 0
 
+    val width = 800
+    val height = 600
+    val prefFPS = 100
+    val FOV = 60f
+    val nearPl = 0.1f
+    val farPl = 100f
+    val multiSampling = false
+    val vSyncEnabled = true
 
-      */
+    initDisplay("RIS Game", width, height, FOV, nearPl, farPl, prefFPS,vSyncEnabled, multiSampling)
+      initGL()
+      initApp()
 
-      setLayout(new BorderLayout())
+      //the game loop
+      loop()
+  }
 
-      textField = new TextField()
-      canvas = new Canvas() {
-        override def addNotify() {
-          super.addNotify()
-          thread.start()
-        }
-        override def removeNotify() {
-          thread.join()
-          super.removeNotify()
-        }
+  def initDisplay(title: String, width: Int, height: Int, fov: Float, nP: Float, fP: Float, fps: Int, vSync: Boolean = true, multiSampling: Boolean = false) = {
+    val dm = new DisplayMode(width, height)
 
+    Display.setDisplayMode(dm)
+    Display.setTitle(title)
 
-      }
-
-      //canvas.setSize(getWidth, getHeight)
-
-      add(canvas, BorderLayout.CENTER)
-      add(textField, BorderLayout.SOUTH)
-      canvas.setFocusable(true)
-      textField.setFocusable(true)
-      //textField.requestFocus()
-      //canvas.requestFocus()
-      canvas.setIgnoreRepaint(true)
+    if (multiSampling) Display.create(new PixelFormat().withSamples(8))
+    else Display.create()
 
 
-      fullscreen(fullScreen = false)
-
-      setVisible(true)
-
-
-      println(KeyboardFocusManager.getCurrentKeyboardFocusManager.getPermanentFocusOwner.toString)
-
-      init()
-
-    }
-    catch {
-      case e: LWJGLException =>
-        e.printStackTrace()
-    }
+    Display.setVSyncEnabled(vSync)
+    prefferedFPS = fps
+    Display.setSwapInterval(1)
+    fieldOfView = fov
+    nearPlane = nP
+    farPlane = fP
 
   }
 
-  def init(): Unit = {
+  def initGL() = {
+    GL11.glViewport(0, 0, Display.getWidth, Display.getHeight) //TODO: necessary?
 
+    GL11.glMatrixMode(GL11.GL_PROJECTION_MATRIX)
+    GL11.glLoadIdentity()
+
+    //GL11.glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 1, -1);
+    GL11.glOrtho(0, Display.getWidth, Display.getHeight, 0, 1, -1)
+
+    GL11.glMatrixMode(GL11.GL_MODELVIEW)
+    GL11.glLoadIdentity()
+
+    GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)  // Black
+  }
+
+  def initApp(): Unit = {
+
+    // init a default shader
+    val defaultShader = Shader.init()
+
+    // set the default shader as default for all the meshes
+    Mesh.defaultShader(defaultShader)
+
+    // load all stuff
+    val colladaFiles = Map[Symbol, String](
+      'SkyBox         -> "src/main/resources/SkyBox/SkyBox.dae",
+      'CompanionCube  -> "src/main/resources/CompanionCube/CompanionCube.dae",
+      'Tank           -> "src/main/resources/T-90/T-90.dae",
+      'PhoneBooth     -> "src/main/resources/PhoneBooth/PhoneBooth.dae",
+      'Roads          -> "src/main/resources/Roads/Roads.dae"
+    )
+
+    // load collada files and create meshes -> now everything is available via Mesh.get()
+    Collada.load(colladaFiles)
 
 
 
     input = new Input
     time = new StopWatch()
-
-    // set debug level
-    DC.debugLevel = 0
 
 
     // CREATE SIMULATION CONTEXT
@@ -175,7 +145,8 @@ class GameApp extends Frame with Runnable {
     entities = new SimulationRegistry()
 
     // ADD INITIAL ENTITIES
-    entities += new Cube("Cube1")
+    //entities += new Cube("Cube1")
+    entities += new MeshEntity(Mesh.get('CompanionCube))
 
 
     // INIT PHYSICS
@@ -186,20 +157,24 @@ class GameApp extends Frame with Runnable {
 
     // set initial deltaT
     context.updateDeltaT()
-
   }
 
 
   def loop() {
     while (!Display.isCloseRequested) {
       //input.update()
-      Display.sync(60)
-      //input.setWindowSize(width, height)
-      //simulate(time.elapsed, input)
-      display(canvas.getWidth, canvas.getHeight)
+      Display.sync(prefferedFPS)
+
+      input.setWindowSize(Display.getWidth, Display.getHeight)
+
+      simulate(time.elapsed, input)
+
+      display(Display.getWidth, Display.getHeight)
 
       Display.update()
     }
+
+    close()
   }
 
   def simulate(elapsed: Float, input: Input): Unit = {
@@ -230,12 +205,13 @@ class GameApp extends Frame with Runnable {
 
     // Assemble the transformation matrix that will be applied to all
     // vertices in the vertex shader.
-    //val aspect: Float = width.asInstanceOf[Float] / height.asInstanceOf[Float]
+    val aspect: Float = width.asInstanceOf[Float] / height.asInstanceOf[Float]
 
     // The perspective projection. Camera space to NDC.
-    //val projectionMatrix: Matrix = vecmath.perspectiveMatrix(60f, aspect, 0.1f, 100f)
 
-
+    context.setProjectionMatrix(Mat4f.projection(fieldOfView, aspect, nearPlane, farPlane))
+    context.setViewMatrix(Mat4f.identity)
+    context.setModelMatrix(Mat4f.translation(0,0,-6f) * Mat4f.rotation(1 ,1,0, 45f))
     //Shader.setProjectionMatrix(projectionMatrix)
 
     // display objects
@@ -246,8 +222,16 @@ class GameApp extends Frame with Runnable {
 
     // GRAPHICS
     // render all entities
-//    entities.renderAll(context)
+   entities.renderAll(context)
 
 
+  }
+
+  def close() {
+    DC.log("Shutting down")
+    //TODO: stop thread clean up and end
+    Display.destroy()
+    DC.log("Program Ended")
+    System.exit(0)
   }
 }

@@ -54,10 +54,6 @@ object TestApp {
       Display.sync(100)
     }
 
-
-
-
-
     GL11.glViewport(0, 0, width, height)
 
     GL11.glMatrixMode(GL11.GL_PROJECTION_MATRIX)
@@ -129,7 +125,7 @@ object TestApp {
 
     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT)
 
-    Mesh.get('CompanionCube).draw()
+    /*Mesh.get('CompanionCube).draw()
 
     Mesh.get('ChassisBody).draw()
     Mesh.get('ChassisTread).draw()
@@ -137,9 +133,9 @@ object TestApp {
 
 
     Mesh.get('Turret).draw()
-    /*Mesh.get('MachineGun).draw()*/
+    Mesh.get('MachineGun).draw()    */
 
-    HUD.drawString("Hello", (1f,1f,1f), 100, 100, 0.09f)
+    //HUD.drawString("Hello", (1f,1f,1f), 0, 0, -0.5f)
 
 
   }

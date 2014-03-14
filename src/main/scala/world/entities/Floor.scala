@@ -7,7 +7,7 @@ import main.scala.math.Vertex
  * Created by Christian Treffs
  * Date: 10.12.13 11:36
  */
-class Floor extends Entity with Shape {
+class Floor  {
   /**
    * returns all vertices of this shape
    * @return array with vertices

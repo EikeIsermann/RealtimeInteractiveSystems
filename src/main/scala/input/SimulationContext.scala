@@ -4,6 +4,8 @@ import ogl.app.Input
 import org.lwjgl.input.{Mouse, Keyboard}
 import ogl.vecmathimp.FactoryDefault._
 import main.scala.tools.DC
+import main.scala.math.Mat4f
+import main.scala.shader.Shader
 
 /**
  * Created by Christian Treffs
@@ -13,9 +15,28 @@ import main.scala.tools.DC
  */
 class SimulationContext extends Context {
 
+  var shader: Shader = null
+  var modelMatrix: Mat4f = Mat4f.identity
+  var projectionMatrix: Mat4f = Mat4f.identity
+  var viewMatrix: Mat4f = Mat4f.identity
+
   DC.log("SimulationContext", this)
 
   private var _deltaT: Long = 0L
+
+  def setProjectionMatrix(mat: Mat4f): Mat4f = {
+    projectionMatrix = mat
+    projectionMatrix
+  }
+  def setViewMatrix(mat: Mat4f): Mat4f = {
+    viewMatrix = mat
+    viewMatrix
+  }
+
+  def setModelMatrix(mat: Mat4f): Mat4f = {
+    modelMatrix = mat
+    modelMatrix
+  }
 
   def updateDeltaT(): Long = {
 

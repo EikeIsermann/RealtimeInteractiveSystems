@@ -14,9 +14,9 @@ object SimpleBallisticDemo {
 
   val entities: SimulationRegistry = new SimulationRegistry
 
-  entities.addEntity(new Camera())
-  entities.addEntity(new Floor())
-  entities.addEntity(new SimpleBallisticWeapon())
+  //entities.addEntity(new Camera())
+  //entities.addEntity(new Floor())
+//  entities.addEntity(new SimpleBallisticWeapon())
 
 
   entities.initAll(context)

@@ -2,6 +2,8 @@ package main.scala.world.entities
 
 import main.scala.input.SimulationContext
 import main.scala.math.Vec3f
+import main.scala.shader.Shader
+import main.scala.io.Mesh
 
 /**
  * Created by Christian Treffs

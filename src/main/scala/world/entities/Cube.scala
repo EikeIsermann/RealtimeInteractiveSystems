@@ -3,6 +3,7 @@ package main.scala.world.entities
 import main.scala.input.SimulationContext
 import main.scala.math.{Vec3f, Vertex, Color}
 import main.scala.tools.DC
+import main.scala.io.Mesh
 
 
 /**
@@ -92,14 +93,12 @@ class Cube(cubeName: String, initialPosition: Vec3f = Vec3f(0, 0, 0), dimension:
   }
 
   /**
-   * rendering process
-   */
-  def render(context: SimulationContext): Boolean = {
-    true
-  }
-
-  /**
    * destruction process
    */
   def destroy(): Boolean = ???
+
+  /**
+   * rendering process
+   */
+  override def render(context: SimulationContext): Boolean = true
 }
