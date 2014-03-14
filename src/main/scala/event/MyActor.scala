@@ -1,4 +1,4 @@
-package main.scala.core.events
+package main.scala.event
 
 
 /**
@@ -7,7 +7,5 @@ package main.scala.core.events
  */
 class MyActor() extends ObservingActor {
 
-  protected def unknownMessage(msg: Any): Unit = {
-    println(msg)
-  }
+
 }

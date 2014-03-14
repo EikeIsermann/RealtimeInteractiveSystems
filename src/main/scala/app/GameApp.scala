@@ -146,7 +146,9 @@ class GameApp {
 
     // ADD INITIAL ENTITIES
     //entities += new Cube("Cube1")
-    entities += new MeshEntity(Mesh.get('CompanionCube))
+    entities += new MeshEntity(Mesh.get('Turret))
+    entities += new MeshEntity(Mesh.get('ChassisTread))
+    entities += new MeshEntity(Mesh.get('ChassisBody))
 
 
     // INIT PHYSICS
@@ -211,7 +213,8 @@ class GameApp {
 
     context.setProjectionMatrix(Mat4f.projection(fieldOfView, aspect, nearPlane, farPlane))
     context.setViewMatrix(Mat4f.identity)
-    context.setModelMatrix(Mat4f.translation(0,0,-6f) * Mat4f.rotation(1 ,1,0, 45f))
+    val mat = Mat4f.translation(0,0,-0.8f).mult(Mat4f.rotation(0,1,0, 90f)).mult(Mat4f.scale(0.001f, 0.001f, 0.001f))
+    context.setModelMatrix(mat)
     //Shader.setProjectionMatrix(projectionMatrix)
 
     // display objects

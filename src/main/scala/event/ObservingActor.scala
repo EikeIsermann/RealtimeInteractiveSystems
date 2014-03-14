@@ -1,4 +1,4 @@
-package main.scala.core.events
+package main.scala.event
 
 import scala.collection.mutable
 import akka.actor.{ActorRef, Actor}
@@ -24,7 +24,7 @@ trait ObservingActor extends Actor {
    * @tparam T the type of signal
    * @return success true/false
    */
-  private def observe[T](signal: Signal[T])(func: T => Unit)(observer: ActorRef) = {
+  def observe[T](signal: Signal[T])(func: T => Unit)(observer: ActorRef) = {
     activeSignals.put(signal, func.asInstanceOf[Any => Unit])
     signal.registerObserver(observer)
   }
@@ -61,7 +61,9 @@ trait ObservingActor extends Actor {
     
   }
 
-  protected def unknownMessage (msg: Any)
+  protected def unknownMessage (msg: Any) {
+    throw new IllegalArgumentException("received unknown message '"+msg+"'")
+  }
 
 }
 
