@@ -1,15 +1,16 @@
 package main.scala.ai
 
 import main.scala.architecture.Component
+import main.scala.input.Context
 
 /**
  * Created by Christian Treffs
  * Date: 14.03.14 18:19
  */
 class AIComponent extends Component {
-  override def shutdown(): Unit = ???
+  override def deinit(): Unit = ???
 
-  override def startup(): Unit = ???
+  override def update(context: Context): Unit = ???
 
-  override def update(): Unit = ???
+  override def init(): Component = ???
 }

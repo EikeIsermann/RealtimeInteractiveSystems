@@ -168,7 +168,7 @@ sealed protected class Collada(identifier:Symbol, colladaFile: File) {
                                   img => {
                                     (img \ "init_from") foreach {
                                       tex => {
-                                        val textureFilePath: String = File.getPath(colladaFile)+tex.text
+                                        val textureFilePath: String = FileIO.getPath(colladaFile)+tex.text
                                         val texture = Texture.load(textureFilePath)
 
                                         mesh.setTexId(texture.texId)

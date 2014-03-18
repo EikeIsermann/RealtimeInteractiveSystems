@@ -62,7 +62,7 @@ sealed class Texture(texFile: File) {
     throw new Exception("BufferedImage is null '" + texFile.getAbsoluteFile + "'")
   }
 
-  format = File.getExtension(texFile)
+  format = FileIO.getExtension(texFile)
   width = texBufferedImage.getWidth
   height = texBufferedImage.getHeight
   channels = texBufferedImage.getRaster.getNumBands

@@ -1,6 +1,7 @@
 package main.scala.gfx
 
 import main.scala.architecture.Component
+import main.scala.input.Context
 
 
 /**
@@ -8,10 +9,9 @@ import main.scala.architecture.Component
  * Date: 14.03.14 17:47
  */
 class GFXComponent extends Component  {
+  override def deinit(): Unit = ???
 
-  override def shutdown(): Unit = ???
+  override def update(context: Context): Unit = ???
 
-  override def startup(): Unit = ???
-
-  override def update(): Unit = ???
+  override def init(): Component = ???
 }

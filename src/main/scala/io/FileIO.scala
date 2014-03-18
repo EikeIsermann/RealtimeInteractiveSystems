@@ -1,8 +1,7 @@
 package main.scala.io
 
 import scala.reflect.ClassTag
-import java.io.FileInputStream
-import test.FileReader
+import java.io.File
 import scala.io.Source
 
 
@@ -10,7 +9,7 @@ import scala.io.Source
  * Created by Christian Treffs
  * Date: 10.03.14 10:17
  */
-object File {
+object FileIO {
 
   def getExtension(filePath: String, withDot: Boolean): String = getExtension(load(filePath), withDot)
   def getExtension(file: java.io.File, withDot: Boolean = false): String = {
@@ -27,6 +26,20 @@ object File {
     val path = pathWithFile.reverse.replaceFirst(name.reverse, "").reverse
     path
   }
+
+  def loadAll(extension: String, pathToDirectory: String): Seq[java.io.File] = {
+    val dir: File = load(pathToDirectory)
+    if(dir.isDirectory && dir.exists()) {
+      if(dir.canRead) {
+        dir.listFiles().filter(f => getExtension(f).equals(extension.toLowerCase()))
+      }  else {
+        throw new IllegalArgumentException("can not read from dir '"+pathToDirectory+"'")
+      }
+    } else {
+      throw new IllegalArgumentException("path is not a directory '"+pathToDirectory+"'")
+    }
+  }
+
 
   def load(filePath: String): java.io.File = {
     val f = new java.io.File(filePath)

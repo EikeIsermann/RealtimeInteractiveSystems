@@ -2,7 +2,7 @@ package main.scala.shader
 
 import org.lwjgl.opengl.GL11._
 import org.lwjgl.opengl.GL20._
-import main.scala.io.File
+import main.scala.io.FileIO
 
 
 import java.nio.ByteBuffer
@@ -78,7 +78,7 @@ sealed class Shader() {
   }
 
   protected def setVertexShader(vsFilePath: String) {
-    val arr = File.loadAsArray[Byte](vsFilePath)
+    val arr = FileIO.loadAsArray[Byte](vsFilePath)
     val vertexShader: ByteBuffer = BufferUtils.createByteBuffer(arr.length)
     vertexShader.put(arr)
     vertexShader.rewind()
@@ -92,7 +92,7 @@ sealed class Shader() {
   }
 
   protected def setFragmentShader(fsFilePath: String) {
-    val arr = File.loadAsArray[Byte](fsFilePath)
+    val arr = FileIO.loadAsArray[Byte](fsFilePath)
 
     val fragmentShader: ByteBuffer = BufferUtils.createByteBuffer(arr.length)
     fragmentShader.put(arr)
