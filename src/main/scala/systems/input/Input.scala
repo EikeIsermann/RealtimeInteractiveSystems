@@ -1,11 +1,7 @@
 package main.scala.systems.input
 
 import main.scala.math.Vec3f
-import java.awt.event.{MouseEvent, KeyEvent}
-import main.scala.tools.Sys
-import javax.swing.SwingUtilities
 import org.lwjgl.input.Keyboard
-import scala.collection.mutable
 
 /**
  * Created by Christian Treffs
