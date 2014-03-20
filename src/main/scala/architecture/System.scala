@@ -1,7 +1,7 @@
 package main.scala.architecture
 
 import akka.actor.Actor
-import main.scala.input.Context
+import main.scala.systems.input.Context
 import main.scala.event.ObservingActor
 
 /**

@@ -1,6 +1,6 @@
 package main.scala.app
 
-import main.scala.input.SimulationContext
+import main.scala.systems.input.SimulationContext
 import main.scala.world.entities._
 
 /**

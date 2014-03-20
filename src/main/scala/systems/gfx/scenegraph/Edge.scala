@@ -1,4 +1,4 @@
-package main.scala.gfx.scenegraph
+package main.scala.systems.gfx.scenegraph
 
 import java.util.UUID
 import scala.collection.mutable

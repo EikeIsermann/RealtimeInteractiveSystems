@@ -1,7 +1,7 @@
 package main.scala.engine
 
 import main.scala.architecture.{System, Engine}
-import main.scala.input.Context
+import main.scala.systems.input.Context
 import scala.collection.mutable.ArrayBuffer
 
 /**

@@ -1,4 +1,4 @@
-package main.scala.input
+package main.scala.systems.input
 
 /**
  * Created by Christian Treffs

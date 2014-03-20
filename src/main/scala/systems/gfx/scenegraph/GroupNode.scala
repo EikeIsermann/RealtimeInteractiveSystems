@@ -1,4 +1,4 @@
-package main.scala.gfx.scenegraph
+package main.scala.systems.gfx.scenegraph
 
 /**
  * User: uni

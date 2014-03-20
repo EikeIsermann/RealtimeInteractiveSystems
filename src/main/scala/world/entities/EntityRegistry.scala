@@ -2,7 +2,7 @@ package main.scala.world.entities
 
 import scala.collection.mutable
 import main.scala.tools.DC
-import main.scala.input.SimulationContext
+import main.scala.systems.input.SimulationContext
 
 /**
  * Created by Christian Treffs

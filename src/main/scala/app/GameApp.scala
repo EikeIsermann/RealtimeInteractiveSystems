@@ -3,8 +3,8 @@ package main.scala.app
 import ogl.app.{StopWatch, Input}
 import main.scala.tools.DC
 import org.lwjgl.opengl.GL11._
-import main.scala.world.entities.{MeshEntity, SimulationRegistry, Cube}
-import main.scala.input.SimulationContext
+import main.scala.world.entities.{MeshEntity, SimulationRegistry}
+import main.scala.systems.input.SimulationContext
 import org.lwjgl.LWJGLException
 import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
 import main.scala.shader.Shader

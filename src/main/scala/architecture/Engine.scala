@@ -1,8 +1,8 @@
 package main.scala.architecture
 
-import main.scala.input.{SimulationContext, Context}
+import main.scala.systems.input.{SimulationContext, Context}
 import akka.actor.Actor
-import main.scala.physics.PhysicsSystem
+import main.scala.systems.physics.PhysicsSystem
 
 /**
  * Created by Christian Treffs

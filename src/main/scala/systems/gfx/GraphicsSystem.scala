@@ -1,8 +1,8 @@
-package main.scala.gfx
+package main.scala.systems.gfx
 
 
 import main.scala.architecture._
-import main.scala.input.Context
+import main.scala.systems.input.Context
 
 /**
  * Created by Christian Treffs

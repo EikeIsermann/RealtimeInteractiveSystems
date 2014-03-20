@@ -1,13 +1,14 @@
-package main.scala.ai
+package main.scala.systems.gfx
 
 import main.scala.architecture.Component
-import main.scala.input.Context
+import main.scala.systems.input.Context
+
 
 /**
  * Created by Christian Treffs
- * Date: 14.03.14 18:19
+ * Date: 14.03.14 17:47
  */
-class AIComponent extends Component {
+class GFXComponent extends Component  {
   override def deinit(): Unit = ???
 
   override def update(context: Context): Unit = ???

@@ -1,8 +1,8 @@
-package main.scala.physics
+package main.scala.systems.physics
 
 
 import main.scala.architecture.{Component, System}
-import main.scala.input.Context
+import main.scala.systems.input.Context
 
 /**
  * Created by Christian Treffs

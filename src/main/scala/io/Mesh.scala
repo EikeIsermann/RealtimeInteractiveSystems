@@ -113,7 +113,7 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
 
   var polytype: Int = -1
 
-  //vcount = Die Anzahl der Vertics pro Polygon.
+  //vcount = Die Anzahl der Vertices pro Polygon.
   var vcount: IntBuffer = null
 
   //P = Integer index über den Vertics

@@ -1,4 +1,4 @@
-package main.scala.ai
+package main.scala.systems.ai
 
 /**
  * Created by Christian Treffs

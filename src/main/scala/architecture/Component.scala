@@ -1,7 +1,7 @@
 package main.scala.architecture
 
 import main.scala.event.ObservingActor
-import main.scala.input.Context
+import main.scala.systems.input.Context
 
 /**
  * Created by Christian Treffs

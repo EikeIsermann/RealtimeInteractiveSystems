@@ -1,4 +1,4 @@
-package main.scala.input
+package main.scala.systems.input
 
 import ogl.app.Input
 import org.lwjgl.input.{Mouse, Keyboard}
