@@ -76,6 +76,13 @@ case class Health(health1: Int, maxHealth1: Int) extends Component {
 
 case class LifeTime() extends Component
 
+case class Camera(fieldOfView: Float, active: Boolean = true) extends Component
+
+case class Light() extends Component
+
+case class KeyControl() extends Component
+
+case class MouseControl() extends Component
 /**
 Bullet
   damage
