@@ -2,6 +2,7 @@ package main.scala.architecture
 
 import main.scala.event.ObservingActor
 import main.scala.systems.input.Context
+import scala.xml.NodeSeq
 
 /**
  * Created by Christian Treffs
@@ -14,4 +15,6 @@ import main.scala.systems.input.Context
  */
 trait Component /*extends ObservingActor*/ {
 
+  def fromXML(xml: NodeSeq)
+  def toXML(): NodeSeq
 }

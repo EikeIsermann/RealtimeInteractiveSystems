@@ -18,11 +18,13 @@ trait Entity {
 
   def add(component: Component): Entity = this.+=(component)
   def +=(component: Component): Entity = {
+    //TODO: send add component message
     _components += component
     this
   }
   def remove(component: Component): Entity = this.-=(component)
   def -=(component: Component): Entity = {
+    //TODO: send removed component message
     _components -= component
     this
   }
