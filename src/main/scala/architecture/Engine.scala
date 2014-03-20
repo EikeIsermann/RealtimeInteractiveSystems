@@ -1,8 +1,6 @@
 package main.scala.architecture
 
-import main.scala.systems.input.{SimulationContext, Context}
-import akka.actor.Actor
-import main.scala.systems.physics.PhysicsSystem
+import main.scala.systems.input.Context
 import scala.collection.mutable.ArrayBuffer
 
 /**
@@ -13,6 +11,7 @@ trait Engine {
 
   private val _entities: ArrayBuffer[Entity] = ArrayBuffer.empty[Entity]
   private val _systems: ArrayBuffer[System] = ArrayBuffer.empty[System]
+
 
   def init(): Engine
 
@@ -47,6 +46,4 @@ trait Engine {
     _systems.foreach(_.update(context))
     this
   }
-
-
 }
