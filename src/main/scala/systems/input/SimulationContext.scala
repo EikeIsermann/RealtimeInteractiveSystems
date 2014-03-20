@@ -1,11 +1,9 @@
 package main.scala.systems.input
 
-import ogl.app.Input
-import org.lwjgl.input.{Mouse, Keyboard}
-import ogl.vecmathimp.FactoryDefault._
 import main.scala.tools.DC
 import main.scala.math.Mat4f
 import main.scala.systems.gfx.Shader
+import org.lwjgl.input.Keyboard
 
 /**
  * Created by Christian Treffs
@@ -19,8 +17,6 @@ class SimulationContext extends Context {
   var modelMatrix: Mat4f = Mat4f.identity
   var projectionMatrix: Mat4f = Mat4f.identity
   var viewMatrix: Mat4f = Mat4f.identity
-
-  DC.log("SimulationContext", this)
 
   private var _deltaT: Long = 0L
 
@@ -81,6 +77,7 @@ class SimulationContext extends Context {
     Input.mouseButtonDown(MouseButton.Middle,println)
 
 
+    //println(Keyboard.getEventKey, Keyboard.getKeyName(Keyboard.getEventKey))
 
 
   }

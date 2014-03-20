@@ -108,6 +108,8 @@ object Key {
   val ShiftLeft = Keyboard.KEY_LSHIFT
   val ShiftRight = Keyboard.KEY_RSHIFT
 
+  val GameConsole = Keyboard.KEY_SECTION
+
   val ArrowUp = Keyboard.KEY_UP
   val ArrowDown = Keyboard.KEY_DOWN
   val ArrowLeft = Keyboard.KEY_LEFT

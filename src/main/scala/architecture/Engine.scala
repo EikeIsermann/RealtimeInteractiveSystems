@@ -3,6 +3,7 @@ package main.scala.architecture
 import main.scala.systems.input.{SimulationContext, Context}
 import akka.actor.Actor
 import main.scala.systems.physics.PhysicsSystem
+import scala.collection.mutable.ArrayBuffer
 
 /**
  * Created by Christian Treffs
@@ -10,12 +11,42 @@ import main.scala.systems.physics.PhysicsSystem
  */
 trait Engine {
 
-  def init()
+  private val _entities: ArrayBuffer[Entity] = ArrayBuffer.empty[Entity]
+  private val _systems: ArrayBuffer[System] = ArrayBuffer.empty[System]
 
-  def += (system: System): Engine
-  def -= (system: System): Engine
+  def init(): Engine
 
-  def update(systemType: Class[_ <: System], context: Context)
   def mainLoop(): Unit
+
+  def entities: Array[Entity] = _entities.toArray
+  def systems: Array[System] = _systems.toArray
+
+  def += (entity: Entity): Engine = {
+    _entities += entity
+    this
+  }
+  def -= (entity: Entity): Engine = {
+    _entities -= entity
+    this
+  }
+
+  def += (system: System): Engine = {
+    _systems += system
+    this
+  }
+  def -= (system: System): Engine = {
+    _systems -= system
+    this
+  }
+
+  def update(systemType: Class[_ <: System], context: Context): Engine = {
+    _systems.filter(s => s.getClass.equals(systemType)).foreach(_.update(context))
+    this
+  }
+  def update(context: Context): Engine = {
+    _systems.foreach(_.update(context))
+    this
+  }
+
 
 }

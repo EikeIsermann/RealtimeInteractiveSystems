@@ -36,6 +36,7 @@ object EntityDescLoader {
     val entity: Entity = null
 
 
+    // READ GFX
     graphicxComponent foreach(
       gc => {
         val uses: Seq[Node] =gc.nonEmptyChildren.filter(_.label == "use").map(n => {(xml \ n.text).head})
@@ -51,6 +52,15 @@ object EntityDescLoader {
         // TODO: GFX Object
 
       })
+
+
+    //READ Physics
+    physicsComponent foreach(
+      pc => {
+
+      }
+      )
+
 
 
 

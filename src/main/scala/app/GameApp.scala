@@ -1,7 +1,7 @@
 package main.scala.app
 
 import ogl.app.{StopWatch}
-import main.scala.tools.DC
+import main.scala.tools.{GameConsole, DC}
 import org.lwjgl.opengl.GL11._
 import main.scala.systems.input.{Input, SimulationContext}
 import org.lwjgl.LWJGLException
@@ -184,7 +184,8 @@ class GameApp {
 
     // INPUT
     // update user input
-    context.updateInput()
+    //context.updateInput()
+    GameConsole.updateInput(elapsed)
 
 
     // PHYSICS
