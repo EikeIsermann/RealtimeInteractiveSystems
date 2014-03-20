@@ -15,7 +15,10 @@ object Input {
 
     input = new Input()
   }
-  def update() = input.lib.update()
+  def update(width: Int, height: Int) = {
+    input.lib.setWindowSize(width,height)
+    input.lib.update()
+  }
 
 
   //def addAction(name: Symbol, function: AnyRef => AnyRef)= actionMap.put(name,function)

@@ -168,8 +168,7 @@ class GameApp {
       //input.update()
       Display.sync(prefferedFPS)
 
-      Input.update()
-      Input.windowSize(Display.getWidth, Display.getHeight)
+      Input.update(Display.getWidth, Display.getHeight)
 
       simulate(time.elapsed)
 
