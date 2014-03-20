@@ -6,6 +6,7 @@ import java.io.File
 import main.scala.io.FileIO
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.Mesh
+import scala.collection.mutable.ListBuffer
 
 
 /**
@@ -43,35 +44,44 @@ object EntityDescLoader {
 
 
         val (position, rotation, scale) = parseTransformation(attrs \\ "transformation")
-        println(position, rotation, scale)
 
-        val meshes = parseMeshes(Symbol(name), attrs \\ "meshes")
+        val meshNames = parseMeshes(Symbol(name), attrs \\ "meshes")
 
 
-        // TODO
+        // TODO: GFX Object
 
       })
 
 
 
-    null
+    entity
   }
 
 
-  def parseMeshes(identifier: Symbol, meshes: NodeSeq): Seq[Mesh] = {
+  def parseMeshes(identifier: Symbol, meshes: NodeSeq): Seq[Symbol] = {
 
     val sourceStr = (meshes \ "source").text
 
     Collada.load(identifier, sourceStr)
 
+    val ret = ListBuffer.empty[Symbol]
     val ms = meshes \\ "mesh"
     ms.foreach(
-      mesh => println(mesh.attribute("id"))
-    )
+      mesh => {
+        val id = Symbol(mesh.attribute("id").get.text)
+
+        ret += id
+        val (pos, rot, sc) = parseTransformation(mesh)
+        val m = Mesh.getByName(id)
+        m.relativePosition = pos
+        m.relativeRotation = rot
+        m.relativeScale = sc
+
+    })
 
 
-    null
 
+    ret.toSeq
   }
 
 
