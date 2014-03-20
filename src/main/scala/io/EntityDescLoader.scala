@@ -1,10 +1,11 @@
-package main.scala.app
+package main.scala.io
 
 import main.scala.architecture.Entity
 import scala.xml.{Node, NodeSeq, XML, Elem}
 import java.io.File
 import main.scala.io.FileIO
 import main.scala.math.Vec3f
+import main.scala.systems.gfx.Mesh
 
 
 /**
@@ -42,9 +43,10 @@ object EntityDescLoader {
 
 
         val (position, rotation, scale) = parseTransformation(attrs \\ "transformation")
-
-
         println(position, rotation, scale)
+
+        val meshes = parseMeshes(Symbol(name), attrs \\ "meshes")
+
 
         // TODO
 
@@ -55,6 +57,22 @@ object EntityDescLoader {
     null
   }
 
+
+  def parseMeshes(identifier: Symbol, meshes: NodeSeq): Seq[Mesh] = {
+
+    val sourceStr = (meshes \ "source").text
+
+    Collada.load(identifier, sourceStr)
+
+    val ms = meshes \\ "mesh"
+    ms.foreach(
+      mesh => println(mesh.attribute("id"))
+    )
+
+
+    null
+
+  }
 
 
   def parseTransformation(trafo: NodeSeq): (Vec3f, Vec3f, Vec3f) = {
@@ -71,8 +89,4 @@ object EntityDescLoader {
     (position,rotation,scale)
   }
 
-  def main(args: Array[String]) {
-    EntityDescLoader.load("src/main/resources/entities/")
-
-  }
 }

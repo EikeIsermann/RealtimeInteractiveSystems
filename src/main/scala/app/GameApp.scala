@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11._
 import main.scala.systems.input.SimulationContext
 import org.lwjgl.LWJGLException
 import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
-import main.scala.io.Collada
+import main.scala.io.{EntityDescLoader, Collada}
 import main.scala.math.Mat4f
 import main.scala.systems.gfx.{Shader, Mesh}
 
@@ -119,6 +119,7 @@ class GameApp {
     // set the default shader as default for all the meshes
     Mesh.defaultShader(defaultShader)
 
+    /*
     // load all stuff
     val colladaFiles = Map[Symbol, String](
       'SkyBox         -> "src/main/resources/meshes/SkyBox/SkyBox.dae",
@@ -130,7 +131,8 @@ class GameApp {
 
     // load collada files and create meshes -> now everything is available via Mesh.get()
     Collada.load(colladaFiles)
-
+                                                         */
+    EntityDescLoader.load("src/main/resources/entities/")
 
 
     input = new Input
