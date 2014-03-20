@@ -5,6 +5,9 @@ import scala.collection.mutable.ArrayBuffer
 /**
  * Created by Christian Treffs
  * Date: 17.03.14 12:52
+ *
+ *
+ * Entities are buckets that hold components
  */
 trait Entity {
 
