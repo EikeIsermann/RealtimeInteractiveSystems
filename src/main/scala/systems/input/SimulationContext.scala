@@ -51,30 +51,37 @@ class SimulationContext extends Context {
 
   def updateInput(){
 
-    if(Input.keyDown(Key.CommandLeft)) {
-      println("Command/Win left")
-    }
-    if(Input.keyDown(Key.CommandRight)) {
-      println("Command/Win right")
-    }
+    Input.keyDown(Key.ArrowUp,println)
+    Input.keyDown(Key.ArrowDown,println)
+    Input.keyDown(Key.ArrowLeft,println)
+    Input.keyDown(Key.ArrowRight,println)
 
-    println(Keyboard.getKeyName(Keyboard.getEventKey))
 
-    if(Input.keyDown(Key._W)) {
-      println("W")
-    }
+    Input.keyDown(Key.Space,println)
+    Input.keyDown(Key.BackSpace,println)
+    Input.keyDown(Key.Enter,println)
 
-    if(Input.keyDown(Key._A)) {
-      println("A")
-    }
+    Input.keyDown(Key.ShiftLeft,println)
+    Input.keyDown(Key.ShiftRight,println)
 
-    if(Input.keyDown(Key._S)) {
-      println("S")
-    }
+    Input.keyDown(Key.CommandRight,println)
 
-    if(Input.keyDown(Key._D)) {
-      println("D")
-    }
+    Input.keyDown(Key.CommandLeft,println)
+    Input.keyDown(Key.AltLeft,println)
+    Input.keyDown(Key.CtrlLeft,println)
+
+    Input.keyDown(Key._W,println)
+    Input.keyDown(Key._A,println)
+    Input.keyDown(Key._S,println)
+    Input.keyDown(Key._D,println)
+
+
+    Input.mouseButtonDown(MouseButton.Left, println)
+    Input.mouseButtonDown(MouseButton.Right,println)
+    Input.mouseButtonDown(MouseButton.Middle,println)
+
+
+
 
   }
 

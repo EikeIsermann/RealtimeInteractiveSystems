@@ -5,6 +5,7 @@ import java.awt.event.{MouseEvent, KeyEvent}
 import main.scala.tools.Sys
 import javax.swing.SwingUtilities
 import org.lwjgl.input.Keyboard
+import scala.collection.mutable
 
 /**
  * Created by Christian Treffs
@@ -13,25 +14,48 @@ import org.lwjgl.input.Keyboard
 object Input {
 
   private var input: Input = null
+  //private val actionMap = mutable.HashMap.empty[Symbol, AnyRef => AnyRef]
   def init() {
 
     input = new Input()
   }
   def update() = input.lib.update()
 
+
+  //def addAction(name: Symbol, function: AnyRef => AnyRef)= actionMap.put(name,function)
+  //def getAction(name:Symbol) = actionMap(name)
+
   def mousePosition(): Vec3f = input.lib.getMousePosition
   def mousePositionNormalized(): Vec3f = input.lib.getNormalizedMousePosition
   def mouseButtonDown(mb: Int): Boolean = input.lib.isButtonDown(mb)
+  def mouseButtonDown(mb: Int, func: Any => Unit = println) {
+    if(mouseButtonDown(mb)) {
+      func(mb)
+    }
+  }
+
+  def keysDown(keys: Int*): Boolean = keys.forall(keyDown)
   def keyDown(key: Int):Boolean = input.lib.isKeyDown(key)
+  def keyDown(key: Int, func: Any => Unit = println) {
+    if(keyDown(key)) {
+      func(Keyboard.getKeyName(key))
+    }
+  }
   def keyToggled(key: Int): Boolean = input.lib.isKeyToggled(key)
+  def keyToggled(key: Int, func: Any => Unit = println) {
+    if(keyToggled(key)) {
+      func(Keyboard.getKeyName(key))
+    }
+  }
 
   def windowSize(dims: (Int, Int)) = input.lib.setWindowSize(dims._1, dims._2)
 
 }
 object MouseButton {
-  val Left = MouseEvent.BUTTON1
-  val Middle = MouseEvent.BUTTON2
-  val Right = MouseEvent.BUTTON3
+  val Left = 0
+  val Right = 1
+  val Middle = 2
+
 }
 object Key {
   val _A = Keyboard.KEY_A
