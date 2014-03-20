@@ -1,4 +1,4 @@
-package main.scala.io
+package main.scala.systems.gfx
 
 import main.scala.math.{Mat4f, Vec3f}
 import main.scala.tools.DC
@@ -6,19 +6,9 @@ import java.nio.{IntBuffer, FloatBuffer}
 import org.lwjgl.BufferUtils
 
 import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.GL12._
-import org.lwjgl.opengl.GL13._
-import org.lwjgl.opengl.GL14._
-import org.lwjgl.opengl.GL15._
 import org.lwjgl.opengl.GL20._
-import org.lwjgl.opengl.GL21._
-import org.lwjgl.opengl.GL30._
-import org.lwjgl.opengl.GL31._
-import org.lwjgl.opengl.GL32._
-import ogl.app.MatrixUniform
-import ogl.vecmathimp.FactoryDefault
 import scala.collection.mutable
-import main.scala.shader.Shader
+import main.scala.io.Collada
 
 
 /**
@@ -130,8 +120,8 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
 
     if(rotation != null) {
       val p = mat.getPosition
-      val t = Mat4f.translation(0,0,0) *mat
-      val f = Mat4f.rotation(rotation._1, rotation._2) * t
+//      val t = Mat4f.translation(0,0,0) *mat
+     // val f = Mat4f.rotation(rotation._1, rotation._2) * t
       mat = Mat4f.translation(p) * mat
     }
 

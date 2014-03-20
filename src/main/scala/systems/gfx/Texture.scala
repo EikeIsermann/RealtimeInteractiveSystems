@@ -1,4 +1,4 @@
-package main.scala.io
+package main.scala.systems.gfx
 
 import java.io.File
 import javax.imageio.ImageIO
@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11._
 import main.scala.tools.DC
 import scala.collection.mutable
 import java.awt.geom.AffineTransform
+import main.scala.io.FileIO
 
 
 /**

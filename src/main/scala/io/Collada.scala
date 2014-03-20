@@ -8,6 +8,7 @@ import java.util.Date
 import main.scala.math.Vec3f
 import scala.reflect.ClassTag
 import scala.collection.mutable.ListBuffer
+import main.scala.systems.gfx.{Texture, Mesh}
 
 /**
  * Created by Christian Treffs
@@ -63,7 +64,7 @@ object ColladaSemantic extends Enumeration {
   val BINORMAL, CONTINUITY, IMAGE, INPUT, WEIGHT, INTERPOLATION, INV_BIND_MATRIX, UV, VERTEX, JOINT, LINEAR_STEPS, NORMAL, OUTPUT, TEXCOORD, POSITION, MORPH_TARGET, MORPH_WEIGHT, TEXTANGENT, TANGENT = Value
 }
 
-sealed protected class Collada(identifier:Symbol, colladaFile: File) {
+sealed class Collada(identifier:Symbol, colladaFile: File) {
 
   val groupId: Symbol = identifier
   private val f: File = colladaFile

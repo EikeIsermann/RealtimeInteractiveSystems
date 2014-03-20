@@ -3,13 +3,12 @@ package main.scala.app
 import ogl.app.{StopWatch, Input}
 import main.scala.tools.DC
 import org.lwjgl.opengl.GL11._
-import main.scala.world.entities.{MeshEntity, SimulationRegistry}
 import main.scala.systems.input.SimulationContext
 import org.lwjgl.LWJGLException
 import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
-import main.scala.shader.Shader
-import main.scala.io.{Collada, Mesh}
+import main.scala.io.Collada
 import main.scala.math.Mat4f
+import main.scala.systems.gfx.{Shader, Mesh}
 
 /**
  * Created by Christian Treffs
@@ -50,7 +49,7 @@ class GameApp {
   private var nearPlane: Float = -1
   private var farPlane: Float = -1
 
-  var entities: SimulationRegistry = null
+  //var entities: SimulationRegistry = null
   var context: SimulationContext = null
   var input: Input = null
   var time: StopWatch = null
@@ -122,11 +121,11 @@ class GameApp {
 
     // load all stuff
     val colladaFiles = Map[Symbol, String](
-      'SkyBox         -> "src/main/resources/SkyBox/SkyBox.dae",
-      'CompanionCube  -> "src/main/resources/CompanionCube/CompanionCube.dae",
-      'Tank           -> "src/main/resources/T-90/T-90.dae",
-      'PhoneBooth     -> "src/main/resources/PhoneBooth/PhoneBooth.dae",
-      'Roads          -> "src/main/resources/Roads/Roads.dae"
+      'SkyBox         -> "src/main/resources/meshes/SkyBox/SkyBox.dae",
+      'CompanionCube  -> "src/main/resources/meshes/CompanionCube/CompanionCube.dae",
+      'Tank           -> "src/main/resources/meshes/T-90/T-90.dae",
+      'PhoneBooth     -> "src/main/resources/meshes/PhoneBooth/PhoneBooth.dae",
+      'Roads          -> "src/main/resources/meshes/Roads/Roads.dae"
     )
 
     // load collada files and create meshes -> now everything is available via Mesh.get()
@@ -142,20 +141,20 @@ class GameApp {
     context = new SimulationContext()
 
     // CREATE ENTITY REGISTRY
-    entities = new SimulationRegistry()
+   // entities = new SimulationRegistry()
 
     // ADD INITIAL ENTITIES
     //entities += new Cube("Cube1")
-    entities += new MeshEntity(Mesh.get('Turret))
-    entities += new MeshEntity(Mesh.get('ChassisTread))
-    entities += new MeshEntity(Mesh.get('ChassisBody))
+    //entities += new MeshEntity(Mesh.get('Turret))
+    //entities += new MeshEntity(Mesh.get('ChassisTread))
+    //entities += new MeshEntity(Mesh.get('ChassisBody))
 
 
     // INIT PHYSICS
 
 
     //INITIALIZE ALL ENTITIES
-    entities.initAll(context)
+    //entities.initAll(context)
 
     // set initial deltaT
     context.updateDeltaT()
@@ -188,7 +187,7 @@ class GameApp {
 
     // PHYSICS
     //simulate all entities
-    entities.simulateAll(context)
+    //entities.simulateAll(context)
 
 
   }
@@ -225,7 +224,7 @@ class GameApp {
 
     // GRAPHICS
     // render all entities
-   entities.renderAll(context)
+  // entities.renderAll(context)
 
 
   }

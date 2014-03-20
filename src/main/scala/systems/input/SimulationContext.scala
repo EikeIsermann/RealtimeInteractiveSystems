@@ -5,7 +5,7 @@ import org.lwjgl.input.{Mouse, Keyboard}
 import ogl.vecmathimp.FactoryDefault._
 import main.scala.tools.DC
 import main.scala.math.Mat4f
-import main.scala.shader.Shader
+import main.scala.systems.gfx.Shader
 
 /**
  * Created by Christian Treffs

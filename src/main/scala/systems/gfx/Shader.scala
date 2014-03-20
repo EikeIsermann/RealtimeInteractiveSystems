@@ -1,4 +1,4 @@
-package main.scala.shader
+package main.scala.systems.gfx
 
 import org.lwjgl.opengl.GL11._
 import org.lwjgl.opengl.GL20._
@@ -16,8 +16,8 @@ import org.lwjgl.BufferUtils
  */
 object Shader {
 
-  final val defaultVertexShader = "src/main/scala/shader/default.vs"
-  final val defaultFragmentShader = "src/main/scala/shader/default.fs"
+  final val defaultVertexShader = "src/main/resources/shaders/default.vs"
+  final val defaultFragmentShader = "src/main/resources/shaders/default.fs"
 
 
   def init(vs: String = defaultVertexShader, fs: String = defaultFragmentShader): Shader = {
