@@ -20,19 +20,23 @@ trait Engine {
   def entities: Array[Entity] = _entities.toArray
   def systems: Array[System] = _systems.toArray
 
+  def add(entity: Entity): Engine = this.+=(entity)
   def += (entity: Entity): Engine = {
     _entities += entity
     this
   }
+  def remove(entity: Entity): Engine = this.-=(entity)
   def -= (entity: Entity): Engine = {
     _entities -= entity
     this
   }
 
+  def add(system: System): Engine = this.+=(system)
   def += (system: System): Engine = {
     _systems += system
     this
   }
+  def remove (system: System): Engine = this.-=(system)
   def -= (system: System): Engine = {
     _systems -= system
     this

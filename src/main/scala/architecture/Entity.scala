@@ -16,10 +16,12 @@ trait Entity {
   def components: Array[Component] = _components.toArray
   def components(componentType: Class[_ <: Component]): Array[Component] = components.filter(_.getClass.equals(componentType))
 
+  def add(component: Component): Entity = this.+=(component)
   def +=(component: Component): Entity = {
     _components += component
     this
   }
+  def remove(component: Component): Entity = this.-=(component)
   def -=(component: Component): Entity = {
     _components -= component
     this

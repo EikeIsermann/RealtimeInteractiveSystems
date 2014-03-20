@@ -3,17 +3,15 @@ package main.scala.components
 import main.scala.architecture.Component
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.{Shader, Mesh}
+import main.scala.entities.Entity
 
 /**
  * Created by Christian Treffs
  * Date: 20.03.14 21:08
  */
-object Component {
+object Component {}
 
-
-}
-
-class Position(x1: Float, y1: Float, z1: Float) extends Component {
+case class Position(x1: Float, y1: Float, z1: Float) extends Component {
   def this(pos: Vec3f) = this(pos.x, pos.y, pos.z)
 
   private var _vector: Vec3f = Vec3f(x1, y1, z1)
@@ -22,7 +20,7 @@ class Position(x1: Float, y1: Float, z1: Float) extends Component {
   def vec_=(v: Vec3f) = _vector = v
 }
 
-class Display(mesh1: Mesh, shader1: Shader) extends Component {
+case class Display(mesh1: Mesh, shader1: Shader) extends Component {
   private var _mesh: Mesh = mesh1
   private var _shader: Shader = shader1
 
@@ -33,7 +31,7 @@ class Display(mesh1: Mesh, shader1: Shader) extends Component {
   def shader_=(s: Shader) = _shader = s
 }
 
-class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
+case class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   private var _ammo: Int = ammo1
   private var _maxAmmo: Int = maxAmmo1
 
@@ -44,7 +42,7 @@ class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   def maxAmmo_=(a: Int) = _maxAmmo = a
 }
 
-class Gun(lifetimeProjectile1: Long, coolDown1: Long, timeOfLastShot1: Long = 0) extends Component {
+case class Gun(lifetimeProjectile1: Long, coolDown1: Long, timeOfLastShot1: Long = 0) extends Component {
   private var _lifetimeProjectile: Long = lifetimeProjectile1
   private var _coolDown: Long = coolDown1
   private var _timeOfLastShot: Long = timeOfLastShot1
@@ -59,7 +57,13 @@ class Gun(lifetimeProjectile1: Long, coolDown1: Long, timeOfLastShot1: Long = 0)
   def timeOfLastShot_=(t: Long) = _timeOfLastShot = t
 }
 
-class Life(health1: Int, maxHealth1: Int) extends Component {
+case class Projectile(damage1: Float) extends Component {
+  private var _damage: Float = damage1
+  def damage: Float = _damage
+  def damage_=(d: Float) = _damage = d
+}
+
+case class Health(health1: Int, maxHealth1: Int) extends Component {
   private var _health: Int = health1
   private var _maxHealth: Int = maxHealth1
 
@@ -70,6 +74,7 @@ class Life(health1: Int, maxHealth1: Int) extends Component {
   def maxHealth_=(mh: Int) = _maxHealth = mh
 }
 
+case class LifeTime() extends Component
 
 /**
 Bullet
