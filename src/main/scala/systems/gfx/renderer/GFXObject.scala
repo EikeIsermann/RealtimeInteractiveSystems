@@ -1,10 +1,19 @@
 package main.scala.systems.gfx.renderer
 
+import main.scala.systems.gfx.Mesh
+
 /**
  * Created by Eike on 20.03.14.
  */
-trait GFXObject {
+class GFXObject {
 
-  def draw()
-  def light()
+  private val meshName: Symbol = null
+
+
+  def draw() {
+    val mesh  = Mesh.getByName(meshName)
+
+    //TODO: mesh draw
+  }
+  def light() {}
 }
