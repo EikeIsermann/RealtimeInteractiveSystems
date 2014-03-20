@@ -4,6 +4,7 @@ import main.scala.math.Vec3f
 import java.awt.event.{MouseEvent, KeyEvent}
 import main.scala.tools.Sys
 import javax.swing.SwingUtilities
+import org.lwjgl.input.Keyboard
 
 /**
  * Created by Christian Treffs
@@ -24,6 +25,8 @@ object Input {
   def keyDown(key: Int):Boolean = input.lib.isKeyDown(key)
   def keyToggled(key: Int): Boolean = input.lib.isKeyToggled(key)
 
+  def windowSize(dims: (Int, Int)) = input.lib.setWindowSize(dims._1, dims._2)
+
 }
 object MouseButton {
   val Left = MouseEvent.BUTTON1
@@ -31,57 +34,62 @@ object MouseButton {
   val Right = MouseEvent.BUTTON3
 }
 object Key {
-  val _A = KeyEvent.VK_A
-  val _B = KeyEvent.VK_B
-  val _C = KeyEvent.VK_C
-  val _D = KeyEvent.VK_D
-  val _E = KeyEvent.VK_E
-  val _F = KeyEvent.VK_F
-  val _G = KeyEvent.VK_G
-  val _H = KeyEvent.VK_H
-  val _I = KeyEvent.VK_I
-  val _J = KeyEvent.VK_J
-  val _K = KeyEvent.VK_K
-  val _L = KeyEvent.VK_L
-  val _M = KeyEvent.VK_M
-  val _N = KeyEvent.VK_N
-  val _O = KeyEvent.VK_O
-  val _P = KeyEvent.VK_P
-  val _Q = KeyEvent.VK_Q
-  val _R = KeyEvent.VK_R
-  val _S = KeyEvent.VK_S
-  val _T = KeyEvent.VK_T
-  val _U = KeyEvent.VK_U
-  val _V = KeyEvent.VK_V
-  val _W = KeyEvent.VK_W
-  val _X = KeyEvent.VK_X
-  val _Y = KeyEvent.VK_Y
-  val _Z = KeyEvent.VK_Z
+  val _A = Keyboard.KEY_A
+  val _B = Keyboard.KEY_B
+  val _C = Keyboard.KEY_C
+  val _D = Keyboard.KEY_D
+  val _E = Keyboard.KEY_E
+  val _F = Keyboard.KEY_F
+  val _G = Keyboard.KEY_G
+  val _H = Keyboard.KEY_H
+  val _I = Keyboard.KEY_I
+  val _J = Keyboard.KEY_J
+  val _K = Keyboard.KEY_K
+  val _L = Keyboard.KEY_L
+  val _M = Keyboard.KEY_M
+  val _N = Keyboard.KEY_N
+  val _O = Keyboard.KEY_O
+  val _P = Keyboard.KEY_P
+  val _Q = Keyboard.KEY_Q
+  val _R = Keyboard.KEY_R
+  val _S = Keyboard.KEY_S
+  val _T = Keyboard.KEY_T
+  val _U = Keyboard.KEY_U
+  val _V = Keyboard.KEY_V
+  val _W = Keyboard.KEY_W
+  val _X = Keyboard.KEY_X
+  val _Y = Keyboard.KEY_Y
+  val _Z = Keyboard.KEY_Z
 
-  val _1 = KeyEvent.VK_1
-  val _2 = KeyEvent.VK_2
-  val _3 = KeyEvent.VK_3
-  val _4 = KeyEvent.VK_4
-  val _5 = KeyEvent.VK_5
-  val _6 = KeyEvent.VK_6
-  val _7 = KeyEvent.VK_7
-  val _8 = KeyEvent.VK_8
-  val _9 = KeyEvent.VK_9
-  val _0 = KeyEvent.VK_0
+  val _1 = Keyboard.KEY_1
+  val _2 = Keyboard.KEY_2
+  val _3 = Keyboard.KEY_3
+  val _4 = Keyboard.KEY_4
+  val _5 = Keyboard.KEY_5
+  val _6 = Keyboard.KEY_6
+  val _7 = Keyboard.KEY_7
+  val _8 = Keyboard.KEY_8
+  val _9 = Keyboard.KEY_9
+  val _0 = Keyboard.KEY_0
 
-  val Enter = KeyEvent.VK_ENTER
-  val BackSpace = KeyEvent.VK_BACK_SPACE
-  val Tab = KeyEvent.VK_TAB
-  val Command = if(Sys.isMac) KeyEvent.VK_META else if(Sys.isWindows) KeyEvent.VK_WINDOWS else KeyEvent.VK_META
-  val Alt = KeyEvent.VK_ALT
-  val Ctrl = KeyEvent.VK_CONTROL
-  val Space = KeyEvent.VK_SPACE
-  val Shift = KeyEvent.VK_SHIFT
+  val Enter = Keyboard.KEY_RETURN
+  val BackSpace = Keyboard.KEY_BACK
+  val Tab = Keyboard.KEY_TAB
+  val CommandLeft = Keyboard.KEY_LMETA
+  val CommandRight = Keyboard.KEY_RMETA
+  val AltLeft = Keyboard.KEY_LMENU
+  val AltRight = Keyboard.KEY_RMENU
+  val CtrlLeft = Keyboard.KEY_LCONTROL
+  val CtrlRight = Keyboard.KEY_RCONTROL
+  val Space = Keyboard.KEY_SPACE
+  val ShiftLeft = Keyboard.KEY_LSHIFT
+  val ShiftRight = Keyboard.KEY_RSHIFT
 
-  val ArrowUp = KeyEvent.VK_UP
-  val ArrowDown = KeyEvent.VK_DOWN
-  val ArrowLeft = KeyEvent.VK_LEFT
-  val ArrowRight = KeyEvent.VK_RIGHT
+  val ArrowUp = Keyboard.KEY_UP
+  val ArrowDown = Keyboard.KEY_DOWN
+  val ArrowLeft = Keyboard.KEY_LEFT
+  val ArrowRight = Keyboard.KEY_RIGHT
+
 
 
 }

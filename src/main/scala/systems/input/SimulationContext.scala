@@ -49,21 +49,30 @@ class SimulationContext extends Context {
 
   def reset() {  }
 
-  def updateInput(input: Input){
+  def updateInput(){
 
-    if(input.isKeyDown(Keyboard.KEY_W)) {
+    if(Input.keyDown(Key.CommandLeft)) {
+      println("Command/Win left")
+    }
+    if(Input.keyDown(Key.CommandRight)) {
+      println("Command/Win right")
+    }
+
+    println(Keyboard.getKeyName(Keyboard.getEventKey))
+
+    if(Input.keyDown(Key._W)) {
       println("W")
     }
 
-    if(input.isKeyDown(Keyboard.KEY_A)) {
+    if(Input.keyDown(Key._A)) {
       println("A")
     }
 
-    if(input.isKeyDown(Keyboard.KEY_S)) {
+    if(Input.keyDown(Key._S)) {
       println("S")
     }
 
-    if(input.isKeyDown(Keyboard.KEY_D)) {
+    if(Input.keyDown(Key._D)) {
       println("D")
     }
 

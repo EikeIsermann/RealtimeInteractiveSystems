@@ -1,9 +1,9 @@
 package main.scala.app
 
-import ogl.app.{StopWatch, Input}
+import ogl.app.{StopWatch}
 import main.scala.tools.DC
 import org.lwjgl.opengl.GL11._
-import main.scala.systems.input.SimulationContext
+import main.scala.systems.input.{Input, SimulationContext}
 import org.lwjgl.LWJGLException
 import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
 import main.scala.io.{EntityDescLoader, Collada}
@@ -51,7 +51,6 @@ class GameApp {
 
   //var entities: SimulationRegistry = null
   var context: SimulationContext = null
-  var input: Input = null
   var time: StopWatch = null
 
 
@@ -135,7 +134,8 @@ class GameApp {
     EntityDescLoader.load("src/main/resources/entities/")
 
 
-    input = new Input
+    Input.init()
+
     time = new StopWatch()
 
 
@@ -168,9 +168,10 @@ class GameApp {
       //input.update()
       Display.sync(prefferedFPS)
 
-      input.setWindowSize(Display.getWidth, Display.getHeight)
+      Input.update()
+      Input.windowSize(Display.getWidth, Display.getHeight)
 
-      simulate(time.elapsed, input)
+      simulate(time.elapsed)
 
       display(Display.getWidth, Display.getHeight)
 
@@ -180,11 +181,11 @@ class GameApp {
     close()
   }
 
-  def simulate(elapsed: Float, input: Input): Unit = {
+  def simulate(elapsed: Float): Unit = {
 
     // INPUT
     // update user input
-    context.updateInput(input)
+    context.updateInput()
 
 
     // PHYSICS
