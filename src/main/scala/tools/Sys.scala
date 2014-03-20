@@ -7,18 +7,19 @@ package main.scala.tools
 object Sys {
 
 
-  def os: Symbol = {
-    val os = System.getProperty("os.name")
-    Symbol(os.toLowerCase)
+  def os: String = System.getProperty("os.name").toLowerCase
 
-  }
-
-  def isMac: Boolean = false
-  def isWindows: Boolean = false
-  def isLinux: Boolean = false
+  def isMac: Boolean = os.indexOf("mac") >= 0
+  def isWindows: Boolean = os.indexOf("win") >= 0
+  def isUnix: Boolean = os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0
+  def isSolaris: Boolean = os.indexOf("sunos") >= 0
 
 
-   def main() {
+   def main(args: Array[String]) {
      println(Sys.os)
+     println(Sys.isMac)
+     println(Sys.isWindows)
+     println(Sys.isUnix)
+     println(Sys.isSolaris)
    }
 }
