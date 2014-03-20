@@ -15,6 +15,8 @@ import scala.xml.NodeSeq
  */
 trait Component /*extends ObservingActor*/ {
 
-  def fromXML(xml: NodeSeq)
-  def toXML(): NodeSeq
+  def toXML: NodeSeq
+}
+trait ComponentCreator {
+  def fromXML(xml: NodeSeq): Component
 }

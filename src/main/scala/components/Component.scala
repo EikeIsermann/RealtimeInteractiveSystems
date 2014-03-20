@@ -1,9 +1,8 @@
 package main.scala.components
 
-import main.scala.architecture.Component
+import main.scala.architecture.{ComponentCreator, Component}
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.{Shader, Mesh}
-import main.scala.entities.Entity
 import scala.xml.NodeSeq
 
 /**
@@ -12,8 +11,17 @@ import scala.xml.NodeSeq
  */
 object Component {
 
+
+
+
 }
 
+object Position extends ComponentCreator {
+  def fromXML(xml: NodeSeq): Component = {
+    val pos = xml.head
+    new Position(Vec3f(pos.attribute("x").get.text.toFloat,pos.attribute("y").get.text.toFloat, pos.attribute("z").get.text.toFloat))
+  }
+}
 case class Position(x1: Float, y1: Float, z1: Float) extends Component {
   def this(pos: Vec3f) = this(pos.x, pos.y, pos.z)
 
@@ -22,13 +30,7 @@ case class Position(x1: Float, y1: Float, z1: Float) extends Component {
   def vec: Vec3f = _vector
   def vec_=(v: Vec3f) = _vector = v
 
-  override def toXML(): NodeSeq = <position x={vec.x} y={vec.y} z={vec.z} />
-
-  override def fromXML(xml: NodeSeq): Unit = {
-    xml foreach(pos => {
-      vec = Vec3f(pos.attribute("x").get.text.toFloat,pos.attribute("y").get.text.toFloat, pos.attribute("z").get.text.toFloat)
-    })
-  }
+  override def toXML: NodeSeq = <position x={vec.x} y={vec.y} z={vec.z} />
 }
 
 case class Display(mesh1: Mesh, shader1: Shader) extends Component {
@@ -41,11 +43,16 @@ case class Display(mesh1: Mesh, shader1: Shader) extends Component {
   def shader: Shader = _shader
   def shader_=(s: Shader) = _shader = s
 
-  override def toXML(): NodeSeq = ???
+  override def toXML: NodeSeq = ???
 
-  override def fromXML(xml: NodeSeq): Unit = ???
 }
 
+object Ammo extends ComponentCreator {
+  def fromXML(xml: NodeSeq): Component = {
+    val a = xml.head
+    new Ammo(a.attribute("start").get.text.toInt, a.attribute("max").get.text.toInt)
+  }
+}
 case class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   private var _ammo: Int = ammo1
   private var _maxAmmo: Int = maxAmmo1
@@ -56,16 +63,7 @@ case class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   def maxAmmo: Int = _maxAmmo
   def maxAmmo_=(a: Int) = _maxAmmo = a
 
-  override def toXML(): NodeSeq = <ammo start={ammo} max={maxAmmo} />
-
-  override def fromXML(xml: NodeSeq): Unit = {
-    xml map{
-      a => {
-        ammo = a.attribute("start").get.text.toInt
-        maxAmmo = a.attribute("max").get.text.toInt
-      }
-    }
-  }
+  override def toXML: NodeSeq = <ammo start={ammo} max={maxAmmo} />
 }
 
 case class Gun(lifetimeProjectile1: Long, coolDown1: Long, timeOfLastShot1: Long = 0) extends Component {
@@ -82,9 +80,9 @@ case class Gun(lifetimeProjectile1: Long, coolDown1: Long, timeOfLastShot1: Long
   def timeOfLastShot: Long = _timeOfLastShot
   def timeOfLastShot_=(t: Long) = _timeOfLastShot = t
 
-  override def toXML(): NodeSeq = ???
+  override def toXML: NodeSeq = ???
 
-  override def fromXML(xml: NodeSeq): Unit = ???
+  
 }
 
 case class Projectile(damage1: Float) extends Component {
@@ -92,11 +90,17 @@ case class Projectile(damage1: Float) extends Component {
   def damage: Float = _damage
   def damage_=(d: Float) = _damage = d
 
-  override def toXML(): NodeSeq = ???
+  override def toXML: NodeSeq = ???
 
-  override def fromXML(xml: NodeSeq): Unit = ???
+  
 }
 
+object Health extends ComponentCreator {
+  override def fromXML(xml: NodeSeq): Component = {
+    val h = xml.head
+    new Health(h.attribute("start").get.text.toInt, h.attribute("max").get.text.toInt)
+  }
+}
 case class Health(health1: Int, maxHealth1: Int) extends Component {
   private var _health: Int = health1
   private var _maxHealth: Int = maxHealth1
@@ -107,24 +111,15 @@ case class Health(health1: Int, maxHealth1: Int) extends Component {
   def maxHealth: Int = _maxHealth
   def maxHealth_=(mh: Int) = _maxHealth = mh
 
-  override def toXML(): NodeSeq = <health start={health} max={maxHealth} />
-
-  override def fromXML(xml: NodeSeq): Unit = {
-    xml map {
-      h => {
-        health = h.attribute("start").get.text.toInt
-        maxHealth = h.attribute("max").get.text.toInt
-      }
-    }
-  }
+  override def toXML: NodeSeq = <health start={health} max={maxHealth} />
 }
 
 case class LifeTime() extends Component{
   //TODO
 
-  override def toXML(): NodeSeq = ???
+  override def toXML: NodeSeq = ???
 
-  override def fromXML(xml: NodeSeq): Unit = ???
+  
 }
 
 case class Camera(fieldOfView1: Float, active1: Boolean = true) extends Component {
@@ -137,27 +132,27 @@ case class Camera(fieldOfView1: Float, active1: Boolean = true) extends Componen
   def active: Boolean = _active
   def active_=(state: Boolean) = _active = state
 
-  override def toXML(): NodeSeq = ???
+  override def toXML: NodeSeq = ???
 
-  override def fromXML(xml: NodeSeq): Unit = ???
+  
 }
 
 case class Light() extends Component{
-  override def toXML(): NodeSeq = ???
+  override def toXML: NodeSeq = ???
 
-  override def fromXML(xml: NodeSeq): Unit = ???
+  
 } //TODO
 
 case class KeyControl() extends Component{
-  override def toXML(): NodeSeq = ???
+  override def toXML: NodeSeq = ???
 
-  override def fromXML(xml: NodeSeq): Unit = ???
+  
 } //TODO
 
 case class MouseControl() extends Component{
-  override def toXML(): NodeSeq = ???
+  override def toXML: NodeSeq = ???
 
-  override def fromXML(xml: NodeSeq): Unit = ???
+  
 } //TODO
 /**
 Bullet

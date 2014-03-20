@@ -7,6 +7,7 @@ import main.scala.io.FileIO
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.Mesh
 import scala.collection.mutable.ListBuffer
+import main.scala.components.Position
 
 
 /**
@@ -96,6 +97,8 @@ object EntityDescLoader {
 
 
   def parseTransformation(trafo: NodeSeq): (Vec3f, Vec3f, Vec3f) = {
+
+
 
     val pos = trafo \ "position"
     val position = Vec3f((pos \ "@x").text.toFloat, (pos \ "@y").text.toFloat, (pos \ "@z").text.toFloat)
