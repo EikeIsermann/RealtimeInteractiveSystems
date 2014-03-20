@@ -50,6 +50,7 @@ object EntityDescLoader {
         val meshNames = parseMeshes(Symbol(name), attrs \\ "meshes")
 
 
+
         // TODO: GFX Object
 
       })
