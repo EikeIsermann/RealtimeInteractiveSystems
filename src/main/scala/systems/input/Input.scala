@@ -1,7 +1,9 @@
 package main.scala.systems.input
 
 import main.scala.math.Vec3f
-import java.awt.event.KeyEvent
+import java.awt.event.{MouseEvent, KeyEvent}
+import main.scala.tools.Sys
+import javax.swing.SwingUtilities
 
 /**
  * Created by Christian Treffs
@@ -22,14 +24,11 @@ object Input {
   def keyDown(key: Int):Boolean = input.lib.isKeyDown(key)
   def keyToggled(key: Int): Boolean = input.lib.isKeyToggled(key)
 
-
-
-
-
-
 }
-object MouseKey {
-
+object MouseButton {
+  val Left = MouseEvent.BUTTON1
+  val Middle = MouseEvent.BUTTON2
+  val Right = MouseEvent.BUTTON3
 }
 object Key {
   val _A = KeyEvent.VK_A
@@ -73,7 +72,16 @@ object Key {
   val Enter = KeyEvent.VK_ENTER
   val BackSpace = KeyEvent.VK_BACK_SPACE
   val Tab = KeyEvent.VK_TAB
-  val Command = null
+  val Command = if(Sys.isMac) KeyEvent.VK_META else if(Sys.isWindows) KeyEvent.VK_WINDOWS else KeyEvent.VK_META
+  val Alt = KeyEvent.VK_ALT
+  val Ctrl = KeyEvent.VK_CONTROL
+  val Space = KeyEvent.VK_SPACE
+  val Shift = KeyEvent.VK_SHIFT
+
+  val ArrowUp = KeyEvent.VK_UP
+  val ArrowDown = KeyEvent.VK_DOWN
+  val ArrowLeft = KeyEvent.VK_LEFT
+  val ArrowRight = KeyEvent.VK_RIGHT
 
 
 }
