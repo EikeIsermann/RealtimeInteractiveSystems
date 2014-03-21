@@ -1,6 +1,7 @@
 package main.scala.architecture
 
 import scala.collection.mutable.ArrayBuffer
+import main.scala.event.{ComponentRemovedMessage, ObservingActor}
 
 /**
  * Created by Christian Treffs
@@ -9,7 +10,7 @@ import scala.collection.mutable.ArrayBuffer
  *
  * Entities are buckets that hold components
  */
-trait Entity {
+trait Entity extends ObservingActor {
 
 
   private val _components: ArrayBuffer[Component] = ArrayBuffer.empty[Component]
@@ -27,12 +28,15 @@ trait Entity {
   def -=(component: Component): Entity = {
     //TODO: send removed component message
     _components -= component
+    //sender ! (new ComponentRemovedMessage(this, component))
     this
   }
 
   def has(componentClass: Class[_ <: Component]): Boolean = {
     !components(componentClass).isEmpty
   }
+
+
 
 
 }

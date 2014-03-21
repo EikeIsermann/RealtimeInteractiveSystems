@@ -5,14 +5,13 @@ import scala.collection.mutable
 /**
  * Created by Eike on 20.03.14.
  */
-trait Family {
+class Family(val nodeClass: Class[_ <: Node]) {
 
-  protected var _entities: mutable.HashMap[Entity, Node]
-  val nodeClass : Class[_ <: Node]
- protected val components: mutable.ListBuffer[Class[_ <: Component]]
+ protected var _entities: mutable.HashMap[Entity, Node] = new mutable.HashMap[Entity, Node]
+ protected val components: mutable.ListBuffer[Class[_ <: Component]] = new mutable.ListBuffer[Class[_ <: Component]]
 
   def entities = _entities
-
+  def nodes = _entities.values
   def addIfMatch(entity: Entity){
     if (!_entities.contains(entity)){
       for(componentClass <- components){
@@ -29,7 +28,11 @@ trait Family {
   }
 
   def componentRemoved(entity : Entity , componentClass : Class[_ <: Component] ) : Unit = {
-    if(components.contains(componentClass) && entities.contains(entity)) entities.-(entity)
+    if(components.contains(componentClass) && entities.contains(entity)) entities.remove(entity)
+}
+
+  def remove(entity: Entity){
+    entities.remove(entity)
   }
 
- }
+}

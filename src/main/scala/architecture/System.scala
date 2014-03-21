@@ -15,10 +15,21 @@ import main.scala.event.ObservingActor
  */
 trait System /*extends ObservingActor*/ {
 
+  var priority = 0
+
   def init(): System
 
   def update(context: Context): System
   def update(nodeType: Class[_ <: Node], context: Context): System
+
+}
+
+object System {
+ val Pre_Update = 1;
+ val Update = 2;
+ val Move = 3;
+ val ResolveCollisions = 4;
+ val Render = 5;
 
 }
 
