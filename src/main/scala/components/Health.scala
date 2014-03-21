@@ -23,5 +23,6 @@ case class Health(health1: Int, maxHealth1: Int) extends Component {
   def maxHealth: Int = _maxHealth
   def maxHealth_=(mh: Int) = _maxHealth = mh
 
-  override def toXML: NodeSeq = <health start={health} max={maxHealth} />
+//  override def toXML: NodeSeq = <health start={health} max={maxHealth} />
+  override def toXML: NodeSeq = ???
 }

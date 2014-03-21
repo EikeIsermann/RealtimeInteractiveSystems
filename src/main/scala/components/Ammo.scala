@@ -23,5 +23,6 @@ case class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   def maxAmmo: Int = _maxAmmo
   def maxAmmo_=(a: Int) = _maxAmmo = a
 
-  override def toXML: NodeSeq = <ammo start={ammo} max={maxAmmo} />
+  override def toXML: NodeSeq = ???
+//  override def toXML: NodeSeq = <ammo start={ammo} max={maxAmmo} />
 }

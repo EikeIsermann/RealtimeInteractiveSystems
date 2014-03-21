@@ -2,6 +2,8 @@ package main.scala.entities
 
 import main.scala.components.Position
 import main.scala.architecture.Component
+import scala.collection._
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -9,14 +11,30 @@ import main.scala.architecture.Component
  */
 
 object Entity {
-  def create: Entity = new Entity
-  def createWith(components: Component*): Entity = {
-    val e = new Entity
+
+
+  def create(name: String): Entity = new Entity(name)
+  def createWith(name: String, components: Component*): Entity = {
+    val e = create(name)
     components.foreach(e.add)
     e
   }
 }
 
-class Entity extends main.scala.architecture.Entity {
+class Entity(name1: String) extends main.scala.architecture.Entity {
+  private val _identifier: Identifier = Identifier.create(name1)
+
+
+  def id: Long = _identifier.id
+  def name: String = _identifier.name
+  def identifier: Identifier = _identifier
+
+  def equals(e: Entity): Boolean = this.==(e)
+  def ==(e: Entity): Boolean = {
+    if(e.identifier == this.identifier) true
+    else false
+  }
+
+  override def toString: String = "[Entity] "+identifier.toString
 
 }

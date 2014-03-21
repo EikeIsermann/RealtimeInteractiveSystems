@@ -2,6 +2,7 @@ package main.scala.systems.gfx
 
 import main.scala.architecture.Component
 import main.scala.systems.input.Context
+import scala.xml.NodeSeq
 
 
 /**
@@ -9,9 +10,5 @@ import main.scala.systems.input.Context
  * Date: 14.03.14 17:47
  */
 class GFXComponent extends Component  {
-  override def deinit(): Unit = ???
-
-  override def update(context: Context): Unit = ???
-
-  override def init(): Component = ???
+  override def toXML: NodeSeq = ???
 }

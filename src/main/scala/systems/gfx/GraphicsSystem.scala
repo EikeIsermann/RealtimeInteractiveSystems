@@ -9,15 +9,9 @@ import main.scala.systems.input.Context
  * Date: 14.03.14 18:33
  */
 class GraphicsSystem extends System {
-  override def update(context: Context): Unit = ???
+  override def update(nodeType: Class[_ <: Node], context: Context): System = ???
 
-  override def -=(component: Component): System = ???
+  override def update(context: Context): System = ???
 
-  override def +=(component: Component): System = ???
-
-  /**
-   * init the system
-   * @return
-   */
   override def init(): System = ???
 }

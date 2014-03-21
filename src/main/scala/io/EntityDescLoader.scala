@@ -3,7 +3,6 @@ package main.scala.io
 import main.scala.architecture.Entity
 import scala.xml.{Node, NodeSeq, XML, Elem}
 import java.io.File
-import main.scala.io.FileIO
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.Mesh
 import scala.collection.mutable.ListBuffer

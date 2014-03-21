@@ -3,20 +3,22 @@ package main.scala.components
 import main.scala.systems.gfx.{Shader, Mesh}
 import main.scala.architecture.Component
 import scala.xml.NodeSeq
+import main.scala.math.Vec3f
 
 /**
  * Created by Christian Treffs
  * Date: 21.03.14 00:45
  */
-case class Display(mesh1: Mesh, shader1: Shader) extends Component {
-  private var _mesh: Mesh = mesh1
-  private var _shader: Shader = shader1
+case class Display(meshId1: Symbol, shaderId1: Symbol) extends Component {
 
-  def mesh: Mesh = _mesh
-  def mesh_=(m: Mesh) = _mesh = m
+  private var _meshId: Symbol = meshId1
+  private var _shaderId: Symbol = shaderId1
 
-  def shader: Shader = _shader
-  def shader_=(s: Shader) = _shader = s
+  def meshId: Symbol = _meshId
+  def meshId_=(m: Symbol) = _meshId = m
+
+  def shaderId: Symbol = _shaderId
+  def shaderId_=(s: Symbol) = _shaderId = s
 
   override def toXML: NodeSeq = ???
 

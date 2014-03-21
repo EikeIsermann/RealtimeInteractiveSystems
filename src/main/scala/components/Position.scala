@@ -23,5 +23,6 @@ case class Position(x1: Float, y1: Float, z1: Float) extends Component {
   def vec: Vec3f = _vector
   def vec_=(v: Vec3f) = _vector = v
 
-  override def toXML: NodeSeq = <position x={vec.x} y={vec.y} z={vec.z} />
+  //override def toXML: NodeSeq = {<position x={vec.x} y={vec.y} z={vec.z} />}
+  override def toXML: NodeSeq = ???
 }
