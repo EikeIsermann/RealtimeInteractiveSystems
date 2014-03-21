@@ -12,3 +12,7 @@ object Actors {
 
   def init[T <: Actor: ClassTag](toBeActor: T) = actorSystem.actorOf(Props(toBeActor))
 }
+
+trait ActorsInterface {
+  final def actorRef: ActorRef = Actors.init(this)
+}

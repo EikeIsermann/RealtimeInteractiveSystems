@@ -1,7 +1,7 @@
 package main.scala.entities
 
 import main.scala.architecture.Component
-import main.scala.tools.{DC, Actors, Identifier}
+import main.scala.tools.{ActorsInterface, DC, Actors, Identifier}
 import main.scala.event.Message
 
 /**
@@ -18,8 +18,7 @@ object Entity {
   }
 }
 
-class Entity(name1: String) extends main.scala.architecture.Entity {
-  val actorRef = Actors.init(this)
+class Entity(name1: String) extends main.scala.architecture.Entity with ActorsInterface{
 
   private val _identifier: Identifier = Identifier.create(name1)
   def id: Long = _identifier.id
