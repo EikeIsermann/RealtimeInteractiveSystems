@@ -20,7 +20,7 @@ trait System /*extends ObservingActor*/ {
   def init(): System
 
   def update(context: Context): System
-  def update(nodeType: Class[_ <: Node], context: Context): System
+  //def update(nodeType: Class[_ <: Node], context: Context): System
 
 }
 
