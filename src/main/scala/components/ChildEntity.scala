@@ -11,6 +11,6 @@ import scala.xml.NodeSeq
 object ChildEntity extends ComponentCreator{
   override def fromXML(xml: NodeSeq): Component = ???
 }
-case class ChildEntity(identifier: Identifier)  extends Component {
+case class ChildEntity(childIdentifier: Identifier)  extends Component {
   override def toXML: NodeSeq = ???
 }

@@ -13,6 +13,6 @@ import main.scala.tools.Identifier
 object ParentEntity extends ComponentCreator{
   override def fromXML(xml: NodeSeq): Component = ???
 }
-case class ParentEntity(identifier: Identifier) extends Component{
+case class ParentEntity(parentIdentifier: Identifier) extends Component{
   override def toXML: NodeSeq = ???
 }

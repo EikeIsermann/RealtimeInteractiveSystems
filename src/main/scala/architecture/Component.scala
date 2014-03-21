@@ -3,6 +3,7 @@ package main.scala.architecture
 import main.scala.event.ObservingActor
 import main.scala.systems.input.Context
 import scala.xml.NodeSeq
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -14,6 +15,9 @@ import scala.xml.NodeSeq
  *
  */
 trait Component /*extends ObservingActor*/ {
+  private val _identifier: Identifier = Identifier.create(this.getClass.getSimpleName)
+
+  def identifier: Identifier = _identifier
 
   def toXML: NodeSeq
 }

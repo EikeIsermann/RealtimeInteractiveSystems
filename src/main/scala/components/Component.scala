@@ -11,6 +11,15 @@ import scala.xml.NodeSeq
  */
 object Component {
 
+  def main(args: Array[String]) {
+
+    val a = new Ammo(10, 100)
+    val b = new Ammo(10, 100)
+    println(
+      a.identifier,
+      b.identifier
+    )
+  }
 
 
 
