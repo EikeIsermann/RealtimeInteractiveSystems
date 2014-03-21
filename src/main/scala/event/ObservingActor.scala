@@ -49,10 +49,14 @@ trait ObservingActor extends Actor {
      * publish signal changes to the observers
      */
     case PublishSignalValueUpdate(signal, value) => activeSignals.get(signal).collect {
-      case func: (Any => Unit)  => func.apply(value)
+      case func: (Any => Unit)  => {
+
+        func.apply(value)
+      }
       case _ => throw new IllegalArgumentException("can not apply function to the signal")
     }
 
+    //case ReceiveSignalUpdates(signalType, observer) => activeSignals.keys.filter(_.getClass.equals(signalType)).foreach(_.registerObserver(observer))
 
     /**
      * handle unknown message
@@ -65,6 +69,8 @@ trait ObservingActor extends Actor {
     throw new IllegalArgumentException("received unknown message '"+msg+"'")
   }
 
+
+  //protected def runThisShit[T](signal: Signal[T])
 }
 
 

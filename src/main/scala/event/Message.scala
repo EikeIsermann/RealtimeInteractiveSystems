@@ -40,5 +40,8 @@ case class UpdateSignalValue[T](signal: Signal[T], value: T) extends Message
 case class PublishSignalValueUpdate[T](signal: Signal[T], value: T) extends Message
 
 
+case class ReceiveSignalUpdates[T](signalType: T, implicit val observer: ActorRef) extends Message
+
+
 
 

@@ -9,31 +9,7 @@ import scala.xml.NodeSeq
  * Created by Christian Treffs
  * Date: 20.03.14 21:08
  */
-object Component {
-
-  def main(args: Array[String]) {
-
-    val a = new Ammo(10, 100)
-    val b = new Ammo(10, 100)
-    println(
-      a.identifier,
-      b.identifier
-    )
-  }
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
+object Component
 
 /**
 Bullet
