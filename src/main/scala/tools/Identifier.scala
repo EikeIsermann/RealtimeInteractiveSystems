@@ -24,9 +24,6 @@ object Identifier {
 }
 sealed case class Identifier(name: String, id: Long) {
   def equals(i: Identifier): Boolean = this.==(i)
-  def ==(e: Identifier): Boolean = {
-    if(e.id == this.id && e.name == this.name) true
-    else false
-  }
+  def ==(e: Identifier): Boolean = e.id == this.id && e.name == this.name
   override def toString: String = name+":"+id
 }
