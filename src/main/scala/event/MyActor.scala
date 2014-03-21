@@ -1,9 +1,6 @@
 package main.scala.event
 
 import akka.actor._
-import akka.actor.Actor.Receive
-import main.scala.event.TestMessage
-import main.scala.event.TestMessage
 
 
 /**
