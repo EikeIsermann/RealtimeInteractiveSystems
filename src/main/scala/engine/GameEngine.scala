@@ -1,9 +1,6 @@
 package main.scala.engine
 
 import main.scala.architecture.Engine
-import main.scala.event._
-import akka.actor.Actor
-import main.scala.tools.ActorsInterface
 import ogl.app.StopWatch
 import main.scala.tools.{GameConsole, DC}
 import org.lwjgl.opengl.GL11._
@@ -17,7 +14,7 @@ import main.scala.systems.gfx.{Shader, Mesh}
  * Created by Christian Treffs
  * Date: 14.03.14 18:34
  */
-object GameEngine extends Engine with Actor with ActorsInterface {
+object GameEngine extends Engine {
 
   // set debug level
   DC.debugLevel = 0
@@ -191,10 +188,10 @@ object GameEngine extends Engine with Actor with ActorsInterface {
   }
 
 
-  override def receive: Receive = {
+  /*override def receive: Receive = {
     case ComponentAdded(entity) => componentAdded(entity)
     case ComponentRemoved(entity) => //TODO
-  }
+  } */
 
 
   //TODO: to be done in the physics system

@@ -1,8 +1,7 @@
 package main.scala.entities
 
 import main.scala.architecture.Component
-import main.scala.tools.{ActorsInterface, DC, Identifier}
-import main.scala.event.Message
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -18,7 +17,7 @@ object Entity {
   }
 }
 
-class Entity(name1: String) extends main.scala.architecture.Entity with ActorsInterface{
+class Entity(name1: String) extends main.scala.architecture.Entity {
 
   private val _identifier: Identifier = Identifier.create(name1)
   def id: Long = _identifier.id
@@ -28,7 +27,7 @@ class Entity(name1: String) extends main.scala.architecture.Entity with ActorsIn
   def ==(e: Entity): Boolean = e.identifier == this.identifier
   override def toString: String = "[Entity] "+identifier.toString
 
-  override def receive: Receive = {
+  /*override def receive: Receive = {
     case m:Message => DC.log(this+" received", m)
-  }
+  } */
 }

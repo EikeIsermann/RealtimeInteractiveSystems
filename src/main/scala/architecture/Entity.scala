@@ -1,9 +1,6 @@
 package main.scala.architecture
 
 import scala.collection.mutable.ArrayBuffer
-import main.scala.event._
-import akka.actor.Actor
-import main.scala.engine.GameEngine
 
 /**
  * Created by Christian Treffs
@@ -12,7 +9,7 @@ import main.scala.engine.GameEngine
  *
  * Entities are buckets that hold components
  */
-trait Entity extends Actor {
+trait Entity {
 
 
   private val _components: ArrayBuffer[Component] = ArrayBuffer.empty[Component]
@@ -22,13 +19,15 @@ trait Entity extends Actor {
 
   def add(component: Component): Entity = this.+=(component)
   def +=(component: Component): Entity = {
-    GameEngine.actorRef ! ComponentAdded(this)
+    //TODO MESSAGE
+    //GameEngine.actorRef ! ComponentAdded(this)
     this
   }
   def remove(component: Component): Entity = this.-=(component)
   def -=(component: Component): Entity = {
     _components -= component
-    GameEngine.actorRef ! ComponentRemoved(this)
+    //TODO MESSAGE
+    //GameEngine.actorRef ! ComponentRemoved(this)
     this
   }
 

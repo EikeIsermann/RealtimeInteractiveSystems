@@ -5,9 +5,9 @@ import main.scala.architecture._
 import main.scala.systems.input.Context
 import main.scala.engine.GameEngine
 import main.scala.nodes.RenderNode
-import scala.collection.mutable.ListBuffer
 import main.scala.components.{Display, Position}
 import main.scala.math.Mat4f
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs
@@ -17,13 +17,13 @@ class RenderingSystem extends System {
 
 
   override def update(context: Context): System = {
-   var nodes = GameEngine.getNodeList(classOf[RenderNode])
+    val nodes = GameEngine.getNodeList(classOf[RenderNode])
    for (node <- nodes){
-     var position: Position = node -> (classOf[Position])
-     var display: Display = node -> (classOf[Display])
-     var mesh = Mesh.getByName(display.meshId)
+     val position: Position = node -> classOf[Position]
+     val display: Display = node -> classOf[Display]
+     val mesh = Mesh.getByName(display.meshId)
      //TODO
-     var shader = Mesh.defaultShader
+     val shader = Mesh.defaultShader
      mesh.draw(shader, Mat4f.translation(position.vec), shader.defaultView, shader.defaultProjection)
    }
 
@@ -31,5 +31,8 @@ class RenderingSystem extends System {
    this
   }
 
-  override def init(): System = ???
+  override def init(): System = {
+    DC.log("Rendering System initialized")
+    this
+  }
 }
