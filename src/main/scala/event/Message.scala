@@ -47,4 +47,7 @@ case class ReceiveSignalUpdates[T](signalType: T, implicit val observer: ActorRe
 
 
 
+case class ComponentAdded(entity: Entity) extends Message
+case class ComponentRemoved(entity: Entity) extends Message
+
 

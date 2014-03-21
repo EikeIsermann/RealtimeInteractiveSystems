@@ -1,7 +1,9 @@
 package main.scala.architecture
 
 import scala.collection.mutable.ArrayBuffer
-import main.scala.event.{ComponentRemovedMessage, ObservingActor}
+import main.scala.event._
+import akka.actor.Actor
+import main.scala.engine.GameEngine
 
 /**
  * Created by Christian Treffs
@@ -10,7 +12,7 @@ import main.scala.event.{ComponentRemovedMessage, ObservingActor}
  *
  * Entities are buckets that hold components
  */
-trait Entity extends ObservingActor {
+trait Entity extends Actor {
 
 
   private val _components: ArrayBuffer[Component] = ArrayBuffer.empty[Component]
@@ -20,15 +22,13 @@ trait Entity extends ObservingActor {
 
   def add(component: Component): Entity = this.+=(component)
   def +=(component: Component): Entity = {
-    //TODO: send add component message
-    _components += component
+    GameEngine.actorRef ! ComponentAdded(this)
     this
   }
   def remove(component: Component): Entity = this.-=(component)
   def -=(component: Component): Entity = {
-    //TODO: send removed component message
     _components -= component
-    //sender ! (new ComponentRemovedMessage(this, component))
+    GameEngine.actorRef ! ComponentRemoved(this)
     this
   }
 

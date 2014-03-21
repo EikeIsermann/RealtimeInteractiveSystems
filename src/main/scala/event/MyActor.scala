@@ -34,6 +34,8 @@ object MyActor {
     val a = sys.actorOf(Props(new A))
     val b = sys.actorOf(Props(new B))
 
+
+
     a ! TestMessage("Hello A")
 
     b ! TestMessage("Hello B")

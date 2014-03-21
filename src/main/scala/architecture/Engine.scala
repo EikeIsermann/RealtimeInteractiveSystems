@@ -3,13 +3,16 @@ package main.scala.architecture
 import main.scala.systems.input.Context
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable
+import akka.actor.{ActorSystem, Actor}
+import akka.actor.Actor.Receive
+import main.scala.event.ComponentAdded
+import scala.swing.event.ComponentRemoved
 
 /**
  * Created by Christian Treffs
  * Date: 14.03.14 18:16
  */
 
-// TODO Messaging!
 trait Engine {
 
   private val _entities:mutable.HashMap[Class[_ <: Entity], Entity] = new mutable.HashMap[Class[_ <: Entity], Entity]
@@ -60,7 +63,7 @@ trait Engine {
 
   def getSystem(systemClass : Class[_ <: System]) = systems.apply(systemClass)
 
-  def componentAdded(entity: Entity, componentClass : Class[_ <: Component]){
+  def componentAdded(entity: Entity){
     for(family <- families.values) family.addIfMatch(entity)
   }
 
@@ -90,6 +93,4 @@ trait Engine {
     systems.values.foreach(_.update(context))
     this
   }
-
-
 }
