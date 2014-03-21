@@ -11,6 +11,7 @@ import scala.collection.mutable.ArrayBuffer
  */
 trait Entity {
 
+
   private val _components: ArrayBuffer[Component] = ArrayBuffer.empty[Component]
 
   def components: Array[Component] = _components.toArray
@@ -28,5 +29,10 @@ trait Entity {
     _components -= component
     this
   }
+
+  def has(componentClass: Class[_ <: Component]): Boolean = {
+    !components(componentClass).isEmpty
+  }
+
 
 }

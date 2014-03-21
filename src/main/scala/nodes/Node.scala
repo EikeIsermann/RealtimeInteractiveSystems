@@ -1,7 +1,8 @@
 package main.scala.nodes
 
-import main.scala.architecture.Node
+import main.scala.architecture.{Component, Node}
 import main.scala.components.{Display, Position}
+import scala.collection.mutable
 
 /**
  * Created by Christian Treffs
@@ -11,7 +12,9 @@ object Node {
 
 }
 
-case class RenderNode(position: Position, display: Display) extends Node
+case class RenderNode(position: Position, display: Display) extends Node{
+  override var components: mutable.HashMap[Class[_ <: Component], Component] = _
+}
 
 
 

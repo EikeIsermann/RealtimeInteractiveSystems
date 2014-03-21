@@ -11,14 +11,15 @@ trait Engine {
 
   private val _entities: ArrayBuffer[Entity] = ArrayBuffer.empty[Entity]
   private val _systems: ArrayBuffer[System] = ArrayBuffer.empty[System]
+  private val _families: ArrayBuffer[Family] = ArrayBuffer.empty[Family]
 
 
   def init(): Engine
-
   def mainLoop(): Unit
 
   def entities: Array[Entity] = _entities.toArray
   def systems: Array[System] = _systems.toArray
+  def families: Array[Family] = _families.toArray
 
   def add(entity: Entity): Engine = this.+=(entity)
   def += (entity: Entity): Engine = {
@@ -50,4 +51,6 @@ trait Engine {
     _systems.foreach(_.update(context))
     this
   }
+
+
 }
