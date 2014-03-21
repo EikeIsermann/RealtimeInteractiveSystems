@@ -12,6 +12,7 @@ class Family(val nodeClass: Class[_ <: Node]) {
 
   def entities = _entities
   def nodes = _entities.values
+
   def addIfMatch(entity: Entity){
     if (!_entities.contains(entity)){
       for(componentClass <- components){

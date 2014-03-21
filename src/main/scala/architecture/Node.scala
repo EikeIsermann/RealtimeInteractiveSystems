@@ -8,6 +8,13 @@ import scala.collection.mutable
  *
  * A Node is a combination of one or more Components.
  */
-trait Node {
-  var components:  mutable.HashMap[Class[_ <: Component], Component]
+abstract class Node[T <: Component](args: T*) {
+  var components:  mutable.HashMap[Class[_ <: Component], Component] = new  mutable.HashMap[Class[_ <: Component], Component]
+  for(comp <- args){
+    components.put(comp.getClass, comp)
+  }
+
+  def -> [T <: Component](c: Class[T]): T = {
+    components.apply(c).asInstanceOf[T]
+  }
 }

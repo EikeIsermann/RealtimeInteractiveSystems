@@ -8,13 +8,6 @@ import scala.collection.mutable
  * Created by Christian Treffs
  * Date: 20.03.14 21:17
  */
-object Node {
-
-}
-
-case class RenderNode(position: Position, display: Display) extends Node{
-  override var components: mutable.HashMap[Class[_ <: Component], Component] = _
-}
 
 
 
