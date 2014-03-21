@@ -1,6 +1,6 @@
 package main.scala.engine
 
-import main.scala.architecture.Engine
+import main.scala.architecture.{Family, Engine}
 import ogl.app.StopWatch
 import main.scala.tools.{GameConsole, DC}
 import org.lwjgl.opengl.GL11._
@@ -8,7 +8,10 @@ import main.scala.systems.input.{Input, SimulationContext}
 import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
 import main.scala.io.EntityDescLoader
 import main.scala.math.Mat4f
-import main.scala.systems.gfx.{Shader, Mesh}
+import main.scala.systems.gfx.{RenderingSystem, Shader, Mesh}
+import main.scala.entities.Entity
+import main.scala.components.Position
+import main.scala.nodes.RenderNode
 
 /**
  * Created by Christian Treffs
@@ -131,7 +134,19 @@ object GameEngine extends Engine {
     Collada.load(colladaFiles)
                                                          */
     EntityDescLoader.load(entitiesDir)
-
+    var testEntity = Entity.create("Testwurst");
+    var pos = new Position(0,0,100)
+    var display = new main.scala.components.Display('ChassisBody, 'wurst)
+    testEntity.add(pos)
+    testEntity.add(display)
+    for(comp <- testEntity.components) DC.log("Test" + comp.toString)
+    var fam = new Family(classOf[RenderNode])
+    fam.components.+=(classOf[Position], classOf[main.scala.components.Display])
+    add(fam)
+    for(family <- families.values){
+      family.addIfMatch(testEntity)
+    }
+    add(new RenderingSystem)
 
     Input.init()
 
@@ -230,7 +245,7 @@ object GameEngine extends Engine {
     // The perspective projection. Camera space to NDC.
 
     simulationContext.setProjectionMatrix(Mat4f.projection(fieldOfView, aspect, nearPlane, farPlane))
-    simulationContext.setViewMatrix(Mat4f.identity)
+    simulationContext.setViewMatrix(Mat4f.translation(0,-1,-1))
     val mat = Mat4f.translation(0,0,-0.8f).mult(Mat4f.rotation(0,1,0, 90f)).mult(Mat4f.scale(0.001f, 0.001f, 0.001f))
     simulationContext.setModelMatrix(mat)
     //Shader.setProjectionMatrix(projectionMatrix)
@@ -244,7 +259,7 @@ object GameEngine extends Engine {
     // GRAPHICS
     // render all entities
     // entities.renderAll(context)
-
+    for(system <- systems.values){system.update(simulationContext)}
 
   }
 

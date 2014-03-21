@@ -254,6 +254,7 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
 
   def draw(shader: Shader = Mesh.defaultShader, modelTransformation: Mat4f, projectionMatrix: Mat4f, viewMatrix: Mat4f, beforeFunc: Unit => Unit = {Unit => Unit}, afterFunc: Unit => Unit = {Unit => Unit}) {
 
+    DC.log("Drawing at: \n" + modelTransformation.toString + " from \n" + viewMatrix.toString + "with \n" + projectionMatrix)
     beforeFunc()
 
     shader.useProgram(projectionMatrix, viewMatrix)

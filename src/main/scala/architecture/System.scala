@@ -1,7 +1,7 @@
 package main.scala.architecture
 
 import akka.actor.Actor
-import main.scala.systems.input.Context
+import main.scala.systems.input.{SimulationContext, Context}
 import main.scala.event.ObservingActor
 
 /**
@@ -19,7 +19,7 @@ trait System /*extends ObservingActor*/ {
 
   def init(): System
 
-  def update(context: Context): System
+  def update(context: SimulationContext): System
   //def update(nodeType: Class[_ <: Node], context: Context): System
 
 }

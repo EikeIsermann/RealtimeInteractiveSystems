@@ -1,6 +1,7 @@
 package main.scala.architecture
 
 import scala.collection.mutable
+import main.scala.tools.DC
 
 /**
  * Created by Eike on 20.03.14.
@@ -8,7 +9,7 @@ import scala.collection.mutable
 class Family(val nodeClass: Class[_ <: Node]) {
 
  protected var _entities: mutable.HashMap[Entity, Node] = new mutable.HashMap[Entity, Node]
- protected val components: mutable.ListBuffer[Class[_ <: Component]] = new mutable.ListBuffer[Class[_ <: Component]]
+ var components: mutable.ListBuffer[Class[_ <: Component]] = new mutable.ListBuffer[Class[_ <: Component]]
 
   def entities = _entities
   def nodes = _entities.values
@@ -20,6 +21,7 @@ class Family(val nodeClass: Class[_ <: Node]) {
           return
         }
       }
+
       var node = nodeClass.newInstance()
       for (componentClass <- components){
         node.components.put(componentClass, entity.components(componentClass).apply(0))

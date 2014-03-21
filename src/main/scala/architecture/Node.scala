@@ -1,6 +1,7 @@
 package main.scala.architecture
 
 import scala.collection.mutable
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs

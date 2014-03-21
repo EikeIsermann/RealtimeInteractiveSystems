@@ -28,7 +28,7 @@ object EntityDescLoader {
   private def parse(file: File): Entity = {
     val xml: Elem = XML.loadFile(file)
     val name: String = (xml \ "name").text
-    val graphicxComponent = xml \ "components" \ "graphics"
+    val graphicsComponent = xml \ "components" \ "graphics"
     val physicsComponent = xml \ "components" \ "physics"
     val aiComponent = xml \ "components" \ "ai"
     val logicComponent = xml \ "components" \ "logic"
@@ -37,7 +37,7 @@ object EntityDescLoader {
 
 
     // READ GFX
-    graphicxComponent foreach(
+    graphicsComponent foreach(
       gc => {
         val uses: Seq[Node] =gc.nonEmptyChildren.filter(_.label == "use").map(n => {(xml \ n.text).head})
         val has: Seq[Node] = gc.nonEmptyChildren.filter(_.label != "use")

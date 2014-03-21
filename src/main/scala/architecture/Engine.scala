@@ -1,6 +1,6 @@
 package main.scala.architecture
 
-import main.scala.systems.input.Context
+import main.scala.systems.input.{SimulationContext, Context}
 import scala.collection.mutable
 
 /**
@@ -82,12 +82,7 @@ trait Engine {
 
 
 
-  def update(systemType: Class[_ <: System], context: Context): Engine = {
-    systems.values.filter(s => s.getClass.equals(systemType)).foreach(_.update(context))
-    this
-  }
-  def update(context: Context): Engine = {
-
+  def update(context: SimulationContext): Engine = {
     systems.values.foreach(_.update(context))
     this
   }

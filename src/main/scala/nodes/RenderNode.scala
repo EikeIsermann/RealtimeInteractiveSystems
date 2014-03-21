@@ -7,7 +7,13 @@ import scala.collection.mutable
 /**
  * Created by Eike on 21.03.14.
  */
-case class RenderNode(position: Position, display: Display) extends Node(position, display){
+/*class RenderNode(position: Position, display: Display) extends Node(position, display){
 
+  def this() = {
+    this(new Position(0,0,0), new Display('null, 'null))
+  }
+}*/
+
+
+class RenderNode() extends Node(){
 }
-

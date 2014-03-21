@@ -11,7 +11,6 @@ import scala.collection.mutable.ArrayBuffer
  */
 trait Entity {
 
-
   private val _components: ArrayBuffer[Component] = ArrayBuffer.empty[Component]
 
   def components: Array[Component] = _components.toArray
@@ -19,6 +18,7 @@ trait Entity {
 
   def add(component: Component): Entity = this.+=(component)
   def +=(component: Component): Entity = {
+     _components.+=(component)
     //TODO MESSAGE
     //GameEngine.actorRef ! ComponentAdded(this)
     this
