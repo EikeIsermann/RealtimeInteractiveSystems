@@ -1,8 +1,6 @@
 package main.scala.architecture
 
-import akka.actor.Actor
 import main.scala.systems.input.Context
-import main.scala.event.ObservingActor
 
 /**
  * Created by Christian Treffs
@@ -25,12 +23,11 @@ trait System /*extends ObservingActor*/ {
 }
 
 object System {
- val Pre_Update = 1;
- val Update = 2;
- val Move = 3;
- val ResolveCollisions = 4;
- val Render = 5;
-
+ val Pre_Update = 1
+ val Update = 2
+ val Move = 3
+ val ResolveCollisions = 4
+ val Render = 5
 }
 
 

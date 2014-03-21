@@ -3,7 +3,7 @@ package main.scala.engine
 import main.scala.architecture.Engine
 import main.scala.event._
 import akka.actor.Actor
-import main.scala.tools.{ActorsInterface, Actors}
+import main.scala.tools.ActorsInterface
 
 /**
  * Created by Christian Treffs
@@ -11,9 +11,15 @@ import main.scala.tools.{ActorsInterface, Actors}
  */
 object GameEngine extends Engine with Actor with ActorsInterface {
 
-  override def init(): Engine = ???
+  override def init(): Engine = {
+    //TODO:
+    this
+  }
 
-  override def mainLoop(): Unit = ???
+  override def mainLoop(): Unit = {
+    //TODO
+    this
+  }
 
   override def receive: Receive = {
     case ComponentAdded(entity) => componentAdded(entity)

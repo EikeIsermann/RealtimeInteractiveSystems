@@ -49,10 +49,7 @@ trait ObservingActor extends Actor {
      * publish signal changes to the observers
      */
     case PublishSignalValueUpdate(signal, value) => activeSignals.get(signal).collect {
-      case func: (Any => Unit)  => {
-
-        func.apply(value)
-      }
+      case func: (Any => Unit)  => func.apply(value)
       case _ => throw new IllegalArgumentException("can not apply function to the signal")
     }
 

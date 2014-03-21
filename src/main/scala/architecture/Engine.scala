@@ -1,12 +1,7 @@
 package main.scala.architecture
 
 import main.scala.systems.input.Context
-import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable
-import akka.actor.{ActorSystem, Actor}
-import akka.actor.Actor.Receive
-import main.scala.event.ComponentAdded
-import scala.swing.event.ComponentRemoved
 
 /**
  * Created by Christian Treffs
@@ -70,14 +65,13 @@ trait Engine {
   def getNodeList(nodeClass : Class[_ <: Node]) : List[Node] = {
      families.get(nodeClass) match {
        case Some(fam) => fam.nodes.toList
-       case None => {
-         var family : Family = new Family(nodeClass)
+       case None =>
+         val family: Family = new Family(nodeClass)
          families.put(nodeClass, family)
          for (entity <- entities.values){
            family.addIfMatch(entity)
          }
-         return family.nodes.toList
-       }
+         family.nodes.toList
      }
   }
 

@@ -1,7 +1,7 @@
 package main.scala.entities
 
 import main.scala.architecture.Component
-import main.scala.tools.{ActorsInterface, DC, Actors, Identifier}
+import main.scala.tools.{ActorsInterface, DC, Identifier}
 import main.scala.event.Message
 
 /**
