@@ -1,13 +1,8 @@
 package main.scala.engine
 
-import main.scala.architecture.{System, Engine}
-import main.scala.systems.input.Context
-import scala.collection.mutable.ArrayBuffer
-import main.scala.components.Component
-import akka.actor.Actor._
-import main.scala.event.ComponentAdded
-import scala.swing.event.ComponentRemoved
-import akka.actor.{Actor, Props, ActorSystem}
+import main.scala.architecture.Engine
+import main.scala.event._
+import akka.actor.Actor
 import main.scala.tools.Actors
 
 /**
@@ -24,7 +19,7 @@ object GameEngine extends Engine with Actor {
 
   override def receive: Receive = {
     case ComponentAdded(entity) => componentAdded(entity)
-    case ComponentRemoved(entity, component) => //TODO
+    case ComponentRemoved(entity) => //TODO
   }
 
 
