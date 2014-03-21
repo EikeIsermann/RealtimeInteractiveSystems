@@ -15,8 +15,12 @@ trait Engine {
   private val _families: mutable.HashMap[Class[_ <: Node], Family] = new mutable.HashMap[Class[_ <: Node], Family]
 
 
-  def init(): Engine
-  def mainLoop(): Unit
+
+  def start(): Engine
+  def createNewGame(title: String, assetsPath: String): Engine
+  def shutdown(): Unit
+  protected def gameLoop(): Unit
+
 
   def entities:  mutable.HashMap[Class[_ <: Entity], Entity] = _entities
   def systems: mutable.HashMap[Class[_ <: System], System] = _systems
