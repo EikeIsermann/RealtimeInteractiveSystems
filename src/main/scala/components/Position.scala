@@ -11,17 +11,24 @@ import main.scala.math.Vec3f
 
 object Position extends ComponentCreator {
   def fromXML(xml: NodeSeq): Component = {
-    val pos = xml.head
+    /*val pos = xml.head
     new Position(Vec3f(pos.attribute("x").get.text.toFloat,pos.attribute("y").get.text.toFloat, pos.attribute("z").get.text.toFloat))
+    */
+    //TODO
+    null
   }
 }
-case class Position(x1: Float, y1: Float, z1: Float) extends Component {
-  def this(pos: Vec3f) = this(pos.x, pos.y, pos.z)
+case class Position(pos: Vec3f, rot: Vec3f) extends Component {
 
-  private var _vector: Vec3f = Vec3f(x1, y1, z1)
 
-  def vec: Vec3f = _vector
-  def vec_=(v: Vec3f) = _vector = v
+  private var _position: Vec3f = pos
+  private var _rotation: Vec3f = rot
+
+  def position: Vec3f = _position
+  def position_=(v: Vec3f) = _position = v
+
+  def rotation: Vec3f = _rotation
+  def rotation_=(v: Vec3f) = _rotation = v
 
   //override def toXML: NodeSeq = {<position x={vec.x} y={vec.y} z={vec.z} />}
   override def toXML: NodeSeq = ???
