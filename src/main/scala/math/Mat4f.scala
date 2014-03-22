@@ -82,6 +82,23 @@ case class Mat4f(m00: Float = 1.0f,m01: Float = 0,m02: Float = 0,m03: Float = 0,
   def transposed: Mat4f = transpose()
 
 
+  def det: Float = determinant
+  def determinant: Float = { //method sig. takes a matrix (two dimensional array), returns determinant.
+      m03 * m12 * m21 * m30 - m02 * m13 * m21 * m30-
+      m03 * m11 * m22 * m30+m01 * m13 * m22 * m30+
+      m02 * m11 * m23 * m30-m01 * m12 * m23 * m30-
+      m03 * m12 * m20 * m31+m02 * m13 * m20 * m31+
+      m03 * m10 * m22 * m31-m00 * m13 * m22 * m31-
+      m02 * m10 * m23 * m31+m00 * m12 * m23 * m31+
+      m03 * m11 * m20 * m32-m01 * m13 * m20 * m32-
+      m03 * m10 * m21 * m32+m00 * m13 * m21 * m32+
+      m01 * m10 * m23 * m32-m00 * m11 * m23 * m32-
+      m02 * m11 * m20 * m33+m01 * m12 * m20 * m33+
+      m02 * m10 * m21 * m33-m00 * m12 * m21 * m33-
+      m01 * m10 * m22 * m33+m00 * m11 * m22 * m33
+  }
+
+
   /**
    * CAUTION!!!! different from original to String method!
    */
@@ -102,6 +119,7 @@ object Test {
   def main(args: Array[String]) {
     val A = Mat4f(1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11, 12, 13, 14, 15, 16)
     val B = Mat4f(17, 18, 19, 20, 21, 22, 23, 24, 25, 26 ,27, 28, 29, 30, 31, 32)
+    val C = Mat4f(1, 2 ,3 ,4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
     val AplusB = Mat4f(18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48)
     val AminusB = Mat4f(-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16)
@@ -135,6 +153,9 @@ object Test {
 
     //TODO: inverse full has a problem!!!
     //println(B.inverse)
+
+    println(A + B - B)
+
 
 
   }
