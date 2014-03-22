@@ -17,6 +17,12 @@ class SimulationContext extends Context {
   var modelMatrix: Mat4f = Mat4f.identity
   var projectionMatrix: Mat4f = Mat4f.identity
   var viewMatrix: Mat4f = Mat4f.identity
+  var displayWidth: Int = 0
+  var displayHeight: Int = 0
+  var preferredFPS: Int = -1
+  var fieldOfView: Float = -1
+  var nearPlane: Float = -1
+  var farPlane: Float = -1
 
   private var _deltaT: Long = 0L
 

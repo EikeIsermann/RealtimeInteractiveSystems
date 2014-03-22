@@ -36,7 +36,7 @@ object GameEngine extends Engine {
   private val farPl = 100f
   private val multiSampling = false
   private val vSyncEnabled = true
-  private var prefferedFPS: Int = -1
+  private var preferredFPS: Int = -1
   private var fieldOfView: Float = -1
   private var nearPlane: Float = -1
   private var farPlane: Float = -1
@@ -89,7 +89,7 @@ object GameEngine extends Engine {
 
 
     Display.setVSyncEnabled(vSync)
-    prefferedFPS = fps
+    preferredFPS = fps
     Display.setSwapInterval(1)
     fieldOfView = fov
     nearPlane = nP
@@ -180,13 +180,15 @@ object GameEngine extends Engine {
   override protected def gameLoop(): Unit = {
     while (!Display.isCloseRequested) {
       //input.update()
-      Display.sync(prefferedFPS)
+      updateContext()
+      Display.sync(preferredFPS)
 
       Input.update(Display.getWidth, Display.getHeight)
 
       simulate(time.elapsed)
 
-      display(Display.getWidth, Display.getHeight)
+      for(system <- systems.values){system.update(simulationContext)}
+
 
       Display.update()
     }
@@ -206,8 +208,8 @@ object GameEngine extends Engine {
   /*override def receive: Receive = {
     case ComponentAdded(entity) => componentAdded(entity)
     case ComponentRemoved(entity) => //TODO
-  } */
-
+  }
+*/
 
   //TODO: to be done in the physics system
   def simulate(elapsed: Float): Unit = {
@@ -225,41 +227,15 @@ object GameEngine extends Engine {
 
   }
 
-  //todo: to be done in the gfx system
-  def display(width: Int, height: Int): Unit = {
-    // Adjust the the viewport to the actual window size. This makes the
-    // rendered image fill the entire window.
-    glViewport(0, 0, width, height)
 
-    // Clear all buffers.
-    glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT)
-
-
-
-    //shader.activate
-
-    // Assemble the transformation matrix that will be applied to all
-    // vertices in the vertex shader.
-    val aspect: Float = width.asInstanceOf[Float] / height.asInstanceOf[Float]
-
-    // The perspective projection. Camera space to NDC.
-
-    simulationContext.setProjectionMatrix(Mat4f.projection(fieldOfView, aspect, nearPlane, farPlane))
-    simulationContext.setViewMatrix(Mat4f.translation(0,-1,-1))
-    val mat = Mat4f.translation(0,0,-0.8f).mult(Mat4f.rotation(0,1,0, 90f)).mult(Mat4f.scale(0.001f, 0.001f, 0.001f))
-    simulationContext.setModelMatrix(mat)
-    //Shader.setProjectionMatrix(projectionMatrix)
-
-    // display objects
-
-    //camera.activate
-
-    //cube.display
-
-    // GRAPHICS
-    // render all entities
-    // entities.renderAll(context)
-    for(system <- systems.values){system.update(simulationContext)}
+  //todo: move variables to context
+  def updateContext(): Unit = {
+    simulationContext.displayHeight = Display.getHeight
+    simulationContext.displayWidth = Display.getWidth
+    simulationContext.preferredFPS = preferredFPS
+    simulationContext.fieldOfView = fieldOfView
+    simulationContext.nearPlane = nearPlane
+    simulationContext.farPlane = farPlane
 
   }
 
