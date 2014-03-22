@@ -23,6 +23,12 @@ final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.
   implicit def toSeq: Seq[Float] = toArray
   implicit def toTuple3: (Float, Float, Float) = Tuple3(x, y, z)
 
+  override def toString: String = {
+    "Vec3f:\n"+
+    "[ "+x1+ " ]\n" +
+    "[ "+y1+ " ]\n"  +
+    "[ "+z1+ " ]\n"
+  }
 
 
 }
