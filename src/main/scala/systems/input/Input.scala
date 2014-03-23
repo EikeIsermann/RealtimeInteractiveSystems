@@ -3,7 +3,7 @@ package main.scala.systems.input
 import main.scala.math.Vec3f
 import org.lwjgl.input.{Mouse, Keyboard}
 import scala.collection.mutable
-import main.scala.tools.DC
+import main.scala.tools.{DisplayManager, DC}
 import org.lwjgl.opengl.Display
 
 /**
@@ -14,27 +14,26 @@ object Input {
   private val pressedKeys = mutable.ArrayBuffer.empty[Int]
   private val toggledKeys = mutable.ArrayBuffer.empty[Int]
   private val pressedMouseButtons = mutable.ArrayBuffer.empty[Int]
+  val onKeyPressActions = mutable.HashMap.empty[Int, Unit => Unit]
+  val onKeyReleaseActions = mutable.HashMap.empty[Int, Unit => Unit]
 
   private var _mousePosition: Vec3f = Vec3f(0,0,0)
   private var _mouseMovement: Vec3f = Vec3f(0,0,0)
+  val hasWheel = Mouse.hasWheel
+  private var _mouseWheel: Int = 0
 
   def init() {
-
-
-
-
     DC.log("Input initialized")
+
+    onKeyPressActions.put(Key._1, _ => DisplayManager.enableFullscreen())
+    onKeyPressActions.put(Key._2, _ => DisplayManager.disableFullscreen())
+
   }
   def update() = {
-    //input.lib.setWindowSize(width,height)
-    //input.lib.update()
-
     setMouseMovement()
     iterateMouseButtons()
     iterateKeys()
     setMouseWheel()
-
-
   }
 
 
@@ -46,17 +45,18 @@ object Input {
           //add if pressed
           pressedKeys += keyId
 
+          onKeyPress(keyId)
 
           // toggle keys
           toggledKeys.contains(keyId) match {
             case true   => toggledKeys -= keyId
             case false  => toggledKeys += keyId
           }
-        case false  => pressedKeys -= keyId // remove if released
+        case false  =>
+          pressedKeys -= keyId // remove if released
+          onKeyRelease(keyId)
       }
     }
-    //println(Keyboard.getEventNanoseconds,Keyboard.getKeyName(Keyboard.getEventKey), Keyboard.getEventKey, Keyboard.getEventKeyState)
-    //println("P:"+pressedKeys.toList, "T:"+toggledKeys.toList)
   }
 
   private def iterateMouseButtons() {
@@ -75,26 +75,20 @@ object Input {
   private def setMouseMovement() {
     _mousePosition = Vec3f(Mouse.getX, Mouse.getY, 0.0f)
     _mouseMovement = Vec3f(Mouse.getDX, Mouse.getDY, 0.0f)
-    //println(mousePosition().inline, mouseMovement().inline, mousePositionNormalized().inline)
-    //println(mousePositionNormalized().inline)
-
   }
 
   private def setMouseWheel() {
-    /*println(
-      Mouse.getDWheel,
-      Mouse.getEventDWheel
-    ) */
-
+    if(hasWheel) {
+      _mouseWheel = Mouse.getDWheel
+    }
   }
 
-  //def addAction(name: Symbol, function: AnyRef => AnyRef)= actionMap.put(name,function)
-  //def getAction(name:Symbol) = actionMap(name)
 
   def mousePosition(): Vec3f = _mousePosition
   def mousePositionNormalized(windowWidth: Int = Display.getWidth, windowHeight: Int = Display.getHeight): Vec3f = Vec3f(_mousePosition.mapX(0, windowWidth),_mousePosition.mapY(0, windowHeight), 0.0f)
   def mouseMovement(): Vec3f = _mouseMovement
-  //def mouseMovementNormalized(windowWidth: Int, windowHeight: Int): Vec3f = normalizeMouse(_mouseMovement, windowWidth, windowHeight)
+  def mouseWheel: Int = _mouseWheel
+
   def mouseButtonDown(mb: Int): Boolean = pressedMouseButtons.contains(mb)
   def mouseButtonDown(mb: Int, func: Any => Unit = println) {
     if(mouseButtonDown(mb)) {
@@ -114,6 +108,13 @@ object Input {
     if(keyToggled(key)) {
       func(Keyboard.getKeyName(key))
     }
+  }
+
+  def onKeyPress(keyId: Int) {
+    onKeyPressActions.get(keyId).foreach(_.apply())
+  }
+  def onKeyRelease(keyId: Int) {
+    onKeyReleaseActions.get(keyId).foreach(_.apply())
   }
 
 }
@@ -185,10 +186,5 @@ object Key {
   val ArrowRight = Keyboard.KEY_RIGHT
 
 
-
-}
-sealed class Input {
-
-  val lib = new ogl.app.Input()
 
 }
