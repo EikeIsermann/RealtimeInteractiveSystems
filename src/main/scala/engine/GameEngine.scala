@@ -2,7 +2,7 @@ package main.scala.engine
 
 import main.scala.architecture.{Family, Engine}
 import ogl.app.StopWatch
-import main.scala.tools.{GameConsole, DC}
+import main.scala.tools.{DisplayManager, GameConsole, DC}
 import org.lwjgl.opengl.GL11._
 import main.scala.systems.input.{Input, SimulationContext}
 import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
@@ -79,10 +79,12 @@ object GameEngine extends Engine {
 
 
   def initDisplay(title: String, width: Int, height: Int, fov: Float, nP: Float, fP: Float, fps: Int, vSync: Boolean = true, multiSampling: Boolean = false) = {
-    val dm = new DisplayMode(width, height)
+    /*val dm = new DisplayMode(width, height)
 
-    Display.setDisplayMode(dm)
+    Display.setDisplayMode(dm)*/
+    DisplayManager.setDisplayMode(width,height,fullscreen = false)
     Display.setTitle(title)
+    Display.setResizable(true)
 
     if (multiSampling) Display.create(new PixelFormat().withSamples(8))
     else Display.create()
@@ -183,7 +185,7 @@ object GameEngine extends Engine {
       updateContext()
       Display.sync(preferredFPS)
 
-      Input.update(Display.getWidth, Display.getHeight)
+      Input.update()
 
       simulate(time.elapsed)
 

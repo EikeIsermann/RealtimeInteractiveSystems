@@ -11,7 +11,7 @@ object DisplayManager {
 
 
 
-  var targetDisplayMode: DisplayMode = null
+  var currentDisplayMode: DisplayMode = Display.getDisplayMode
 
   private var fullscreen: Boolean = false
 
@@ -29,7 +29,7 @@ object DisplayManager {
   }
   def disableFullscreen() {
     if(fullscreen) {
-      Display.setDisplayModeAndFullscreen(targetDisplayMode)
+      Display.setDisplayModeAndFullscreen(currentDisplayMode)
       fullscreen = false
       DC.log("Fullscreen disabled")
     }
@@ -61,10 +61,10 @@ object DisplayManager {
           val current: DisplayMode = modes(i)
 
           if ((current.getWidth == width) && (current.getHeight == height)) {
-            if ((targetDisplayMode == null) || (current.getFrequency >= freq)) {
-              if ((targetDisplayMode == null) || (current.getBitsPerPixel > targetDisplayMode.getBitsPerPixel)) {
-                targetDisplayMode = current
-                freq = targetDisplayMode.getFrequency
+            if ((currentDisplayMode == null) || (current.getFrequency >= freq)) {
+              if ((currentDisplayMode == null) || (current.getBitsPerPixel > currentDisplayMode.getBitsPerPixel)) {
+                currentDisplayMode = current
+                freq = currentDisplayMode.getFrequency
               }
             }
 
@@ -72,7 +72,7 @@ object DisplayManager {
             // original display mode then it's probably best to go for this one
             // since it's most likely compatible with the monitor
             if ((current.getBitsPerPixel == Display.getDesktopDisplayMode.getBitsPerPixel) && (current.getFrequency == Display.getDesktopDisplayMode.getFrequency)) {
-              targetDisplayMode = current
+              currentDisplayMode = current
               println("two")
               return
             }
@@ -80,15 +80,15 @@ object DisplayManager {
         }
       } else {
         println("three")
-        targetDisplayMode = new DisplayMode(width, height)
+        currentDisplayMode = new DisplayMode(width, height)
       }
 
-      if (targetDisplayMode == null) {
+      if (currentDisplayMode == null) {
         System.out.println("Failed to find value mode: " + width + "x" + height + " fs=" + fullscreen)
         return
       }
 
-      Display.setDisplayMode(targetDisplayMode)
+      Display.setDisplayMode(currentDisplayMode)
       Display.setFullscreen(fullscreen)
 
     } catch {

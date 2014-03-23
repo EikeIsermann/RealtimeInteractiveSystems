@@ -19,9 +19,33 @@ final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.
   implicit def +(v: Vec3f) = add(v)
   implicit def -(v: Vec3f) = sub(v)
 
+  def mapX(min: Float, max: Float, shift: Float = -1.0f): Float = (2.0f * x()) / (max-min) + shift
+  def mapY(min: Float, max: Float, shift: Float = -1.0f): Float = (2.0f * y()) / (max-min) + shift
+  def mapZ(min: Float, max: Float, shift: Float = -1.0f): Float = (2.0f * z()) / (max-min) + shift
+  def mapVec(min: Float, max: Float, shift: Float = -1.0f): Vec3f = {
+    Vec3f(
+      mapX(min, max, shift),
+      mapY(min, max, shift),
+      mapZ(min, max, shift)
+    )
+  }
+
   implicit def toArray: Array[Float] = asArray()
   implicit def toSeq: Seq[Float] = toArray
   implicit def toTuple3: (Float, Float, Float) = Tuple3(x, y, z)
+
+  def inline: String = "["+x+" "+y+" "+z+"]"
+
+  def magnitude: Double = math.sqrt((x() * x()) + (y() * y()) + (z() * z()))
+
+  def normalized: Vec3f = {
+    val a: Float = magnitude.toFloat
+    Vec3f(
+      x/a,
+      y/a,
+      z/a
+    )
+  }
 
   override def toString: String = {
     "Vec3f:\n"+

@@ -96,6 +96,8 @@ public final class Input {
       int k = Keyboard.getEventKey();
       if (Keyboard.getEventKeyState()) {
         // Key pressed.
+          System.out.print("KEY "+Keyboard.getKeyName(k)+ " ");
+          System.out.println(Keyboard.getEventKeyState());
         keys.add(k);
         if (toggled.contains(k))
           toggled.remove(k);
