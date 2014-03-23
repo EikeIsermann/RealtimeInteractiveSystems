@@ -3,11 +3,10 @@ package main.scala.engine
 import main.scala.architecture.{Family, Engine}
 import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, GameConsole, DC}
-import org.lwjgl.opengl.GL11._
 import main.scala.systems.input.{Input, SimulationContext}
-import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
+import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.EntityDescLoader
-import main.scala.math.{Vec3f, Mat4f}
+import main.scala.math.Vec3f
 import main.scala.systems.gfx.{RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
 import main.scala.components.Position
@@ -40,12 +39,14 @@ object GameEngine extends Engine {
   private var fieldOfView: Float = -1
   private var nearPlane: Float = -1
   private var farPlane: Float = -1
+  private var fps: Float = 0.0f /** frames per second */
+  private var lastFPS: Long = -1 /** last fps time */
+
 
   //TODO: remove?
   //var entities: SimulationRegistry = null
   var simulationContext: SimulationContext = null
   var time: StopWatch = null
-
 
 
   override def createNewGame(title: String, assetsPath: String = "src/main/resources") = {
@@ -83,8 +84,9 @@ object GameEngine extends Engine {
 
     Display.setDisplayMode(dm)*/
     DisplayManager.setDisplayMode(width,height,fullscreen = false)
-    Display.setTitle(title)
     Display.setResizable(true)
+
+    setGameTitle()
 
     if (multiSampling) Display.create(new PixelFormat().withSamples(8))
     else Display.create()
@@ -174,6 +176,9 @@ object GameEngine extends Engine {
     //INITIALIZE ALL ENTITIES
     //entities.initAll(context)
 
+    //FPS
+    lastFPS = System.currentTimeMillis()
+
     // set initial deltaT
     simulationContext.updateDeltaT()
   }
@@ -191,6 +196,7 @@ object GameEngine extends Engine {
 
       for(system <- systems.values){system.update(simulationContext)}
 
+      updateFPS() // update FPS Counter
 
       Display.update()
     }
@@ -241,6 +247,25 @@ object GameEngine extends Engine {
 
   }
 
+
+  def setGameTitle(fps: Float = 0, name: String = gameTitle, w: Int = Display.getWidth, h: Int = Display.getHeight) {
+    Display.setTitle(name +" @ "+w+"x"+h+" "+ fps +" fps")
+  }
+
+
+  /**
+   * Calculate the FPS and set it in the title bar
+   *
+   * http://www.lwjgl.org/wiki/index.php?title=LWJGL_Basics_4_(Timing)#Calculating_FPS
+   */
+  def updateFPS() {
+    if (System.currentTimeMillis() - lastFPS > 1000) {
+      setGameTitle(fps)
+      fps = 0 //reset the FPS counter
+      lastFPS += 1000 //add one second
+    }
+    fps = fps +1
+  }
 
 
 }
