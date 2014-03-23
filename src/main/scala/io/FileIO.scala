@@ -13,7 +13,7 @@ object FileIO {
 
   def getExtension(filePath: String, withDot: Boolean): String = getExtension(load(filePath), withDot)
   def getExtension(file: java.io.File, withDot: Boolean = false): String = {
-    val fn: String = file.getName.toString
+    val fn: String = file.getName
     val i: Int = if(withDot) fn.lastIndexOf(".") else fn.lastIndexOf(".")+1
     fn.substring(i).toLowerCase
   }
@@ -31,7 +31,7 @@ object FileIO {
     val dir: File = load(pathToDirectory)
     if(dir.isDirectory && dir.exists()) {
       if(dir.canRead) {
-        dir.listFiles().filter(f => getExtension(f).equals(extension.toLowerCase()))
+        dir.listFiles().filter(f => getExtension(f).equals(extension.toLowerCase))
       }  else {
         throw new IllegalArgumentException("can not read from dir '"+pathToDirectory+"'")
       }

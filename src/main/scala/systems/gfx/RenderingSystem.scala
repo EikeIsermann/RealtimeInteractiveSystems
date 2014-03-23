@@ -39,7 +39,7 @@ class RenderingSystem extends System {
 
 
      context.setProjectionMatrix(Mat4f.projection(context.fieldOfView, aspect, context.nearPlane, context.farPlane))
-     context.setViewMatrix(Mat4f.translation(0,0,0))
+     //context.setViewMatrix(Mat4f.translation(0,0,0))
      val mat = Mat4f.translation(0,0,-0.8f).mult(Mat4f.rotation(0,1,0, 90f)).mult(Mat4f.scale(0.001f, 0.001f, 0.001f))
      context.setModelMatrix(mat)
 
@@ -65,7 +65,7 @@ class RenderingSystem extends System {
          val mesh = Mesh.getByName(display.meshId)
          //TODO
          val shader = Mesh.defaultShader
-         mesh.draw(shader, Mat4f.translation(position.vec), context.viewMatrix, context.projectionMatrix)
+         mesh.draw(shader, Mat4f.translation(position.position), context.viewMatrix, context.projectionMatrix)
        }
 
 

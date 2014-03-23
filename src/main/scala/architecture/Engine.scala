@@ -66,16 +66,16 @@ trait Engine {
     for(family <- families.values) family.addIfMatch(entity)
   }
 
-  def getNodeList(nodeClass : Class[_ <: Node]) : List[Node] = {
+  def getNodeList[T <: Node](nodeClass : Class[T]) : List[T] = {
      families.get(nodeClass) match {
-       case Some(fam) => fam.nodes.toList
+       case Some(fam) => fam.nodes.toList.asInstanceOf[List[T]]
        case None =>
          val family: Family = new Family(nodeClass)
          families.put(nodeClass, family)
          for (entity <- entities.values){
            family.addIfMatch(entity)
          }
-         family.nodes.toList
+         family.nodes.toList.asInstanceOf[List[T]]
      }
   }
 

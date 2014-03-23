@@ -134,7 +134,7 @@ object GameEngine extends Engine {
     Collada.load(colladaFiles)
                                                          */
     EntityDescLoader.load(entitiesDir)
-    var testEntity = Entity.create("Testwurst");
+    var testEntity = Entity.create("Testwurst")
     var pos = new Position(0,0,100)
     var display = new main.scala.components.Display('ChassisBody, 'wurst)
     testEntity.add(pos)

@@ -25,11 +25,11 @@ trait System /*extends ObservingActor*/ {
 }
 
 object SystemPriorities {
- val Pre_Update = 1;
- val Update = 2;
- val Move = 3;
- val ResolveCollisions = 4;
- val Render = 5;
+ val Pre_Update = 1
+ val Update = 2
+ val Move = 3
+ val ResolveCollisions = 4
+ val Render = 5
 
 }
 

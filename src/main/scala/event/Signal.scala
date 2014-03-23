@@ -48,7 +48,7 @@ class Signal[T](private var value: T)(implicit val owner: ActorRef) {
       case `owner` => updateObservers(newValue)
       case _       => updateSelf(newValue)
     }
-    DC.log("Signal updated", this);
+    DC.log("Signal updated", this)
   }
 
   /**
@@ -66,7 +66,7 @@ class Signal[T](private var value: T)(implicit val owner: ActorRef) {
   private def updateObservers(v: T) {
     value = v //TODO: is this the right place to update the value?
     observers.foreach(ref => ref ! PublishSignalValueUpdate[T](this, v))
-    DC.log("Signal observers updated", this);
+    DC.log("Signal observers updated", this)
   }
 
   override def toString: String = {
