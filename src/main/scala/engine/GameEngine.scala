@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11._
 import main.scala.systems.input.{Input, SimulationContext}
 import org.lwjgl.opengl.{PixelFormat, GL11, DisplayMode, Display}
 import main.scala.io.EntityDescLoader
-import main.scala.math.Mat4f
+import main.scala.math.{Vec3f, Mat4f}
 import main.scala.systems.gfx.{RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
 import main.scala.components.Position
@@ -135,7 +135,7 @@ object GameEngine extends Engine {
                                                          */
     EntityDescLoader.load(entitiesDir)
     var testEntity = Entity.create("Testwurst")
-    var pos = new Position(0,0,100)
+    var pos = new Position(Vec3f(0,0,100), Vec3f(1,1,1))
     var display = new main.scala.components.Display('ChassisBody, 'wurst)
     testEntity.add(pos)
     testEntity.add(display)

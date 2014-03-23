@@ -5,9 +5,8 @@ package main.scala.components
  */
 
 import main.scala.math.Vec3f
-import main.scala.architecture.Component
 import scala.xml.NodeSeq
-import main.scala.architecture.ComponentCreator
+import main.scala.architecture.{Component, ComponentCreator}
 
 
 object Motion extends ComponentCreator {
