@@ -66,7 +66,7 @@ object DC {
         DC.log(msg,arg+" after "+(System.currentTimeMillis()-timedLog(identifier))+"ms",level)
         timedLog.remove(identifier)
       case false =>
-        DC.log(msg,arg,level)
+        DC.log(msg,arg+" 'T",level)
         timedLog.put(identifier,System.currentTimeMillis())
     }
   }

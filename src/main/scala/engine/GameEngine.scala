@@ -19,7 +19,7 @@ import main.scala.nodes.{CameraNode, RenderNode}
 object GameEngine extends Engine {
 
   // set debug level
-  DC.debugLevel = 1
+  DC.debugLevel = 0
 
   private var assetsDir: String = null
   private var gameTitle:String = null
@@ -224,13 +224,13 @@ object GameEngine extends Engine {
   }
 
   override def shutdown(): Unit = {
-    DC.log("Engine","shutting down",3)
+    DC.logT('engineShutdown,"Engine","shutting down",3)
     //TODO: stop thread clean up and end
 
     systems.values.foreach(system => system.deinit()) // shut down all systems
 
     Display.destroy()
-    DC.log("Engine","ended",3)
+    DC.logT('engineShutdown,"Engine","ended",3)
     System.exit(0)
   }
 

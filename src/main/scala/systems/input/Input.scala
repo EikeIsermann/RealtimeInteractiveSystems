@@ -24,7 +24,7 @@ object Input {
   private var _mouseWheel: Int = 0
 
   def init() {
-    DC.log("Input initialized")
+    DC.log("Input","initialized")
   }
   def update() = {
     setMouseMovement()
@@ -38,6 +38,7 @@ object Input {
     pressedOnceKeys.clear()
     toggledKeys.clear()
     pressedMouseButtons.clear()
+    DC.log("Input","cleared")
   }
 
 
