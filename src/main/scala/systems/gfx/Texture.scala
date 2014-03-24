@@ -21,8 +21,8 @@ object Texture {
   //TODO: remove?
   final var textures: mutable.ListBuffer[Texture] = mutable.ListBuffer.empty[Texture]
 
-  def load(filePath: String): Texture = {
-    val t = new Texture(new File(filePath))
+  def load(filePath: String, flipped: Boolean = true): Texture = {
+    val t = new Texture(new File(filePath), flipped)
     textures += t
     t
   }
@@ -32,12 +32,14 @@ object Texture {
    */
   def bind(texId: Int) {
     glEnable(GL_TEXTURE_2D)
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_ONE, GL_ONE)
     glBindTexture(GL_TEXTURE_2D, texId)
   }
 
 }
 
-sealed class Texture(texFile: File) {
+sealed class Texture(texFile: File, flipped: Boolean) {
 
   final private var texBufferedImage: BufferedImage = null
   final var texId: Int = -1
@@ -72,11 +74,13 @@ sealed class Texture(texFile: File) {
 
   aspect = height.toFloat/width.toFloat
 
+  if(flipped) {
   // Flip the image vertically
   val tx = AffineTransform.getScaleInstance(1, -1)
   tx.translate(0, -texBufferedImage.getHeight(null))
   val op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR)
   texBufferedImage = op.filter(texBufferedImage, null)
+  }
 
   imageData = texBufferedImage.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 
