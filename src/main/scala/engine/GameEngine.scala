@@ -245,6 +245,7 @@ object GameEngine extends Engine {
     simulationContext.nearPlane = nearPlane
     simulationContext.farPlane = farPlane
 
+    simulationContext.updateInput()
   }
 
 

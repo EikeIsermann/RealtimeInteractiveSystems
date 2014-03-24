@@ -2,6 +2,7 @@ package main.scala.tools
 
 import org.lwjgl.opengl._
 import org.lwjgl.LWJGLException
+import main.scala.systems.input.Input
 
 /**
  * Created by Christian Treffs
@@ -18,11 +19,13 @@ object DisplayManager {
   def toggleFullscreen() {
     if(fullscreen) disableFullscreen()
     else enableFullscreen()
+
   }
 
   def enableFullscreen() {
     if(!fullscreen) {
       Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode)
+      Input.clear() // ! needs to be here, because Input is in a strange condition on display change
       fullscreen = true
       DC.log("Fullscreen enabled")
     }
@@ -30,6 +33,7 @@ object DisplayManager {
   def disableFullscreen() {
     if(fullscreen) {
       Display.setDisplayModeAndFullscreen(currentDisplayMode)
+      Input.clear() // ! needs to be here, because Input is in a strange condition on display change
       fullscreen = false
       DC.log("Fullscreen disabled")
     }

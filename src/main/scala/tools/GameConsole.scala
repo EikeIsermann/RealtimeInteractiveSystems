@@ -81,17 +81,17 @@ object GameConsole {
 
     delta = deltaT
 
-    if(Input.keyToggled(Key.GameConsole)) {
+    if(Input.isKeyToggled(Key.GameConsole)) {
       if(first) {
         newLine()
       }
 
 
-        Input.keyDown(Key.Enter, _ => newLine())
-        Input.keyDown(Key._Q, _ => write("q"))
-        Input.keyDown(Key._W, _ => write("w"))
-        Input.keyDown(Key._E, _ => write("e"))
-        Input.keyDown(Key.BackSpace, _ => deleteLastCharacter())
+        Input.keyDownDo(Key.Enter, _ => newLine())
+        Input.keyDownDo(Key._Q, _ => write("q"))
+        Input.keyDownDo(Key._W, _ => write("w"))
+        Input.keyDownDo(Key._E, _ => write("e"))
+        Input.keyDownDo(Key.BackSpace, _ => deleteLastCharacter())
 
 
 

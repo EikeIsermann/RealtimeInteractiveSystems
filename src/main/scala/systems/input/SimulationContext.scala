@@ -1,6 +1,6 @@
 package main.scala.systems.input
 
-import main.scala.tools.DC
+import main.scala.tools.{DisplayManager, DC}
 import main.scala.math.Mat4f
 import main.scala.systems.gfx.Shader
 import org.lwjgl.input.Keyboard
@@ -53,29 +53,33 @@ class SimulationContext extends Context {
 
   def updateInput(){
 
-    Input.keyDown(Key.ArrowUp,println)
-    Input.keyDown(Key.ArrowDown,println)
-    Input.keyDown(Key.ArrowLeft,println)
-    Input.keyDown(Key.ArrowRight,println)
+    //TODO: https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts
+
+    Input.keyDownOnceDo(Key._1, _ => DisplayManager.toggleFullscreen())
+
+    Input.keyDownDo(Key.ArrowUp,println)
+    Input.keyDownDo(Key.ArrowDown,println)
+    Input.keyDownDo(Key.ArrowLeft,println)
+    Input.keyDownDo(Key.ArrowRight,println)
 
 
-    Input.keyDown(Key.Space,println)
-    Input.keyDown(Key.BackSpace,println)
-    Input.keyDown(Key.Enter,println)
+    Input.keyDownOnceDo(Key.Space,_ => println("JUMP"))
+    Input.keyDownDo(Key.BackSpace,println)
+    Input.keyDownDo(Key.Enter,println)
 
-    Input.keyDown(Key.ShiftLeft,println)
-    Input.keyDown(Key.ShiftRight,println)
+    Input.keyDownDo(Key.ShiftLeft,println)
+    Input.keyDownDo(Key.ShiftRight,println)
 
-    Input.keyDown(Key.CommandRight,println)
+    Input.keyDownDo(Key.CommandRight,println)
 
-    Input.keyDown(Key.CommandLeft,println)
-    Input.keyDown(Key.AltLeft,println)
-    Input.keyDown(Key.CtrlLeft,println)
+    Input.keyDownDo(Key.CommandLeft,println)
+    Input.keyDownDo(Key.AltLeft,println)
+    Input.keyDownDo(Key.CtrlLeft,println)
 
-    Input.keyDown(Key._W,println)
-    Input.keyDown(Key._A,println)
-    Input.keyDown(Key._S,println)
-    Input.keyDown(Key._D,println)
+    Input.keyDownDo(Key._W,println)
+    Input.keyDownDo(Key._A,println)
+    Input.keyDownDo(Key._S,println)
+    Input.keyDownDo(Key._D,println)
 
 
     Input.mouseButtonDown(MouseButton.Left, println)

@@ -3,7 +3,7 @@ package main.scala.systems.input
 import main.scala.math.Vec3f
 import org.lwjgl.input.{Mouse, Keyboard}
 import scala.collection.mutable
-import main.scala.tools.{DisplayManager, DC}
+import main.scala.tools.DC
 import org.lwjgl.opengl.Display
 
 /**
@@ -11,11 +11,12 @@ import org.lwjgl.opengl.Display
  * Date: 20.03.14 13:02
  */
 object Input {
+  //TODO: https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts
+
   private val pressedKeys = mutable.ArrayBuffer.empty[Int]
+  private val pressedOnceKeys = mutable.ArrayBuffer.empty[Int]
   private val toggledKeys = mutable.ArrayBuffer.empty[Int]
   private val pressedMouseButtons = mutable.ArrayBuffer.empty[Int]
-  val onKeyPressActions = mutable.HashMap.empty[Int, Unit => Unit]
-  val onKeyReleaseActions = mutable.HashMap.empty[Int, Unit => Unit]
 
   private var _mousePosition: Vec3f = Vec3f(0,0,0)
   private var _mouseMovement: Vec3f = Vec3f(0,0,0)
@@ -24,16 +25,19 @@ object Input {
 
   def init() {
     DC.log("Input initialized")
-
-    onKeyPressActions.put(Key._1, _ => DisplayManager.enableFullscreen())
-    onKeyPressActions.put(Key._2, _ => DisplayManager.disableFullscreen())
-
   }
   def update() = {
     setMouseMovement()
     iterateMouseButtons()
     iterateKeys()
     setMouseWheel()
+  }
+
+  def clear() {
+    pressedKeys.clear()
+    pressedOnceKeys.clear()
+    toggledKeys.clear()
+    pressedMouseButtons.clear()
   }
 
 
@@ -45,8 +49,6 @@ object Input {
           //add if pressed
           pressedKeys += keyId
 
-          onKeyPress(keyId)
-
           // toggle keys
           toggledKeys.contains(keyId) match {
             case true   => toggledKeys -= keyId
@@ -54,7 +56,6 @@ object Input {
           }
         case false  =>
           pressedKeys -= keyId // remove if released
-          onKeyRelease(keyId)
       }
     }
   }
@@ -96,27 +97,43 @@ object Input {
     }
   }
 
-  def keysDown(keys: Int*): Boolean = keys.forall(keyDown)
-  def keyDown(key: Int):Boolean = pressedKeys.contains(key)
-  def keyDown(key: Int, func: Any => Unit = println) {
-    if(keyDown(key)) {
+
+
+  def isKeyDown(key: Int):Boolean = pressedKeys.contains(key)
+  def isKeyDownOnce(key: Int): Boolean = {
+    if(isKeyDown(key) && !pressedOnceKeys.contains(key)) {
+      pressedOnceKeys += key
+      true
+    }
+    else if (isKeyDown(key) && pressedOnceKeys.contains(key)) {
+      false
+    } else {
+      pressedOnceKeys -= key
+      false
+    }
+  }
+  def isKeyToggled(key: Int): Boolean = toggledKeys.contains(key)
+
+
+
+  def keyDownDo(key: Int, func: Any => Unit = println) {
+    if(isKeyDown(key)) {
       func(Keyboard.getKeyName(key))
     }
   }
-  def keyToggled(key: Int): Boolean = toggledKeys.contains(key)
-  def keyToggled(key: Int, func: Any => Unit = println) {
-    if(keyToggled(key)) {
+  def keyDownOnceDo(key: Int, func: Any => Unit) {
+    if(isKeyDownOnce(key)) {
+      func(Keyboard.getKeyName(key))
+    }
+  }
+  def keyToggledDo(key: Int, func: Any => Unit = println) {
+    if(isKeyToggled(key)) {
       func(Keyboard.getKeyName(key))
     }
   }
 
-  def onKeyPress(keyId: Int) {
-    onKeyPressActions.get(keyId).foreach(_.apply())
-  }
-  def onKeyRelease(keyId: Int) {
-    onKeyReleaseActions.get(keyId).foreach(_.apply())
-  }
 
+  def areKeysDown(keys: Int*): Boolean = keys.forall(isKeyDown)
 }
 
 object MouseButton {
@@ -164,6 +181,8 @@ object Key {
   val _8 = Keyboard.KEY_8
   val _9 = Keyboard.KEY_9
   val _0 = Keyboard.KEY_0
+
+  val F11 = Keyboard.KEY_F11
 
   val Enter = Keyboard.KEY_RETURN
   val BackSpace = Keyboard.KEY_BACK
