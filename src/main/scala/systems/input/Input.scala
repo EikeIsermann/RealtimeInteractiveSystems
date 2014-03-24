@@ -184,6 +184,8 @@ object Key {
 
   val F11 = Keyboard.KEY_F11
 
+  val Function = Keyboard.KEY_FUNCTION
+
   val Enter = Keyboard.KEY_RETURN
   val BackSpace = Keyboard.KEY_BACK
   val Tab = Keyboard.KEY_TAB

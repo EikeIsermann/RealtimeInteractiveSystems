@@ -1,7 +1,7 @@
 package main.scala.systems.input
 
 import main.scala.tools.{DisplayManager, DC}
-import main.scala.math.Mat4f
+import main.scala.math.{Vec3f, Mat4f}
 import main.scala.systems.gfx.Shader
 import org.lwjgl.input.Keyboard
 
@@ -55,16 +55,14 @@ class SimulationContext extends Context {
 
     //TODO: https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts
 
-    Input.keyDownOnceDo(Key._1, _ => DisplayManager.toggleFullscreen())
+    Input.keyDownOnceDo(Key._1, _ => DisplayManager.toggleFullscreen()) // FULLSCREEN
 
-    Input.keyDownDo(Key.ArrowUp,println)
+    /*Input.keyDownDo(Key.ArrowUp,println)
     Input.keyDownDo(Key.ArrowDown,println)
     Input.keyDownDo(Key.ArrowLeft,println)
-    Input.keyDownDo(Key.ArrowRight,println)
+    Input.keyDownDo(Key.ArrowRight,println)*/
 
-
-    Input.keyDownOnceDo(Key.Space,_ => println("JUMP"))
-    Input.keyDownDo(Key.BackSpace,println)
+    /*Input.keyDownDo(Key.BackSpace,println)
     Input.keyDownDo(Key.Enter,println)
 
     Input.keyDownDo(Key.ShiftLeft,println)
@@ -74,17 +72,24 @@ class SimulationContext extends Context {
 
     Input.keyDownDo(Key.CommandLeft,println)
     Input.keyDownDo(Key.AltLeft,println)
-    Input.keyDownDo(Key.CtrlLeft,println)
+    Input.keyDownDo(Key.CtrlLeft,println)*/
 
-    Input.keyDownDo(Key._W,println)
-    Input.keyDownDo(Key._A,println)
-    Input.keyDownDo(Key._S,println)
-    Input.keyDownDo(Key._D,println)
+    Input.mouseButtonDown(MouseButton.Left, _ => println("FIRE"))
+
+    Input.keyDownDo(Key._W, _ => println("FORWARD"))
+    Input.keyDownDo(Key._A, _ => println("LEFT"))
+    Input.keyDownDo(Key._D, _ => println("RIGHT"))
+    Input.keyDownDo(Key._S, _ => println("BACKWARD"))
+
+    Input.keyDownOnceDo(Key.Space,_ => println("JUMP"))
+
+    Input.keyDownOnceDo(Key._R, _ => println("RELOAD"))
 
 
-    Input.mouseButtonDown(MouseButton.Left, println)
-    Input.mouseButtonDown(MouseButton.Right,println)
-    Input.mouseButtonDown(MouseButton.Middle,println)
+
+
+    //Input.mouseButtonDown(MouseButton.Right,println)
+    //Input.mouseButtonDown(MouseButton.Middle,println)
 
 
     //println(Keyboard.getEventKey, Keyboard.getKeyName(Keyboard.getEventKey))

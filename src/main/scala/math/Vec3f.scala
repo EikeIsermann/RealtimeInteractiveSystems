@@ -34,6 +34,24 @@ final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.
   implicit def toSeq: Seq[Float] = toArray
   implicit def toTuple3: (Float, Float, Float) = Tuple3(x, y, z)
 
+  /*override implicit def x: Float = x1
+  override implicit def y: Float = y1
+  override implicit def z: Float = z1*/
+
+  def xy: (Float, Float) = (x, y)
+  def xz: (Float, Float) = (x, z)
+
+  def yx: (Float, Float) = (y,x)
+  def yz: (Float, Float) = (y,z)
+
+  def zx: (Float, Float) = (z,x)
+  def zy: (Float, Float) = (z,y)
+
+
+  def xyz: (Float, Float, Float) = (x,y,z)
+
+
+
   def inline: String = "["+x+" "+y+" "+z+"]"
 
   def magnitude: Double = math.sqrt((x() * x()) + (y() * y()) + (z() * z()))
