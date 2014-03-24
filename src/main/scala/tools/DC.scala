@@ -1,5 +1,7 @@
 package main.scala.tools
 
+import scala.collection.mutable
+
 /**
  * Created by Christian Treffs
  * Date: 21.01.14 16:58
@@ -10,6 +12,7 @@ object DC {
    * the debug level between 0 (lowest priority) and 3 (highest priority)
    */
   private var _debugLevel = 0
+  private val timedLog = mutable.HashMap.empty[Symbol,Long]
 
   /**
    * getter, setter and validator for debug level
@@ -55,6 +58,17 @@ object DC {
     ret = "[⚠ WARNING] "+msg + msg1
     println(ret)
     ret
+  }
+
+  def logT(identifier: Symbol, msg: String, arg: Any = "", level: Int = 0) = {
+    timedLog.contains(identifier) match {
+      case true =>
+        DC.log(msg,arg+" after "+(System.currentTimeMillis()-timedLog(identifier))+"ms",level)
+        timedLog.remove(identifier)
+      case false =>
+        DC.log(msg,arg,level)
+        timedLog.put(identifier,System.currentTimeMillis())
+    }
   }
 
 }

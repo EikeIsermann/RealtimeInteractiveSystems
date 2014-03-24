@@ -63,7 +63,7 @@ object GameEngine extends Engine {
   }
 
   override def start(): Engine = {
-    DC.log("Engine", "starting up", 3)
+    DC.logT('engineStartup,"Engine", "starting up", 3)
     // init the display
     initDisplay(gameTitle, width, height, FOV, nearPl, farPl, prefFPS,vSyncEnabled, multiSampling)
 
@@ -205,7 +205,7 @@ object GameEngine extends Engine {
 
 
   override protected def gameLoop(): Unit = {
-    DC.log("Engine","initialized",3)
+    DC.logT('engineStartup,"Engine", "initialized", 3)
     while (!Display.isCloseRequested) {
       Display.sync(preferredFPS) //needs to be first
 
