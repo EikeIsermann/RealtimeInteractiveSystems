@@ -1,7 +1,6 @@
 package main.scala.tools
 
 import main.scala.systems.input.{Key, Input}
-import scala.collection.mutable
 
 /**
  * Created by Christian Treffs
@@ -11,11 +10,10 @@ object GameConsole {
 
   private var active = false
   private var first = true
-  private var lastT: Float = 0
-  private val minTimeBetweenInputs: Long = 50
-  private var delta: Float = 0
   private val text: StringBuffer = new StringBuffer()
-  private val charMap = mutable.HashMap.empty[String, Long]
+  val validKeys: Seq[Key.Value] = Key.numbers ++ Key.literals ++ Seq(Key.Period, Key.Comma, Key.Space)
+
+  def isActive:Boolean = active
 
   def enable() {
     active = true
@@ -40,34 +38,11 @@ object GameConsole {
     print("\n>")
   }
 
-  private def canWrite(deltaT: Float): Boolean = {
-    if(lastT < minTimeBetweenInputs) {
-      lastT = lastT + deltaT
-      false
-    } else {
-      lastT = 0
-      true
-    }
-
-
-  }
 
   def write(character: String) {
-    val lastTime = charMap.get(character)
-    lastTime.collect {
-      case t: Long => {
-        val deltaT: Long = System.currentTimeMillis()-t
-        if(deltaT > minTimeBetweenInputs) {
-          text.append(character)
-          print(character)
-        }
-      }
-      case _ => {
-        text.append(character)
-        print(character)
-      }
-    }
-    charMap.put(character, System.currentTimeMillis())
+    text.append(character)
+    print(character)
+
   }
 
   def deleteLastCharacter() {
@@ -77,32 +52,26 @@ object GameConsole {
   }
 
 
-  def updateInput(deltaT: Float) {
+  def updateInput() {
 
-    delta = deltaT
 
-    if(Input.isKeyToggled(Key.GameConsole)) {
+  active = Input.isKeyToggled(Key.GameConsole)
+
+    if(isActive) {
       if(first) {
         newLine()
       }
 
-
-        Input.keyDownDo(Key.Enter, _ => newLine())
-        Input.keyDownDo(Key._Q, _ => write("q"))
-        Input.keyDownDo(Key._W, _ => write("w"))
-        Input.keyDownDo(Key._E, _ => write("e"))
-        Input.keyDownDo(Key.BackSpace, _ => deleteLastCharacter())
-
+      Input.keyDownOnceDo(Key.Enter, _ => newLine())
+      Input.keyDownOnceDo(Key.BackSpace, _ => deleteLastCharacter())
+      validKeys.foreach(l => {
+        Input.keyDownOnceDo(l,_ => write(Key.asChar(l).toString))
+      })
 
 
+    first = false
+}
 
-
-
-
-
-      first = false
-    }
-
-  }
+}
 
 }

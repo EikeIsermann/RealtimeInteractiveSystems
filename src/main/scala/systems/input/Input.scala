@@ -44,7 +44,9 @@ object Input {
 
   private def iterateKeys() {
     while(Keyboard.next()) {
+
      val keyId: Int = Keyboard.getEventKey
+
      Keyboard.getEventKeyState match {
         case true   =>
           //add if pressed
@@ -100,113 +102,199 @@ object Input {
 
 
 
-  def isKeyDown(key: Int):Boolean = pressedKeys.contains(key)
-  def isKeyDownOnce(key: Int): Boolean = {
-    if(isKeyDown(key) && !pressedOnceKeys.contains(key)) {
-      pressedOnceKeys += key
+  def isKeyDown(key: Key.Value):Boolean = pressedKeys.contains(key.id)
+  def isKeyDownOnce(key: Key.Value): Boolean = {
+    if(isKeyDown(key) && !pressedOnceKeys.contains(key.id)) {
+      pressedOnceKeys += key.id
       true
     }
-    else if (isKeyDown(key) && pressedOnceKeys.contains(key)) {
+    else if (isKeyDown(key) && pressedOnceKeys.contains(key.id)) {
       false
     } else {
-      pressedOnceKeys -= key
+      pressedOnceKeys -= key.id
       false
     }
   }
-  def isKeyToggled(key: Int): Boolean = toggledKeys.contains(key)
+  def isKeyToggled(key: Key.Value): Boolean = toggledKeys.contains(key.id)
 
 
 
-  def keyDownDo(key: Int, func: Any => Unit = println) {
+  def keyDownDo(key: Key.Value, func: Any => Unit = println) {
     if(isKeyDown(key)) {
-      func(Keyboard.getKeyName(key))
+      func(key)
     }
   }
-  def keyDownOnceDo(key: Int, func: Any => Unit) {
+  def keyDownOnceDo(key: Key.Value, func: Any => Unit) {
     if(isKeyDownOnce(key)) {
-      func(Keyboard.getKeyName(key))
+      func(key)
     }
   }
-  def keyToggledDo(key: Int, func: Any => Unit = println) {
+  def keyToggledDo(key: Key.Value, func: Any => Unit = println) {
     if(isKeyToggled(key)) {
-      func(Keyboard.getKeyName(key))
+      func(key)
     }
   }
 
+  def areKeysDown(keys: Key.Value*): Boolean = keys.forall(isKeyDown)
 
-  def areKeysDown(keys: Int*): Boolean = keys.forall(isKeyDown)
 }
 
 object MouseButton {
   val Left = 0
   val Right = 1
   val Middle = 2
-
 }
 
-object Key {
-  val _A = Keyboard.KEY_A
-  val _B = Keyboard.KEY_B
-  val _C = Keyboard.KEY_C
-  val _D = Keyboard.KEY_D
-  val _E = Keyboard.KEY_E
-  val _F = Keyboard.KEY_F
-  val _G = Keyboard.KEY_G
-  val _H = Keyboard.KEY_H
-  val _I = Keyboard.KEY_I
-  val _J = Keyboard.KEY_J
-  val _K = Keyboard.KEY_K
-  val _L = Keyboard.KEY_L
-  val _M = Keyboard.KEY_M
-  val _N = Keyboard.KEY_N
-  val _O = Keyboard.KEY_O
-  val _P = Keyboard.KEY_P
-  val _Q = Keyboard.KEY_Q
-  val _R = Keyboard.KEY_R
-  val _S = Keyboard.KEY_S
-  val _T = Keyboard.KEY_T
-  val _U = Keyboard.KEY_U
-  val _V = Keyboard.KEY_V
-  val _W = Keyboard.KEY_W
-  val _X = Keyboard.KEY_X
-  val _Y = Keyboard.KEY_Y
-  val _Z = Keyboard.KEY_Z
+object Key extends Enumeration {
 
-  val _1 = Keyboard.KEY_1
-  val _2 = Keyboard.KEY_2
-  val _3 = Keyboard.KEY_3
-  val _4 = Keyboard.KEY_4
-  val _5 = Keyboard.KEY_5
-  val _6 = Keyboard.KEY_6
-  val _7 = Keyboard.KEY_7
-  val _8 = Keyboard.KEY_8
-  val _9 = Keyboard.KEY_9
-  val _0 = Keyboard.KEY_0
+  val Function = Value(Keyboard.KEY_FUNCTION)
 
-  val F11 = Keyboard.KEY_F11
+  val Enter = Value(Keyboard.KEY_RETURN)
+  val BackSpace = Value(Keyboard.KEY_BACK)
+  val Tab = Value(Keyboard.KEY_TAB)
+  val Space = Value(Keyboard.KEY_SPACE)
+  val GameConsole = Value(Keyboard.KEY_SECTION)
 
-  val Function = Keyboard.KEY_FUNCTION
 
-  val Enter = Keyboard.KEY_RETURN
-  val BackSpace = Keyboard.KEY_BACK
-  val Tab = Keyboard.KEY_TAB
-  val CommandLeft = Keyboard.KEY_LMETA
-  val CommandRight = Keyboard.KEY_RMETA
-  val AltLeft = Keyboard.KEY_LMENU
-  val AltRight = Keyboard.KEY_RMENU
-  val CtrlLeft = Keyboard.KEY_LCONTROL
-  val CtrlRight = Keyboard.KEY_RCONTROL
-  val Space = Keyboard.KEY_SPACE
-  val ShiftLeft = Keyboard.KEY_LSHIFT
-  val ShiftRight = Keyboard.KEY_RSHIFT
+  val Esc = Value(Keyboard.KEY_ESCAPE)
 
-  val GameConsole = Keyboard.KEY_SECTION
 
-  val ArrowUp = Keyboard.KEY_UP
-  val ArrowDown = Keyboard.KEY_DOWN
-  val ArrowLeft = Keyboard.KEY_LEFT
-  val ArrowRight = Keyboard.KEY_RIGHT
+    val F1 = Value(Keyboard.KEY_F1)
+    val F2 = Value(Keyboard.KEY_F2)
+    val F3 = Value(Keyboard.KEY_F3)
+    val F4 = Value(Keyboard.KEY_F4)
+    val F5 = Value(Keyboard.KEY_F5)
+    val F6 = Value(Keyboard.KEY_F6)
+    val F7 = Value(Keyboard.KEY_F7)
+    val F8 = Value(Keyboard.KEY_F8)
+    val F9 = Value(Keyboard.KEY_F9)
+    val F10 = Value(Keyboard.KEY_F10)
+    val F11 = Value(Keyboard.KEY_F11)
+    val F12 = Value(Keyboard.KEY_F12)
 
 
 
+    val _1 = Value(Keyboard.KEY_1)
+    val _2 = Value(Keyboard.KEY_2)
+    val _3 = Value(Keyboard.KEY_3)
+    val _4 = Value(Keyboard.KEY_4)
+    val _5 = Value(Keyboard.KEY_5)
+    val _6 = Value(Keyboard.KEY_6)
+    val _7 = Value(Keyboard.KEY_7)
+    val _8 = Value(Keyboard.KEY_8)
+    val _9 = Value(Keyboard.KEY_9)
+    val _0 = Value(Keyboard.KEY_0)
+
+
+
+    val ArrowUp = Value(Keyboard.KEY_UP)
+    val ArrowDown = Value(Keyboard.KEY_DOWN)
+    val ArrowLeft = Value(Keyboard.KEY_LEFT)
+    val ArrowRight = Value(Keyboard.KEY_RIGHT)
+
+
+
+    val CtrlLeft = Value(Keyboard.KEY_LCONTROL)
+    val CtrlRight = Value(Keyboard.KEY_RCONTROL)
+
+
+
+    val CommandLeft = Value(Keyboard.KEY_LMETA)
+    val CommandRight = Value(Keyboard.KEY_RMETA)
+
+
+
+    val AltLeft = Value(Keyboard.KEY_LMENU)
+    val AltRight = Value(Keyboard.KEY_RMENU)
+
+
+
+    val ShiftLeft = Value(Keyboard.KEY_LSHIFT)
+    val ShiftRight = Value(Keyboard.KEY_RSHIFT)
+
+
+    val Comma = Value(Keyboard.KEY_COMMA)
+    val Period = Value(Keyboard.KEY_PERIOD)
+
+    val _A = Value(Keyboard.KEY_A)
+    val _B = Value(Keyboard.KEY_B)
+    val _C = Value(Keyboard.KEY_C)
+    val _D = Value(Keyboard.KEY_D)
+    val _E = Value(Keyboard.KEY_E)
+    val _F = Value(Keyboard.KEY_F)
+    val _G = Value(Keyboard.KEY_G)
+    val _H = Value(Keyboard.KEY_H)
+    val _I = Value(Keyboard.KEY_I)
+    val _J = Value(Keyboard.KEY_J)
+    val _K = Value(Keyboard.KEY_K)
+    val _L = Value(Keyboard.KEY_L)
+    val _M = Value(Keyboard.KEY_M)
+    val _N = Value(Keyboard.KEY_N)
+    val _O = Value(Keyboard.KEY_O)
+    val _P = Value(Keyboard.KEY_P)
+    val _Q = Value(Keyboard.KEY_Q)
+    val _R = Value(Keyboard.KEY_R)
+    val _S = Value(Keyboard.KEY_S)
+    val _T = Value(Keyboard.KEY_T)
+    val _U = Value(Keyboard.KEY_U)
+    val _V = Value(Keyboard.KEY_V)
+    val _W = Value(Keyboard.KEY_W)
+    val _X = Value(Keyboard.KEY_X)
+    val _Y = Value(Keyboard.KEY_Y)
+    val _Z = Value(Keyboard.KEY_Z)
+
+
+  def literals: Seq[Key.Value] = Seq(_A,_B,_C,_D,_E,_F,_G,_H,_I,_J,_K,_L,_M,_N,_O,_P,_Q,_R,_S,_T,_U,_V,_W,_X,_Y,_Z)
+  def numbers: Seq[Key.Value] = Seq(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9)
+
+  def asChar(key: Key.Value): Char = {
+    key match {
+      case Key._A => 'a'
+      case Key._B => 'b'
+      case Key._C => 'c'
+      case Key._D => 'd'
+      case Key._E => 'e'
+      case Key._F => 'f'
+      case Key._G => 'g'
+      case Key._H => 'h'
+      case Key._I => 'i'
+      case Key._J => 'j'
+      case Key._K => 'k'
+      case Key._L => 'l'
+      case Key._M => 'm'
+      case Key._N => 'n'
+      case Key._O => 'o'
+      case Key._P => 'p'
+      case Key._Q => 'q'
+      case Key._R => 'r'
+      case Key._S => 's'
+      case Key._T => 't'
+      case Key._U => 'u'
+      case Key._V => 'v'
+      case Key._W => 'w'
+      case Key._X => 'x'
+      case Key._Y => 'y'
+      case Key._Z => 'z'
+      case Key._0 => '0'
+      case Key._1 => '1'
+      case Key._2 => '2'
+      case Key._3 => '3'
+      case Key._4 => '4'
+      case Key._5 => '5'
+      case Key._6 => '6'
+      case Key._7 => '7'
+      case Key._8 => '8'
+      case Key._9 => '9'
+      case Key.Space => ' '
+      case Key.Period => '.'
+      case Key.Comma => ','
+      case _ => throw new IllegalArgumentException("can't compute character "+key)
+
+    }
+  }
 }
+
+
+
+
+
