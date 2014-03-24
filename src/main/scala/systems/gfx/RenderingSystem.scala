@@ -77,4 +77,7 @@ class RenderingSystem extends System {
     this
   }
 
+  override def deinit(): Unit = {
+    DC.log("Rendering System shutdown")
+  }
 }

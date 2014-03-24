@@ -22,4 +22,8 @@ class ControlSystem extends System {
     DC.log("Control System initialized")
     this
   }
+
+  override def deinit(): Unit = {
+    DC.log("Control System shutdown")
+  }
 }

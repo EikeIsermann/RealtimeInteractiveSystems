@@ -1,6 +1,6 @@
 package main.scala.systems.input
 
-import main.scala.tools.{DisplayManager, DC}
+import main.scala.tools.{GameConsole, DisplayManager, DC}
 import main.scala.math.{Vec3f, Mat4f}
 import main.scala.systems.gfx.Shader
 import org.lwjgl.input.Keyboard

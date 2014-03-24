@@ -1,8 +1,6 @@
 package main.scala.architecture
 
-import akka.actor.Actor
-import main.scala.systems.input.{SimulationContext, Context}
-import main.scala.event.ObservingActor
+import main.scala.systems.input.SimulationContext
 
 /**
  * Created by Christian Treffs
@@ -18,6 +16,8 @@ trait System /*extends ObservingActor*/ {
   var priority = 0
 
   def init(): System
+
+  def deinit(): Unit
 
   def update(context: SimulationContext): System
   //def update(nodeType: Class[_ <: Node], context: Context): System

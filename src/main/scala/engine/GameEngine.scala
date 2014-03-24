@@ -2,15 +2,15 @@ package main.scala.engine
 
 import main.scala.architecture.{Family, Engine}
 import ogl.app.StopWatch
-import main.scala.tools.{DisplayManager, GameConsole, DC}
+import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input.{Input, SimulationContext}
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.EntityDescLoader
 import main.scala.math.Vec3f
-import main.scala.systems.gfx.{RenderingSystem, Shader, Mesh}
+import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
-import main.scala.components.Position
-import main.scala.nodes.RenderNode
+import main.scala.components.{Camera, Position}
+import main.scala.nodes.{CameraNode, RenderNode}
 
 /**
  * Created by Christian Treffs
@@ -152,6 +152,20 @@ object GameEngine extends Engine {
     }
     add(new RenderingSystem)
 
+
+    val camEntity = Entity.create("Camera")
+    val cam = new Camera(90)
+    val camPos = new Position(Vec3f(0,0,0),Vec3f(0,0,0))
+    camEntity.add(cam)
+    camEntity.add(camPos)
+    val camSys = new CameraSystem
+    val camFam = new Family(classOf[CameraNode])
+    camFam.components += (classOf[Camera], classOf[Position])
+    add(camFam)
+    families.values.foreach(family => family.addIfMatch(camEntity))
+    add(camSys)
+
+
     Input.init()
 
     time = new StopWatch()
@@ -186,19 +200,17 @@ object GameEngine extends Engine {
 
   override protected def gameLoop(): Unit = {
     while (!Display.isCloseRequested) {
-      //input.update()
-      updateContext()
-      Display.sync(preferredFPS)
+      Display.sync(preferredFPS) //needs to be first
 
-      Input.update()
+      Input.update() // needs to be before the context update because context depends on fresh key/mouse input?!
 
-      simulate(time.elapsed)
+      updateContext() // update the context
 
-      for(system <- systems.values){system.update(simulationContext)}
+      systems.values.foreach(_.update(simulationContext)) //update all systems with sim-context
 
       updateFPS() // update FPS Counter
 
-      Display.update()
+      Display.update() // show changes
     }
 
     shutdown()
@@ -207,6 +219,9 @@ object GameEngine extends Engine {
   override def shutdown(): Unit = {
     DC.log("Shutting down")
     //TODO: stop thread clean up and end
+
+    systems.values.foreach(system => system.deinit()) // shut down all systems
+
     Display.destroy()
     DC.log("Program Ended")
     System.exit(0)
@@ -225,8 +240,6 @@ object GameEngine extends Engine {
     // INPUT
     // update user input
     //context.updateInput()
-    GameConsole.updateInput(elapsed)
-
 
     // PHYSICS
     //simulate all entities
@@ -238,6 +251,7 @@ object GameEngine extends Engine {
 
   //todo: move variables to context
   def updateContext(): Unit = {
+
     simulationContext.displayHeight = Display.getHeight
     simulationContext.displayWidth = Display.getWidth
     simulationContext.preferredFPS = preferredFPS
