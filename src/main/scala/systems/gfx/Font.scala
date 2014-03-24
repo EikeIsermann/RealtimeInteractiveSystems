@@ -1,7 +1,7 @@
 package main.scala.systems.gfx
 
 import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.Display
+import main.scala.math.Mat4f
 
 /**
  * Created by Christian Treffs
@@ -40,7 +40,13 @@ object Font {
   }
 
 
-  def render(string: String) {
+  def draw(string: String, modelTransformation: Mat4f, projectionMatrix: Mat4f, viewMatrix: Mat4f, shader: Shader = Shader.init(),beforeFunc: Unit => Unit = {Unit => Unit}, afterFunc: Unit => Unit = {Unit => Unit}) {
+
+    beforeFunc()
+
+    shader.useProgram(projectionMatrix, viewMatrix)
+    shader.setModelMatrix(modelTransformation)
+
     glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT)
     glEnable(GL_CULL_FACE)
 
@@ -66,6 +72,8 @@ object Font {
 
     }
     glEnd()
+
+    afterFunc()
   }
 
 

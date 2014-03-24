@@ -1,7 +1,7 @@
 package main.scala.io
 
 import scala.reflect.ClassTag
-import java.io.File
+import java.io.{FileInputStream, BufferedInputStream, File}
 import scala.io.Source
 
 
@@ -40,8 +40,9 @@ object FileIO {
     }
   }
 
+  implicit def loadInto(filePath: String): BufferedInputStream = new BufferedInputStream(new FileInputStream(load(filePath)))
 
-  def load(filePath: String): java.io.File = {
+  implicit def load(filePath: String): java.io.File = {
     val f = new java.io.File(filePath)
     if(!f.exists) {
       throw new IllegalArgumentException("file does not exist '"+filePath+"'")
