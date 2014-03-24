@@ -27,7 +27,7 @@ object DisplayManager {
       Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode)
       Input.clear() // ! needs to be here, because Input is in a strange condition on display change
       fullscreen = true
-      DC.log("Fullscreen enabled")
+      DC.log("Fullscreen","enabled",1)
     }
   }
   def disableFullscreen() {
@@ -35,7 +35,7 @@ object DisplayManager {
       Display.setDisplayModeAndFullscreen(currentDisplayMode)
       Input.clear() // ! needs to be here, because Input is in a strange condition on display change
       fullscreen = false
-      DC.log("Fullscreen disabled")
+      DC.log("Fullscreen","disabled",1)
     }
   }
 
@@ -50,7 +50,6 @@ object DisplayManager {
 
     // return if requested DisplayMode is already set
     if ((Display.getDisplayMode.getWidth == width) && (Display.getDisplayMode.getHeight == height) && (Display.isFullscreen == fullscreen)) {
-      println("one")
       return
     }
 
@@ -77,13 +76,11 @@ object DisplayManager {
             // since it's most likely compatible with the monitor
             if ((current.getBitsPerPixel == Display.getDesktopDisplayMode.getBitsPerPixel) && (current.getFrequency == Display.getDesktopDisplayMode.getFrequency)) {
               currentDisplayMode = current
-              println("two")
               return
             }
           }
         }
       } else {
-        println("three")
         currentDisplayMode = new DisplayMode(width, height)
       }
 

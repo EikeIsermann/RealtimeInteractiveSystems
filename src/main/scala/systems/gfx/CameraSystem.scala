@@ -28,11 +28,11 @@ class CameraSystem extends System {
 
 
   override def init(): System = {
-    DC.log("Camera System initialized")
+    DC.log("Camera System","initialized",2)
     this
   }
 
   override def deinit(): Unit = {
-    DC.log("Camera System shutdown")
+    DC.log("Camera System","ended",2)
   }
 }

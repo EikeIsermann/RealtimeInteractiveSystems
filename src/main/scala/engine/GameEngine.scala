@@ -19,7 +19,7 @@ import main.scala.nodes.{CameraNode, RenderNode}
 object GameEngine extends Engine {
 
   // set debug level
-  DC.debugLevel = 0
+  DC.debugLevel = 1
 
   private var assetsDir: String = null
   private var gameTitle:String = null
@@ -63,6 +63,7 @@ object GameEngine extends Engine {
   }
 
   override def start(): Engine = {
+    DC.log("Engine", "starting up", 3)
     // init the display
     initDisplay(gameTitle, width, height, FOV, nearPl, farPl, prefFPS,vSyncEnabled, multiSampling)
 
@@ -99,6 +100,7 @@ object GameEngine extends Engine {
     nearPlane = nP
     farPlane = fP
 
+    DC.log("Display", "initialized@"+width+"x"+height, 3)
   }
 
   def initGL() = {
@@ -114,6 +116,8 @@ object GameEngine extends Engine {
     GL11.glLoadIdentity()
 
     GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)  // Black
+
+    DC.log("OpenGL", "initialized", 3)
   }
 
   def initGame(): Unit = {
@@ -195,10 +199,13 @@ object GameEngine extends Engine {
 
     // set initial deltaT
     simulationContext.updateDeltaT()
+
+    DC.log("Game","initialized",3)
   }
 
 
   override protected def gameLoop(): Unit = {
+    DC.log("Engine","initialized",3)
     while (!Display.isCloseRequested) {
       Display.sync(preferredFPS) //needs to be first
 
@@ -217,13 +224,13 @@ object GameEngine extends Engine {
   }
 
   override def shutdown(): Unit = {
-    DC.log("Shutting down")
+    DC.log("Engine","shutting down",3)
     //TODO: stop thread clean up and end
 
     systems.values.foreach(system => system.deinit()) // shut down all systems
 
     Display.destroy()
-    DC.log("Program Ended")
+    DC.log("Engine","ended",3)
     System.exit(0)
   }
 

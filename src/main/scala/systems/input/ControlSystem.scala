@@ -19,11 +19,11 @@ class ControlSystem extends System {
     this
   }
   override def init(): System = {
-    DC.log("Control System initialized")
+    DC.log("Control System","initialized",2)
     this
   }
 
   override def deinit(): Unit = {
-    DC.log("Control System shutdown")
+    DC.log("Control System","ended",2)
   }
 }

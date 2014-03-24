@@ -73,11 +73,11 @@ class RenderingSystem extends System {
   }
 
   override def init(): System = {
-    DC.log("Rendering System initialized")
+    DC.log("Rendering System","initialized",2)
     this
   }
 
   override def deinit(): Unit = {
-    DC.log("Rendering System shutdown")
+    DC.log("Rendering System","ended",2)
   }
 }
