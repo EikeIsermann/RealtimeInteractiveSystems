@@ -6,7 +6,7 @@ import org.lwjgl.opengl.DisplayMode
 
 
 import org.lwjgl.opengl.GL11._
-import main.scala.systems.gfx.Texture
+import main.scala.systems.gfx.{Font, Texture}
 
 /**
  * Created by Christian Treffs
@@ -32,13 +32,17 @@ object FontRendering {
 
 
   def initDisplay() {
-    Display.setDisplayMode(new DisplayMode(800, 600))
+    Display.setDisplayMode(new DisplayMode(800, 800))
     Display.setTitle("Font Test")
+    Display.setResizable(true)
     Display.create()
   }
 
   def initTextures() {
-    fontTextureIdx = Texture.load(textureFilePath, flipped = false).texId
+    //fontTextureIdx = Texture.load(textureFilePath, flipped = false).texId
+
+
+    Font.init()
 
   }
 
@@ -89,39 +93,22 @@ object FontRendering {
   }
 
   def renderString( string: String, textureObject: Int,  gridSize: Int,  x: Float,  y: Float, characterWidth: Float, characterHeight: Float) {
-    glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT)
-    glEnable(GL_CULL_FACE)
 
-    Texture.bind(textureObject)
+
+    //Texture.bind(textureObject)
 
     // Store the current model-view matrix.
-    glPushMatrix()
+    /*glPushMatrix()
     // Offset all subsequent (at least up until 'glPopMatrix') vertex coordinates.
-    glTranslatef(x, y, 0)
-    glBegin(GL_QUADS)
-    // Iterate over all the characters in the string.
-    for (i <- 0 until string.length) {
-      // Get the ASCII-code of the character by type-casting to integer.
-      val asciiCode: Int = string.charAt(i)
-      // There are 16 cells in a texture, and a texture coordinate ranges from 0.0 to 1.0.
-      val cellSize: Float = 1.0f / gridSize
-      // The cell's x-coordinate is the greatest integer smaller than remainder of the ASCII-code divided by the
-      // amount of cells on the x-axis, times the cell size.
-      val cellX: Float = ( asciiCode % gridSize) * cellSize
-      // The cell's y-coordinate is the greatest integer smaller than the ASCII-code divided by the amount of
-      // cells on the y-axis.
-      val cellY: Float = (asciiCode / gridSize) * cellSize
-      glTexCoord2f(cellX, cellY + cellSize)
-      glVertex2f(i * characterWidth / 3, y)
-      glTexCoord2f(cellX + cellSize, cellY + cellSize)
-      glVertex2f(i * characterWidth / 3 + characterWidth / 2, y)
-      glTexCoord2f(cellX + cellSize, cellY)
-      glVertex2f(i * characterWidth / 3 + characterWidth / 2, y + characterHeight)
-      glTexCoord2f(cellX, cellY)
-      glVertex2f(i * characterWidth / 3, y + characterHeight)
-    }
-    glEnd()
+    glTranslatef(0, 0, 0)
+      */
+
+    Font.render(string)
+
+
+    /*
     glPopMatrix()
     glPopAttrib()
+    */
   }
 }
