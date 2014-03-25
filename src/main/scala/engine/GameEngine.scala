@@ -20,7 +20,7 @@ import main.scala.systems.positional.MovementSystem
 object GameEngine extends Engine {
 
   // set debug level
-  DC.debugLevel = 0
+  DC.debugLevel = 1
 
   private var assetsDir: String = null
   private var gameTitle:String = null
@@ -160,7 +160,8 @@ object GameEngine extends Engine {
     val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
     val camPos = new Position(Vec3f(0,0,0),Vec3f(0,0,0))
-    val camCon = new CamControl(Key._A,Key._W,Key._D,Key._S)
+    //
+    val camCon = new CamControl(Seq(Key._A),Seq(Key._W),Seq(Key._D),Seq(Key._S),Seq(), Seq(), Seq(), Seq())
     val motion = new Motion()
     camEntity.add(camCon)
     camEntity.add(motion)

@@ -23,6 +23,8 @@ object Mat4f {
   def rotation(r: Vec3f, angle: Float): Mat4f = FactoryDefault.vecmath.rotationMatrix(r, angle)
   def rotation(x: Float, y: Float, z: Float, angle: Float): Mat4f = FactoryDefault.vecmath.rotationMatrix(x, y, z, angle)
 
+  def rotation(rotVec: Vec3f): Mat4f = Mat4f.rotation(1,0,0,rotVec.x()) * Mat4f.rotation(0,1,0,rotVec.y()) * Mat4f.rotation(0,0,1,rotVec.z())
+
   def scale(v: Vec3f): Mat4f = FactoryDefault.vecmath.scaleMatrix(v)
   def scale(x: Float, y: Float, z: Float): Mat4f = FactoryDefault.vecmath.scaleMatrix(x,y,z)
 }

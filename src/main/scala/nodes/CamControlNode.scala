@@ -11,6 +11,6 @@ import main.scala.systems.input.Key
  */
 class CamControlNode(camCon: CamControl, mot: Motion) extends Node {
 
-  def this() = this(new CamControl(Key._A,Key._W,Key._D,Key._S), new Motion(Vec3f(0,0,0), 1))
+  def this() = this(new CamControl(Seq(Key._A),Seq(Key._W),Seq(Key._D),Seq(Key._S),Seq(), Seq(), Seq(), Seq()), new Motion(Vec3f(0,0,0), 1))
 
 }

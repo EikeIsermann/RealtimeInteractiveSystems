@@ -18,9 +18,12 @@ class CameraSystem extends System {
     val nodes = GameEngine.getNodeList(new CameraNode)
 
     for(node <- nodes){
-      var pos = node -> classOf[Position]
+      val pos = node -> classOf[Position]
       var cam = node -> classOf[Camera]
-      context.setViewMatrix(Mat4f.translation(pos.position))
+      val matPos = Mat4f.translation(pos.position)
+      val matRot = Mat4f.rotation(pos.rotation)
+      val viewMat = matPos*matRot
+      context.setViewMatrix(viewMat)
       DC.log("Camera is at: ", pos.position.inline)
     }
 

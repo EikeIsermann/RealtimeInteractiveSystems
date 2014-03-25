@@ -93,14 +93,18 @@ object Input {
   def mouseMovement(): Vec3f = _mouseMovement
   def mouseWheel: Int = _mouseWheel
 
-  def mouseButtonDown(mb: Int): Boolean = pressedMouseButtons.contains(mb)
-  def mouseButtonDown(mb: Int, func: Any => Unit = println) {
+  def mouseButtonDown(mb: MouseButton.Value): Boolean = pressedMouseButtons.contains(mb.id)
+  def mouseButtonDownDo(mb: MouseButton.Value, func: Any => Unit = println) {
     if(mouseButtonDown(mb)) {
       func(mb)
     }
   }
 
 
+
+  def mouseMovementDo(mv: MouseMovement.Value, func: Vec3f => Unit) {
+    func(mouseMovement())
+  }
 
   def isKeyDown(key: Key.Value):Boolean = pressedKeys.contains(key.id)
   def isKeyDownOnce(key: Key.Value): Boolean = {
@@ -137,12 +141,21 @@ object Input {
 
   def areKeysDown(keys: Key.Value*): Boolean = keys.forall(isKeyDown)
 
+  def allControls: Seq[Enumeration#Value] = Key.values.toSeq ++ MouseButton.values.toSeq ++ MouseMovement.values.toSeq
+
+
+
 }
 
-object MouseButton {
-  val Left = 0
-  val Right = 1
-  val Middle = 2
+
+object MouseMovement extends Enumeration {
+  val MovementX,MovementY,Wheel = Value
+}
+
+object MouseButton extends Enumeration {
+  val Left = Value(0)
+  val Right = Value(1)
+  val Middle = Value(2)
 }
 
 object Key extends Enumeration {

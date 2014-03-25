@@ -17,38 +17,47 @@ class CamControlSystem extends System {
     for(node <- nodes){
       val motion = node -> classOf[Motion]
       val control = node -> classOf[CamControl]
+
+
       val movement = context.deltaT*control.velocity
 
-      //z forward motion
-      Input.keyDownDo(control.upKey, _ =>
-        {
-          motion.velocity += new Vec3f(0,0,movement)
-        }
-      )
 
-      //z backward motion
-      Input.keyDownDo(control.downKey, _ =>
-      {
-        motion.velocity -= new Vec3f(0,0,movement)
-      }
-      )
-      //x forward motion
-      Input.keyDownDo(control.rightKey, _ =>
-      {
-        motion.velocity += new Vec3f(movement,0,0)
-      }
-      )
-      //x backward motion
-      Input.keyDownDo(control.leftKey, _ =>
-      {
-        motion.velocity -= new Vec3f(movement,0,0)
-      }
-      )
+
+      // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
+      doAction(control.triggerForward,  _ => { motion.velocity += new Vec3f(0,0,movement)}, _ => {} )
+      doAction(control.triggerBackward, _ => { motion.velocity -= new Vec3f(0,0,movement)}, _ => {} )
+      doAction(control.triggerLeft,     _ => { motion.velocity += new Vec3f(movement,0,0)}, _ => {} )
+      doAction(control.triggerRight,    _ => { motion.velocity -= new Vec3f(movement,0,0)}, _ => {} )
+
+      doAction(control.triggerPitchPositive,     _ => {}, mv => { } )
+      doAction(control.triggerPitchNegative,     _ => {}, _ => {} )
+      doAction(control.triggerYawLeft,     _ => {}, _ => {} )
+      doAction(control.triggerYawRight,     _ => {}, _ => {} )
+
 
     }
 
     this
   }
+
+  private def doAction(triggers: Seq[Enumeration#Value], keyAction: Unit => Unit, mouseAction: Vec3f => Unit) {
+    for(t <- triggers) {
+
+      t match {
+        case mv: MouseMovement.Value => {
+
+          Input.mouseMovementDo(mv, vec => mouseAction(vec))
+        }
+        case key: Key.Value => {
+
+          println("HALLO")
+          Input.keyDownDo(key, _ => keyAction())
+        }
+        case _ => throw new IllegalArgumentException("can not recognize trigger " + t)
+      }
+    }
+  }
+
   override def init(): System = {
     DC.log("Control System","initialized",2)
     this
