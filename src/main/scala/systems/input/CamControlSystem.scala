@@ -7,7 +7,7 @@ import main.scala.nodes.ControlNode
 /**
  * Created by Eike on 23.03.14.
  */
-class ControlSystem extends System {
+class CamControlSystem extends System {
   override def update(context: SimulationContext): System = {
     val nodes = GameEngine.getNodeList(classOf[ControlNode])
 
