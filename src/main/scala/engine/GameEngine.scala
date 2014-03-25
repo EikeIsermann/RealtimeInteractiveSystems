@@ -3,14 +3,15 @@ package main.scala.engine
 import main.scala.architecture.{Family, Engine}
 import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
-import main.scala.systems.input.{Input, SimulationContext}
+import main.scala.systems.input.{CamControlSystem, Key, Input, SimulationContext}
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.EntityDescLoader
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
-import main.scala.components.{Camera, Position}
-import main.scala.nodes.{CameraNode, RenderNode}
+import main.scala.components.{Motion, CamControl, Camera, Position}
+import main.scala.nodes.{MovementNode, CamControlNode, CameraNode, RenderNode}
+import main.scala.systems.positional.MovementSystem
 
 /**
  * Created by Christian Treffs
@@ -154,20 +155,48 @@ object GameEngine extends Engine {
     for(family <- families.values){
       family.addIfMatch(testEntity)
     }
-    add(new RenderingSystem)
 
 
     val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
     val camPos = new Position(Vec3f(0,0,0),Vec3f(0,0,0))
+    val camCon = new CamControl(Key._A,Key._W,Key._D,Key._S)
+    val motion = new Motion()
+    camEntity.add(camCon)
+    camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
+
+
     val camSys = new CameraSystem
     val camFam = new Family(classOf[CameraNode])
     camFam.components += (classOf[Camera], classOf[Position])
     add(camFam)
+
+
+    val camConSys= new CamControlSystem
+    val conFam = new Family(classOf[CamControlNode])
+    conFam.components += (classOf[CamControl], classOf[Motion])
+    add(conFam)
+
+    val moveSys = new MovementSystem()
+    val moveFam = new Family(classOf[MovementNode])
+    moveFam.components += (classOf[Position], classOf[Motion])
+    add(moveFam)
+
+
     families.values.foreach(family => family.addIfMatch(camEntity))
+
+    add(camConSys)
+
+    add(moveSys)
+
     add(camSys)
+
+    add(new RenderingSystem)
+
+
+
 
 
     Input.init()
@@ -214,6 +243,7 @@ object GameEngine extends Engine {
       updateContext() // update the context
 
       systems.values.foreach(_.update(simulationContext)) //update all systems with sim-context
+
 
       updateFPS() // update FPS Counter
 
@@ -265,8 +295,8 @@ object GameEngine extends Engine {
     simulationContext.fieldOfView = fieldOfView
     simulationContext.nearPlane = nearPlane
     simulationContext.farPlane = farPlane
-
-    simulationContext.updateInput()
+    simulationContext.updateDeltaT(time.elapsed())
+   //simulationContext.updateInput()
   }
 
 

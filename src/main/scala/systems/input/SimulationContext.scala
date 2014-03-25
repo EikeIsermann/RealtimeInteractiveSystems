@@ -23,7 +23,7 @@ class SimulationContext extends Context {
   var nearPlane: Float = -1
   var farPlane: Float = -1
 
-  private var _deltaT: Long = 0L
+  private var _deltaT: Float = 0f
 
   def setProjectionMatrix(mat: Mat4f): Mat4f = {
     projectionMatrix = mat
@@ -39,9 +39,8 @@ class SimulationContext extends Context {
     modelMatrix
   }
 
-  def updateDeltaT(): Long = {
-
-    _deltaT = 0L
+  def updateDeltaT(v: Float): Float = {
+    _deltaT = v
 
     deltaT
   }
@@ -108,4 +107,5 @@ class SimulationContext extends Context {
 
   }
 
+  def updateDeltaT(): Long = 0L
 }

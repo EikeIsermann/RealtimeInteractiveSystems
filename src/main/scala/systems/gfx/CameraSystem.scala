@@ -15,12 +15,13 @@ class CameraSystem extends System {
 
 
   override def update(context: SimulationContext): System = {
-    val nodes = GameEngine.getNodeList(classOf[CameraNode])
+    val nodes = GameEngine.getNodeList(new CameraNode)
 
     for(node <- nodes){
       var pos = node -> classOf[Position]
       var cam = node -> classOf[Camera]
-      context.setViewMatrix(Mat4f.translation(pos.position).mult(Mat4f.rotation(0,1,0,pos.rotation.y())))
+      context.setViewMatrix(Mat4f.translation(pos.position))
+      DC.log("Camera is at: " + pos.position)
     }
 
     this

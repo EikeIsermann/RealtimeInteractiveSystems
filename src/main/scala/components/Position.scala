@@ -26,6 +26,7 @@ case class Position(pos: Vec3f, rot: Vec3f) extends Component {
 
   def position: Vec3f = _position
   def position_=(v: Vec3f) = _position = v
+  def position_+=(v: Vec3f) = _position + v
 
   def rotation: Vec3f = _rotation
   def rotation_=(v: Vec3f) = _rotation = v

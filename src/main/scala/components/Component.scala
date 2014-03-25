@@ -9,7 +9,7 @@ import scala.xml.NodeSeq
  * Created by Christian Treffs
  * Date: 20.03.14 21:08
  */
-object Component
+//object Component
 
 /**
 Bullet

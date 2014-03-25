@@ -18,14 +18,17 @@ object Motion extends ComponentCreator {
     null
   }
 }
-case class Motion(pos: Vec3f, rot: Vec3f) extends Component {
-
+case class Motion(pos: Vec3f, fric: Float) extends Component {
+  def this() = this(new Vec3f(0,0,0), 1)
 
   private var _velocity: Vec3f = pos
-  private var _friction: Float = 1f
+  private var _friction: Float = fric
 
   def velocity: Vec3f = _velocity
   def velocity_=(v: Vec3f) = _velocity = v
+  def velocity_+=(v: Vec3f) = _velocity + v
+  def velocity_-=(v: Vec3f) = _velocity - v
+
 
   def friction: Float = _friction
   def friction_=(f:Float) = _friction = f

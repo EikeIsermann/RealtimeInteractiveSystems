@@ -1,6 +1,9 @@
 package main.scala.architecture
 
 import main.scala.systems.input.SimulationContext
+import scala.Predef._
+import main.scala.nodes.CamControlNode
+import main.scala.engine.GameEngine
 
 /**
  * Created by Christian Treffs
@@ -22,6 +25,7 @@ trait System /*extends ObservingActor*/ {
   def update(context: SimulationContext): System
   //def update(nodeType: Class[_ <: Node], context: Context): System
 
+  def get(nodeClass: Node): List[Node] = GameEngine.getNodeList(nodeClass)
 }
 
 object SystemPriorities {
