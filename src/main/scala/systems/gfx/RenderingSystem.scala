@@ -68,7 +68,7 @@ class RenderingSystem extends System {
          val shader = Mesh.defaultShader
        DC.log("Viewmatrix is", context.viewMatrix.getPosition)
 
-         mesh.draw(shader, Mat4f.translation(position.position), context.viewMatrix, context.projectionMatrix)
+         mesh.draw(shader, Mat4f.translation(position.position), context.projectionMatrix, context.viewMatrix)
        }
 
 

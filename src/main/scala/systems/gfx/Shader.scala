@@ -73,10 +73,12 @@ sealed class Shader() {
     glEnable      (GL_DEPTH_TEST)	// Enables Depth Testing
     glEnable      (GL_BLEND) // enable alpha blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    DC.log("Shader","setProperties")
   }
 
   protected def createProgram()  {
     prog = glCreateProgram()
+    DC.log("Shader","createProgram")
   }
 
   protected def setVertexShader(vsFilePath: String) {
@@ -91,6 +93,7 @@ sealed class Shader() {
     Util.checkCompilation(vsIdx)
 
     glAttachShader(programIndex(), vsIdx)
+    DC.log("Shader","setVertexShader")
   }
 
   protected def setFragmentShader(fsFilePath: String) {
@@ -106,6 +109,7 @@ sealed class Shader() {
     Util.checkCompilation(fsIdx)
 
     glAttachShader(programIndex(), fsIdx)
+    DC.log("Shader","setFragmentShader")
   }
 
   protected def bindAttribLocations() {
@@ -115,12 +119,14 @@ sealed class Shader() {
     glBindAttribLocation(programIndex(), vertexAttributeIndex, "vertex")
     glBindAttribLocation(programIndex(), normalsAttributeIndex, "normal")
     glBindAttribLocation(programIndex(), texCoordsAttributeIndex, "texCoord")
+    DC.log("Shader","bindAttribLocations")
   }
 
   protected def linkProgram() {
     // Link the shader program.
     glLinkProgram(programIndex())
     Util.checkLinkage(programIndex())
+    DC.log("Shader","linkProgram")
   }
 
   protected def bindMatrixUniforms() {
@@ -129,16 +135,18 @@ sealed class Shader() {
     projectionMatrix = new MatrixUniform(programIndex(), "projectionMatrix")
     viewMatrix = new MatrixUniform(programIndex(), "viewMatrix")
     modelMatrix = new MatrixUniform(programIndex(), "modelMatrix")
+    DC.log("Shader","bindMatrixUniforms")
   }
 
   /**
    * use the shader
    */
   def useProgram(projection: Mat4f = defaultProjection, view: Mat4f = defaultView) {
+    glUseProgram(programIndex())
 
     projectionMatrix.set(projection)
     viewMatrix.set(view)
-    glUseProgram(programIndex())
-    DC.log("USE PROGRAM", (projection.getPosition, view.getPosition))
+
+    DC.log("USE PROGRAM", ("View Mat", view.getPosition))
   }
 }
