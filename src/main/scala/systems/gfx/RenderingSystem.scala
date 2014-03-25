@@ -61,7 +61,6 @@ class RenderingSystem extends System {
      val nodes = GameEngine.getNodeList(new RenderNode())
      for (node <- nodes){
          val position: Position = node -> classOf[Position]
-         DC.log("Setting position for " + position.identifier + " at " + position.position)
          val display: Display = node -> classOf[Display]
          val mesh = Mesh.getByName(display.meshId)
          //TODO

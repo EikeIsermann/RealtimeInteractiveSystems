@@ -57,7 +57,7 @@ class SimulationContext extends Context {
 
 
 
-
+       /*
     Input.keyDownDo(Key.ArrowUp,println)
     Input.keyDownDo(Key.ArrowDown,println)
     Input.keyDownDo(Key.ArrowLeft,println)
@@ -93,7 +93,7 @@ class SimulationContext extends Context {
 
 
 
-    }
+    }  */
 
 
 

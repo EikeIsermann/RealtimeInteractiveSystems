@@ -162,8 +162,8 @@ object GameEngine extends Engine {
     val camPos = new Position(Vec3f(0,0,0),Vec3f(0,0,0))
     val camCon = new CamControl(Key._A,Key._W,Key._D,Key._S)
     val motion = new Motion()
-    testEntity.add(camCon)
-    testEntity.add(motion)
+    camEntity.add(camCon)
+    camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
 
@@ -277,7 +277,7 @@ object GameEngine extends Engine {
 
     // INPUT
     // update user input
-    //context.updateInput()
+    //simulationContext.updateInput()
 
     // PHYSICS
     //simulate all entities
@@ -297,7 +297,7 @@ object GameEngine extends Engine {
     simulationContext.nearPlane = nearPlane
     simulationContext.farPlane = farPlane
     simulationContext.updateDeltaT(time.elapsed())
-   //simulationContext.updateInput()
+   simulationContext.updateInput()
   }
 
 
