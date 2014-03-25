@@ -162,8 +162,8 @@ object GameEngine extends Engine {
     val camPos = new Position(Vec3f(0,0,0),Vec3f(0,0,0))
     val camCon = new CamControl(Key._A,Key._W,Key._D,Key._S)
     val motion = new Motion()
-    camEntity.add(camCon)
-    camEntity.add(motion)
+    testEntity.add(camCon)
+    testEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
 
@@ -186,6 +186,7 @@ object GameEngine extends Engine {
 
 
     families.values.foreach(family => family.addIfMatch(camEntity))
+    families.values.foreach(family => family.addIfMatch(testEntity))
 
     add(camConSys)
 

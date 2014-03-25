@@ -9,6 +9,7 @@ import java.nio.ByteBuffer
 import ogl.app.{MatrixUniform, Util}
 import main.scala.math.Mat4f
 import org.lwjgl.BufferUtils
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs
@@ -63,6 +64,7 @@ sealed class Shader() {
    */
   def setModelMatrix(mat: Mat4f): Mat4f = {
     modelMatrix.set(mat)
+    DC.log("SET MODEL MATRIX TO",mat.getPosition)
     mat
   }
 
@@ -133,8 +135,10 @@ sealed class Shader() {
    * use the shader
    */
   def useProgram(projection: Mat4f = defaultProjection, view: Mat4f = defaultView) {
-    glUseProgram(programIndex())
+
     projectionMatrix.set(projection)
     viewMatrix.set(view)
+    glUseProgram(programIndex())
+    DC.log("USE PROGRAM", (projection.getPosition, view.getPosition))
   }
 }

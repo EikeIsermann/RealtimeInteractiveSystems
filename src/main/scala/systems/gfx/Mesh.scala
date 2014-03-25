@@ -257,8 +257,11 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
     //DC.log("Drawing at: \n" + modelTransformation.toString + " from \n" + viewMatrix.toString + "with \n" + projectionMatrix)
     beforeFunc()
 
+
     shader.useProgram(projectionMatrix, viewMatrix)
     shader.setModelMatrix(modelTransformation)
+
+
 
     bindTexture()
 

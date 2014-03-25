@@ -32,8 +32,8 @@ object Texture {
    */
   def bind(texId: Int) {
     glEnable(GL_TEXTURE_2D)
-    glEnable(GL_BLEND)
-    glBlendFunc(GL_ONE, GL_ONE)
+    //glEnable(GL_BLEND)
+    //glBlendFunc(GL_ONE, GL_ONE)
     glBindTexture(GL_TEXTURE_2D, texId)
   }
 
