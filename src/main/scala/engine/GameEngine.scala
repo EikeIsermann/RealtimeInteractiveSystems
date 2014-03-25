@@ -144,8 +144,8 @@ object GameEngine extends Engine {
                                                          */
     EntityDescLoader.load(entitiesDir)
     var testEntity = Entity.create("Testwurst")
-    var pos = new Position(Vec3f(0,0,100), Vec3f(1,1,1))
-    var display = new main.scala.components.Display('ChassisBody, 'wurst)
+    var pos = new Position(Vec3f(0,0,2), Vec3f(0,0,0))
+    var display = new main.scala.components.Display('Turret, 'wurst)
     testEntity.add(pos)
     testEntity.add(display)
     for(comp <- testEntity.components) DC.log("Test" + comp.toString)

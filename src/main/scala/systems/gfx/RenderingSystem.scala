@@ -6,7 +6,7 @@ import main.scala.systems.input.{SimulationContext, Context}
 import main.scala.engine.GameEngine
 import main.scala.nodes.RenderNode
 import main.scala.components.{Display, Position}
-import main.scala.math.Mat4f
+import main.scala.math.{Vec3f, Mat4f}
 import main.scala.tools.DC
 import org.lwjgl.opengl.GL11._
 import main.scala.components.Display
@@ -61,11 +61,12 @@ class RenderingSystem extends System {
      val nodes = GameEngine.getNodeList(new RenderNode())
      for (node <- nodes){
          val position: Position = node -> classOf[Position]
+         DC.log("Setting position for " + position.identifier + " at " + position.position)
          val display: Display = node -> classOf[Display]
          val mesh = Mesh.getByName(display.meshId)
          //TODO
          val shader = Mesh.defaultShader
-       DC.log("Viewmatrix is: \n" + context.viewMatrix)
+       DC.log("Viewmatrix is", context.viewMatrix.getPosition)
 
          mesh.draw(shader, Mat4f.translation(position.position), context.viewMatrix, context.projectionMatrix)
        }

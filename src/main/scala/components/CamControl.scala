@@ -23,7 +23,7 @@ class CamControl(lK: Key.Value, uK: Key.Value, rK: Key.Value, dK: Key.Value) ext
   private var _rightKey: Key.Value = rK
   private var _upKey: Key.Value = uK
   private var _downKey: Key.Value = dK
-  private var _velocity: Float = 0.1f
+  private var _velocity: Float = 0.4f
 
   def velocity: Float = _velocity
   def velocity_=(v: Float) = _velocity = v

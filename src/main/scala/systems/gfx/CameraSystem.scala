@@ -21,7 +21,7 @@ class CameraSystem extends System {
       var pos = node -> classOf[Position]
       var cam = node -> classOf[Camera]
       context.setViewMatrix(Mat4f.translation(pos.position))
-      DC.log("Camera is at: " + pos.position)
+      DC.log("Camera is at: ", pos.position.inline)
     }
 
     this

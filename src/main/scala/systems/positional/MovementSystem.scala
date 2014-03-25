@@ -7,6 +7,7 @@ import main.scala.nodes.MovementNode
 import main.scala.components.{Position, Motion}
 
 import main.scala.tools.DC
+import main.scala.math.Vec3f
 
 /**
  * Created by Eike on 22.03.14.
@@ -19,6 +20,7 @@ for(node <- nodes){
   val motion = node -> classOf[Motion]
   val pos = node -> classOf[Position]
   pos.position += motion.velocity
+  motion.velocity = Vec3f(0,0,0)
 }
 
 this
