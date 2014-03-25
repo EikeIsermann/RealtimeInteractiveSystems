@@ -3,7 +3,7 @@ package main.scala.engine
 import main.scala.architecture.{Family, Engine}
 import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
-import main.scala.systems.input.{CamControlSystem, Key, Input, SimulationContext}
+import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.EntityDescLoader
 import main.scala.math.Vec3f
@@ -12,6 +12,7 @@ import main.scala.entities.Entity
 import main.scala.components.{Motion, CamControl, Camera, Position}
 import main.scala.nodes.{MovementNode, CamControlNode, CameraNode, RenderNode}
 import main.scala.systems.positional.MovementSystem
+import main.scala.components.Camera
 
 /**
  * Created by Christian Treffs
@@ -161,7 +162,7 @@ object GameEngine extends Engine {
     val cam = new Camera(90)
     val camPos = new Position(Vec3f(0,0,0),Vec3f(0,0,0))
     //
-    val camCon = new CamControl(Seq(Key._A),Seq(Key._W),Seq(Key._D),Seq(Key._S),Seq(), Seq(), Seq(), Seq())
+    val camCon = new CamControl(Triggers(Key._A),Triggers(Key._W),Triggers(Key._D),Triggers(Key._S),Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX))
     val motion = new Motion()
     camEntity.add(camCon)
     camEntity.add(motion)

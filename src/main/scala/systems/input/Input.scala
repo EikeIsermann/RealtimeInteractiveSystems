@@ -5,6 +5,7 @@ import org.lwjgl.input.{Mouse, Keyboard}
 import scala.collection.mutable
 import main.scala.tools.DC
 import org.lwjgl.opengl.Display
+import scala.reflect.ClassTag
 
 /**
  * Created by Christian Treffs
@@ -93,7 +94,7 @@ object Input {
   def mouseMovement(): Vec3f = _mouseMovement
   def mouseWheel: Int = _mouseWheel
 
-  def mouseButtonDown(mb: MouseButton.Value): Boolean = pressedMouseButtons.contains(mb.id)
+  def mouseButtonDown(mb: MouseButton.Value): Boolean = mb != null && pressedMouseButtons.contains(mb.id)
   def mouseButtonDownDo(mb: MouseButton.Value, func: Any => Unit = println) {
     if(mouseButtonDown(mb)) {
       func(mb)
@@ -106,7 +107,7 @@ object Input {
     func(mouseMovement())
   }
 
-  def isKeyDown(key: Key.Value):Boolean = pressedKeys.contains(key.id)
+  def isKeyDown(key: Key.Value):Boolean = key != null && pressedKeys.contains(key.id)
   def isKeyDownOnce(key: Key.Value): Boolean = {
     if(isKeyDown(key) && !pressedOnceKeys.contains(key.id)) {
       pressedOnceKeys += key.id
@@ -119,7 +120,7 @@ object Input {
       false
     }
   }
-  def isKeyToggled(key: Key.Value): Boolean = toggledKeys.contains(key.id)
+  def isKeyToggled(key: Key.Value): Boolean = key != null && toggledKeys.contains(key.id)
 
 
 
@@ -141,24 +142,60 @@ object Input {
 
   def areKeysDown(keys: Key.Value*): Boolean = keys.forall(isKeyDown)
 
-  def allControls: Seq[Enumeration#Value] = Key.values.toSeq ++ MouseButton.values.toSeq ++ MouseMovement.values.toSeq
+  //def allControls: Seq[Trigger#Value] = Key.values.toSeq ++ MouseButton.values.toSeq ++ MouseMovement.values.toSeq
 
 
 
 }
 
 
-object MouseMovement extends Enumeration {
+case class Triggers(key1: Key.Value = null, mouseButton1: MouseButton.Value = null, mouseMovement1: MouseMovement.Value = null) {
+
+
+  private var _key: Key.Value = key1
+  private var _mouseButton: MouseButton.Value = mouseButton1
+  private var _mouseMovement: MouseMovement.Value = mouseMovement1
+
+  def key = _key
+  def key_=(k: Key.Value) = _key = k
+
+  def mouseButton = _mouseButton
+  def mouseButton_=(mb: MouseButton.Value) = _mouseButton = mb
+
+  def mouseMovement = _mouseMovement
+  def mouseMovement_=(mv: MouseMovement.Value) = _mouseMovement = mv
+}
+
+trait Trigger extends Enumeration {
+  def classTag: ClassTag[_]
+}
+
+
+object MouseMovement extends Trigger {
   val MovementX,MovementY,Wheel = Value
+
+  override def classTag = scala.reflect.classTag[MouseMovement.Value]
+
+
 }
 
-object MouseButton extends Enumeration {
+
+object MouseButton extends Trigger {
+
   val Left = Value(0)
   val Right = Value(1)
   val Middle = Value(2)
+
+
+  override def classTag = scala.reflect.classTag[MouseButton.Value]
 }
 
-object Key extends Enumeration {
+
+object Key extends Trigger  {
+
+
+  override def classTag = scala.reflect.classTag[Key.Value]
+
 
   val Function = Value(Keyboard.KEY_FUNCTION)
 
@@ -305,6 +342,8 @@ object Key extends Enumeration {
 
     }
   }
+
+
 }
 
 
