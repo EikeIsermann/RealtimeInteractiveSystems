@@ -21,11 +21,11 @@ class MovementSystem extends System {
       val motion = node -> classOf[Motion]
       val pos = node -> classOf[Position]
 
-      pos.position += motion.velocity
+      pos.position = motion.velocity
       motion.velocity = Vec3f(0, 0, 0)
 
 
-      pos.rotation += motion.direction
+      pos.rotation = motion.direction
       motion.direction = Vec3f(0,0,0)
 
     }

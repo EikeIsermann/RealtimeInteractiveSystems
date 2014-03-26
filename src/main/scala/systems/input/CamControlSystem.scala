@@ -6,6 +6,7 @@ import main.scala.engine.GameEngine
 import main.scala.nodes.CamControlNode
 import main.scala.components.{CamControl, Motion}
 import main.scala.math.Vec3f
+import org.lwjgl.input.Mouse
 
 /**
  * Created by Eike
@@ -32,9 +33,9 @@ class CamControlSystem extends System {
       val control = node -> classOf[CamControl]
 
 
-      val movementVelocity = context.deltaT * control.movementVelocity
-      val pitchVelocity = context.deltaT * control.pitchVelocity
-      val yawVelocity = context.deltaT * control.yawVelocity
+      val movementVelocity =  control.movementVelocity * context.deltaT
+      val pitchVelocity =  control.pitchVelocity * context.deltaT
+      val yawVelocity =  control.yawVelocity * context.deltaT
 
 
 
@@ -60,8 +61,8 @@ class CamControlSystem extends System {
 
       doAction(control.triggerPitchPositive, _ => {}, mv => motionDirectionViaMouse(mv))
       doAction(control.triggerPitchNegative, _ => {}, mv => motionDirectionViaMouse(mv))
-      doAction(control.triggerYawLeft, _ => {}, mv => motionDirectionViaMouse(mv))
-      doAction(control.triggerYawRight, _ => {}, mv => motionDirectionViaMouse(mv))
+      doAction(control.triggerYawLeft, _ => {yaw+=1}, mv => motionDirectionViaMouse(mv))
+      doAction(control.triggerYawRight, _ => {yaw-=1}, mv => motionDirectionViaMouse(mv))
 
 
       def motionDirectionViaMouse(mouseNormalizePos: Vec3f) {
@@ -71,7 +72,6 @@ class CamControlSystem extends System {
         if(newPitch < 90 && newPitch > -90 ){
           pitch = newPitch
         }
-
         mpos = newMpos
 
         //motion.direction = Vec3f(mv.y*pitchVelocity,mv.x*yawVelocity,0)

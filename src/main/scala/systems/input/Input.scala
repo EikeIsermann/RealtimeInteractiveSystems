@@ -25,8 +25,9 @@ object Input {
   private var _mouseWheel: Int = 0
 
   def init() {
-    DC.log("Input","initialized")
     Mouse.setGrabbed(true) // grab the mouse
+    DC.log("Input","initialized")
+
   }
   def update() = {
     setMouseMovement()
@@ -81,6 +82,7 @@ object Input {
   private def setMouseMovement() {
     _mousePosition = Vec3f(Mouse.getX, Mouse.getY, 0.0f)
     _mouseMovement = Vec3f(Mouse.getDX, Mouse.getDY, 0.0f)
+    if(Mouse.getDX != 0)println(_mousePosition + "\n" + _mouseMovement)
   }
 
   private def setMouseWheel() {
