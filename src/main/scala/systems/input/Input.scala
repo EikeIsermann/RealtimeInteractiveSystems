@@ -26,6 +26,7 @@ object Input {
 
   def init() {
     DC.log("Input","initialized")
+    Mouse.setGrabbed(true) // grab the mouse
   }
   def update() = {
     setMouseMovement()
@@ -103,6 +104,9 @@ object Input {
 
 
 
+  def mousePositionNormalizedDo(mv: MouseMovement.Value, func: Vec3f => Unit) {
+    func(mousePositionNormalized())
+  }
   def mouseMovementDo(mv: MouseMovement.Value, func: Vec3f => Unit) {
     func(mouseMovement())
   }

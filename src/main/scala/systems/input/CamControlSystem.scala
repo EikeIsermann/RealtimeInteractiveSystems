@@ -14,7 +14,18 @@ import main.scala.math.Vec3f
 class CamControlSystem extends System {
 
 
+  var pitch: Float = 0
+  var yaw: Float = 0
+  var x: Float = 0
+  val y: Float = 0
+  var z: Float = 0
+  val offsetX: Float = 0.1f
+  val offsetZ: Float = 0.1f
+  var mpos: Vec3f = Vec3f()
+
   override def update(context: SimulationContext): System = {
+
+
     val nodes = GameEngine.getNodeList(new CamControlNode)
     for (node <- nodes) {
       val motion = node -> classOf[Motion]
@@ -22,17 +33,30 @@ class CamControlSystem extends System {
 
 
       val movementVelocity = context.deltaT * control.movementVelocity
+      val pitchVelocity = context.deltaT * control.pitchVelocity
+      val yawVelocity = context.deltaT * control.yawVelocity
 
-      val pitchVelocity = control.pitchVelocity
-      val yawVelocity = control.yawVelocity
 
 
 
       // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
-      doAction(control.triggerForward, _ => {motion.velocity += new Vec3f(0, 0, movementVelocity)}, _ => {})
-      doAction(control.triggerBackward, _ => {motion.velocity -= new Vec3f(0, 0, movementVelocity)}, _ => {})
-      doAction(control.triggerLeft, _ => {motion.velocity += new Vec3f(movementVelocity, 0, 0)}, _ => {})
-      doAction(control.triggerRight, _ => {motion.velocity -= new Vec3f(movementVelocity, 0, 0)}, _ => {})
+      doAction(control.triggerForward, _ => {
+        x += movementVelocity * math.sin(math.toRadians(-yaw)).toFloat
+        z -= movementVelocity * math.cos(math.toRadians(-yaw)).toFloat
+      }, _ => {})
+      doAction(control.triggerBackward, _ => {
+        x -= movementVelocity * math.sin(math.toRadians(-yaw)).toFloat
+        z += movementVelocity * math.cos(math.toRadians(-yaw)).toFloat
+
+      }, _ => {})
+      doAction(control.triggerLeft, _ => {
+        x -= movementVelocity * math.sin(math.toRadians(-yaw+90f)).toFloat
+        z += movementVelocity * math.cos(math.toRadians(-yaw+90f)).toFloat
+      }, _ => {})
+      doAction(control.triggerRight, _ => {
+        x -= movementVelocity *  math.sin(math.toRadians(-yaw-90f)).toFloat
+        z += movementVelocity * math.cos(math.toRadians(-yaw-90f)).toFloat
+      }, _ => {})
 
       doAction(control.triggerPitchPositive, _ => {}, mv => motionDirectionViaMouse(mv))
       doAction(control.triggerPitchNegative, _ => {}, mv => motionDirectionViaMouse(mv))
@@ -40,9 +64,26 @@ class CamControlSystem extends System {
       doAction(control.triggerYawRight, _ => {}, mv => motionDirectionViaMouse(mv))
 
 
-      def motionDirectionViaMouse(mv: Vec3f) {
-        motion.direction = Vec3f(mv.y*pitchVelocity,mv.x*yawVelocity,0)
+      def motionDirectionViaMouse(mouseNormalizePos: Vec3f) {
+        val newMpos: Vec3f = mouseNormalizePos
+        yaw -= (newMpos.x-mpos.x)*yawVelocity
+        val newPitch = pitch - (newMpos.y-mpos.y)*pitchVelocity
+        if(newPitch < 90 && newPitch > -90 ){
+          pitch = newPitch
+        }
+
+        mpos = newMpos
+
+        //motion.direction = Vec3f(mv.y*pitchVelocity,mv.x*yawVelocity,0)
       }
+
+
+
+
+      motion.velocity = Vec3f(x.toFloat,y.toFloat,z.toFloat)
+      motion.direction = Vec3f(pitch.toFloat,yaw.toFloat,0)
+
+
     }
 
     this
@@ -52,7 +93,7 @@ class CamControlSystem extends System {
 
   private def doAction(triggers: Triggers, keyAction: Unit => Unit, mouseAction: Vec3f => Unit) {
 
-    Input.mouseMovementDo(triggers.mouseMovement, vec => mouseAction(vec))
+    Input.mousePositionNormalizedDo(triggers.mouseMovement, vec => mouseAction(vec))
     Input.keyDownDo(triggers.key, _ => keyAction())
 
   }

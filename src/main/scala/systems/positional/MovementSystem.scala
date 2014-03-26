@@ -10,31 +10,35 @@ import main.scala.tools.DC
 import main.scala.math.Vec3f
 
 /**
- * Created by Eike on 22.03.14.
+ * Created by Eike
+ * 22.03.14.
  */
 class MovementSystem extends System {
-override def update(context: SimulationContext): System = {
-val nodes = GameEngine.getNodeList(new MovementNode)
+  override def update(context: SimulationContext): System = {
+    val nodes = GameEngine.getNodeList(new MovementNode)
 
-for(node <- nodes){
-  val motion = node -> classOf[Motion]
-  val pos = node -> classOf[Position]
-  pos.position += motion.velocity
-  motion.velocity = Vec3f(0,0,0)
+    for (node <- nodes) {
+      val motion = node -> classOf[Motion]
+      val pos = node -> classOf[Position]
 
-  pos.rotation += motion.direction
+      pos.position += motion.velocity
+      motion.velocity = Vec3f(0, 0, 0)
 
-}
 
-this
-}
+      pos.rotation += motion.direction
+      motion.direction = Vec3f(0,0,0)
 
-override def init(): System = {
-DC.log("Movement System","initialized",2)
-this
-}
+    }
 
-override def deinit(): Unit = {
-DC.log("Control System","ended",2)
-}
+    this
+  }
+
+  override def init(): System = {
+    DC.log("Movement System", "initialized", 2)
+    this
+  }
+
+  override def deinit(): Unit = {
+    DC.log("Control System", "ended", 2)
+  }
 }

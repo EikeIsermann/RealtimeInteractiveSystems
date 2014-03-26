@@ -5,24 +5,26 @@ import main.scala.tools.DC
 import main.scala.engine.GameEngine
 import main.scala.nodes.CameraNode
 import main.scala.components.{Camera, Position}
-import main.scala.math.Mat4f
+import main.scala.math.{Vec3f, Mat4f}
 
 
 /**
  * Created by Eike on 22.03.14.
  */
 class CameraSystem extends System {
-
-
   override def update(context: SimulationContext): System = {
     val nodes = GameEngine.getNodeList(new CameraNode)
+
 
     for(node <- nodes){
       val pos = node -> classOf[Position]
       var cam = node -> classOf[Camera]
       val matPos = Mat4f.translation(pos.position)
-      val matRot = Mat4f.rotation(pos.rotation)
-      val viewMat = matPos*matRot
+      val pitch = pos.rotation.x
+      val yaw = pos.rotation.y
+
+      val matRot = Mat4f.rotation(Vec3f(1,0,0),pitch) *Mat4f.rotation(Vec3f(0,1,0),yaw)
+      val viewMat = matRot * matPos
       context.setViewMatrix(viewMat)
       DC.log("Camera is at: ", pos.position.inline)
     }
