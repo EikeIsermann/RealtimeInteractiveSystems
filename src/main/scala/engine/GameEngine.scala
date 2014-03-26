@@ -144,7 +144,8 @@ object GameEngine extends Engine {
     Collada.load(colladaFiles)
                                                          */
     EntityDescLoader.load(entitiesDir)
-    var testEntity = Entity.create("Testwurst")
+
+   /* var testEntity = Entity.create("Testwurst")
     var pos = new Position(Vec3f(0,0,2), Vec3f(0,0,0))
     var display = new main.scala.components.Display('Turret, 'wurst)
     testEntity.add(pos)
@@ -155,7 +156,23 @@ object GameEngine extends Engine {
     add(fam)
     for(family <- families.values){
       family.addIfMatch(testEntity)
+    }     */
+
+    //SKY BOX TEST
+    val skyBoxTestEntity = Entity.create("SkyBoxTest")
+    val skyBoxPos = new Position(Vec3f(0,0,0), Vec3f(0,0,0))
+    val skyBoxDisplay = new main.scala.components.Display('SkyBox, 'SkyBox)
+    skyBoxTestEntity.add(skyBoxPos)
+    skyBoxTestEntity.add(skyBoxDisplay)
+    for(comp <- skyBoxTestEntity.components) DC.log("SkyBoxTest" + comp.toString)
+    val skyBoxFamily = new Family(classOf[RenderNode])
+    skyBoxFamily.components.+=(classOf[Position], classOf[main.scala.components.Display])
+    add(skyBoxFamily)
+    for(family <- families.values){
+      family.addIfMatch(skyBoxTestEntity)
     }
+
+
 
 
     val camEntity = Entity.create("Camera")
@@ -188,7 +205,8 @@ object GameEngine extends Engine {
 
 
     families.values.foreach(family => family.addIfMatch(camEntity))
-    families.values.foreach(family => family.addIfMatch(testEntity))
+    //families.values.foreach(family => family.addIfMatch(testEntity))
+    families.values.foreach(family => family.addIfMatch(skyBoxTestEntity))
 
     add(camConSys)
 

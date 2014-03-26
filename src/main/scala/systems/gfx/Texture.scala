@@ -74,6 +74,7 @@ sealed class Texture(texFile: File, flipped: Boolean) {
 
   aspect = height.toFloat/width.toFloat
 
+
   if(flipped) {
   // Flip the image vertically
   val tx = AffineTransform.getScaleInstance(1, -1)
