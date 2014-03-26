@@ -2,7 +2,6 @@ package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
 import scala.xml.NodeSeq
-import scala.collection.mutable.ArrayBuffer
 import main.scala.systems.input.Triggers
 
 /**
@@ -28,12 +27,7 @@ case class CamControl(triggerForward: Triggers,
                  triggerYawRight:  Triggers,
                  movementVelocity: Float = 10f) extends Component {
 
-
-
   private var _velocity: Float = movementVelocity
-
-   velocity = movementVelocity
-
 
   def velocity: Float = _velocity
   def velocity_=(v: Float) = _velocity = v

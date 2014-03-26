@@ -31,10 +31,27 @@ class CamControlSystem extends System {
       doAction(control.triggerLeft, _ => {motion.velocity += new Vec3f(movement, 0, 0)}, _ => {})
       doAction(control.triggerRight, _ => {motion.velocity -= new Vec3f(movement, 0, 0)}, _ => {})
 
-      doAction(control.triggerPitchPositive, _ => {}, mv => {})
-      doAction(control.triggerPitchNegative, _ => {}, _ => {})
-      doAction(control.triggerYawLeft, _ => {}, _ => {})
-      doAction(control.triggerYawRight, _ => {}, _ => {})
+      doAction(control.triggerPitchPositive, _ => {}, mv => {
+        if(mv.y > 0) {
+          println("pitch pos "+mv.y)
+        }
+      })
+      doAction(control.triggerPitchNegative, _ => {}, mv => {
+        if(mv.y < 0) {
+          println("pitch neg "+mv.y)
+        }
+      })
+      doAction(control.triggerYawLeft, _ => {}, mv => {
+        if(mv.x < 0) {
+          println("yaw left "+mv.x)
+
+        }
+      })
+      doAction(control.triggerYawRight, _ => {}, mv => {
+        if(mv.x > 0) {
+          println("yaw right "+mv.x)
+        }
+      })
 
 
     }

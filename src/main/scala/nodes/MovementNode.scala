@@ -12,6 +12,9 @@ import main.scala.math.Vec3f
  */
 class MovementNode(motion: Motion, position:Position) extends Node{
 
-  def this() = this(new Motion(Vec3f(0,0,0), 1),new Position(Vec3f(0,0,0), Vec3f(0,0,0)))
+  def this() = this(
+    new Motion(),
+    new Position(Vec3f(0,0,0), Vec3f(0,0,0))
+  )
 
 }
