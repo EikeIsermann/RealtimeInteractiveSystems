@@ -106,8 +106,9 @@ object GameEngine extends Engine {
   }
 
   def initGL() = {
-    GL11.glViewport(0, 0, Display.getWidth, Display.getHeight) //TODO: necessary?
 
+
+    /*
     GL11.glMatrixMode(GL11.GL_PROJECTION_MATRIX)
     GL11.glLoadIdentity()
 
@@ -121,6 +122,7 @@ object GameEngine extends Engine {
     GL11.glMatrixMode(GL11.GL_MODELVIEW)
     GL11.glLoadIdentity()
 
+    GL11.glViewport(0, 0, Display.getWidth, Display.getHeight) //TODO: necessary?*/
     GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)  // Black
 
     DC.log("OpenGL", "initialized", 3)
