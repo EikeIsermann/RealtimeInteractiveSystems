@@ -21,43 +21,34 @@ class CamControlSystem extends System {
       val control = node -> classOf[CamControl]
 
 
-      val movement = context.deltaT * control.velocity
+      val movementVelocity = context.deltaT * control.movementVelocity
+
+      val pitchVelocity = control.pitchVelocity
+      val yawVelocity = control.yawVelocity
 
 
 
       // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
-      doAction(control.triggerForward, _ => {motion.velocity += new Vec3f(0, 0, movement)}, _ => {})
-      doAction(control.triggerBackward, _ => {motion.velocity -= new Vec3f(0, 0, movement)}, _ => {})
-      doAction(control.triggerLeft, _ => {motion.velocity += new Vec3f(movement, 0, 0)}, _ => {})
-      doAction(control.triggerRight, _ => {motion.velocity -= new Vec3f(movement, 0, 0)}, _ => {})
+      doAction(control.triggerForward, _ => {motion.velocity += new Vec3f(0, 0, movementVelocity)}, _ => {})
+      doAction(control.triggerBackward, _ => {motion.velocity -= new Vec3f(0, 0, movementVelocity)}, _ => {})
+      doAction(control.triggerLeft, _ => {motion.velocity += new Vec3f(movementVelocity, 0, 0)}, _ => {})
+      doAction(control.triggerRight, _ => {motion.velocity -= new Vec3f(movementVelocity, 0, 0)}, _ => {})
 
-      doAction(control.triggerPitchPositive, _ => {}, mv => {
-        if(mv.y > 0) {
-          println("pitch pos "+mv.y)
-        }
-      })
-      doAction(control.triggerPitchNegative, _ => {}, mv => {
-        if(mv.y < 0) {
-          println("pitch neg "+mv.y)
-        }
-      })
-      doAction(control.triggerYawLeft, _ => {}, mv => {
-        if(mv.x < 0) {
-          println("yaw left "+mv.x)
-
-        }
-      })
-      doAction(control.triggerYawRight, _ => {}, mv => {
-        if(mv.x > 0) {
-          println("yaw right "+mv.x)
-        }
-      })
+      doAction(control.triggerPitchPositive, _ => {}, mv => motionDirectionViaMouse(mv))
+      doAction(control.triggerPitchNegative, _ => {}, mv => motionDirectionViaMouse(mv))
+      doAction(control.triggerYawLeft, _ => {}, mv => motionDirectionViaMouse(mv))
+      doAction(control.triggerYawRight, _ => {}, mv => motionDirectionViaMouse(mv))
 
 
+      def motionDirectionViaMouse(mv: Vec3f) {
+        motion.direction = Vec3f(mv.y*pitchVelocity,mv.x*yawVelocity,0)
+      }
     }
 
     this
   }
+
+
 
   private def doAction(triggers: Triggers, keyAction: Unit => Unit, mouseAction: Vec3f => Unit) {
 

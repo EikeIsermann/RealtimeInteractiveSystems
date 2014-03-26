@@ -3,6 +3,7 @@ package main.scala.components
 import main.scala.architecture.{Component, ComponentCreator}
 import scala.xml.NodeSeq
 import main.scala.systems.input.Triggers
+import main.scala.math.Vec3f
 
 /**
  * Created by Eike
@@ -25,12 +26,21 @@ case class CamControl(triggerForward: Triggers,
                  triggerPitchNegative:  Triggers,
                  triggerYawLeft:  Triggers,
                  triggerYawRight:  Triggers,
-                 movementVelocity: Float = 10f) extends Component {
+                // movement, pitch, yaw
+                 velocities: Vec3f = Vec3f(10f, 0.1f, 0.1f)) extends Component {
 
-  private var _velocity: Float = movementVelocity
+  private var _movementVel: Float = velocities.x
+  private var _pitchVel: Float = velocities.y
+  private var _yawVel: Float = velocities.z
 
-  def velocity: Float = _velocity
-  def velocity_=(v: Float) = _velocity = v
+  def movementVelocity: Float = _movementVel
+  def movementVelocity_=(v: Float) = _movementVel = v
+
+  def pitchVelocity: Float = _pitchVel
+  def pitchVelocity_=(v: Float) = _pitchVel = v
+
+  def yawVelocity: Float = _yawVel
+  def yawVelocity_=(v: Float) = _yawVel = v
 
   //override def toXML: NodeSeq = {<position x={vec.x} y={vec.y} z={vec.z} />}
   override def toXML: NodeSeq = ???

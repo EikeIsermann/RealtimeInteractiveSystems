@@ -21,6 +21,9 @@ for(node <- nodes){
   val pos = node -> classOf[Position]
   pos.position += motion.velocity
   motion.velocity = Vec3f(0,0,0)
+
+  pos.rotation += motion.direction
+
 }
 
 this
