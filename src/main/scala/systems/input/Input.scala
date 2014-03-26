@@ -80,9 +80,10 @@ object Input {
 
 
   private def setMouseMovement() {
+
     _mousePosition = Vec3f(Mouse.getX, Mouse.getY, 0.0f)
     _mouseMovement = Vec3f(Mouse.getDX, Mouse.getDY, 0.0f)
-    if(Mouse.getDX != 0)println(_mousePosition + "\n" + _mouseMovement)
+
   }
 
   private def setMouseWheel() {
@@ -93,7 +94,12 @@ object Input {
 
 
   def mousePosition(): Vec3f = _mousePosition
-  def mousePositionNormalized(windowWidth: Int = Display.getWidth, windowHeight: Int = Display.getHeight): Vec3f = Vec3f(_mousePosition.mapX(0, windowWidth),_mousePosition.mapY(0, windowHeight), 0.0f)
+  def mousePositionNormalized(windowWidth: Int = Display.getWidth, windowHeight: Int = Display.getHeight): Vec3f = {
+    var f = Math.max(windowWidth, windowHeight)
+    var cx = mousePosition.x() - windowWidth / 2f
+    var cy = windowHeight - mousePosition.y()- 1 - windowHeight / 2f
+    Vec3f(cx / f, cy/f , 0.0f)
+  }
   def mouseMovement(): Vec3f = _mouseMovement
   def mouseWheel: Int = _mouseWheel
 

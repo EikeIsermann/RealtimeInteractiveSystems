@@ -186,7 +186,7 @@ object GameEngine extends Engine {
     val camPos = new Position(Vec3f(0,0,0),Vec3f(0,0,0))
     //
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
-      Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
+      Triggers(Key.ArrowUp,null,MouseMovement.MovementY), Triggers(Key.ArrowDown,null,MouseMovement.MovementY),
       Triggers(Key.ArrowLeft,null, MouseMovement.MovementX), Triggers(Key.ArrowRight,null,MouseMovement.MovementX))
     val motion = new Motion()
     camEntity.add(camCon)
