@@ -111,8 +111,12 @@ object GameEngine extends Engine {
     GL11.glMatrixMode(GL11.GL_PROJECTION_MATRIX)
     GL11.glLoadIdentity()
 
-    //GL11.glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 1, -1);
-    GL11.glOrtho(0, Display.getWidth, Display.getHeight, 0, 1, -1)
+    val topClippingPlane    = 0
+    val leftClippingPlane   = 0
+    val rightClippingPlane  = Display.getWidth
+    val bottomClippingPlane = Display.getHeight
+
+    GL11.glOrtho(leftClippingPlane,rightClippingPlane, bottomClippingPlane, topClippingPlane, nearPlane, farPlane)
 
     GL11.glMatrixMode(GL11.GL_MODELVIEW)
     GL11.glLoadIdentity()
