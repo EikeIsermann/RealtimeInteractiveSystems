@@ -10,9 +10,6 @@ import scala.xml.{NodeBuffer, NodeSeq}
 import main.scala.architecture.{Component, ComponentCreator}
 
 
-object Motion extends ComponentCreator {
-  override def fromXML(xml: NodeBuffer): Component = ???
-}
 case class Motion(direction1: Vec3f, velocity1: Vec3f, friction1: Float) extends Component {
   def this() = this(Vec3f(0,0,0),Vec3f(0,0,0), 1f)
 

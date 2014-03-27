@@ -7,9 +7,7 @@ import scala.xml.{NodeBuffer, NodeSeq}
  * Created by Christian Treffs
  * Date: 21.03.14 00:45
  */
-object Ammo extends ComponentCreator {
-  override def fromXML(xml: NodeBuffer): Component = ???
-}
+
 case class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   private var _ammo: Int = ammo1
   private var _maxAmmo: Int = maxAmmo1

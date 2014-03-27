@@ -64,16 +64,20 @@ class RenderingSystem extends System {
          val displayNode: Display = node -> classOf[Display]
 
 
-          val mesh = Mesh.getByName(displayNode.meshId)
-          val position = positionNode.position
-          val rotation = positionNode.rotation
-       position.inline
-       rotation.inline
+       val meshId = displayNode.meshId
+       val shaderId = displayNode.shaderId
+       val position = positionNode.position
+       val rotation = positionNode.rotation
+       val scale = positionNode.scale
+
+       val mesh = Mesh.getByName(meshId)
 
 
 
-          val modelMatrix: Mat4f = Mat4f.rotation(mesh.relativeRotation) * Mat4f.translation(mesh.relativePosition) * Mat4f.scale(mesh.relativeScale)
-         //TODO
+       //TODO use parent and child construct to get the right trafos!
+          val modelMatrix: Mat4f = Mat4f.rotation(position) * Mat4f.translation(rotation) * Mat4f.scale(scale)
+
+       //TODO: don't always  use the default shader
          val shader = Mesh.defaultShader
 
 

@@ -1,8 +1,9 @@
 package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
-import scala.xml.{NodeSeq, NodeBuffer}
+import scala.xml.{Node, NodeSeq, NodeBuffer}
 import main.scala.math.Vec3f
+import main.scala.architecture
 
 /**
  * Created by Christian Treffs
@@ -10,7 +11,7 @@ import main.scala.math.Vec3f
  */
 
 object Position extends ComponentCreator {
-  def fromXML(xml: NodeBuffer): Position = {
+  def fromXML(xml: Node): Position = {
     val pos = xml \ "position"
     val rot = xml \ "rotation"
     val sc = xml \ "scale"

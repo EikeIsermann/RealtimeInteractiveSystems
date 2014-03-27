@@ -1,12 +1,12 @@
 package main.scala.io
 
-import main.scala.architecture.Entity
 import scala.xml.{Node, NodeSeq, XML, Elem}
 import java.io.File
 import main.scala.math.Vec3f
-import main.scala.systems.gfx.Mesh
 import scala.collection.mutable.ListBuffer
-import main.scala.components.Position
+import main.scala.components.{ChildEntities, ParentEntity, Display, Position}
+import main.scala.entities.Entity
+import main.scala.tools.DC
 
 
 /**
@@ -16,24 +16,29 @@ import main.scala.components.Position
 object EntityDescLoader {
 
 
-  def load(pathToDir: String, extension: String = "xml") {
+  def load(pathToDir: String, extension: String = "xml"): Seq[Entity] = {
     val files = FileIO.loadAll(extension, pathToDir)
-    val entities: Seq[Entity] = createEntities(files)
+    val entities = createEntities(files)
+    DC.log("Entities created", entities.length, 2)
+    entities
   }
 
-  private def createEntities(files: Seq[File]): Seq[Entity] = files.map(f => parse(f))
+  private def createEntities(files: Seq[File]): Seq[Entity] = files.map(f => parse(f)).flatten
 
 
 
-  private def parse(file: File): Entity = {
+  private def parse(file: File): Seq[Entity] = {
     val xml: Elem = XML.loadFile(file)
     val name: String = (xml \ "name").text
     val graphicsComponent = xml \ "components" \ "graphics"
     val physicsComponent = xml \ "components" \ "physics"
-    val aiComponent = xml \ "components" \ "ai"
-    val logicComponent = xml \ "components" \ "logic"
+    //val aiComponent = xml \ "components" \ "ai"
+    //val logicComponent = xml \ "components" \ "logic"
 
-    val entity: Entity = null
+    val ret = ListBuffer.empty[Entity]
+
+    val entity = Entity.create(name)
+
 
 
     // READ GFX
@@ -42,15 +47,27 @@ object EntityDescLoader {
         val uses: Seq[Node] =gc.nonEmptyChildren.filter(_.label == "use").map(n => {(xml \ n.text).head})
         val has: Seq[Node] = gc.nonEmptyChildren.filter(_.label != "use")
         val attrs = NodeSeq.fromSeq(uses ++ has)
+        val transformation = (attrs \\ "transformation").head
 
+        // get position
+        val positionComponent = Position.fromXML(transformation)
 
-        val (position, rotation, scale) = parseTransformation(attrs \\ "transformation")
+        // create a parent entity as reference for child entites
+        val parentComp: ParentEntity = ParentEntity(entity)
 
-        val meshNames = parseMeshes(Symbol(name), attrs \\ "meshes")
+        // aggregate child entities
+        val childEntities = parseMeshes(Symbol(name), attrs \\ "meshes", parentComp)
+        // add them to the return seq
+        ret ++= childEntities
 
+        // add the children to the current entity
+        val childrenComponent: ChildEntities = ChildEntities(childEntities)
 
+        //assemble entity
+        entity.add(positionComponent) //position component
+        entity.add(childrenComponent)
 
-        // TODO: GFX Object
+        //TODO: Family
 
       })
 
@@ -63,37 +80,45 @@ object EntityDescLoader {
       )
 
 
+    ret += entity
 
+    ret.toSeq
 
-    entity
   }
 
 
-  def parseMeshes(identifier: Symbol, meshes: NodeSeq): Seq[Symbol] = {
+  def parseMeshes(identifier: Symbol, meshes: NodeSeq, parentComp: ParentEntity): Seq[Entity] = {
 
     val sourceStr = (meshes \ "source").text
 
+    // load collada file to generate all meshes
     Collada.load(identifier, sourceStr)
 
-    val ret = ListBuffer.empty[Symbol]
+    val seqChildEntities = ListBuffer.empty[Entity]
     val ms = meshes \\ "mesh"
     ms.foreach(
       mesh => {
-        val id = Symbol(mesh.attribute("id").get.text)
+        val meshId = Symbol((mesh \ "@id").text)
 
-        ret += id
-        val (pos, rot, sc) = parseTransformation(mesh)
-        val m = Mesh.getByName(id)
-        m.relativePosition = pos
-        m.relativeRotation = rot
-        m.relativeScale = sc
+        val childEntity   = Entity.create(meshId.name)
+        val childPos      = Position.fromXML(mesh)
+        val childDisplay  = new Display(meshId) //TODO: shader and parse from xml
 
-        println(id,pos.inline, rot.inline, sc.inline)
+        //add position, display and parentEntity to child entity
+        childEntity.add(childPos)
+        childEntity.add(childDisplay)
+        childEntity.add(parentComp)
+
+        //TODO: Families
+
+        //add the children to the sequence
+        seqChildEntities += childEntity
+
     })
 
 
 
-    ret.toSeq
+    seqChildEntities.toSeq
   }
 
 

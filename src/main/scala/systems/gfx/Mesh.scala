@@ -68,19 +68,6 @@ trait MatrixFunctions[T] {
 
 class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh] {
 
-  var rPos:Vec3f = Vec3f()
-  var rRot:Vec3f = Vec3f()
-  var rSc:Vec3f = Vec3f()
-
-  def relativePosition = rPos
-  def relativePosition_=(pos: Vec3f) = rPos = pos
-
-  def relativeRotation = rRot
-  def relativeRotation_=(rot: Vec3f) = rRot = rot
-
-  def relativeScale = rSc
-  def relativeScale_=(scale: Vec3f) = rSc = scale
-
 
   var groupId: Symbol = gId
   var id: Symbol = Symbol(iId)

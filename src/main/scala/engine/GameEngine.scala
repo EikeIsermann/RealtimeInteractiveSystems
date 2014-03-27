@@ -151,15 +151,16 @@ object GameEngine extends Engine {
     // load collada files and create meshes -> now everything is available via Mesh.get()
     Collada.load(colladaFiles)
                                                          */
-    EntityDescLoader.load(entitiesDir)
+    val entities = EntityDescLoader.load(entitiesDir)
 
+     /*
     //TURRET
     val turretEntity = Entity.create("Turret")
     val turretPos = new Position()
     val turretDisplay = new main.scala.components.Display('Turret, 'Turret)
     turretEntity.add(turretPos)
     turretEntity.add(turretDisplay)
-    for(comp <- turretEntity.components) DC.log("Turret" + comp.toString)
+    //for(comp <- turretEntity.components) DC.log("Turret" + comp.toString)
     val turretFam = new Family(classOf[RenderNode])
     turretFam.components.+=(classOf[Position], classOf[main.scala.components.Display])
     add(turretFam)
@@ -173,7 +174,7 @@ object GameEngine extends Engine {
     val chassisTreadDisplay = new main.scala.components.Display('ChassisTread, 'ChassisTread)
     chassisTreadEntity.add(chassisTreadPos)
     chassisTreadEntity.add(chassisTreadDisplay)
-    for(comp <- chassisTreadEntity.components) DC.log("ChassisTread", comp.toString, 3)
+    //for(comp <- chassisTreadEntity.components) DC.log("ChassisTread", comp.toString, 3)
     val chassisTreadFam = new Family(classOf[RenderNode])
     chassisTreadFam.components.+=(classOf[Position], classOf[main.scala.components.Display])
     add(chassisTreadFam)
@@ -187,7 +188,7 @@ object GameEngine extends Engine {
     val chassisBodyDisplay = new main.scala.components.Display('ChassisBody, 'ChassisBody)
     chassisBodyEntity.add(chassisBodyPos)
     chassisBodyEntity.add(chassisBodyDisplay)
-    for(comp <- chassisBodyEntity.components) DC.log("ChassisBody", comp.toString, 3)
+    //for(comp <- chassisBodyEntity.components) DC.log("ChassisBody", comp.toString, 3)
     val chassisBodyFam = new Family(classOf[RenderNode])
     chassisBodyFam.components.+=(classOf[Position], classOf[main.scala.components.Display])
     add(chassisBodyFam)
@@ -201,7 +202,7 @@ object GameEngine extends Engine {
     val machineGunDisplay = new main.scala.components.Display('MachineGun, 'MachineGun)
     machineGunEntity.add(machineGunPos)
     machineGunEntity.add(machineGunDisplay)
-    for(comp <- machineGunEntity.components) DC.log("MachineGun", comp.toString, 3)
+    //for(comp <- machineGunEntity.components) DC.log("MachineGun", comp.toString, 3)
     val machineGunFam = new Family(classOf[RenderNode])
     machineGunFam.components.+=(classOf[Position], classOf[main.scala.components.Display])
     add(machineGunFam)
@@ -217,14 +218,14 @@ object GameEngine extends Engine {
     val skyBoxDisplay = new main.scala.components.Display('SkyBox, 'SkyBox)
     skyBoxTestEntity.add(skyBoxPos)
     skyBoxTestEntity.add(skyBoxDisplay)
-    for(comp <- skyBoxTestEntity.components) DC.log("SkyBoxTest" + comp.toString)
+    //for(comp <- skyBoxTestEntity.components) DC.log("SkyBoxTest" + comp.toString)
     val skyBoxFamily = new Family(classOf[RenderNode])
     skyBoxFamily.components.+=(classOf[Position], classOf[main.scala.components.Display])
     add(skyBoxFamily)
     for(family <- families.values){
       family.addIfMatch(skyBoxTestEntity)
     }
-
+            */
 
 
 
@@ -260,13 +261,13 @@ object GameEngine extends Engine {
 
 
     families.values.foreach(family => family.addIfMatch(camEntity))
-    families.values.foreach(family => family.addIfMatch(chassisTreadEntity))
+  /*  families.values.foreach(family => family.addIfMatch(chassisTreadEntity))
     families.values.foreach(family => family.addIfMatch(chassisBodyEntity))
     families.values.foreach(family => family.addIfMatch(turretEntity))
     families.values.foreach(family => family.addIfMatch(machineGunEntity))
 
 
-    families.values.foreach(family => family.addIfMatch(skyBoxTestEntity))
+    families.values.foreach(family => family.addIfMatch(skyBoxTestEntity))*/
 
     add(camConSys)
 

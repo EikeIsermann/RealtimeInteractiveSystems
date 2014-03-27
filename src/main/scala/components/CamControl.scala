@@ -9,9 +9,7 @@ import main.scala.math.Vec3f
  * Created by Eike
  * 23.03.14.
  */
-object CamControl extends ComponentCreator {
-  override def fromXML(xml: NodeBuffer): Component = ???
-}
+
 case class CamControl(triggerForward: Triggers,
                       triggerBackward: Triggers,
                  triggerLeft: Triggers,

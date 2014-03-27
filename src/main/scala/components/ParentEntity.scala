@@ -3,6 +3,7 @@ package main.scala.components
 import main.scala.architecture.{ComponentCreator, Component}
 import scala.xml.{NodeBuffer, NodeSeq}
 import main.scala.tools.Identifier
+import main.scala.entities.Entity
 
 
 /**
@@ -10,9 +11,6 @@ import main.scala.tools.Identifier
  * Date: 21.03.14 10:05
  */
 
-object ParentEntity extends ComponentCreator{
-  override def fromXML(xml: NodeBuffer): Component = ???
-}
-case class ParentEntity(parentIdentifier: Identifier) extends Component{
+case class ParentEntity(entity: Entity) extends Component{
   override def toXML: NodeBuffer = ???
 }

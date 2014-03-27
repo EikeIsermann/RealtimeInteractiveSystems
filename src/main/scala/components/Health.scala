@@ -7,9 +7,7 @@ import scala.xml.{NodeBuffer, NodeSeq}
  * Created by Christian Treffs
  * Date: 21.03.14 00:46
  */
-object Health extends ComponentCreator {
-  override def fromXML(xml: NodeBuffer): Component = ???
-}
+
 case class Health(health1: Int, maxHealth1: Int) extends Component {
   private var _health: Int = health1
   private var _maxHealth: Int = maxHealth1
