@@ -26,6 +26,8 @@ case class CamControl(triggerForward: Triggers,
                  triggerPitchNegative:  Triggers,
                  triggerYawLeft:  Triggers,
                  triggerYawRight:  Triggers,
+                 triggerStepUp: Triggers,
+                 triggerStepDown: Triggers,
                 // movement, pitch, yaw
                  velocities: Vec3f = Vec3f(1.5f, 0.05f, 0.03f)) extends Component {
 

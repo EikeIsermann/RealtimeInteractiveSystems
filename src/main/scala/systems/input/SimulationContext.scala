@@ -3,6 +3,7 @@ package main.scala.systems.input
 import main.scala.tools.{GameConsole, DisplayManager}
 import main.scala.math.Mat4f
 import main.scala.systems.gfx.Shader
+import main.scala.engine.GameEngine
 
 /**
  * Created by Christian Treffs
@@ -53,8 +54,8 @@ class SimulationContext extends Context {
 
     //TODO: https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts
 
-   Input.keyDownOnceDo(Key.Esc, _ => DisplayManager.toggleFullscreen()) // FULLSCREEN
-
+   Input.keyDownOnceDo(Key._F, _ => DisplayManager.toggleFullscreen()) // FULLSCREEN
+   Input.keyDownOnceDo(Key.Esc, _ => GameEngine.shutdown())
 
 
        /*
