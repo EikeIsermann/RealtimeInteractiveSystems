@@ -11,7 +11,7 @@ import main.scala.systems.input._
 class CamControlNode(camCon: CamControl, mot: Motion) extends Node {
 
   def this() = this(
-    new CamControl(Triggers(),Triggers(),Triggers(),Triggers(),Triggers(), Triggers(), Triggers(), Triggers()),
+    new CamControl(Triggers(),Triggers(),Triggers(),Triggers(),Triggers(), Triggers(), Triggers(), Triggers(), Triggers(), Triggers()),
     new Motion()
   )
 

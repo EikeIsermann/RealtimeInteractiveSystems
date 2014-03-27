@@ -26,6 +26,10 @@ class CamControlSystem extends System {
   var yaw: Float = 0.0f
   var yawDelta: Float = 0.0f
 
+  var xRad = math.sin(math.toRadians(-yaw)).toFloat
+  var zRad = math.cos(math.toRadians(-yaw)).toFloat
+  var  yRad = math.sin(math.toRadians(pitch)).toFloat
+
   override def update(context: SimulationContext): System = {
 
 
@@ -39,9 +43,6 @@ class CamControlSystem extends System {
       val pitchSensitivity = control.pitchVelocity
       val yawSensitivity = control.yawVelocity
 
-      var xRad = math.sin(math.toRadians(-yaw)).toFloat
-      var zRad = math.cos(math.toRadians(-yaw)).toFloat
-      var  yRad = math.sin(math.toRadians(pitch)).toFloat
 
       //PITCH POSITIVE/UP
       doAction(control.triggerPitchPositive, _ => {pitch += 1}, delta => motionDirectionViaMouse(delta))
@@ -55,6 +56,8 @@ class CamControlSystem extends System {
       //YAW POSITIVE/RIGHT
       doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
 
+      doAction(control.triggerStepUp, _ => {y+=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
+      doAction(control.triggerStepDown, _ => {y-=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
 
 
       // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
@@ -109,6 +112,12 @@ class CamControlSystem extends System {
         //constrain yaw
         if (yaw < -180.0f) yaw += 360.0f
         if (yaw > 180.0f)   yaw -= 360.0f
+
+        //calculate radians
+        xRad = math.sin(math.toRadians(-yaw)).toFloat
+        zRad = math.cos(math.toRadians(-yaw)).toFloat
+        yRad = math.sin(math.toRadians(pitch)).toFloat
+
       }
 
 
