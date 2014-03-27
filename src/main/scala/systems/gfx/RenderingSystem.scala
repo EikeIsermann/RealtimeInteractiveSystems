@@ -60,14 +60,25 @@ class RenderingSystem extends System {
 
      val nodes = GameEngine.getNodeList(new RenderNode())
      for (node <- nodes){
-         val position: Position = node -> classOf[Position]
-         val display: Display = node -> classOf[Display]
-         val mesh = Mesh.getByName(display.meshId)
+         val positionNode: Position = node -> classOf[Position]
+         val displayNode: Display = node -> classOf[Display]
+
+
+          val mesh = Mesh.getByName(displayNode.meshId)
+          val position = positionNode.position
+          val rotation = positionNode.rotation
+       position.inline
+       rotation.inline
+
+
+
+          val modelMatrix: Mat4f = Mat4f.rotation(mesh.relativeRotation) * Mat4f.translation(mesh.relativePosition) * Mat4f.scale(mesh.relativeScale)
          //TODO
          val shader = Mesh.defaultShader
-       DC.log("Viewmatrix is", context.viewMatrix.getPosition)
 
-         mesh.draw(shader, Mat4f.translation(position.position), context.projectionMatrix, context.viewMatrix)
+
+
+         mesh.draw(shader, modelMatrix, context.projectionMatrix, context.viewMatrix)
        }
 
 

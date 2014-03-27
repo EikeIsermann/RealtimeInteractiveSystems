@@ -88,6 +88,7 @@ object EntityDescLoader {
         m.relativeRotation = rot
         m.relativeScale = sc
 
+        println(id,pos.inline, rot.inline, sc.inline)
     })
 
 
