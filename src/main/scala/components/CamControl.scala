@@ -27,7 +27,7 @@ case class CamControl(triggerForward: Triggers,
                  triggerYawLeft:  Triggers,
                  triggerYawRight:  Triggers,
                 // movement, pitch, yaw
-                 velocities: Vec3f = Vec3f(0.5f, 1000f, 1000f)) extends Component {
+                 velocities: Vec3f = Vec3f(0.5f, 0.05f, 0.05f)) extends Component {
 
   private var _movementVel: Float = velocities.x
   private var _pitchVel: Float = velocities.y
