@@ -59,8 +59,8 @@ class CamControlSystem extends System {
         z += movementVelocity * math.cos(math.toRadians(-yaw-90f)).toFloat
       }, _ => {})
 
-      doAction(control.triggerPitchPositive, _ => {pitch = pitch+1}, mv => motionDirectionViaMouse(mv))
-      doAction(control.triggerPitchNegative, _ => {pitch-=1}, mv => motionDirectionViaMouse(mv))
+      doAction(control.triggerPitchPositive, _ => {pitch += 1}, mv => motionDirectionViaMouse(mv))
+      doAction(control.triggerPitchNegative, _ => {pitch -= 1}, mv => motionDirectionViaMouse(mv))
       doAction(control.triggerYawLeft, _ => {yaw = (yaw+1)%360  }, mv => motionDirectionViaMouse(mv))
       doAction(control.triggerYawRight, _ => {yaw = (yaw-1)%360 }, mv => motionDirectionViaMouse(mv))
 
@@ -69,21 +69,20 @@ class CamControlSystem extends System {
 
 
         val newMpos: Vec3f = mouseNormalizePos
-        yaw -= (newMpos.x-mpos.x)*yawVelocity
-        val newPitch = pitch - (newMpos.y-mpos.y)*pitchVelocity
-        if(newPitch < 90 && newPitch > -90 ){
-          pitch = newPitch
-        }
+
+        yaw -= (newMpos.x-mpos.x)*90f
+        pitch -= (newMpos.y-mpos.y)*90f
+
         mpos = newMpos
 
         //motion.direction = Vec3f(mv.y*pitchVelocity,mv.x*yawVelocity,0)
       }
 
 
+      println(pitch, yaw)
 
-
-      motion.velocity = Vec3f(x.toFloat,y.toFloat,z.toFloat)
-      motion.direction = Vec3f(pitch.toFloat,yaw.toFloat,0)
+      motion.velocity = Vec3f(x,y,z)
+      motion.direction = Vec3f(pitch,yaw,0)
 
 
     }
