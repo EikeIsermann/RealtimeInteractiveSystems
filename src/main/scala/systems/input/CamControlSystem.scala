@@ -57,6 +57,7 @@ class CamControlSystem extends System {
       doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
 
       doAction(control.triggerStepUp, _ => {y+=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
+      
       doAction(control.triggerStepDown, _ => {y-=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
 
 
