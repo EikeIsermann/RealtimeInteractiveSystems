@@ -1,15 +1,14 @@
 package main.scala.systems.input
 
-import main.scala.architecture._
+import main.scala.architecture.System
 import main.scala.tools.DC
 import main.scala.engine.GameEngine
 import main.scala.nodes.CamControlNode
 import main.scala.components.{CamControl, Motion}
 import main.scala.math.Vec3f
-import org.lwjgl.input.Mouse
-import org.lwjgl.opengl.Display
 
 /**
+ * Camera Control System
  * Created by Eike
  * 23.03.14.
  */
@@ -23,14 +22,15 @@ class CamControlSystem extends System {
   var z: Float = 0
   val offsetX: Float = 0.1f
   val offsetZ: Float = 0.1f
-  var mpos: Vec3f = Vec3f()
+  var mouseDelta: Vec3f = Vec3f()
 
-  var pitchFac: Float = 0.0f
-  var yawFac: Float = 0.0f
+  var pitchDelta: Float = 0.0f
+  var yawDelta: Float = 0.0f
 
   var horizontalAngle: Float = 0.0f
   var verticalAngle: Float = 0.0f
   var dir: Vec3f = Vec3f()
+
   override def update(context: SimulationContext): System = {
 
 
@@ -40,106 +40,88 @@ class CamControlSystem extends System {
       val control = node -> classOf[CamControl]
 
 
-      val movementVelocity =  control.movementVelocity * context.deltaT
-      val pitchVelocity =  control.pitchVelocity
-      val yawVelocity =  control.yawVelocity
-
-
+      val movementVelocity = control.movementVelocity * context.deltaT
+      val pitchSensitivity = control.pitchVelocity
+      val yawSensitivity = control.yawVelocity
 
 
       // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
+      //FORWARD
       doAction(control.triggerForward, _ => {
         x += movementVelocity * math.sin(math.toRadians(-yaw)).toFloat
         z -= movementVelocity * math.cos(math.toRadians(-yaw)).toFloat
-      }, (a,b,c) => {})
+      }, delta => {})
+
+      //BACKWARD
       doAction(control.triggerBackward, _ => {
         x -= movementVelocity * math.sin(math.toRadians(-yaw)).toFloat
         z += movementVelocity * math.cos(math.toRadians(-yaw)).toFloat
 
-      }, (a,b,c) => {})
+      }, delta => {})
+
+      //LEFT
       doAction(control.triggerLeft, _ => {
-        x -= movementVelocity * math.sin(math.toRadians(-yaw+90f)).toFloat
-        z += movementVelocity * math.cos(math.toRadians(-yaw+90f)).toFloat
-      }, (a,b,c) => {})
+        x -= movementVelocity * math.sin(math.toRadians(-yaw + 90f)).toFloat
+        z += movementVelocity * math.cos(math.toRadians(-yaw + 90f)).toFloat
+      }, delta => {})
+
+      //RIGHT
       doAction(control.triggerRight, _ => {
-        x -= movementVelocity *  math.sin(math.toRadians(-yaw-90f)).toFloat
-        z += movementVelocity * math.cos(math.toRadians(-yaw-90f)).toFloat
-      }, (a,b,c) => {})
+        x -= movementVelocity * math.sin(math.toRadians(-yaw - 90f)).toFloat
+        z += movementVelocity * math.cos(math.toRadians(-yaw - 90f)).toFloat
+      }, delta => {})
 
-      doAction(control.triggerPitchPositive, _ => {pitch += 1}, (a,b,c) => motionDirectionViaMouse(a,b,c))
-      doAction(control.triggerPitchNegative, _ => {pitch -= 1}, (a,b,c) => motionDirectionViaMouse(a,b,c))
-      doAction(control.triggerYawLeft, _ => {yaw = (yaw+1)%360  }, (a,b,c) => motionDirectionViaMouse(a,b,c))
-      doAction(control.triggerYawRight, _ => {yaw = (yaw-1)%360 }, (a,b,c) => motionDirectionViaMouse(a,b,c))
+      //PITCH POSITIVE/UP
+      doAction(control.triggerPitchPositive, _ => {pitch += 1}, delta => motionDirectionViaMouse(delta))
 
+      //PITCH NEGATIVE/DOWN
+      doAction(control.triggerPitchNegative, _ => {pitch -= 1}, delta => motionDirectionViaMouse(delta))
 
-      def motionDirectionViaMouse(mouseInfos: (Vec3f, Vec3f, Vec3f)) {
+      //YAW NEGATIVE/LEFT
+      doAction(control.triggerYawLeft, _ => {yaw = (yaw + 1) % 360}, delta => motionDirectionViaMouse(delta))
 
-        val (pos, posNorm, delta) = mouseInfos
-
-
-
-        val newMpos: Vec3f = delta
-        val nx = (newMpos.x-mpos.x)*pitchVelocity
-        val ny = (newMpos.y-mpos.y)*yawVelocity
+      //YAW POSITIVE/RIGHT
+      doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
 
 
-        pitchFac += ny
-        yawFac += nx
+      def motionDirectionViaMouse(mouseDeltaNew: Vec3f) {
 
+        // calculate current mouse delta - considering velocities/sensitivities
+        val deltaX: Float = (mouseDeltaNew.x - mouseDelta.x) * pitchSensitivity
+        val deltaY: Float = (mouseDeltaNew.y - mouseDelta.y) * yawSensitivity
 
+        // update old mouse delta
+        mouseDelta = mouseDeltaNew
 
-        yaw -= yawFac
+        // sum deltas to get a pitch and yaw delta
+        pitchDelta += deltaY
+        yawDelta += deltaX
 
-        pitch += pitchFac
+        //calculate pitch and yaw
+        yaw -= yawDelta
+        pitch +=  pitchDelta
 
-        if(pitch > 90.0f) {
-          pitch = 90.0f
-        }
-        if(pitch < -90.0f) {
-          pitch = -90.0f
-        }
+        // constrain pitch
+        if (pitch > 90.0f)  pitch = 90.0f
+        if (pitch < -90.0f) pitch = -90.0f
 
-
-        if (yaw < -180.0f)
-        {
-          yaw += 360.0f
-        }
-
-        if (yaw > 180.0f)
-        {
-          yaw -= 360.0f
-        }
-
-        println(pitch+"\t"+yaw)
-
-
-
-
-        mpos = newMpos
-
-        //motion.direction = Vec3f(mv.y*pitchVelocity,mv.x*yawVelocity,0)
-
-        //Mouse.setCursorPosition(Display.getWidth/2, Display.getHeight/2)
+        //constrain yaw
+        if (yaw < -180.0f) yaw += 360.0f
+        if (yaw > 180.0f)   yaw -= 360.0f
       }
 
 
-      //println(pitch, yaw)
-
-      motion.velocity = Vec3f(x,y,z)
-      motion.direction = Vec3f(pitch,yaw,0)
-
-
-
+      motion.velocity = Vec3f(x, y, z)
+      motion.direction = Vec3f(pitch, yaw, 0)
     }
 
     this
   }
 
 
+  private def doAction(triggers: Triggers, keyAction: Unit => Unit, mouseAction: Vec3f => Unit) {
 
-  private def doAction(triggers: Triggers, keyAction: Unit => Unit, mouseAction: (Vec3f,Vec3f,Vec3f) => Unit) {
-
-    Input.mousePositionNormalizedDo(triggers.mouseMovement, (v,c,d) => mouseAction(v,c,d))
+    Input.mouseMovementDo(triggers.mouseMovement, delta => mouseAction(delta))
     Input.keyDownDo(triggers.key, _ => keyAction())
 
   }

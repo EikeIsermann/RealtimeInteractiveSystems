@@ -108,9 +108,7 @@ object Input {
 
 
 
-  def mousePositionNormalizedDo(mv: MouseMovement.Value, func: (Vec3f,Vec3f,Vec3f) => Unit) {
-    func(mousePosition(),mousePositionNormalized(),mouseMovement())
-  }
+
   def mouseMovementDo(mv: MouseMovement.Value, func: Vec3f => Unit) {
     func(mouseMovement())
   }
