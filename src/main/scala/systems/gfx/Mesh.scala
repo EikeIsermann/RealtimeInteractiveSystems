@@ -5,10 +5,25 @@ import main.scala.tools.DC
 import java.nio.{IntBuffer, FloatBuffer}
 import org.lwjgl.BufferUtils
 
-import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.GL20._
+
 import scala.collection.mutable
 import main.scala.io.Collada
+import org.lwjgl.opengl.GL11._
+import org.lwjgl.opengl.GL12._
+import org.lwjgl.opengl.GL13._
+import org.lwjgl.opengl.GL14._
+import org.lwjgl.opengl.GL15._
+import org.lwjgl.opengl.GL20._
+import org.lwjgl.opengl.GL21._
+import org.lwjgl.opengl.GL30._
+import org.lwjgl.opengl.GL31._
+import org.lwjgl.opengl.GL32._
+import org.lwjgl.opengl.GL33._
+import org.lwjgl.opengl.GL40._
+import org.lwjgl.opengl.GL41._
+import org.lwjgl.opengl.GL42._
+import org.lwjgl.opengl.GL43._
+import org.lwjgl.opengl.GL44._
 
 
 /**
@@ -276,7 +291,9 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
     glEnableVertexAttribArray(shader.texCoordsAttributeIndex)
 
     //TODO: correct limit
-    glDrawArrays(polytype,0, positionsBuffer.limit()/3)
+    glDrawArrays(polytype,0, texCoordsBuffer.limit/2)
+
+
 
     /*glDrawBuffer(shader.vertexAttributeIndex)
     glDrawBuffer(shader.normalsAttributeIndex)

@@ -15,7 +15,7 @@ import main.scala.math.Vec3f
 class CamControlSystem extends System {
 
   var x: Float = 0.0f
-  val y: Float = 0.0f
+  var y: Float = 0.0f
   var z: Float = 0.0f
 
   var mouseDelta: Vec3f = Vec3f()
@@ -39,32 +39,9 @@ class CamControlSystem extends System {
       val pitchSensitivity = control.pitchVelocity
       val yawSensitivity = control.yawVelocity
 
-
-      // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
-      //FORWARD
-      doAction(control.triggerForward, _ => {
-        x += movementVelocity * math.sin(math.toRadians(-yaw)).toFloat
-        z -= movementVelocity * math.cos(math.toRadians(-yaw)).toFloat
-      }, delta => {})
-
-      //BACKWARD
-      doAction(control.triggerBackward, _ => {
-        x -= movementVelocity * math.sin(math.toRadians(-yaw)).toFloat
-        z += movementVelocity * math.cos(math.toRadians(-yaw)).toFloat
-
-      }, delta => {})
-
-      //LEFT
-      doAction(control.triggerLeft, _ => {
-        x -= movementVelocity * math.sin(math.toRadians(-yaw + 90f)).toFloat
-        z += movementVelocity * math.cos(math.toRadians(-yaw + 90f)).toFloat
-      }, delta => {})
-
-      //RIGHT
-      doAction(control.triggerRight, _ => {
-        x -= movementVelocity * math.sin(math.toRadians(-yaw - 90f)).toFloat
-        z += movementVelocity * math.cos(math.toRadians(-yaw - 90f)).toFloat
-      }, delta => {})
+      var xRad = math.sin(math.toRadians(-yaw)).toFloat
+      var zRad = math.cos(math.toRadians(-yaw)).toFloat
+      var  yRad = math.sin(math.toRadians(pitch)).toFloat
 
       //PITCH POSITIVE/UP
       doAction(control.triggerPitchPositive, _ => {pitch += 1}, delta => motionDirectionViaMouse(delta))
@@ -78,6 +55,35 @@ class CamControlSystem extends System {
       //YAW POSITIVE/RIGHT
       doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
 
+
+
+      // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
+      //FORWARD
+      doAction(control.triggerForward, _ => {
+
+        x += movementVelocity * xRad * (1-Math.abs(yRad))
+        z -= movementVelocity * zRad * (1-Math.abs(yRad))
+        y += movementVelocity * yRad
+      }, delta => {})
+
+      //BACKWARD
+      doAction(control.triggerBackward, _ => {
+        x -= movementVelocity  * xRad * (1-Math.abs(yRad))
+        z += movementVelocity * zRad * (1-Math.abs(yRad))
+        y -= movementVelocity * yRad
+      }, delta => {})
+
+      //LEFT
+      doAction(control.triggerLeft, _ => {
+        x -= movementVelocity * math.sin(math.toRadians(-yaw + 90f)).toFloat
+        z += movementVelocity * math.cos(math.toRadians(-yaw + 90f)).toFloat
+      }, delta => {})
+
+      //RIGHT
+      doAction(control.triggerRight, _ => {
+        x -= movementVelocity * math.sin(math.toRadians(-yaw - 90f)).toFloat
+        z += movementVelocity * math.cos(math.toRadians(-yaw - 90f)).toFloat
+      }, delta => {})
 
       def motionDirectionViaMouse(mouseDeltaNew: Vec3f) {
 
