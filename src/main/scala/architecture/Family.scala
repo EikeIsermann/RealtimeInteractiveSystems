@@ -22,7 +22,7 @@ class Family(val nodeClass: Class[_ <: Node]) {
         }
       }
 
-      var node = nodeClass.newInstance()
+      val node = nodeClass.newInstance()
       for (componentClass <- components){
         node.components.put(componentClass, entity.components(componentClass).apply(0))
       }

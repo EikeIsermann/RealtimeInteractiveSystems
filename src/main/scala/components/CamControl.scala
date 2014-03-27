@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
-import scala.xml.NodeSeq
+import scala.xml.{NodeBuffer, NodeSeq}
 import main.scala.systems.input.Triggers
 import main.scala.math.Vec3f
 
@@ -10,13 +10,7 @@ import main.scala.math.Vec3f
  * 23.03.14.
  */
 object CamControl extends ComponentCreator {
-  def fromXML(xml: NodeSeq)  = {
-    /*val pos = xml.head
-    new Position(Vec3f(pos.attribute("x").get.text.toFloat,pos.attribute("y").get.text.toFloat, pos.attribute("z").get.text.toFloat))
-    */
-    //TODO
-    null
-  }
+  override def fromXML(xml: NodeBuffer): Component = ???
 }
 case class CamControl(triggerForward: Triggers,
                       triggerBackward: Triggers,
@@ -45,5 +39,5 @@ case class CamControl(triggerForward: Triggers,
   def yawVelocity_=(v: Float) = _yawVel = v
 
   //override def toXML: NodeSeq = {<position x={vec.x} y={vec.y} z={vec.z} />}
-  override def toXML: NodeSeq = ???
+  override def toXML: NodeBuffer = ???
 }

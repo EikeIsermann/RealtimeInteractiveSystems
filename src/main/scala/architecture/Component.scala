@@ -2,7 +2,7 @@ package main.scala.architecture
 
 import main.scala.event.ObservingActor
 import main.scala.systems.input.Context
-import scala.xml.NodeSeq
+import scala.xml.{NodeBuffer, NodeSeq}
 import main.scala.tools.Identifier
 
 /**
@@ -19,10 +19,10 @@ trait Component /*extends ObservingActor*/ {
 
   def identifier: Identifier = _identifier
 
-  def toXML: NodeSeq
+  def toXML: NodeBuffer
 
   override def toString: String = "[Component] "+identifier.toString
 }
 trait ComponentCreator {
-  def fromXML(xml: NodeSeq): Component
+  def fromXML(xml: NodeBuffer): Component
 }

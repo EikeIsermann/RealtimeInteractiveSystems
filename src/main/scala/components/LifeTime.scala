@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import scala.xml.NodeSeq
+import scala.xml.{NodeBuffer, NodeSeq}
 
 /**
  * Created by Christian Treffs
@@ -9,5 +9,5 @@ import scala.xml.NodeSeq
  */
 case class LifeTime() extends Component{
   //TODO
-  override def toXML: NodeSeq = ???
+  override def toXML: NodeBuffer = ???
 }

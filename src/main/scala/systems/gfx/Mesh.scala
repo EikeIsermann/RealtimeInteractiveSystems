@@ -206,17 +206,20 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
     positionsArray = reorderArray(positionsUnordered, positionsStride, indexArray, vertexOffset, 3)
     positionsBuffer = BufferUtils.createFloatBuffer(positionsArray.length)
     positionsBuffer.put(positionsArray)
-    positionsBuffer.rewind()
+    positionsBuffer.flip()
+    //positionsBuffer.rewind()
 
     normalsArray = reorderArray(normalsUnordered, normalsStride, indexArray, normalOffset, 3)
     normalsBuffer = BufferUtils.createFloatBuffer(normalsArray.length)
     normalsBuffer.put(normalsArray)
-    normalsBuffer.rewind()
+    normalsBuffer.flip()
+    //normalsBuffer.rewind()
 
     texCoordsArray = reorderArray(texCoordsUnordered, texCoordsStride , indexArray, texCoordOffset, 3)
     texCoordsBuffer = BufferUtils.createFloatBuffer(texCoordsArray.length)
     texCoordsBuffer.put(texCoordsArray)
-    texCoordsBuffer.rewind()
+    texCoordsBuffer.flip()
+    //texCoordsBuffer.rewind()
 
 
     /*
@@ -284,10 +287,11 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
     glVertexAttribPointer(shader.vertexAttributeIndex, 3, false, 0, positionsBuffer)
     glEnableVertexAttribArray(shader.vertexAttributeIndex)
 
+
     glVertexAttribPointer(shader.normalsAttributeIndex, 3, false, 0, normalsBuffer)
     glEnableVertexAttribArray(shader.normalsAttributeIndex)
 
-    glVertexAttribPointer(shader.texCoordsAttributeIndex, 2, false, 0, texCoordsBuffer)
+    glVertexAttribPointer(shader.texCoordsAttributeIndex, 2, true, 0, texCoordsBuffer)
     glEnableVertexAttribArray(shader.texCoordsAttributeIndex)
 
     //TODO: correct limit

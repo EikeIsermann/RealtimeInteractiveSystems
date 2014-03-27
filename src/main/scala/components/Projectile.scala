@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import scala.xml.NodeSeq
+import scala.xml.{NodeBuffer, NodeSeq}
 
 /**
  * Created by Christian Treffs
@@ -12,7 +12,7 @@ case class Projectile(damage1: Float) extends Component {
   def damage: Float = _damage
   def damage_=(d: Float) = _damage = d
 
-  override def toXML: NodeSeq = ???
+  override def toXML: NodeBuffer = ???
 
 
 }

@@ -6,18 +6,12 @@ package main.scala.components
  */
 
 import main.scala.math.Vec3f
-import scala.xml.NodeSeq
+import scala.xml.{NodeBuffer, NodeSeq}
 import main.scala.architecture.{Component, ComponentCreator}
 
 
 object Motion extends ComponentCreator {
-  def fromXML(xml: NodeSeq): Component = {
-    /*val pos = xml.head
-    new Position(Vec3f(pos.attribute("x").get.text.toFloat,pos.attribute("y").get.text.toFloat, pos.attribute("z").get.text.toFloat))
-    */
-    //TODO
-    null
-  }
+  override def fromXML(xml: NodeBuffer): Component = ???
 }
 case class Motion(direction1: Vec3f, velocity1: Vec3f, friction1: Float) extends Component {
   def this() = this(Vec3f(0,0,0),Vec3f(0,0,0), 1f)
@@ -39,5 +33,5 @@ case class Motion(direction1: Vec3f, velocity1: Vec3f, friction1: Float) extends
   //TODO: acceleration?
 
 
-  override def toXML: NodeSeq = ???
+  override def toXML: NodeBuffer = ???
 }

@@ -85,7 +85,7 @@ sealed class Shader() {
     val arr = FileIO.loadAsArray[Byte](vsFilePath)
     val vertexShader: ByteBuffer = BufferUtils.createByteBuffer(arr.length)
     vertexShader.put(arr)
-    vertexShader.rewind()
+    vertexShader.flip()
 
     vsIdx = glCreateShader(GL_VERTEX_SHADER)
     glShaderSource(vsIdx, vertexShader)
@@ -101,7 +101,7 @@ sealed class Shader() {
 
     val fragmentShader: ByteBuffer = BufferUtils.createByteBuffer(arr.length)
     fragmentShader.put(arr)
-    fragmentShader.rewind()
+    fragmentShader.flip()
 
     fsIdx = glCreateShader(GL_FRAGMENT_SHADER)
     glShaderSource(fsIdx, fragmentShader)

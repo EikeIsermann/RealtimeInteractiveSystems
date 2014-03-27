@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import scala.xml.NodeSeq
+import scala.xml.{NodeBuffer, NodeSeq}
 
 /**
  * Created by Christian Treffs
@@ -21,7 +21,5 @@ case class Gun(lifetimeProjectile1: Long, coolDown1: Long, timeOfLastShot1: Long
   def timeOfLastShot: Long = _timeOfLastShot
   def timeOfLastShot_=(t: Long) = _timeOfLastShot = t
 
-  override def toXML: NodeSeq = ???
-
-
+  override def toXML: NodeBuffer = ???
 }

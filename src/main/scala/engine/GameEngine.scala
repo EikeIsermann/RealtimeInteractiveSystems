@@ -13,8 +13,6 @@ import main.scala.components.{Motion, CamControl, Position}
 import main.scala.nodes.{MovementNode, CamControlNode, CameraNode, RenderNode}
 import main.scala.systems.positional.MovementSystem
 import main.scala.components.Camera
-import scala.collection.mutable
-import main.scala.architecture
 
 /**
  * Created by Christian Treffs
@@ -157,7 +155,7 @@ object GameEngine extends Engine {
 
     //TURRET
     val turretEntity = Entity.create("Turret")
-    val turretPos = new Position(Vec3f(0, 0, 0), Vec3f(0, 0, 0))
+    val turretPos = new Position()
     val turretDisplay = new main.scala.components.Display('Turret, 'Turret)
     turretEntity.add(turretPos)
     turretEntity.add(turretDisplay)
@@ -171,7 +169,7 @@ object GameEngine extends Engine {
 
     //ChassisTread
     val chassisTreadEntity = Entity.create("ChassisTread")
-    val chassisTreadPos = new Position(Vec3f(0, 0, 0), Vec3f(0, 0, 0))
+    val chassisTreadPos = new Position()
     val chassisTreadDisplay = new main.scala.components.Display('ChassisTread, 'ChassisTread)
     chassisTreadEntity.add(chassisTreadPos)
     chassisTreadEntity.add(chassisTreadDisplay)
@@ -185,7 +183,7 @@ object GameEngine extends Engine {
 
     //ChassisBody
     val chassisBodyEntity = Entity.create("ChassisBody")
-    val chassisBodyPos = new Position(Vec3f(0, 0, 0), Vec3f(0, 0, 0))
+    val chassisBodyPos = new Position()
     val chassisBodyDisplay = new main.scala.components.Display('ChassisBody, 'ChassisBody)
     chassisBodyEntity.add(chassisBodyPos)
     chassisBodyEntity.add(chassisBodyDisplay)
@@ -199,7 +197,7 @@ object GameEngine extends Engine {
 
     //MachineGun
     val machineGunEntity = Entity.create("MachineGun")
-    val machineGunPos = new Position(Vec3f(0, 0, 0), Vec3f(0, 0, 0))
+    val machineGunPos = new Position()
     val machineGunDisplay = new main.scala.components.Display('MachineGun, 'MachineGun)
     machineGunEntity.add(machineGunPos)
     machineGunEntity.add(machineGunDisplay)

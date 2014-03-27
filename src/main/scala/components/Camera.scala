@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import scala.xml.NodeSeq
+import scala.xml.{NodeBuffer, NodeSeq}
 
 /**
  * Created by Christian Treffs
@@ -17,7 +17,5 @@ case class Camera(fieldOfView1: Float, active1: Boolean = true) extends Componen
   def active: Boolean = _active
   def active_=(state: Boolean) = _active = state
 
-  override def toXML: NodeSeq = ???
-
-
+  override def toXML: NodeBuffer = ???
 }
