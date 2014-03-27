@@ -14,22 +14,17 @@ import main.scala.math.Vec3f
  */
 class CamControlSystem extends System {
 
+  var x: Float = 0.0f
+  val y: Float = 0.0f
+  var z: Float = 0.0f
 
-  var pitch: Float = 0
-  var yaw: Float = 0
-  var x: Float = 0
-  val y: Float = 0
-  var z: Float = 0
-  val offsetX: Float = 0.1f
-  val offsetZ: Float = 0.1f
   var mouseDelta: Vec3f = Vec3f()
 
+  var pitch: Float = 0.0f
   var pitchDelta: Float = 0.0f
-  var yawDelta: Float = 0.0f
 
-  var horizontalAngle: Float = 0.0f
-  var verticalAngle: Float = 0.0f
-  var dir: Vec3f = Vec3f()
+  var yaw: Float = 0.0f
+  var yawDelta: Float = 0.0f
 
   override def update(context: SimulationContext): System = {
 
