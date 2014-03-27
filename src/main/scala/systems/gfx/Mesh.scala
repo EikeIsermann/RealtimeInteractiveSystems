@@ -278,6 +278,12 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
     //TODO: correct limit
     glDrawArrays(polytype,0, positionsBuffer.limit()/3)
 
+    /*glDrawBuffer(shader.vertexAttributeIndex)
+    glDrawBuffer(shader.normalsAttributeIndex)
+    glDrawBuffer(shader.texCoordsAttributeIndex)
+
+    println(positionsBuffer.limit(), normalsBuffer.limit(), texCoordsBuffer.limit())*/
+
     afterFunc()
   }
 
