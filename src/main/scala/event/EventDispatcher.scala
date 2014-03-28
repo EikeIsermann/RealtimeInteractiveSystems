@@ -6,6 +6,9 @@ import scala.collection.mutable.ArrayBuffer
 /**
  * Created by Christian Treffs
  * Date: 28.03.14 12:10
+ *
+ * Event Dispatcher holds a map of subscribers to a specific event type
+ * can dispatch an event - at every subscriber the method receive ist called with this event
  */
 object EventDispatcher {
 
@@ -33,11 +36,16 @@ object EventDispatcher {
    }
 }
 
+/**
+ * the event receiver - must implement the receive method that is called on event reception
+ */
 trait EventReceiver {
   def receive(event: Event)
 }
 
-
+/**
+ * all events
+ */
 trait Event
 case class TestEvent() extends Event
 
