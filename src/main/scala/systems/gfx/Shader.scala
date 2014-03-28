@@ -10,6 +10,8 @@ import ogl.app.{MatrixUniform, Util}
 import main.scala.math.Mat4f
 import org.lwjgl.BufferUtils
 import main.scala.tools.DC
+import scala.collection.mutable
+import scala.xml.{XML, Elem}
 
 /**
  * Created by Christian Treffs
@@ -20,6 +22,7 @@ object Shader {
   final val defaultVertexShader = "src/main/resources/shaders/default.vs"
   final val defaultFragmentShader = "src/main/resources/shaders/default.fs"
 
+  private val shaderMap = mutable.HashMap.empty[Symbol, Shader]
 
   def init(vs: String = defaultVertexShader, fs: String = defaultFragmentShader): Shader = {
     val shader = new Shader
@@ -32,6 +35,27 @@ object Shader {
     shader.setProperties()
     shader
   }
+  
+  def get(identifier: Symbol): Shader = shaderMap(identifier)
+  
+  def load(shaderDir: String = "src/main/resources/shaders/", definitionsFile: String = "shaderDefinitions.xml") = {
+    parseXML(XML.loadFile(FileIO.load(shaderDir+"/"+definitionsFile)), shaderDir)
+    DC.log("Shader created",shaderMap.values.size, 2)
+    shaderMap
+  }
+
+  private def parseXML(xml: Elem,shaderDir:String) {
+    val shaders = xml \\ "shader"
+    shaders.foreach(s =>{
+        val id = Symbol(s \ "@id" text)
+        val vsSrc = shaderDir+"/"+(s \ "vsSource").text
+        val fsSrc = shaderDir+"/"+(s \ "fsSource").text
+
+        val shader = Shader.init(vsSrc,fsSrc)
+        shaderMap.put(id, shader)
+    })
+  }
+
 
 }
 

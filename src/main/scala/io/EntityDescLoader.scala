@@ -55,8 +55,12 @@ object EntityDescLoader {
         // create a parent entity as reference for child entites
         val parentComp: ParentEntity = ParentEntity(entity)
 
+        val shaderId:Symbol = Symbol((attrs \\ "shader").head.text)
+        println(shaderId)
+
+
         // aggregate child entities
-        val childEntities = parseMeshes(Symbol(name), attrs \\ "meshes", parentComp)
+        val childEntities = parseMeshes(Symbol(name), attrs \\ "meshes", parentComp, shaderId)
         // add them to the return seq
         ret ++= childEntities
 
@@ -87,7 +91,7 @@ object EntityDescLoader {
   }
 
 
-  def parseMeshes(identifier: Symbol, meshes: NodeSeq, parentComp: ParentEntity): Seq[Entity] = {
+  def parseMeshes(identifier: Symbol, meshes: NodeSeq, parentComp: ParentEntity, shaderId: Symbol): Seq[Entity] = {
 
     val sourceStr = (meshes \ "source").text
 

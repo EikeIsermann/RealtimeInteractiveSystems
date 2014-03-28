@@ -5,6 +5,7 @@
         <rotation angleX="0" angleY="0" angleZ="0" />
         <scale x="0" y="0" z="0" />
     </transformation>
+    <shader>default</shader>
     <meshes>
         <source>src/main/resources/meshes/SkyBox/SkyBox.dae</source>
         <mesh id="SkyBox">
@@ -22,6 +23,7 @@
         <graphics>
             <use>meshes</use>
             <use>transformation</use>
+            <use>shader</use>
         </graphics>
         <physis>
             <use>transformation</use>

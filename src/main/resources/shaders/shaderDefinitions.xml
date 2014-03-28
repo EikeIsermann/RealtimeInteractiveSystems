@@ -1,0 +1,6 @@
+<shaderDefinitions>
+    <shader id="default">
+        <vsSource>default.vs</vsSource>
+        <fsSource>default.fs</fsSource>
+    </shader>
+</shaderDefinitions>

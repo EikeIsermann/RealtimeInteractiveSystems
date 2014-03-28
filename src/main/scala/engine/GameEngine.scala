@@ -10,7 +10,7 @@ import main.scala.math.Vec3f
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
 import main.scala.components.{Motion, CamControl, Position}
-import main.scala.nodes.{MovementNode, CamControlNode, CameraNode, RenderNode}
+import main.scala.nodes.{MovementNode, CamControlNode, CameraNode}
 import main.scala.systems.positional.MovementSystem
 import main.scala.components.Camera
 
@@ -150,7 +150,13 @@ object GameEngine extends Engine {
 
     // load collada files and create meshes -> now everything is available via Mesh.get()
     Collada.load(colladaFiles)
+
                                                          */
+
+
+    val shaders = Shader.load(shaderDir)
+
+
     val entities = EntityDescLoader.load(entitiesDir)
 
      /*
