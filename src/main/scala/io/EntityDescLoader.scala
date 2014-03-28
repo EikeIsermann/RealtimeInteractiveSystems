@@ -56,7 +56,6 @@ object EntityDescLoader {
         val parentComp: ParentEntity = ParentEntity(entity)
 
         val shaderId:Symbol = Symbol((attrs \\ "shader").head.text)
-        println(shaderId)
 
 
         // aggregate child entities
@@ -106,7 +105,7 @@ object EntityDescLoader {
 
         val childEntity   = Entity.create(meshId.name)
         val childPos      = Position.fromXML(mesh)
-        val childDisplay  = new Display(meshId) //TODO: shader and parse from xml
+        val childDisplay  = new Display(meshId, shaderId)
 
         //add position, display and parentEntity to child entity
         childEntity.add(childPos)

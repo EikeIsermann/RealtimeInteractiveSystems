@@ -72,13 +72,11 @@ class RenderingSystem extends System {
 
        val mesh = Mesh.getByName(meshId)
 
+       val shader = Shader.get(shaderId)
 
 
        //TODO use parent and child construct to get the right trafos!
           val modelMatrix: Mat4f = Mat4f.rotation(position) * Mat4f.translation(rotation) * Mat4f.scale(scale)
-
-       //TODO: don't always  use the default shader
-         val shader = Mesh.defaultShader
 
 
 
