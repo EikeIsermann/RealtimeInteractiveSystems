@@ -50,7 +50,6 @@ object Shader {
         val id = Symbol(s \ "@id" text)
         val vsSrc = shaderDir+"/"+(s \ "vsSource").text
         val fsSrc = shaderDir+"/"+(s \ "fsSource").text
-
         val shader = Shader.init(vsSrc,fsSrc)
         shaderMap.put(id, shader)
     })

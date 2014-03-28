@@ -1,4 +1,4 @@
-package main.scala.event
+package main.scala.event.deprecated
 
 import scala.collection.mutable
 import akka.actor.{ActorRef, Actor}
