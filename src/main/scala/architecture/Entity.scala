@@ -42,7 +42,6 @@ trait Entity {
     !components(componentClass).isEmpty
   }
 
-
-
+  def newInstance(): Entity
 
 }

@@ -8,6 +8,7 @@ package main.scala.components
 import main.scala.math.Vec3f
 import scala.xml.Node
 import main.scala.architecture.{ComponentCreator, Component}
+import main.scala.tools.Identifier
 
 
 object Motion extends ComponentCreator {
@@ -48,4 +49,6 @@ class Motion(direction1: Vec3f, velocity1: Vec3f, friction1: Float) extends Comp
       <friction>{friction.toString}</friction>
     </motion>
   }
+
+  override def newInstance(i:Identifier): Component = new Motion(direction, velocity, friction)
 }

@@ -4,6 +4,7 @@ import main.scala.architecture.{Component, ComponentCreator}
 import scala.xml.{Node, NodeBuffer, NodeSeq}
 import main.scala.systems.input.Triggers
 import main.scala.math.Vec3f
+import main.scala.tools.Identifier
 
 /**
  * Created by Eike
@@ -38,4 +39,7 @@ case class CamControl(triggerForward: Triggers,
 
   //override def toXML: NodeSeq = {<position x={vec.x} y={vec.y} z={vec.z} />}
   override def toXML: Node = ???
+
+  override def newInstance(i:Identifier): Component = new CamControl(triggerForward,triggerBackward,triggerLeft,triggerRight,triggerPitchPositive, triggerPitchNegative,triggerYawLeft,triggerYawRight,triggerStepUp,triggerStepDown,velocities)
+
 }

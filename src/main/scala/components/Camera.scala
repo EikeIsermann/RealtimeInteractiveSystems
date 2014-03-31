@@ -2,6 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.Component
 import scala.xml.{Node, NodeBuffer, NodeSeq}
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -18,4 +19,6 @@ case class Camera(fieldOfView1: Float, active1: Boolean = true) extends Componen
   def active_=(state: Boolean) = _active = state
 
   override def toXML: Node = ???
+
+  override def newInstance(i:Identifier): Component = new Camera(fieldOfView,active)
 }

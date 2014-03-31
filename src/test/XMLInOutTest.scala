@@ -4,6 +4,7 @@ import main.scala.architecture._
 import scala.xml.Elem
 import main.scala.components._
 import scala.xml
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -73,5 +74,7 @@ object Comp extends ComponentCreator {
 
 class Comp extends Component {
   override def toXML: scala.xml.Node = <comp>test</comp>
+
+  override def newInstance(i:Identifier = newIdentifier()): Component = new Comp
 
 }

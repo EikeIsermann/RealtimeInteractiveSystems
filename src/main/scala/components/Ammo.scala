@@ -2,6 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
 import scala.xml.{Node, NodeBuffer, NodeSeq}
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -19,4 +20,7 @@ case class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   def maxAmmo_=(a: Int) = _maxAmmo = a
 
   override def toXML: Node = ???
+
+  override def newInstance(i:Identifier): Component = new Ammo(ammo,maxAmmo)
+
 }

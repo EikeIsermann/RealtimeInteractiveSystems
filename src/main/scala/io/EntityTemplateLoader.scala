@@ -1,14 +1,11 @@
 package main.scala.io
 
-import scala.xml.{NodeSeq, XML, Elem}
+import scala.xml.{XML, Elem}
 import java.io.File
-import main.scala.math.Vec3f
-import scala.collection.mutable.ListBuffer
 import main.scala.components._
 import main.scala.entities.Entity
 import main.scala.tools.DC
 import scala.collection.mutable
-import main.scala.components.ParentEntity
 
 
 /**
@@ -19,6 +16,46 @@ object EntityTemplateLoader {
 
   def main(args: Array[String]) {
     EntityTemplateLoader.load("src/main/resources/entities/")
+
+
+    val s = System.currentTimeMillis()
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    Entity.newInstanceOf('Tank)
+    val e = System.currentTimeMillis()
+    println(e-s)
   }
 
   private val rootLabel = "entityTemplate"
@@ -90,120 +127,8 @@ object EntityTemplateLoader {
 
     println(name, entity)
     entity.components.map(println)
-     /*
-    val name: String = (xml \ "name").text
-    val graphicsComponent = xml \ "components" \ "graphics"
-    val physicsComponent = xml \ "components" \ "physics"
-    //val aiComponent = xml \ "components" \ "ai"
-    //val logicComponent = xml \ "components" \ "logic"
-
-    val ret = ListBuffer.empty[Entity]
-
-    val entity = Entity.create(name)
-
-
-
-    // READ GFX
-    graphicsComponent foreach(
-      gc => {
-        val uses: Seq[Node] =gc.nonEmptyChildren.filter(_.label == "use").map(n => {(xml \ n.text).head})
-        val has: Seq[Node] = gc.nonEmptyChildren.filter(_.label != "use")
-        val attrs = NodeSeq.fromSeq(uses ++ has)
-        val transformation = (attrs \\ "transformation").head
-
-        // get position
-        val positionComponent = Placement.fromXML(transformation)
-
-        // create a parent entity as reference for child entites
-        val parentComp: ParentEntity = ParentEntity(entity)
-
-        val shaderId:Symbol = Symbol((attrs \\ "shader").head.text)
-
-
-        // aggregate child entities
-        val childEntities = parseMeshes(Symbol(name), attrs \\ "meshes", parentComp, shaderId)
-        // add them to the return seq
-        ret ++= childEntities
-
-        // add the children to the current entity
-        val childrenComponent: ChildEntities = ChildEntities(childEntities)
-
-        //assemble entity
-        entity.add(positionComponent) //position component
-        entity.add(childrenComponent)
-
-        //TODO: Family
-
-      })
-
-
-    //READ Physics
-    physicsComponent foreach(
-      pc => {
-
-      }
-      )
-
-
-    ret += entity
-
-    ret.toSeq
-    */
 
     entityTemplates.put(name, entity)
 
   }
-
-
-  def parseMeshes(identifier: Symbol, meshes: NodeSeq, parentComp: ParentEntity, shaderId: Symbol): Seq[Entity] = {
-
-    val sourceStr = (meshes \ "source").text
-
-    // load collada file to generate all meshes
-    Collada.load(identifier, sourceStr)
-
-    val seqChildEntities = ListBuffer.empty[Entity]
-    val ms = meshes \\ "mesh"
-    ms.foreach(
-      mesh => {
-        val meshId = Symbol((mesh \ "@id").text)
-
-        val childEntity   = Entity.create(meshId.name)
-        val childPos      = Placement.fromXML(mesh)
-        val childDisplay  = new Display(meshId, shaderId)
-
-        //add position, display and parentEntity to child entity
-        childEntity += childPos
-        childEntity += childDisplay
-        childEntity += parentComp
-
-        //TODO: Families
-
-        //add the children to the sequence
-        seqChildEntities += childEntity
-
-    })
-
-
-
-    seqChildEntities.toSeq
-  }
-
-
-  def parseTransformation(trafo: NodeSeq): (Vec3f, Vec3f, Vec3f) = {
-
-
-
-    val pos = trafo \ "position"
-    val position = Vec3f((pos \ "@x").text.toFloat, (pos \ "@y").text.toFloat, (pos \ "@z").text.toFloat)
-
-    val rot = trafo \ "rotation"
-    val rotation = Vec3f((rot \ "@angleX").text.toFloat, (rot \ "@angleY").text.toFloat, (rot \ "@angleZ").text.toFloat)
-
-    val sc = trafo \ "scale"
-    val scale = Vec3f((sc \ "@x").text.toFloat, (sc \ "@y").text.toFloat, (sc \ "@z").text.toFloat)
-
-    (position,rotation,scale)
-  }
-
 }

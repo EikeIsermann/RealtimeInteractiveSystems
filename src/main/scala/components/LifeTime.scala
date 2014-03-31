@@ -2,6 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.Component
 import scala.xml.Node
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -9,4 +10,7 @@ import scala.xml.Node
  */
 case class LifeTime() extends Component{
   override def toXML: Node = ???
+
+  override def newInstance(i:Identifier): Component = new LifeTime
+
 }

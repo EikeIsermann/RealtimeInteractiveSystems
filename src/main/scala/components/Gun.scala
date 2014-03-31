@@ -2,6 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.Component
 import scala.xml.{Node, NodeBuffer, NodeSeq}
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -22,4 +23,6 @@ case class Gun(lifetimeProjectile1: Long, coolDown1: Long, timeOfLastShot1: Long
   def timeOfLastShot_=(t: Long) = _timeOfLastShot = t
 
   override def toXML: Node = ???
+
+  override def newInstance(i:Identifier): Component = new Gun(lifetimeProjectile,coolDown,timeOfLastShot)
 }

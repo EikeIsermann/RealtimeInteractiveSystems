@@ -2,6 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.Component
 import scala.xml.Node
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -19,4 +20,6 @@ case class Health(health1: Int, maxHealth1: Int) extends Component {
   def maxHealth_=(mh: Int) = _maxHealth = mh
 
   override def toXML: Node = ???
+
+  override def newInstance(i:Identifier): Component = new Health(health,maxHealth)
 }

@@ -12,11 +12,19 @@ import main.scala.tools.Identifier
  *
  */
 trait Component /*extends ObservingActor*/ {
-  private val _identifier: Identifier = Identifier.create(this.getClass.getSimpleName)
+
+  var _identifier: Identifier = newIdentifier()
 
   def identifier: Identifier = _identifier
 
   def toXML: scala.xml.Node
+
+  def newIdentifier() = {
+    _identifier = Identifier.create(this.getClass.getSimpleName)
+    _identifier
+  }
+
+  def newInstance(identifier: Identifier = newIdentifier()): Component //identifier is only present to force newIdentifier creation
 
   override def toString: String = "[Component] "+identifier.toString
 }

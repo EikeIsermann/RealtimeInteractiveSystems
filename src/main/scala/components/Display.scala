@@ -2,6 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.{ComponentCreator, Component}
 import scala.xml.Node
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -32,4 +33,6 @@ class Display(meshId1: Symbol = '_undefined, shaderId1: Symbol = '_undefined) ex
     <meshId>{meshId.name.toString}</meshId>
     <shaderId>{shaderId.name.toString}</shaderId>
   </display>}
+
+  override def newInstance(i:Identifier): Component = new Display(meshId,shaderId)
 }

@@ -4,6 +4,7 @@ import main.scala.architecture.{Component, ComponentCreator}
 import scala.xml.{Node, NodeSeq, NodeBuffer}
 import main.scala.math.Vec3f
 import main.scala.architecture
+import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
@@ -50,4 +51,5 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
     </placement>
   }
 
+  override def newInstance(i:Identifier): Component = new Placement(position,rotation,scale)
 }
