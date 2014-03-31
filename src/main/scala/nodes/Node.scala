@@ -1,7 +1,7 @@
 package main.scala.nodes
 
 import main.scala.architecture.{Component, Node}
-import main.scala.components.{Display, Position}
+import main.scala.components.{Display, Placement}
 import scala.collection.mutable
 
 /**

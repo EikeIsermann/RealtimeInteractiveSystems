@@ -4,7 +4,7 @@ import scala.xml.{Node, NodeSeq, XML, Elem}
 import java.io.File
 import main.scala.math.Vec3f
 import scala.collection.mutable.ListBuffer
-import main.scala.components.{ChildEntities, ParentEntity, Display, Position}
+import main.scala.components.{ChildEntities, ParentEntity, Display, Placement}
 import main.scala.entities.Entity
 import main.scala.tools.DC
 
@@ -50,7 +50,7 @@ object EntityDescLoader {
         val transformation = (attrs \\ "transformation").head
 
         // get position
-        val positionComponent = Position.fromXML(transformation)
+        val positionComponent = Placement.fromXML(transformation)
 
         // create a parent entity as reference for child entites
         val parentComp: ParentEntity = ParentEntity(entity)
@@ -104,7 +104,7 @@ object EntityDescLoader {
         val meshId = Symbol((mesh \ "@id").text)
 
         val childEntity   = Entity.create(meshId.name)
-        val childPos      = Position.fromXML(mesh)
+        val childPos      = Placement.fromXML(mesh)
         val childDisplay  = new Display(meshId, shaderId)
 
         //add position, display and parentEntity to child entity

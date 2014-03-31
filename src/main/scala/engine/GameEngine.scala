@@ -9,7 +9,7 @@ import main.scala.io.EntityDescLoader
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
-import main.scala.components.{Motion, CamControl, Position}
+import main.scala.components.{Motion, CamControl, Placement}
 import main.scala.nodes.{MovementNode, CamControlNode, CameraNode}
 import main.scala.systems.positional.MovementSystem
 import main.scala.components.Camera
@@ -237,7 +237,7 @@ object GameEngine extends Engine {
 
     val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
-    val camPos = new Position(Vec3f(0,0,0),Vec3f(0,0,0))
+    val camPos = new Placement(Vec3f(0,0,0),Vec3f(0,0,0))
     //
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(Key.ArrowUp,null,MouseMovement.MovementY), Triggers(Key.ArrowDown,null,MouseMovement.MovementY),
@@ -251,7 +251,7 @@ object GameEngine extends Engine {
 
     val camSys = new CameraSystem
     val camFam = new Family(classOf[CameraNode])
-    camFam.components += (classOf[Camera], classOf[Position])
+    camFam.components += (classOf[Camera], classOf[Placement])
     add(camFam)
 
 
@@ -262,7 +262,7 @@ object GameEngine extends Engine {
 
     val moveSys = new MovementSystem()
     val moveFam = new Family(classOf[MovementNode])
-    moveFam.components += (classOf[Position], classOf[Motion])
+    moveFam.components += (classOf[Placement], classOf[Motion])
     add(moveFam)
 
 

@@ -1,7 +1,7 @@
 package main.scala.nodes
 
 import main.scala.architecture.Node
-import main.scala.components.{Position, Motion}
+import main.scala.components.{Placement, Motion}
 import main.scala.math.Vec3f
 
 /**
@@ -10,11 +10,11 @@ import main.scala.math.Vec3f
  * Time: 11:34
  * This is a RIS Project class
  */
-class MovementNode(motion: Motion, position:Position) extends Node{
+class MovementNode(motion: Motion, position:Placement) extends Node{
 
   def this() = this(
     new Motion(),
-    new Position(Vec3f(0,0,0), Vec3f(0,0,0))
+    new Placement(Vec3f(0,0,0), Vec3f(0,0,0))
   )
 
 }

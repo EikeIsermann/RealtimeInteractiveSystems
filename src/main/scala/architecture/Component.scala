@@ -21,6 +21,7 @@ trait Component /*extends ObservingActor*/ {
   override def toString: String = "[Component] "+identifier.toString
 }
 trait ComponentCreator {
+
   def fromXML(xml: scala.xml.Node): Component
 
 
@@ -32,12 +33,12 @@ trait ComponentCreator {
    * @param func the function to be applied
    * @return the generated component
    */
-  def xmlToComp(xml: scala.xml.Node, label: String, func: scala.xml.Node => Component): Component = {
+  def xmlToComp[T <: Component](xml: scala.xml.Node, label: String, func: scala.xml.Node => T): T = {
     val x = (xml \ label).filter(_.label.equals(label))
     if(x.length > 1) {
       throw new IllegalArgumentException("multiple components defined for component '"+label+"'")
     }
-    var ret: Component = null
+    var ret: T = null.asInstanceOf[T]
     x.foreach(c => ret = func(c))
     ret
   }

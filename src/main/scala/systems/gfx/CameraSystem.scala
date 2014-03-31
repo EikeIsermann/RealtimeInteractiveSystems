@@ -4,7 +4,7 @@ import main.scala.systems.input.SimulationContext
 import main.scala.tools.DC
 import main.scala.engine.GameEngine
 import main.scala.nodes.CameraNode
-import main.scala.components.{Camera, Position}
+import main.scala.components.{Camera, Placement}
 import main.scala.math.{Vec3f, Mat4f}
 
 
@@ -17,7 +17,7 @@ class CameraSystem extends System {
 
 
     for(node <- nodes){
-      val pos = node -> classOf[Position]
+      val pos = node -> classOf[Placement]
       var cam = node -> classOf[Camera]
       val matPos = Mat4f.translation(pos.position)
       val pitch = pos.rotation.x

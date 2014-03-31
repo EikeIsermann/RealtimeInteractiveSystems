@@ -1,6 +1,6 @@
 package main.scala.nodes
 
-import main.scala.components.{Display, Position}
+import main.scala.components.{Display, Placement}
 import main.scala.architecture.{Component, Node}
 import scala.collection.mutable
 import main.scala.math.Vec3f
@@ -13,6 +13,6 @@ import main.scala.math.Vec3f
  * 21.03.14.
  */
 
-class RenderNode(position: Position, display: Display) extends Node(position, display){
-  def this() = this(new Position(), new Display())
+class RenderNode(position: Placement, display: Display) extends Node(position, display){
+  def this() = this(new Placement(), new Display())
 }

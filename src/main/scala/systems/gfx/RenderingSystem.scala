@@ -5,7 +5,7 @@ import main.scala.architecture._
 import main.scala.systems.input.{SimulationContext, Context}
 import main.scala.engine.GameEngine
 import main.scala.nodes.RenderNode
-import main.scala.components.{Display, Position}
+import main.scala.components.{Display, Placement}
 import main.scala.math.{Vec3f, Mat4f}
 import main.scala.tools.DC
 import org.lwjgl.opengl.GL11._
@@ -60,7 +60,7 @@ class RenderingSystem extends System {
 
      val nodes = GameEngine.getNodeList(new RenderNode())
      for (node <- nodes){
-         val positionNode: Position = node -> classOf[Position]
+         val positionNode: Placement = node -> classOf[Placement]
          val displayNode: Display = node -> classOf[Display]
 
 
