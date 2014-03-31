@@ -1,12 +1,12 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import scala.xml.{Node, NodeBuffer, NodeSeq}
+import scala.xml.{Node, NodeBuffer}
 
 /**
  * Created by Christian Treffs
- * Date: 21.03.14 00:47
+ * Date: 28.03.14 17:07
  */
-case class LifeTime() extends Component{
+class hasPart extends Component {
   override def toXML: Node = ???
 }

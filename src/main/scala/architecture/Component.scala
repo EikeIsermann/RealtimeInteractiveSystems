@@ -1,6 +1,5 @@
 package main.scala.architecture
 
-import scala.xml.NodeBuffer
 import main.scala.tools.Identifier
 
 /**
@@ -17,10 +16,29 @@ trait Component /*extends ObservingActor*/ {
 
   def identifier: Identifier = _identifier
 
-  def toXML: NodeBuffer
+  def toXML: scala.xml.Node
 
   override def toString: String = "[Component] "+identifier.toString
 }
 trait ComponentCreator {
   def fromXML(xml: scala.xml.Node): Component
+
+
+  /**
+   * reads the xml node where label equals the wanted value and applies the given function to get the right component
+   * for the xml tag
+   * @param xml the xml node
+   * @param label the label to look for
+   * @param func the function to be applied
+   * @return the generated component
+   */
+  def xmlToComp(xml: scala.xml.Node, label: String, func: scala.xml.Node => Component): Component = {
+    val x = (xml \ label).filter(_.label.equals(label))
+    if(x.length > 1) {
+      throw new IllegalArgumentException("multiple components defined for component '"+label+"'")
+    }
+    var ret: Component = null
+    x.foreach(c => ret = func(c))
+    ret
+  }
 }

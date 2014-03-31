@@ -39,10 +39,12 @@ class Position(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0),
   def scale: Vec3f = _scale
   def scale_=(v: Vec3f) = _scale = v
 
-  override def toXML: NodeBuffer = {
+  override def toXML: Node = {
+    <transformation>
       <position x={ position.x.toString } y={ position.y.toString } z={ position.z.toString } />
       <rotation angleX={ rotation.x.toString } angleY={ rotation.y.toString } angleZ={ rotation.z.toString } />
       <scale x={scale.x.toString} y={scale.y.toString} z={scale.z.toString} />
+    </transformation>
   }
 
 }

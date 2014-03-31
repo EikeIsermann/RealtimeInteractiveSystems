@@ -27,6 +27,9 @@ class Entity(name1: String) extends main.scala.architecture.Entity {
   def ==(e: Entity): Boolean = e.identifier == this.identifier
   override def toString: String = "[Entity] "+identifier.toString
 
+
+//  override def clone()
+
   /*override def receive: Receive = {
     case m:Message => DC.log(this+" received", m)
   } */

@@ -6,7 +6,7 @@ package main.scala.components
  */
 
 import main.scala.math.Vec3f
-import scala.xml.{NodeBuffer, NodeSeq}
+import scala.xml.{Node, NodeBuffer, NodeSeq}
 import main.scala.architecture.{Component, ComponentCreator}
 
 
@@ -28,7 +28,5 @@ case class Motion(direction1: Vec3f, velocity1: Vec3f, friction1: Float) extends
   def friction_=(f:Float) = _friction = f
 
   //TODO: acceleration?
-
-
-  override def toXML: NodeBuffer = ???
+  override def toXML: Node = ???
 }

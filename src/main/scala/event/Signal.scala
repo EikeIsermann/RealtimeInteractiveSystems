@@ -8,11 +8,7 @@ import scala.collection.mutable.ArrayBuffer
  *
  * A Signal is essentially a mini-dispatcher specific to one event, with its own array of listeners.
  * A Signal gives an event a concrete membership in a class.
- * Listeners subscribe to real objects, not to string-based channels.
- * Event string constants are no longer needed.
- */
-
-/**
+ *
  * an abstract class for creating a signal
  */
 abstract class Signal {

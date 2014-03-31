@@ -1,7 +1,7 @@
 package main.scala.components
 
-import main.scala.architecture.{Component, ComponentCreator}
-import scala.xml.{NodeBuffer, NodeSeq}
+import main.scala.architecture.Component
+import scala.xml.Node
 
 /**
  * Created by Christian Treffs
@@ -18,5 +18,5 @@ case class Health(health1: Int, maxHealth1: Int) extends Component {
   def maxHealth: Int = _maxHealth
   def maxHealth_=(mh: Int) = _maxHealth = mh
 
-  override def toXML: NodeBuffer = ???
+  override def toXML: Node = ???
 }

@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
-import scala.xml.{NodeBuffer, NodeSeq}
+import scala.xml.{Node, NodeBuffer, NodeSeq}
 import main.scala.systems.input.Triggers
 import main.scala.math.Vec3f
 
@@ -37,5 +37,5 @@ case class CamControl(triggerForward: Triggers,
   def yawVelocity_=(v: Float) = _yawVel = v
 
   //override def toXML: NodeSeq = {<position x={vec.x} y={vec.y} z={vec.z} />}
-  override def toXML: NodeBuffer = ???
+  override def toXML: Node = ???
 }

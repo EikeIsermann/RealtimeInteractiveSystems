@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.{ComponentCreator, Component}
-import scala.xml.{NodeBuffer, NodeSeq}
+import scala.xml.{Node, NodeBuffer, NodeSeq}
 import main.scala.tools.Identifier
 import main.scala.entities.Entity
 
@@ -12,5 +12,5 @@ import main.scala.entities.Entity
  */
 
 case class ParentEntity(entity: Entity) extends Component{
-  override def toXML: NodeBuffer = ???
+  override def toXML: Node = ???
 }

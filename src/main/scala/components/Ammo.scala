@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
-import scala.xml.{NodeBuffer, NodeSeq}
+import scala.xml.{Node, NodeBuffer, NodeSeq}
 
 /**
  * Created by Christian Treffs
@@ -18,5 +18,5 @@ case class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   def maxAmmo: Int = _maxAmmo
   def maxAmmo_=(a: Int) = _maxAmmo = a
 
-  override def toXML: NodeBuffer = ???
+  override def toXML: Node = ???
 }
