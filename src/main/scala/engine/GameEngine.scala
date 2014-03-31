@@ -5,7 +5,7 @@ import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.EntityDescLoader
+import main.scala.io.EntityTemplateLoader
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
@@ -157,7 +157,7 @@ object GameEngine extends Engine {
     val shaders = Shader.load(shaderDir)
 
 
-    val entities = EntityDescLoader.load(entitiesDir)
+    val entities = EntityTemplateLoader.load(entitiesDir)
 
      /*
     //TURRET

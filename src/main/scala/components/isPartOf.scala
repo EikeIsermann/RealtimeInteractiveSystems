@@ -2,7 +2,6 @@ package main.scala.components
 
 import main.scala.architecture.{ComponentCreator, Component}
 import scala.xml.Node
-import main.scala.entities.Entity
 
 /**
  * Created by Christian Treffs
@@ -10,22 +9,17 @@ import main.scala.entities.Entity
  */
 
 object isPartOf extends ComponentCreator {
-  override def fromXML(xml: Node): Component = {
-    xmlToComp(xml, "ispartof", n => {
-
-      //TODO: entity
-
-      new isPartOf(null)
+  override def fromXML(xml: Node): Option[isPartOf] = xmlToComp(xml, "isPartOf", n => {
+     val partOf = Symbol(n.text)
+    
+      Some(new isPartOf(partOf))
     })
   }
-}
 
-class isPartOf(entity1: Entity) extends Component {
-  private var _entity: Entity = entity1
 
-  def entity: Entity = _entity
-  def entity_(e: Entity) = _entity = e
-
+class isPartOf(part1: Symbol) extends Component {
+  private val _part: Symbol = part1
+  def part: Symbol = _part
   //TODO: correct to actual name?!
-  override def toXML: Node = {<ispartof>{entity.name}</ispartof>}
+  override def toXML: Node = {<isPartOf>{part.name}</isPartOf>}
 }

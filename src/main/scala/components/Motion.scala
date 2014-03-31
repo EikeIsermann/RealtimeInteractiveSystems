@@ -11,7 +11,7 @@ import main.scala.architecture.{ComponentCreator, Component}
 
 
 object Motion extends ComponentCreator {
-  override def fromXML(xml: Node): Motion = xmlToComp[Motion](xml, "motion", n => {
+  override def fromXML(xml: Node): Option[Motion] = xmlToComp[Motion](xml, "motion", n => {
     val dir = n \ "direction"
     val vel = n \ "velocity"
     val fri: Float = (n \ "friction").text.toString.toFloat
@@ -19,7 +19,7 @@ object Motion extends ComponentCreator {
     val dirVec = Vec3f((dir \ "@x").text.toFloat,(dir \ "@y").text.toFloat,(dir \ "@z").text.toFloat)
     val velVec = Vec3f((vel \ "@x").text.toFloat,(vel \ "@y").text.toFloat,(vel \ "@z").text.toFloat)
     //TODO: adjust
-    new Motion(dirVec,velVec,fri)
+    Some(new Motion(dirVec,velVec,fri))
   })
 }
 

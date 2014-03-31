@@ -2,13 +2,12 @@ package test
 
 import main.scala.architecture._
 import scala.xml.Elem
-import main.scala.components.{Motion, Placement}
-import scala.xml
+import main.scala.components._
 import scala.xml
 
 /**
  * Created by Christian Treffs
- * Date: 28.03.14 17:46
+ * Date: 28.03.14 17:46                                    ⁄
  */
 object XMLInOutTest {
 
@@ -36,6 +35,10 @@ object XMLInOutTest {
                 <velocity x="098" y="987" z="876" />
                 <friction>194857.345</friction>
               </motion>
+              <display>
+                <meshId>eimer</meshId>
+                <shaderId>zweimer</shaderId>
+              </display>
             </entity>}
 
 
@@ -47,17 +50,8 @@ object Loader {
 
     val p = Placement.fromXML(xml)
     val m = Motion.fromXML(xml)
+    val d = Display.fromXML(xml)
 
-
-    println(p.position.inline,p.rotation.inline, p.scale.inline)
-
-    println(m.direction.inline,m.velocity.inline,m.friction)
-
-    println(c.toXML)
-
-    println(p.toXML)
-
-    println(m.toXML)
 
 
   }
@@ -65,13 +59,13 @@ object Loader {
 
 object Comp extends ComponentCreator {
 
-  override def fromXML(xml1: xml.Node): Comp = xmlToComp[Comp](xml1, "comp", n => {
+  override def fromXML(xml1: xml.Node): Option[Comp] = xmlToComp[Comp](xml1, "comp", n => {
       val a = n \ "a"
       val b = n \ "b"
       val c = n \ "c"
       println(a.text, b \ "@id", c \ "@id")
 
-      new Comp()
+      Some(new Comp())
     }
   )
 

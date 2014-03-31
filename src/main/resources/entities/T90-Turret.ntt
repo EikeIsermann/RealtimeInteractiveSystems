@@ -1,0 +1,7 @@
+<entityTemplate name="Turret">
+    <isPartOf>Tank</isPartOf>
+    <display>
+        <meshId>Tank</meshId>
+        <shaderId>default</shaderId>
+    </display>
+</entityTemplate>

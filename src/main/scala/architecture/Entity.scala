@@ -17,6 +17,13 @@ trait Entity {
   def components(componentType: Class[_ <: Component]): Array[Component] = components.filter(_.getClass.equals(componentType))
 
   def add(component: Component): Entity = this.+=(component)
+  def += (component: Option[Component]): Entity = {
+    component.collect {
+      case c: Component => this.+=(c)
+      case _ =>
+    }
+    this
+  }
   def +=(component: Component): Entity = {
      _components.+=(component)
     //TODO MESSAGE

@@ -1,22 +1,20 @@
 package main.scala.components
 
-import main.scala.systems.gfx.{Shader, Mesh}
 import main.scala.architecture.{ComponentCreator, Component}
-import scala.xml.{Node, NodeBuffer, NodeSeq}
-import main.scala.math.Vec3f
+import scala.xml.Node
 
 /**
  * Created by Christian Treffs
  * Date: 21.03.14 00:45
  */
 object Display extends ComponentCreator {
-  override def fromXML(xml: Node): Component = {
-    xmlToComp(xml, "display", n => {
-      //TODO: read node info to component
+  override def fromXML(xml: Node): Option[Display] = xmlToComp[Display](xml, "display",n => {
 
-      new Display()
-    })
-  }
+     val meshId:Symbol = Symbol((n\"meshId").text)
+     val shaderId:Symbol = Symbol((n\"shaderId").text)
+
+    Some(new Display(meshId, shaderId))
+  })
 }
 
 class Display(meshId1: Symbol = '_undefined, shaderId1: Symbol = '_undefined) extends Component {
@@ -30,5 +28,8 @@ class Display(meshId1: Symbol = '_undefined, shaderId1: Symbol = '_undefined) ex
   def shaderId: Symbol = _shaderId
   def shaderId_=(s: Symbol) = _shaderId = s
 
-  override def toXML: Node = {<display></display>}
+  override def toXML: Node = {<display>
+    <meshId>{meshId.name.toString}</meshId>
+    <shaderId>{shaderId.name.toString}</shaderId>
+  </display>}
 }

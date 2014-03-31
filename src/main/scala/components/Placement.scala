@@ -12,7 +12,7 @@ import main.scala.architecture
 
 object Placement extends ComponentCreator {
 
-  def fromXML(xml: Node): Placement = {
+  def fromXML(xml: Node): Option[Placement] = {
     xmlToComp[Placement](xml, "placement", n => {
       val pos = n \ "position"
       val rot = n \ "rotation"
@@ -22,7 +22,7 @@ object Placement extends ComponentCreator {
       val rotVec = Vec3f((rot \ "@angleX").text.toFloat,(rot \ "@angleY").text.toFloat,(rot \ "@angleZ").text.toFloat)
       val scVec = Vec3f((sc \ "@x").text.toFloat,(sc \ "@y").text.toFloat,(sc \ "@z").text.toFloat)
 
-      new Placement(posVec, rotVec, scVec)
+      Some(new Placement(posVec, rotVec, scVec))
     })
   }
 }

@@ -1,0 +1,3 @@
+<entityTemplate name="ChassisBody">
+    <isPartOf>Tank</isPartOf>
+</entityTemplate>
