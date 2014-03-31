@@ -2,9 +2,10 @@
     <hasParts>
         <part>ChassisBody</part>
         <part>Turret</part>
+        <part>MachineGun</part>
         <!--<part>ChassisTread</part>
 
-        <part>MachineGun</part>    -->
+            -->
     </hasParts>
     <placement>
         <position x="0" y="0" z="0" />

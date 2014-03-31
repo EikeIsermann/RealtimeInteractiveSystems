@@ -5,6 +5,7 @@ import main.scala.tools.{DC, Identifier}
 import main.scala.io.EntityTemplateLoader
 import main.scala.architecture
 import main.scala.components.{isPartOf, Children, Parent, hasParts}
+import scala.xml.Elem
 
 /**
  * Created by Christian Treffs
@@ -78,4 +79,10 @@ class Entity(name1: String) extends main.scala.architecture.Entity {
     case m:Message => DC.log(this+" received", m)
   } */
   override def newInstance(): Entity = Entity.create(name)
+
+  override def toXML: Elem = {
+    <entity identifier={identifier.toString}>
+      {components.map(_.toXML)}
+    </entity>
+  }
 }

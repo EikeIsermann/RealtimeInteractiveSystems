@@ -53,9 +53,11 @@ object EntityTemplateLoader {
     Entity.newInstanceOf('Tank)
     Entity.newInstanceOf('Tank)
     Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
+    val q = Entity.newInstanceOf('Tank)
     val e = System.currentTimeMillis()
     println(e-s)
+
+    println(q.toXML)
   }
 
   private val rootLabel = "entityTemplate"

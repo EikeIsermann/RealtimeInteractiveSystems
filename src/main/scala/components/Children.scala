@@ -21,7 +21,11 @@ class Children() extends Component{
     this
   }
 
-  override def toXML: Node = ???
+  override def toXML: Node =
+    <children>
+      {children.map(c => <entity>{c.identifier.toString}</entity>)}
+    </children>
+
 
   override def newInstance(i:Identifier) = new Children()
 }

@@ -1,6 +1,7 @@
 package main.scala.architecture
 
 import scala.collection.mutable.ArrayBuffer
+import scala.xml.Elem
 
 /**
  * Created by Christian Treffs
@@ -43,5 +44,7 @@ trait Entity {
   }
 
   def newInstance(): Entity
+
+  def toXML: Elem
 
 }
