@@ -2,7 +2,7 @@ package test
 
 import main.scala.architecture._
 import scala.xml.Elem
-import main.scala.components.Placement
+import main.scala.components.{Motion, Placement}
 import scala.xml
 import scala.xml
 
@@ -31,6 +31,11 @@ object XMLInOutTest {
                 <rotation angleX="10" angleY="20" angleZ="30" />
                 <scale x="100" y="200" z="300" />
               </placement>
+              <motion>
+                <direction x="123" y="234" z="345" />
+                <velocity x="098" y="987" z="876" />
+                <friction>194857.345</friction>
+              </motion>
             </entity>}
 
 
@@ -38,16 +43,21 @@ object XMLInOutTest {
 
 object Loader {
   def load(xml: Elem) {
-    Comp.fromXML(xml)
+    val c = Comp.fromXML(xml)
 
     val p = Placement.fromXML(xml)
+    val m = Motion.fromXML(xml)
 
 
     println(p.position.inline,p.rotation.inline, p.scale.inline)
 
+    println(m.direction.inline,m.velocity.inline,m.friction)
 
+    println(c.toXML)
 
     println(p.toXML)
+
+    println(m.toXML)
 
 
   }

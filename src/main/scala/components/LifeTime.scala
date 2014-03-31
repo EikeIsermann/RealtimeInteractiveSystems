@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import scala.xml.{Node, NodeBuffer, NodeSeq}
+import scala.xml.Node
 
 /**
  * Created by Christian Treffs
