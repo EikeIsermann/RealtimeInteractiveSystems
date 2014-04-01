@@ -55,6 +55,7 @@ object Entity {
     }
 
 
+
     DC.log("Entity instance created",superEntity,1)
     superEntity
 

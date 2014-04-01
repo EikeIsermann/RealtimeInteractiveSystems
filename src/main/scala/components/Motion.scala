@@ -31,6 +31,8 @@ class Motion(direction1: Vec3f, velocity1: Vec3f, friction1: Float) extends Comp
   private var _velocity: Vec3f = velocity1
   private var _friction: Float = friction1
 
+  def acceleration: Vec3f = Vec3f(0,0,0) //TODO actual accelleration
+
   def direction: Vec3f = _direction
   def direction_=(v: Vec3f) = _direction = v
 

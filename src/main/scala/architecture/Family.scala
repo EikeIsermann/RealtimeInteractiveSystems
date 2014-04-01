@@ -5,6 +5,8 @@ import main.scala.tools.DC
 
 /**
  * Created by Eike on 20.03.14.
+ *
+ * A collection of Entities with a set of Components
  */
 class Family(val nodeClass: Class[_ <: Node]) {
 
@@ -27,6 +29,7 @@ class Family(val nodeClass: Class[_ <: Node]) {
         node.components.put(componentClass, entity.components(componentClass).apply(0))
       }
       entities.put(entity,node)
+      DC.log("Family added entity ",(entity,node))
     }
   }
 

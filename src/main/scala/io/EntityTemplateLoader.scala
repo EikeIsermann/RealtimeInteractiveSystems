@@ -70,7 +70,7 @@ object EntityTemplateLoader {
     entityTemplates(name)
   }
 
-  def load(pathToDir: String, extension: String = "ntt") = {
+  def load(pathToDir: String, extension: String = "ntt") {
     val files = FileIO.loadAll(extension, pathToDir)
     createEntityTemplates(files)
     DC.log("Entity templates created", entityTemplates.size, 2)

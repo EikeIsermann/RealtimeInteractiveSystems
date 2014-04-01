@@ -14,10 +14,12 @@ object Vec3f {
 
 final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.vecmathimp.VectorImp(x1: Float, y1: Float, z1: Float) {
 
-  implicit def *(s: Float) = mult(s)
-  implicit def *(v: Vec3f) = mult(v)
-  implicit def +(v: Vec3f) = add(v)
-  implicit def -(v: Vec3f) = sub(v)
+  implicit def *(s: Float): Vec3f = mult(s)
+  implicit def *(v: Vec3f): Vec3f = mult(v)
+  implicit def +(v: Vec3f): Vec3f = add(v)
+  implicit def -(v: Vec3f): Vec3f = sub(v)
+
+  implicit def /(s: Float): Vec3f = Vec3f(x/s, y/s, z/s)
 
   def mapX(min: Float, max: Float, shift: Float = -1.0f): Float = (2.0f * x()) / (max-min) + shift
   def mapY(min: Float, max: Float, shift: Float = -1.0f): Float = (2.0f * y()) / (max-min) + shift
