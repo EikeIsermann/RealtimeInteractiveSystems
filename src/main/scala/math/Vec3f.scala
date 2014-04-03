@@ -14,6 +14,7 @@ object Vec3f {
 
 final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.vecmathimp.VectorImp(x1: Float, y1: Float, z1: Float) {
 
+  implicit def *(s: Double): Vec3f = this.*(s.toFloat)
   implicit def *(s: Float): Vec3f = mult(s)
   implicit def *(v: Vec3f): Vec3f = mult(v)
   implicit def +(v: Vec3f): Vec3f = add(v)

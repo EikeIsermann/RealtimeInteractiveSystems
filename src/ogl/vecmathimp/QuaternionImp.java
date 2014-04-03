@@ -14,7 +14,7 @@ import ogl.vecmath.Vector;
  * A 4-element quaternion represented by float precision floating point x,y,z,w
  * coordinates. The quaternion is always normalized.
  */
-public final class QuaternionImp implements Quaternion {
+public class QuaternionImp implements Quaternion {
 
   public final float x, y, z, w;
 
