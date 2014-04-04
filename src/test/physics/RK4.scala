@@ -10,6 +10,9 @@ import main.scala.tools.phy
 object RK4 {
 
   def integrate(state: PhysicsState, t: Double, dt: Double) {
+
+
+
     val a: Derivative = evaluate(state, t)
     val b: Derivative = evaluate(state, t, dt*0.5f, a)
     val c: Derivative = evaluate(state, t, dt*0.5f, b)
@@ -51,26 +54,33 @@ object RK4 {
 
     //TODO: FORCES NEEED TO BEEEE ADJUSTED!!!!
 
-    // attract towards origin
-    // sine force to add some randomness to the motion
+    val damp = 0.2f
+
     val force = Vec3f(
-      state.position.x + math.sin(t*0.9f + 0.5f).toFloat * 10f,
-      state.position.y + math.sin(t*0.5f + 0.4f).toFloat * 11f,
-      state.position.z +  math.sin(t*0.7f + 0.9f).toFloat * 12f
+      state.momentum.x * -math.pow(damp,t).toFloat,
+      state.momentum.y * -math.pow(damp,t).toFloat + 450f*state.mass,
+      state.momentum.z * -math.pow(damp,t).toFloat
     )
+
+    /*val force = Vec3f(
+      state.position.x /*+ math.sin(t*0.9f + 0.5f).toFloat * 10f*/,
+      state.position.y /*+ math.sin(t*0.5f + 0.4f).toFloat * 11f*/,
+      state.position.z /*+  math.sin(t*0.7f + 0.9f).toFloat * 12f*/
+    ) */
+
 
     // sine torque to get some spinning action
     // damping torque so we don't spin too fast
     val torque: Vec3f = Vec3f(
-      1.0f * math.sin(t * 0.9f + 0.5f).toFloat - 0.2f * state.angularVelocity.x,
-      1.1f * math.sin(t * 0.5f + 0.4f).toFloat- 0.2f * state.angularVelocity.y,
-      1.2f * math.sin(t * 0.7f + 0.9f).toFloat - 0.2f * state.angularVelocity.z
+      /*1.0f * math.sin(t * 0.9f + 0.5f).toFloat*/- 0.2f * state.angularVelocity.x,
+      /*1.1f * math.sin(t * 0.5f + 0.4f).toFloat*/- 0.2f * state.angularVelocity.y,
+      /*1.2f * math.sin(t * 0.7f + 0.9f).toFloat*/ - 0.2f * state.angularVelocity.z
     )
 
 
     //println("F:",force.inline,"T:",torque.inline)
 
-    Derivative(state.velocity, force, state.spin, torque)
+    new Derivative(state.velocity, force, state.spin, torque)
   }
 
 
