@@ -106,9 +106,9 @@ object PhysicsTest {
 
   }
 
-  case class State(private val pos1: Vec3f, private val momentum1: Vec3f, private val mass1: Float) {
+  case class State(private val RKPOS: Vec3f, private val momentum1: Vec3f, private val mass1: Float) {
 
-    private var _position: Vec3f = pos1
+    private var _position: Vec3f = RKPOS
     private var _momentum: Vec3f = momentum1
     private var _mass: Float = mass1
     private var _velocity: Vec3f = Vec3f()

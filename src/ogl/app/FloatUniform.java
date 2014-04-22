@@ -7,7 +7,7 @@ package ogl.app;
 import static org.lwjgl.opengl.GL20.glUniform1f;
 
 /**
- * Encapsulate the transfer of vector values from the OpenGL application to an
+ * Encapsulate the transfer of v values from the OpenGL application to an
  * GLSL shader uniform variable.
  */
 public class FloatUniform extends Uniform {

@@ -18,8 +18,10 @@ object RK4 {
     val c: Derivative = evaluate(state, t, dt*0.5f, b)
     val d: Derivative = evaluate(state, t, dt, c)
 
+    // dx = v*dt
     state.position        += (a.velocity + 2.0f * (b.velocity + c.velocity) + d.velocity) * 1.0f/6.0f * dt
     state.momentum        += (a.force + 2.0f * (b.force + c.force) + d.force) * 1.0f/6.0f * dt
+
     state.orientation     += (a.spin + ((b.spin + c.spin) * 2.0f) + d.spin)* (1.0f/6.0f) * dt
     state.angularMomentum += (a.torque + 2.0f * (b.torque + c.torque) + d.torque) * 1.0f/6.0f * dt
 
@@ -31,8 +33,11 @@ object RK4 {
   def evaluate(state: PhysicsState, t: Double): Derivative = applyForces(state, t)
 
   def evaluate(state: PhysicsState, t: Double, dt: Double, derivative: Derivative): Derivative = {
+    // dx = v*dt
     state.position        += derivative.velocity  * dt
+    //dp = F * dt
     state.momentum        += derivative.force     * dt
+
     state.orientation     += derivative.spin      * dt
     state.angularMomentum += derivative.torque    * dt
     state.recalculateSecondaryValues()
@@ -54,13 +59,27 @@ object RK4 {
 
     //TODO: FORCES NEEED TO BEEEE ADJUSTED!!!!
 
-    val damp = 0.2f
+    val damp = 1f
+    val dampFac = math.pow(damp,t).toFloat
+
+    val gravity: Vec3f = Vec3f(-0.1f,-0.2f) //TODO: adjust gravitantional factor to realistic value
+
+
+
+    // F = m*a
+
 
     val force = Vec3f(
-      state.momentum.x * -math.pow(damp,t).toFloat,
-      state.momentum.y * -math.pow(damp,t).toFloat + 450f*state.mass,
-      state.momentum.z * -math.pow(damp,t).toFloat
+      dampFac*state.momentum.x ,
+      dampFac*state.momentum.y+9.81f ,
+      dampFac*state.momentum.z
     )
+
+
+
+
+
+
 
     /*val force = Vec3f(
       state.position.x /*+ math.sin(t*0.9f + 0.5f).toFloat * 10f*/,
@@ -104,17 +123,17 @@ object RK4 {
  * @param orientation the orientation of the cube represented by a unit quaternion.
  * @param momentum the momentum of the cube in kilogram meters per second.
  * @param mass mass of the cube in kilograms.
- * @param angularMomentum angular momentum vector.
+ * @param angularMomentum angular momentum v.
  * @param inertiaTensor inertia tensor of the cube (i have simplified it to a single value due to the mass properties a cube).
  */
-case class PhysicsState(
-                         var position: Vec3f = Vec3f(),               
-                         var orientation: Quat = Quat(), 
-                         var momentum: Vec3f = Vec3f(), 
-                         var mass: Float = 1,
-                         var angularMomentum: Vec3f = Vec3f(), 
+class PhysicsState(
+                         var position: Vec3f,
+                         var orientation: Quat,
+                         var momentum: Vec3f,
+                         var mass: Float,
+                         var angularMomentum: Vec3f,
                          // TODO: actual tensor?
-                         var inertiaTensor: Float = 1
+                         var inertiaTensor: Float
                          ) {
 
   // secondary state
@@ -131,11 +150,14 @@ case class PhysicsState(
   /// Recalculate secondary state values from primary values.
 
   def recalculateSecondaryValues() {
+    inverseMass = 1.0f/mass
     velocity = momentum * inverseMass
     angularVelocity = angularMomentum * inverseInertiaTensor
     orientation.norm()
     spin = Quat(angularVelocity.x, angularVelocity.y, angularVelocity.z, 0) * orientation * 0.5
   }
+
+  override def toString = "PS: x:"+position.xyz+"\tp:"+momentum.xyz+"\tm:"+mass+"\tmi:"+inverseMass
 }
 
 /**

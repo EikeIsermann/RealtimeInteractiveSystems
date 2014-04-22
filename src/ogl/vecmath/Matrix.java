@@ -18,16 +18,16 @@ public interface Matrix {
   /**
    * Get elements from the matrix.
    * 
-   * @return A vector of floats of the values.
+   * @return A v of floats of the values.
    */
   public abstract float[] getValues(); 
   /**
    * Set element of the matrix.
    * 
    * @param vals
-   *            The vector of new vals
+   *            The v of new vals
    * 
-   * @return A vector of floats of the values.
+   * @return A v of floats of the values.
    */
   public abstract void setValues(float[] vals); 
  
@@ -70,7 +70,7 @@ public interface Matrix {
    * assumed to be 0.0.
    * 
    * @param v
-   *          The direction vector.
+   *          The direction v.
    * @return The transformed point.
    */
   public abstract Vector transformDirection(Vector v);
@@ -129,9 +129,9 @@ public interface Matrix {
   public abstract Matrix getTranslation();
 
   /**
-   * Construct a new vector containing the translational elements.
+   * Construct a new v containing the translational elements.
    * 
-   * @return The newly constructed vector.
+   * @return The newly constructed v.
    */
   public abstract Vector getPosition();
 

@@ -12,7 +12,7 @@ import ogl.vecmath.Vector;
 import org.lwjgl.BufferUtils;
 
 /**
- * Simple 3 component vector class. Vectors are non mutable and can be passed
+ * Simple 3 component v class. Vectors are non mutable and can be passed
  * around by value.
  * 
  * @author henrik, marc
@@ -24,7 +24,7 @@ public class VectorImp implements Comparable<Vector>, Vector {
   
     
   /**
-   * Construct a new vector and initialize the components.
+   * Construct a new v and initialize the components.
    * 
    * @param x
    *          The X component.
@@ -52,7 +52,7 @@ public class VectorImp implements Comparable<Vector>, Vector {
    * Component-wise addition of two vectors.
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The sum.
    */
   @Override
@@ -61,10 +61,10 @@ public class VectorImp implements Comparable<Vector>, Vector {
   }
 
   /**
-   * Subtract a vector from this vector.
+   * Subtract a v from this v.
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The difference.
    */
   @Override
@@ -73,11 +73,11 @@ public class VectorImp implements Comparable<Vector>, Vector {
   }
 
   /**
-   * Multiply this vector by a scalar.
+   * Multiply this v by a scalar.
    * 
    * @param s
    *          The scalar.
-   * @return The scaled vector.
+   * @return The scaled v.
    */
   @Override
   public Vector mult(float s) {
@@ -88,7 +88,7 @@ public class VectorImp implements Comparable<Vector>, Vector {
    * Componentwise multiplication of two vectors. This is not the dot product!
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The product.
    */
   @Override
@@ -105,9 +105,9 @@ public class VectorImp implements Comparable<Vector>, Vector {
   }
 
   /**
-   * Normalize this vector.
+   * Normalize this v.
    * 
-   * @return The normalized vector.
+   * @return The normalized v.
    */
   @Override
   public Vector normalize() {
@@ -118,7 +118,7 @@ public class VectorImp implements Comparable<Vector>, Vector {
    * Calculate the dot product of two vectors.
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The dot product.
    */
   @Override
@@ -130,7 +130,7 @@ public class VectorImp implements Comparable<Vector>, Vector {
    * Calculate the cross product of two vectors.
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The cross product.
    */
   @Override

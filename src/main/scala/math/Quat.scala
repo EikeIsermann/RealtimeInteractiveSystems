@@ -21,8 +21,26 @@ final case class Quat(private val x1: Float = 0,private val y1: Float = 0,privat
 
 
 
+
+
   implicit def +(q1: Quat): Quat = Quat(x + q1.x, y + q1.y, z + q1.z, w + q1.w)
   implicit def -(q1: Quat): Quat = Quat(x - q1.x, y - q1.y, z - q1.z, w - q1.w)
 
   def norm(): Quat = normalize()
+
+
+  /**
+   * Adds the given v to this, scaled by the given amount.
+   * This is used to update the orientation quaternion by a rotation
+   * and time.
+   *
+   * @param vector The v to add.
+   *
+   * @param scale The amount of the v to add.
+   */
+  def addScaledVector(vector: Vec3f, scale: Float): Quat = {
+    val q: Quat = scale*Quat(vector.x, vector.y, vector.z, 0)
+    //q *= this //??
+    Quat(x + q.x * 0.5f, y + q.y * 0.5f, z + q.z * 0.5f, w + q.w * 0.5f)
+  }
 }

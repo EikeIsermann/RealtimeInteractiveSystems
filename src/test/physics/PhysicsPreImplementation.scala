@@ -22,17 +22,19 @@ class PhysicsPreImplementation {
   var tick: Int = 60
 
   def init(p: Vec3f = Vec3f(1.5f, 0.0f,0.0f), v: Vec3f = Vec3f(30.0f, 40.0f,0.0f), acc1: Vec3f = Vec3f(20.0f, 0.0f,0.0f), m: Float = 200.0f, damp: Float = 0.99f) {
+
     accT0 = phy.timeInSeconds()
     dt = 1d/tick.toDouble
     t = 0
     acc = 0
 
 
-    currentPhyState = PhysicsState()
+    currentPhyState = new PhysicsState(p, Quat(),acc1, m,Vec3f(),1)
 
 
-    previousPhyState = PhysicsState(p, Quat(),v, m,Vec3f(),1)
+    previousPhyState = new PhysicsState(p, Quat(),acc1, m,Vec3f(),1)
 
+    println(previousPhyState, currentPhyState)
     DC.log("Physics System", "initialized")
 
   }
@@ -48,6 +50,7 @@ class PhysicsPreImplementation {
     
     while (acc >= dt) {
 
+      //println(previousPhyState+" <== "+ currentPhyState)
       previousPhyState = currentPhyState
 
       //TODO: extract component infos into physics state
@@ -55,6 +58,7 @@ class PhysicsPreImplementation {
 
 
       RK4.integrate(currentPhyState, t, dt)
+
 
 
 

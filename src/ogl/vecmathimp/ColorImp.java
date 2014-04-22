@@ -9,7 +9,7 @@ import org.lwjgl.BufferUtils;
 
 
 /**
- * A simple three component color vector. Color vectors are non-mutable and can
+ * A simple three component color v. Color vectors are non-mutable and can
  * be passed around by value.
  * 
  */
@@ -42,7 +42,7 @@ public class ColorImp implements Color, Comparable<Color> {
   }
   
   /**
-   * Construct a new color vector and initialize the components.
+   * Construct a new color v and initialize the components.
    * 
    * @param r
    *          The red component.
@@ -58,10 +58,10 @@ public class ColorImp implements Color, Comparable<Color> {
   }
 
   /**
-   * Construct a new color vector and initialize the components.
+   * Construct a new color v and initialize the components.
    * 
    * @param v
-   *          A three commponent vector.
+   *          A three commponent v.
    */
   public ColorImp(Vector v) {
     r = v.x();

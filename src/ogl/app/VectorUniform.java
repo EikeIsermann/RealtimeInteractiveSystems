@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL20.glUniform3f;
 import ogl.vecmath.Vector;
 
 /**
- * Encapsulate the transfer of vector values from the OpenGL application to an
+ * Encapsulate the transfer of v values from the OpenGL application to an
  * GLSL shader uniform variable.
  */
 public class VectorUniform extends Uniform {

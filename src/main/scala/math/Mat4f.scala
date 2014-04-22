@@ -1,6 +1,6 @@
 package main.scala.math
 
-import ogl.vecmathimp.{MatrixImp, FactoryDefault}
+import ogl.vecmathimp.FactoryDefault
 
 
 /**
@@ -12,6 +12,59 @@ object Mat4f {
   implicit def apply(mat: ogl.vecmath.Matrix) = new Mat4f(mat.getValues)
   implicit def apply(arr: Array[Float]) = new Mat4f(arr)
   implicit def apply(seq: Seq[Float]) = new Mat4f(seq)
+
+  implicit def apply(position: Vec3f, orientation: Quat): Mat4f =
+    new Mat4f(
+    1-2*orientation.y*orientation.y- 2*orientation.z*orientation.z,
+    2*orientation.x*orientation.y - 2*orientation.w*orientation.z,
+    2*orientation.x*orientation.z + 2*orientation.w*orientation.y,
+    position.x,
+
+    2*orientation.x*orientation.y + 2*orientation.w*orientation.z,
+    1-2*orientation.x*orientation.x- 2*orientation.z*orientation.z,
+    2*orientation.y*orientation.z - 2*orientation.w*orientation.x,
+    position.y,
+
+    2*orientation.x*orientation.z - 2*orientation.w*orientation.y,
+    2*orientation.y*orientation.z + 2*orientation.w*orientation.x,
+    1-2*orientation.x*orientation.x- 2*orientation.y*orientation.y,
+    position.z,
+
+    0.0f, 0.0f, 0.0f, 1.0f
+
+    )
+
+  /**
+   * Internal function to do an intertia tensor transform by a quaternion.
+   * Note that the implementation of this function was created by an
+   * automated code-generator and optimizer.
+   */
+  def transformInertiaTensor(q: Quat, iitBody: Mat3f, rotmat: Mat4f): Mat3f = {
+    val t4  = rotmat(0)*iitBody(0)+rotmat(1)*iitBody(3)+rotmat(2)*iitBody(6)
+    val t9  = rotmat(0)*iitBody(1)+rotmat(1)*iitBody(4)+rotmat(2)*iitBody(7)
+    val t14 = rotmat(0)*iitBody(2)+rotmat(1)*iitBody(5)+rotmat(2)*iitBody(8)
+    val t28 = rotmat(4)*iitBody(0)+rotmat(5)*iitBody(3)+rotmat(6)*iitBody(6)
+    val t33 = rotmat(4)*iitBody(1)+rotmat(5)*iitBody(4)+rotmat(6)*iitBody(7)
+    val t38 = rotmat(4)*iitBody(2)+rotmat(5)*iitBody(5)+rotmat(6)*iitBody(8)
+    val t52 = rotmat(8)*iitBody(0)+rotmat(9)*iitBody(3)+rotmat(10)*iitBody(6)
+    val t57 = rotmat(8)*iitBody(1)+rotmat(9)*iitBody(4)+rotmat(10)*iitBody(7)
+    val t62 = rotmat(8)*iitBody(2)+rotmat(9)*iitBody(5)+rotmat(10)*iitBody(8)
+
+    new Mat3f(
+      t4*rotmat(0)+t9*rotmat(1)+t14*rotmat(2),
+      t4*rotmat(4)+t9*rotmat(5)+t14*rotmat(6),
+      t4*rotmat(8)+t9*rotmat(9)+t14*rotmat(10),
+      t28*rotmat(0)+t33*rotmat(1)+t38*rotmat(2),
+      t28*rotmat(4)+t33*rotmat(5)+t38*rotmat(6),
+      t28*rotmat(8)+t33*rotmat(9)+t38*rotmat(10),
+      t52*rotmat(0)+t57*rotmat(1)+t62*rotmat(2),
+      t52*rotmat(4)+t57*rotmat(5)+t62*rotmat(6),
+      t52*rotmat(8)+t57*rotmat(9)+t62*rotmat(10)
+    )
+
+
+  }
+
 
   final val identity: Mat4f = FactoryDefault.vecmath.identityMatrix()
 
@@ -33,6 +86,8 @@ case class Mat4f(m00: Float = 1.0f,m01: Float = 0,m02: Float = 0,m03: Float = 0,
 
   def this(arr: Array[Float]) = this(arr(0), arr(1), arr(2), arr(3), arr(4), arr(5), arr(6), arr(7), arr(8), arr(9), arr(10), arr(11), arr(12), arr(13), arr(14), arr(15))
   def this(seq: Seq[Float]) = this(seq.toArray)
+
+  def apply(index: Int): Float = get((index.toFloat / 4f).toInt,index % 4)
 
 
   implicit def position: Vec3f   = getPosition
@@ -59,6 +114,20 @@ case class Mat4f(m00: Float = 1.0f,m01: Float = 0,m02: Float = 0,m03: Float = 0,
   implicit def / (m: Mat4f): Mat4f = m.inv * this
 
 
+
+  implicit def * (v: Vec3f): Vec3f = Vec3f(
+      v.x * apply(0) +
+      v.y * apply(1) +
+      v.z * apply(2) + apply(3),
+
+    v.x * apply(4) +
+      v.y * apply(5) +
+      v.z * apply(6) + apply(7),
+
+    v.x * apply(8) +
+      v.y * apply(9) +
+      v.z * apply(10) + apply(11)
+    )
 
 
 
@@ -123,6 +192,26 @@ object Test {
     val B = Mat4f(17, 18, 19, 20, 21, 22, 23, 24, 25, 26 ,27, 28, 29, 30, 31, 32)
     val C = Mat4f(1, 2 ,3 ,4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
+
+    println(A(0))
+    println(A(1))
+    println(A(2))
+    println(A(3))
+    println(A(4))
+    println(A(5))
+    println(A(6))
+    println(A(7))
+    println(A(8))
+    println(A(9))
+    println(A(10))
+    println(A(11))
+    println(A(12))
+    println(A(13))
+    println(A(14))
+    println(A(15))
+
+
+    /*
     val AplusB = Mat4f(18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48)
     val AminusB = Mat4f(-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16)
     val AmultB = Mat4f( 250, 260,270,280,618,    644,    670,    696,    986,   1028,   1070,   1112,    1354,   1412,   1470,   1528)
@@ -157,7 +246,7 @@ object Test {
     //println(B.inverse)
 
     println(A + B - B)
-
+                 */
 
 
   }

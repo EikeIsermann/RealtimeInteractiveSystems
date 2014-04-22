@@ -22,7 +22,7 @@ object ParticlePhysics {
 
 class ParticlePhysics() {
 
-  def init(p: Vec3f = Vec3f(1.5f, 0.0f,0.0f), v: Vec3f = Vec3f(30.0f, 40.0f,0.0f), acc: Vec3f = Vec3f(20.0f, 0.0f,0.0f), m: Float = 200.0f, damp: Float = 0.01f) {
+  def init(p: Vec3f = Vec3f(1.5f, 0.0f,0.0f), v: Vec3f = Vec3f(30.0f, 40.0f,0.0f), acc: Vec3f = Vec3f(20.0f, 0.0f,0.0f), m: Float = 200.0f, damp: Float = 0.99f) {
     position = p
     velocity = v
     acceleration = acc

@@ -41,11 +41,11 @@ public interface Factory {
    * Construct a new matrix given three base vectors
    * 
    * @param b0
-   *          First base vector
+   *          First base v
    * @param b1
-   *          Second base vector
+   *          Second base v
    * @param b2
-   *          Third base vector
+   *          Third base v
    * @return The matrix.
    */
   public abstract Matrix matrix(Vector b0, Vector b1, Vector b2);
@@ -54,7 +54,7 @@ public interface Factory {
    * Construct a new matrix that represents a translation.
    * 
    * @param t
-   *          The translation vector.
+   *          The translation v.
    * @return The translation matrix.
    */
   public abstract Matrix translationMatrix(Vector t);
@@ -121,7 +121,7 @@ public interface Factory {
    * @param center
    *          The lookat point.
    * @param up
-   *          The up vector.
+   *          The up v.
    * @return The rotation matrix.
    */
   public abstract Matrix lookatMatrix(Vector eye, Vector center, Vector up);

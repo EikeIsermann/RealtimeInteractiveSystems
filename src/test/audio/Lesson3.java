@@ -77,7 +77,7 @@ public class Lesson3 {
     FloatBuffer sourcePos = BufferUtils.createFloatBuffer(3*NUM_BUFFERS);
 
   /*
-   * These are 3D cartesian vector coordinates. A structure or class would be
+   * These are 3D cartesian v coordinates. A structure or class would be
    * a more flexible of handling these, but for the sake of simplicity we will
    * just leave it as is.
    */

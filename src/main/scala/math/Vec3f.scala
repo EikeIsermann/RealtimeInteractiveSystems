@@ -17,8 +17,30 @@ final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.
   implicit def *(s: Double): Vec3f = this.*(s.toFloat)
   implicit def *(s: Float): Vec3f = mult(s)
   implicit def *(v: Vec3f): Vec3f = mult(v)
+  
   implicit def +(v: Vec3f): Vec3f = add(v)
   implicit def -(v: Vec3f): Vec3f = sub(v)
+
+
+
+  /**
+   * scalar or dot product
+   * @param v the vector
+   * @return the scalar product float
+   */
+  implicit def °(v: Vec3f): Float = dot(v)
+  implicit def scalarProduct(v: Vec3f): Float = this.°(v)
+  implicit def dotProduct(v: Vec3f): Float = this.°(v)
+
+  /**
+   * vector or cross product
+   * @param v the vector
+   * @return the new vector
+   */
+  implicit def %(v: Vec3f): Vec3f = cross(v)
+  implicit def vectorProduct(v: Vec3f): Vec3f = this.%(v)
+  implicit def crossProduct(v: Vec3f): Vec3f = this.%(v)
+
 
   implicit def /(s: Float): Vec3f = Vec3f(x/s, y/s, z/s)
 
@@ -54,19 +76,11 @@ final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.
   def xyz: (Float, Float, Float) = (x,y,z)
 
 
-
   def inline: String = "["+x+" "+y+" "+z+"]"
 
-  def magnitude: Double = math.sqrt((x() * x()) + (y() * y()) + (z() * z()))
+  def magnitude: Float = length()
 
-  def normalized: Vec3f = {
-    val a: Float = magnitude.toFloat
-    Vec3f(
-      x/a,
-      y/a,
-      z/a
-    )
-  }
+  def norm: Vec3f = normalize()
 
   override def toString: String = {
     "Vec3f:\n"+
@@ -74,6 +88,4 @@ final case class Vec3f(x1: Float = 0, y1: Float = 0, z1: Float = 0) extends ogl.
     "[ "+y1+ " ]\n"  +
     "[ "+z1+ " ]\n"
   }
-
-
 }

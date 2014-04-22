@@ -7,7 +7,7 @@ package ogl.vecmath;
 import java.nio.FloatBuffer;
 
 /**
- * Simple 3 component vector class. Vectors are non mutable and can be passed
+ * Simple 3 component v class. Vectors are non mutable and can be passed
  * around by value.
  * 
  * @author henrik, marc
@@ -39,26 +39,26 @@ public interface Vector {
    * Component-wise addition of two vectors.
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The sum.
    */
   public abstract Vector add(Vector v);
 
   /**
-   * Subtract a vector from this vector.
+   * Subtract a v from this v.
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The difference.
    */
   public abstract Vector sub(Vector v);
 
   /**
-   * Multiply this vector by a scalar.
+   * Multiply this v by a scalar.
    * 
    * @param s
    *          The scalar.
-   * @return The scaled vector.
+   * @return The scaled v.
    */
   public abstract Vector mult(float s);
 
@@ -66,22 +66,22 @@ public interface Vector {
    * Componentwise multiplication of two vectors. This is not the dot product!
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The product.
    */
   public abstract Vector mult(Vector v);
 
   /**
-   * Compute the length of this vector.
+   * Compute the length of this v.
    * 
-   * @return The lenght of this vector.
+   * @return The lenght of this v.
    */
   public abstract float length();
 
   /**
-   * Normalize this vector.
+   * Normalize this v.
    * 
-   * @return The normalized vector.
+   * @return The normalized v.
    */
   public abstract Vector normalize();
 
@@ -89,7 +89,7 @@ public interface Vector {
    * Calculate the dot product of two vectors.
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The dot product.
    */
   public abstract float dot(Vector v);
@@ -98,7 +98,7 @@ public interface Vector {
    * Calculate the cross product of two vectors.
    * 
    * @param v
-   *          The second vector.
+   *          The second v.
    * @return The cross product.
    */
   public abstract Vector cross(Vector v);

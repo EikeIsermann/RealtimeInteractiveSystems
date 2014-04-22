@@ -67,11 +67,11 @@ public class MatrixImp implements Matrix {
    * Construct a new matrix from three basis vectors.
    * 
    * @param b0
-   *          The first basis vector.
+   *          The first basis v.
    * @param b1
-   *          The second basis vector.
+   *          The second basis v.
    * @param b2
-   *          The third basis vector.
+   *          The third basis v.
    */
   public MatrixImp(Vector b0, Vector b1, Vector b2) {
     makeIdent();
@@ -120,7 +120,7 @@ public class MatrixImp implements Matrix {
    * Construct a new matrix that represents a translation.
    * 
    * @param t
-   *          The translation vector.
+   *          The translation v.
    * @return The translation matrix.
    */
   public static Matrix translate(Vector t) {
@@ -211,7 +211,7 @@ public class MatrixImp implements Matrix {
    * @param center
    *          The lookat point.
    * @param up
-   *          The up vector.
+   *          The up v.
    * @return The rotation matrix.
    */
   public static Matrix lookat(Vector eye, Vector center, Vector up) {

@@ -9,7 +9,7 @@ import java.nio.FloatBuffer;
 import ogl.vecmathimp.ColorImp;
 
 /**
- * A simple three component color vector. Color vectors are non-mutable and can
+ * A simple three component color v. Color vectors are non-mutable and can
  * be passed around by value.
  * 
  */
