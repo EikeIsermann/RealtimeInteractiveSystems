@@ -24,9 +24,9 @@ class MovementSystem extends System {
       pos.position = motion.velocity
       motion.velocity = Vec3f(0, 0, 0)
 
-
-      pos.rotation = motion.direction
-      motion.direction = Vec3f(0,0,0)
+      //TODO: different!
+      //pos.rotation = motion.direction
+      //motion.direction = Vec3f(0,0,0)
 
     }
 

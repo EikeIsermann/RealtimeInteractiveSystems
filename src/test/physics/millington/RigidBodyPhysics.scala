@@ -79,7 +79,7 @@ class RigidBodyPhysics {
    * from the rigid body.
    */
 
-  def inertiaTensor: Mat3f = ???
+  def inertiaTensor: Mat3f = _inverseInertiaTensor.inverse()
   def inertiaTensor_=(iT: Mat3f) = {
     inverseInertiaTensor.setInverse(iT)
   }

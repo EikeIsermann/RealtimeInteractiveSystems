@@ -2,7 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
 import scala.xml.{Node, NodeSeq, NodeBuffer}
-import main.scala.math.Vec3f
+import main.scala.math.{Quat, Vec3f}
 import main.scala.architecture
 import main.scala.tools.Identifier
 
@@ -31,12 +31,21 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
 
 
   private var _position: Vec3f = position1
-  private var _rotation: Vec3f = rotation1
+  private var _orientation: Quat = Quat()
   private var _scale: Vec3f = scale1
 
+
+  /**
+   * linear position
+   */
   def position: Vec3f = _position
   def position_=(v: Vec3f) = _position = v
 
+  def orientation: Quat  = _orientation
+  def orientation_=(o: Quat) = _orientation = o
+
+  //TODO: remove
+  private var _rotation: Vec3f = rotation1
   def rotation: Vec3f = _rotation
   def rotation_=(v: Vec3f) = _rotation = v
 

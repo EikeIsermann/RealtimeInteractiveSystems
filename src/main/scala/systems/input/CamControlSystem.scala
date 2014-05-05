@@ -123,7 +123,8 @@ class CamControlSystem extends System {
 
 
       motion.velocity = Vec3f(x, y, z)
-      motion.direction = Vec3f(pitch, yaw, 0)
+      //TODO: different
+//      motion.direction = Vec3f(pitch, yaw, 0)
     }
 
     this

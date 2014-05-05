@@ -2,11 +2,10 @@ package main.scala.systems.physics
 
 import main.scala.architecture._
 import main.scala.systems.input.SimulationContext
-import main.scala.engine.GameEngine
-import main.scala.nodes.PhysicsNode
 import main.scala.components._
-import main.scala.math.Vec3f
-import main.scala.tools.phy
+import main.scala.math.{Mat3f, Vec3f, Mat4f}
+import main.scala.tools.{phy, DC}
+import test.physics.TestWindow
 
 /**
  * Created by Christian Treffs
@@ -17,13 +16,130 @@ import main.scala.tools.phy
  *
  * http://buildnewgames.com/gamephysics/
  */
+object PhysicsSystem {
+  def main(args: Array[String]) {
+    val m = new Motion()
+    val p = new Placement()
+
+    m.mass = 200.0f
+    m.velocity =  Vec3f(40.0f, -100.0f, 0)
+    m.acceleration =  Vec3f(0.0f, 21.0f, 0.0f)
+    m.damping_=(0.99f, 0.8f)
+    val tensor = new Mat3f()
+    val coeff: Float = 0.064f*m.mass
+    tensor.setInertiaTensorCoeffs(coeff,coeff,coeff)
+    m.inertia = tensor
+    m.canSleep = true
+    m.awake(awake = true)
+
+
+    p.position = Vec3f(0.0f, 1.5f, 0.0f)
+
+
+    val ps = PhysicsSystem.newInstance(m,p)
+    ps.init()
+
+    val w = new TestWindow()
+
+    var lastT = phy.timeInSeconds()
+    var currentT = 0d
+    while(!w.quit) {
+
+      currentT = phy.timeInSeconds()
+
+      val dt = currentT-lastT
+      if(dt > 0.0) {
+        ps.integrate(dt)
+        w.update(Vec3f(),p.position)
+      }
+      lastT = currentT
+    }
+
+    ps.deinit()
+
+
+
+
+  }
+  def newInstance(m1: Motion, p1: Placement): PhysicsSystem = {
+    val ps = new PhysicsSystem
+    ps.m = m1
+    ps.p = p1
+    ps
+  }
+}
 class PhysicsSystem extends System {
 
-  override def init(): System = ???
+  var m: Motion = null
+  var p:Placement = null
+
+  override def init(): System = {
+    DC.log("PhysicsSystem","initialized")
+    this
+  }
+
+  def integrate(duration: Double) {
+    if(!m.isAwake) return
+
+    // Calculate linear acceleration from force inputs.
+    // a2 = a0 + F/m
+    m.lastFrameAcceleration = m.acceleration + m.forceAccum * m.inverseMass
+
+    // Calculate angular acceleration from torque inputs.
+    m.angularAcceleration = m.inverseInertiaTensorWorld * m.torqueAccum
+
+    // Adjust velocities
+    // Update linear velocity from both acceleration and impulse.
+    // v2 = v0 + a*t
+    m.velocity = m.velocity + m.lastFrameAcceleration * duration
+
+    // Update angular velocity from both acceleration and impulse.
+    m.angularVelocity = m.angularVelocity + m.angularAcceleration * duration
+
+    // Impose drag.
+    m.velocity            = m.velocity            * math.pow(m.linearDamping, duration)
+    m.angularAcceleration = m.angularAcceleration * math.pow(m.angularDamping, duration)
+
+    // Adjust positions
+    // Update linear position.
+    p.position = p.position + m.velocity * duration
+
+    // Update angular position.
+    p.orientation = p.orientation.addScaledVector(m.angularVelocity,duration.toFloat)
+
+    // Normalise the orientation, and update the matrices with the new
+    // position and orientation
+      p.orientation = p.orientation.norm()
+
+      // Calculate the transform matrix for the body.
+      m.transformMatrix = Mat4f(p.position, p.orientation)
+
+      // Calculate the inertiaTensor in world space.
+      m.inverseInertiaTensorWorld = Mat4f.transformInertiaTensor(p.orientation,m.inverseInertia, m.transformMatrix)
+
+    //clear accumulators
+    m.clearForceAccumulators()
+
+    // Update the kinetic energy store, and possibly put the body to
+    // sleep.
+    m.checkSleepState(duration)
+
+  }
+
+
 
   override def update(context: SimulationContext): System = {
 
-    val physicsNodes: Seq[PhysicsNode] = Seq()//GameEngine.getNodeList(new PhysicsNode())
+
+
+
+    integrate(context.deltaT)
+
+
+   /*
+   //DEPRECATED
+   val physicsNodes: Seq[PhysicsNode] = Seq()//GameEngine.getNodeList(new PhysicsNode())
+
 
     val deltaT: Float = context.deltaT
 
@@ -33,9 +149,9 @@ class PhysicsSystem extends System {
       val placement: Placement = pn.placement
       val physics: Physics = pn.physics
 
-      val gForce: Vec3f = physics.gForce // force that always is applied downwards (has only z Component)
+      //val gForce: Vec3f = physics.gForce // force that always is applied downwards (has only z Component)
 
-      val inertia: Float = physics.inertia
+      //val inertia: Float = physics.inertia
       val mass: Float = physics.mass
       val position: Vec3f = placement.position
       val t1 = phy.ns2sec(System.nanoTime())
@@ -96,11 +212,14 @@ m_position += velocity * timeStep;
      */
 
 
+    */
 
     this
   }
 
-  override def deinit(): Unit = ???
+  override def deinit(): Unit = {
+    DC.log("PhysicsSystem","shutting down")
+  }
 
 
 }
