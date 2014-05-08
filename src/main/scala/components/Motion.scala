@@ -79,11 +79,14 @@ class Motion() extends Component {
     case _ => 1.0f/inverseMass
   }
   def mass_=(m: Float) = {
+    println(m)
     assert(m != 0)
     inverseMass = 1.0f/m
+    println(inverseMass)
+    inverseMass
   }
   def inverseMass: Float = _inverseMass
-  protected def inverseMass_=(im: Float) = _inverseMass = im
+  def inverseMass_=(im: Float) = _inverseMass = im
 
 
 
