@@ -96,6 +96,12 @@ abstract class IntervalProcessingSystem extends System {
 abstract class VoidProcessingSystem extends System {
 
 
+  override def update(ctx: SimulationContext) = {
+    processSystem(ctx)
+    this
+  }
+  def processSystem(ctx: SimulationContext)
+
 }
 
 
