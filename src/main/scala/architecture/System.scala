@@ -14,19 +14,68 @@ import main.scala.engine.GameEngine
  * System: "Each System runs continuously (as though each System had its own private thread) and performs global
  * actions on every Entity that possesses a Component of the same aspect as that System."
  */
-trait System /*extends ObservingActor*/ {
+abstract class System /*extends ObservingActor*/ {
 
-  var priority = 0
+  var node: Class[_ <: Node]
+  var priority: Integer
+  var active = false
+  var family: Family = _
 
-  def init(): System
 
-  def deinit(): Unit
+  def initalize(): System = {
+    family = new Family(node)
+    active = true
+    this
+  }
+
+
+  def begin(): Unit
+
+  def end(): Unit
 
   def update(context: SimulationContext): System
   //def update(nodeType: Class[_ <: Node], context: Context): System
 
+  final def process(context: SimulationContext){
+    if(active){
+      begin()
+      update(context)
+      end()
+    }
+
+  }
+
+
   def get(nodeClass: Node): List[Node] = GameEngine.getNodeList(nodeClass)
+
+
 }
+
+
+abstract class DelayedProcessingSystem extends System {
+  var delay: Float
+  var running: Boolean
+  var acc: Float
+
+
+}
+
+abstract class ProcessingSystem extends System {
+
+
+}
+
+abstract class IntervalProcessingSystem extends System {
+
+
+}
+
+abstract class VoidProcessingSystem extends System {
+
+
+}
+
+
 
 object SystemPriorities {
  val Pre_Update = 1

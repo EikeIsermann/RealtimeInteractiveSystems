@@ -11,7 +11,9 @@ import main.scala.tools.DC
 class Family(val nodeClass: Class[_ <: Node]) {
 
  protected var _entities: mutable.HashMap[Entity, Node] = new mutable.HashMap[Entity, Node]
- var components: mutable.ListBuffer[Class[_ <: Component]] = new mutable.ListBuffer[Class[_ <: Component]]
+
+ val components: List[Class[_ <: Component]] = nodeClass.newInstance().contains
+ val unwanted: List[Class[_ <: Component]] = nodeClass.newInstance().containsNot
 
   def entities = _entities
   def nodes = _entities.values
@@ -19,8 +21,8 @@ class Family(val nodeClass: Class[_ <: Node]) {
   def addIfMatch(entity: Entity){
     if (!_entities.contains(entity)){
 
-      for(unwanted <- nodeClass.newInstance().containsNot){
-        if(entity.has(unwanted)) {
+      for(componentClass <- unwanted){
+        if(entity.has(componentClass)) {
         return
         }
       }

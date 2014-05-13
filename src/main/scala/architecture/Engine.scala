@@ -39,13 +39,13 @@ trait Engine {
   def remove (system: System): Engine = this.-=(system)
   def -= (system: System): Engine = {
     _systems - system.getClass
-    system.deinit()
+    //system.deinit()
     this
   }
   def add (system: System): Engine = this.+=(system)
   def += (system: System): Engine = {
     _systems.put(system.getClass, system)
-    system.init()
+    //system.init()
     this
   }
 

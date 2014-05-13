@@ -1,6 +1,6 @@
 package main.scala.systems.input
 
-import main.scala.architecture.System
+import main.scala.architecture.{Node, System}
 import main.scala.tools.DC
 import main.scala.engine.GameEngine
 import main.scala.nodes.CamControlNode
@@ -13,6 +13,9 @@ import main.scala.math.Vec3f
  * 23.03.14.
  */
 class CamControlSystem extends System {
+
+  var node: Class[_ <: Node] = classOf[CamControlNode]
+  var priority: Integer = 0
 
   var x: Float = 0.0f
   var y: Float = 0.0f
@@ -29,6 +32,11 @@ class CamControlSystem extends System {
   var xRad = math.sin(math.toRadians(-yaw)).toFloat
   var zRad = math.cos(math.toRadians(-yaw)).toFloat
   var  yRad = math.sin(math.toRadians(pitch)).toFloat
+
+
+  def begin(): Unit = ???
+
+  def end(): Unit = ???
 
   override def update(context: SimulationContext): System = {
 
@@ -138,7 +146,7 @@ class CamControlSystem extends System {
 
   }
 
-  override def init(): System = {
+  /*override def init(): System = {
     DC.log("Control System", "initialized", 2)
     this
   }
@@ -146,4 +154,6 @@ class CamControlSystem extends System {
   override def deinit(): Unit = {
     DC.log("Control System", "ended", 2)
   }
+  */
+
 }

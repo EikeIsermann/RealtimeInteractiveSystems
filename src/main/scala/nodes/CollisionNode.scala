@@ -8,6 +8,8 @@ import main.scala.components._
  * Date: 07.05.14 15:53
  */
 case class CollisionNode(collision: Collision, placement: Placement) extends Node(collision, placement) {
-  var containsNot: List[Class[_ <: Component]] =  List()
+
+  def contains: List[Class[_ <: Component]] =  List(classOf[Collision], classOf[Placement])
+  def containsNot: List[Class[_ <: Component]] =  List()
 
 }

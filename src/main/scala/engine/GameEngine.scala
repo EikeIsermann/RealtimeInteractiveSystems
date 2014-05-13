@@ -162,7 +162,6 @@ object GameEngine extends Engine {
     val tankEntity = Entity.newInstanceOf('Tank)
 
     val renderNode = new Family(classOf[RenderNode])
-    renderNode.components += (classOf[Placement], classOf[main.scala.components.Display])
     add(renderNode)
     for(family <- families.values){
       family.addIfMatch(tankEntity)
@@ -264,18 +263,16 @@ object GameEngine extends Engine {
 
     val camSys = new CameraSystem
     val camFam = new Family(classOf[CameraNode])
-    camFam.components += (classOf[Camera], classOf[Placement])
     add(camFam)
 
 
     val camConSys= new CamControlSystem
     val conFam = new Family(classOf[CamControlNode])
-    conFam.components += (classOf[CamControl], classOf[Motion])
+
     add(conFam)
 
     val moveSys = new MovementSystem()
     val moveFam = new Family(classOf[MovementNode])
-    moveFam.components += (classOf[Placement], classOf[Motion])
     add(moveFam)
 
 
@@ -358,7 +355,7 @@ object GameEngine extends Engine {
     DC.logT('engineShutdown,"Engine","shutting down",3)
     //TODO: stop thread clean up and end
 
-    systems.values.foreach(system => system.deinit()) // shut down all systems
+    //systems.values.foreach(system => system.deinit()) // shut down all systems
 
     Display.destroy()
     DC.logT('engineShutdown,"Engine","ended",3)

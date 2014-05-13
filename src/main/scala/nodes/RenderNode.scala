@@ -16,6 +16,8 @@ import main.scala.math.Vec3f
 class RenderNode(position: Placement, display: Display) extends Node(position, display){
   def this() = this(new Placement(), new Display())
 
-  var containsNot: List[Class[_ <: Component]] = List()
 
+  def containsNot: List[Class[_ <: Component]] = List()
+
+  def contains: List[Class[_ <: Component]] = List(classOf[Placement], classOf[Display])
 }
