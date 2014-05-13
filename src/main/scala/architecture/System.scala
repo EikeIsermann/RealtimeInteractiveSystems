@@ -71,7 +71,26 @@ abstract class ProcessingSystem extends System {
 }
 
 abstract class IntervalProcessingSystem extends System {
+    val acc: Float
+	  val interval: Float
 
+
+  def checkProcessing(ctx: SimulationContext): Boolean = {
+    acc += ctx.deltaT
+    if(acc >= interval) {
+      acc -= interval
+      true
+    }
+    else
+      false
+  }
+
+
+  override def update(ctx: SimulationContext) = {
+    if(checkProcessing(ctx)) getNodes.foreach(processNode)
+    this
+  }
+  def processNode(node: Node)
 
 }
 
