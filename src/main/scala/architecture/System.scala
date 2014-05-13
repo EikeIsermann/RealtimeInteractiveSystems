@@ -24,6 +24,7 @@ abstract class System /*extends ObservingActor*/ {
 
   def initalize(): System = {
     family = new Family(node)
+    GameEngine.registerFamily(family)
     active = true
     this
   }
@@ -46,8 +47,7 @@ abstract class System /*extends ObservingActor*/ {
   }
 
 
-  def get(nodeClass: Node): List[Node] = GameEngine.getNodeList(nodeClass)
-
+  def getNodes: List[Node] = family.nodes.toList
 
 }
 
