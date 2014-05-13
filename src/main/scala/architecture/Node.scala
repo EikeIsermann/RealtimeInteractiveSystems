@@ -11,6 +11,9 @@ import main.scala.tools.DC
  */
 abstract class Node(args: Component*) {
   var components:  mutable.HashMap[Class[_ <: Component], Component] = new  mutable.HashMap[Class[_ <: Component], Component]
+
+  var containsNot: List[Class[_ <: Component]]
+
   for(comp <- args){
     components.put(comp.getClass, comp)
   }

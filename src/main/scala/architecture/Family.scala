@@ -18,6 +18,13 @@ class Family(val nodeClass: Class[_ <: Node]) {
 
   def addIfMatch(entity: Entity){
     if (!_entities.contains(entity)){
+
+      for(unwanted <- nodeClass.newInstance().containsNot){
+        if(entity.has(unwanted)) {
+        return
+        }
+      }
+
       for(componentClass <- components){
         if(!entity.has(componentClass)){
           return
