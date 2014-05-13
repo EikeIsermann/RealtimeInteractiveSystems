@@ -2,7 +2,6 @@ package main.scala.architecture
 
 import main.scala.systems.input.SimulationContext
 import scala.Predef._
-import main.scala.nodes.CamControlNode
 import main.scala.engine.GameEngine
 
 /**
