@@ -60,6 +60,25 @@ abstract class DelayedProcessingSystem extends System {
   var running: Boolean
   var acc: Float
 
+  override def update(context: SimulationContext) {
+    for(node <- getNodes)
+    {
+      processDelta(node, acc)
+      var remaining = getRemainingDelay(node)
+      if (remaining <= 0){
+        processExpired(entity)
+
+      }
+      else offerDelay(remaining)
+    }
+
+    this
+  }
+
+
+
+
+
 
 }
 
