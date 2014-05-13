@@ -22,7 +22,7 @@ abstract class System /*extends ObservingActor*/ {
   var family: Family = _
 
 
-  def initalize(): System = {
+  def initialize(): System = {
     family = new Family(node)
     GameEngine.registerFamily(family)
     active = true
