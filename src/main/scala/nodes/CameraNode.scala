@@ -10,7 +10,7 @@ import main.scala.math.Vec3f
 class CameraNode(cam: Camera, position:Placement) extends Node(cam, position) {
   def this() = this(new Camera(90,true),new Placement(Vec3f(0,0,0), Vec3f(0,0,0)))
 
-  var containsNot: List[Class[_ <: Component]] = List()
+  var containsNot: List[Class[_ <: Component]] = List() //TODO
 
-  override def contains: List[Class[_ <: Component]] = ???
+  override def contains: List[Class[_ <: Component]] = List(classOf[Camera], classOf[Placement]) //TODO
 }
