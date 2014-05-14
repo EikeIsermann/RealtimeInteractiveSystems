@@ -21,7 +21,6 @@ abstract class System /*extends ObservingActor*/ {
   var family: Family = _
   var ctx: SimulationContext = _
 
-
   def initialize(): System = {
     family = new Family(node)
     GameEngine.registerFamily(family)
@@ -60,7 +59,7 @@ abstract class DelayedProcessingSystem extends System {
   var running: Boolean
   var acc: Float
 
-  override def update(context: SimulationContext) {
+  override def update(ctx: SimulationContext) {
     for(node <- getNodes)
     {
       processDelta(node, acc)
@@ -73,6 +72,14 @@ abstract class DelayedProcessingSystem extends System {
     }
 
     this
+  }
+
+  abstract def getRemainingDelay(node: Node)
+
+  final def checkProcessing() {
+    if (running) {
+      acc +=
+    }
   }
 
 
