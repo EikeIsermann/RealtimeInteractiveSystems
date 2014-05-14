@@ -137,7 +137,6 @@ class CamControlSystem extends ProcessingSystem {
         case _ =>
 
     }
-    this
   }
 
 

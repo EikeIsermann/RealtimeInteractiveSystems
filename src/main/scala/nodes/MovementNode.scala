@@ -19,5 +19,5 @@ class MovementNode(motion: Motion, position:Placement) extends Node(motion, posi
 
   var containsNot: List[Class[_ <: Component]] = List()
 
-
+  override def contains: List[Class[_ <: Component]] = ???
 }

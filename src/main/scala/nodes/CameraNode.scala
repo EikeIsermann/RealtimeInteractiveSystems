@@ -12,4 +12,5 @@ class CameraNode(cam: Camera, position:Placement) extends Node(cam, position) {
 
   var containsNot: List[Class[_ <: Component]] = List()
 
+  override def contains: List[Class[_ <: Component]] = ???
 }

@@ -14,7 +14,8 @@ import main.scala.math.Vec3f
  * 22.03.14.
  */
 class MovementSystem extends System {
-  override def update(context: SimulationContext): System = {
+
+  def update(context: SimulationContext): System = {
     val nodes = GameEngine.getNodeList(new MovementNode)
 
     for (node <- nodes) {
@@ -33,12 +34,22 @@ class MovementSystem extends System {
     this
   }
 
-  override def init(): System = {
+   def init(): System = {
     DC.log("Movement System", "initialized", 2)
     this
   }
 
-  override def deinit(): Unit = {
+   def deinit(): Unit = {
     DC.log("Control System", "ended", 2)
   }
+
+  override var node: Class[_ <: Node] = _
+
+  override def update(): System = ???
+
+  override def begin(): Unit = ???
+
+  override def end(): Unit = ???
+
+  override var priority: Int = _
 }

@@ -17,4 +17,6 @@ class CamControlNode(camCon: CamControl, mot: Motion) extends Node {
   )
 
   var containsNot: List[Class[_ <: Component]] = List()
+
+  override def contains: List[Class[_ <: Component]] = ???
 }
