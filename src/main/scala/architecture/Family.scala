@@ -2,19 +2,29 @@ package main.scala.architecture
 
 import scala.collection.mutable
 import main.scala.tools.DC
-import main.scala.event.{NodeAdded, EventDispatcher}
+import main.scala.event._
+import main.scala.event.NodeAdded
 
 /**
  * Created by Eike on 20.03.14.
  *
  * A collection of Entities with a set of Components
  */
-class Family(val nodeClass: Class[_ <: Node]) {
+class Family(val nodeClass: Class[_ <: Node]) extends EventReceiver {
 
  var _entities: mutable.HashMap[Entity, Node] = mutable.HashMap.empty[Entity, Node]
  implicit val family = this
  val components: List[Class[_ <: Component]] = nodeClass.newInstance().contains
  val unwanted: List[Class[_ <: Component]] = nodeClass.newInstance().containsNot
+
+  def receive(ev: Event ){
+    ev match {
+      case compRemoved: ComponentRemoved => componentRemoved(compRemoved.ent, compRemoved.comp.getClass)
+      case compAdded: ComponentAdded => addIfMatch(compAdded.ent)
+      case entAdded: EntityAdded => addIfMatch(entAdded.ent)
+      case _ =>
+    }
+  }
 
   def entities = _entities
   def nodes = _entities.values
@@ -43,6 +53,7 @@ class Family(val nodeClass: Class[_ <: Node]) {
       DC.log("Family added entity ",(entity,node))
     }
   }
+
 
   def componentRemoved(entity : Entity , componentClass : Class[_ <: Component] ) : Unit = {
     if(components.contains(componentClass) && entities.contains(entity)) entities.remove(entity)
