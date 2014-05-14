@@ -2,7 +2,7 @@ package main.scala.event
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
-import main.scala.architecture.{Node, Family}
+import main.scala.architecture.{Component, Node, Family}
 import main.scala.entities.Entity
 
 /**
@@ -53,7 +53,7 @@ trait Event
 case class TestEvent() extends Event
 case class NodeAdded(node: Node)(implicit val family: Family) extends Event
 case class EntityAdded(ent: Entity) extends Event
-case class EntityChanged(ent: Entity) extends Event
 case class EntityRemoved(ent: Entity) extends Event
-
+case class ComponentRemoved(ent: Entity, comp: Component) extends Event
+case class ComponentAdded(ent: Entity, comp: Component) extends Event
 
