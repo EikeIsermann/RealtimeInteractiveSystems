@@ -3,6 +3,7 @@ package main.scala.architecture
 import main.scala.systems.input.SimulationContext
 import scala.Predef._
 import main.scala.engine.GameEngine
+import main.scala.event.{NodeAdded, Event, EventReceiver}
 
 /**
  * Created by Christian Treffs
@@ -54,18 +55,36 @@ abstract class System /*extends ObservingActor*/ {
 }
 
 
-abstract class DelayedProcessingSystem extends System {
+abstract class DelayedProcessingSystem extends System with EventReceiver{
   var delay: Float
   var running: Boolean
   var acc: Float
 
-  override def update(ctx: SimulationContext) {
+
+  def receive(ev: Event){
+    ev match {
+      case na: NodeAdded => {
+         if (na.family == this.family) nodeInserted(na.node)
+
+      }
+      case _ =>
+    }
+  }
+
+  def nodeInserted(node: Node){
+
+      var del = getRemainingDelay(node)
+      if(del > 0) offerDelay(del)
+  }
+
+
+   def update(ctx: SimulationContext): System = {
     for(node <- getNodes)
     {
       processDelta(node, acc)
       var remaining = getRemainingDelay(node)
       if (remaining <= 0){
-        processExpired(entity)
+        processExpired(node)
 
       }
       else offerDelay(remaining)
@@ -74,15 +93,57 @@ abstract class DelayedProcessingSystem extends System {
     this
   }
 
-  abstract def getRemainingDelay(node: Node)
 
-  final def checkProcessing() {
-    if (running) {
-      acc +=
+
+  def offerDelay(del: Float){
+    if (!running || delay < getRemainingTimeUntilProcessing){
+      restart(delay)
     }
   }
 
+  abstract def getRemainingDelay(node: Node) : Float
 
+  final def checkProcessing: Boolean = {
+    if (running) {
+      acc += ctx.deltaT
+
+      if (acc >= delay) return true
+    }
+    return false
+  }
+
+  /**
+   * Set new remaining delay for node
+   * @param node
+   * @param accDelta
+   */
+
+  abstract def processDelta(node: Node, accDelta: Float)
+
+  /**
+   *  Normal entity processing if acc < delay
+
+   */
+  abstract def processExpired(node: Node)
+
+  def restart(del: Float){
+    delay = del
+    acc = 0
+    running = true
+  }
+
+  def getInitialTimeDelay: Float = delay
+
+  def getRemainingTimeUntilProcessing: Float = {
+    if(running) return delay-acc
+    return 0
+  }
+
+  def isRunning: Boolean = running
+  def stop {
+    running = false
+    acc = 0
+  }
 
 
 
@@ -115,7 +176,7 @@ abstract class IntervalProcessingSystem extends System {
   }
 
 
-  override def update(ctx: SimulationContext) = {
+   def update(ctx: SimulationContext) = {
     if(checkProcessing(ctx)) getNodes.foreach(processNode)
     this
   }
@@ -126,7 +187,7 @@ abstract class IntervalProcessingSystem extends System {
 abstract class VoidProcessingSystem extends System {
 
 
-  override def update(ctx: SimulationContext) = {
+   def update(ctx: SimulationContext) = {
     processSystem(ctx)
     this
   }

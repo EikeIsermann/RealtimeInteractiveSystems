@@ -89,7 +89,7 @@ trait Engine {
 
 
   def update(context: SimulationContext): Engine = {
-    systems.values.foreach(_.update(context))
+    systems.values.foreach(_.update())
     this
   }
 }

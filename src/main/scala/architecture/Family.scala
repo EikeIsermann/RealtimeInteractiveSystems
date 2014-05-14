@@ -2,6 +2,7 @@ package main.scala.architecture
 
 import scala.collection.mutable
 import main.scala.tools.DC
+import main.scala.event.{NodeAdded, EventDispatcher}
 
 /**
  * Created by Eike on 20.03.14.
@@ -11,7 +12,7 @@ import main.scala.tools.DC
 class Family(val nodeClass: Class[_ <: Node]) {
 
  protected var _entities: mutable.HashMap[Entity, Node] = new mutable.HashMap[Entity, Node]
-
+ implicit val family = this
  val components: List[Class[_ <: Component]] = nodeClass.newInstance().contains
  val unwanted: List[Class[_ <: Component]] = nodeClass.newInstance().containsNot
 
@@ -38,6 +39,7 @@ class Family(val nodeClass: Class[_ <: Node]) {
         node.components.put(componentClass, entity.components(componentClass).apply(0))
       }
       entities.put(entity,node)
+      EventDispatcher.dispatch(NodeAdded(node))
       DC.log("Family added entity ",(entity,node))
     }
   }
