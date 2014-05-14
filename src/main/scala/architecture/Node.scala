@@ -28,12 +28,15 @@ abstract class Node(args: Component*) {
   def -> [T <: Component](c: Class[T]): T = {
     components.apply(c).asInstanceOf[T]
   }
+
+
+  override def toString: String = this.getClass.getSimpleName
 }
 
 object Node {
 
-  def getDefinition(cl : Class[_ <: Node]): HashMap[Boolean, List[Class[_ <: Component]]] = {
-    var retVal = new HashMap[Boolean, List[Class[_ <: Component]]]
+  def getDefinition(cl : Class[_ <: Node]): mutable.HashMap[Boolean, List[Class[_ <: Component]]] = {
+    val retVal = new mutable.HashMap[Boolean, List[Class[_ <: Component]]]
 
     cl match {
       case camcontrol if camcontrol == classOf[CamControlNode] => {
@@ -55,7 +58,7 @@ object Node {
       }
 
       case physnode if physnode == classOf[PhysicsNode] => {
-        retVal.put(true, List())
+        retVal.put(true, List(classOf[Physics], classOf[Placement], classOf[Motion]))
         retVal.put(false, List())
       }
 

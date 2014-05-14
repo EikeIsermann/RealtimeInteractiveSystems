@@ -16,7 +16,7 @@ import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
 import main.scala.components.Camera
 import main.scala.event.EntityCreated
-import main.scala.systems.physics.CollisionSystem
+import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
 
 /**
  * Created by Christian Treffs
@@ -179,8 +179,10 @@ object GameEngine extends Engine with EventReceiver{
 
     //register systems with engine
     add(new CameraSystem)
+    add(new CamControlSystem)
     add(new RenderingSystem)
     add(new CollisionSystem)
+    add(new PhysicsSystem)
 
 
     Input.init()
