@@ -2,8 +2,6 @@ package main.scala.nodes
 
 import main.scala.components.{Display, Placement}
 import main.scala.architecture.{Component, Node}
-import scala.collection.mutable
-import main.scala.math.Vec3f
 
 /**
  * Render Node
@@ -13,7 +11,7 @@ import main.scala.math.Vec3f
  * 21.03.14.
  */
 
-class RenderNode(position: Placement, display: Display) extends Node(position, display){
+case class RenderNode(placement: Placement, display: Display) extends Node(placement, display){
   def this() = this(new Placement(), new Display())
 
 

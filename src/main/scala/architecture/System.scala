@@ -16,9 +16,10 @@ import main.scala.engine.GameEngine
 abstract class System /*extends ObservingActor*/ {
 
   var node: Class[_ <: Node]
-  var priority: Integer
+  var priority: Int
   var active = false
   var family: Family = _
+  var ctx: SimulationContext = _
 
 
   def initialize(): System = {
@@ -33,13 +34,16 @@ abstract class System /*extends ObservingActor*/ {
 
   def end(): Unit
 
-  def update(context: SimulationContext): System
+  def update(): System
   //def update(nodeType: Class[_ <: Node], context: Context): System
+
+
 
   final def process(context: SimulationContext){
     if(active){
+      ctx = context
       begin()
-      update(context)
+      update()
       end()
     }
 
@@ -61,11 +65,11 @@ abstract class DelayedProcessingSystem extends System {
 
 abstract class ProcessingSystem extends System {
 
-  override def update(ctx: SimulationContext) = {
-    getNodes.foreach(processNode(_)(ctx))
+  override def update() = {
+    getNodes.foreach(processNode)
     this
   }
-  def processNode(node: Node)(ctx: SimulationContext)
+  def processNode(node: Node)
 
 }
 
