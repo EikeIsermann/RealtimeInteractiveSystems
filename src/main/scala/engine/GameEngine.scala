@@ -9,8 +9,7 @@ import main.scala.io.EntityTemplateLoader
 import main.scala.math.Vec3f
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
-import main.scala.components.{Motion, CamControl, Placement}
-import main.scala.components.Camera
+import main.scala.components.{Motion, Placement}
 import main.scala.event._
 import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
@@ -156,10 +155,11 @@ object GameEngine extends Engine with EventReceiver{
     Collada.load(colladaFiles)
 
                                                          */
-    val shaders = Shader.load(shaderDir) //TODO: remove?
+    //val shaders = Shader.load(shaderDir) //TODO: remove?
 
     EntityTemplateLoader.load(entitiesDir)
     val tankEntity = Entity.newInstanceOf('Tank)
+    DC.log(tankEntity.toString)
 
 
     val camEntity = Entity.create("Camera")
