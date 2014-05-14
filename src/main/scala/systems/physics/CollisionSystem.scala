@@ -1,11 +1,8 @@
 package main.scala.systems.physics
 
 import main.scala.architecture._
-import main.scala.systems.input.SimulationContext
 import main.scala.tools.{Identifier, DC}
 import main.scala.components._
-import main.scala.math.Vec3f
-import main.scala.nodes.CollisionNode
 import scala.collection.mutable
 import main.scala.components.AABB
 import main.scala.nodes.CollisionNode
@@ -25,12 +22,7 @@ object CollisionSystem {
     cs. deinit()
   }
 }
-class CollisionSystem extends System {
-  override def init(): System = {
-    DC.log("Collision System","initialized")
-    this
-  }
-
+class CollisionSystem extends ProcessingSystem {
 
   private var xAxis = mutable.ArrayBuffer[BBEndPoint]()
   private var yAxis = mutable.ArrayBuffer[BBEndPoint]()
@@ -38,12 +30,109 @@ class CollisionSystem extends System {
   private val pairs = mutable.HashMap[(Identifier, Identifier),Int]()
   private val collisions = mutable.ArrayBuffer[(Identifier, Identifier)]()
 
-  def addAABB2AxisArray(aabb: AABB) {
+
+  override var node: Class[_ <: Node] = classOf[CollisionNode]
+  override var priority: Integer = 0
+
+
+
+
+  def init(): System = {
+    DC.log("Collision System","initialized")
+    this
+  }
+
+  override def begin(): Unit = {
+
+  }
+
+
+  override def processNode(n: Node) = {
+    //update bounding box with the objects position
+    n match {
+      case colNode: CollisionNode => {
+        //update bounding box with the objects position
+        colNode.collision.updateBoundingVolume(colNode.placement.position)
+
+        colNode.collision.boundingVolume match {
+          case a: AABB    => addAABB2AxisArray(a)
+          case s: Sphere  => //TODO:
+        }
+
+      }
+      case _ => throw new IllegalArgumentException("not a CollisionNode")
+    }
+  }
+
+  override def end(): Unit = {
+    // sweep and prune collisions
+    sweepAndPrune(xAxis)
+    sweepAndPrune(yAxis)
+    sweepAndPrune(zAxis)
+
+
+
+    collisions ++= pairs.filter(p => {p._2 == 3}).keySet
+
+    println(collisions.toList)
+
+    //TODO:
+
+
+  }
+
+  def deinit(): Unit = {
+    DC.log("Collision System","ended")
+    this
+  }
+
+  case class Pair(a: Identifier, b: Identifier)
+
+
+  private def addAABB2AxisArray(aabb: AABB) {
     xAxis ++= aabb.interval(0)
     yAxis ++= aabb.interval(1)
     zAxis ++= aabb.interval(2)
   }
 
+
+
+
+  private def sweepAndPrune(axis: mutable.ArrayBuffer[BBEndPoint]) {
+    for(j <- 1 until axis.size) {
+      val current: BBEndPoint = axis(j)
+      var i = j-1
+      while(i >= 0 && axis(i).value > current.value) {
+          val before: BBEndPoint = axis(i)
+          val pair = (current.owner(), before.owner())
+
+          if(current.isMin && !before.isMin) {
+            pairs.contains(pair) match {
+              case true   =>
+                pairs(pair) += 1
+                if(pairs(pair) == 3) {
+                  println("collision", before.owner(), current.owner())
+                }
+              case false  => pairs += pair -> 1
+            }
+          }
+
+          if(!current.isMin && before.isMin) {
+            pairs.contains(pair) match {
+              case true   => pairs(pair) -= 1
+              case false  => throw new IllegalArgumentException("should not happen @collision")
+            }
+          }
+
+          axis(i+1) = before
+          i -= 1
+      }
+
+      axis(i+1) = current
+
+    }
+  }
+   /*
   override def update(context: SimulationContext): System = {
     val start = System.currentTimeMillis()
     // 1. get all collision nodes
@@ -61,11 +150,11 @@ class CollisionSystem extends System {
 
     // 3. add every axis' min and max value to a axis-array
     collisionNodes.foreach(cN => {
-     cN.collision.boundingVolume match {
-       case a: AABB => addAABB2AxisArray(a)
-       case s: Sphere => //TODO: do something here
-       case _ =>
-     }
+      cN.collision.boundingVolume match {
+        case a: AABB => addAABB2AxisArray(a)
+        case s: Sphere => //TODO: do something here
+        case _ =>
+      }
     })
 
 
@@ -92,45 +181,6 @@ class CollisionSystem extends System {
 
     this
   }
-
-
-  def sweepAndPrune(axis: mutable.ArrayBuffer[BBEndPoint]) {
-    for(j <- 1 until axis.size) {
-      val current: BBEndPoint = axis(j)
-      var i = j-1
-      while(i >= 0 && axis(i).value > current.value) {
-          val before: BBEndPoint = axis(i)
-          val pair = (current.owner(), before.owner())
-
-          if(current.isMin && !before.isMin) {
-            pairs.contains(pair) match {
-              case true   => {
-                pairs(pair) += 1
-                if(pairs(pair) == 3) {
-                  println("collision", before.owner(), current.owner())
-                }
-
-              }
-              case false  => pairs += pair -> 1
-            }
-          }
-
-          if(!current.isMin && before.isMin) {
-            pairs.contains(pair) match {
-              case true   => pairs(pair) -= 1
-              case false  => throw new IllegalArgumentException("should not happen @collision")
-            }
-          }
-
-          axis(i+1) = before
-          i -= 1
-      }
-
-      axis(i+1) = current
-
-    }
-  }
-
 
   def sapOld(axis: mutable.ArrayBuffer[BBEndPoint]) {
     for(i <- 1 until axis.length) {
@@ -182,15 +232,11 @@ class CollisionSystem extends System {
   }
 
 
+
   def pairHandle(pair: Pair, increase: Boolean) {
 
-  }
-
-  override def deinit(): Unit = {
-    DC.log("Collision System","ended")
-    this
-  }
+  }*/
 
 
-  case class Pair(a: Identifier, b: Identifier)
+
 }
