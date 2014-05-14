@@ -1,6 +1,6 @@
 package main.scala.engine
 
-import main.scala.architecture.{Family, Engine}
+import main.scala.architecture.Engine
 import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
@@ -10,18 +10,17 @@ import main.scala.math.Vec3f
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
 import main.scala.components.{Motion, CamControl, Placement}
-import main.scala.nodes.{RenderNode, MovementNode, CamControlNode, CameraNode}
-import main.scala.systems.positional.MovementSystem
 import main.scala.components.Camera
+import main.scala.event.{EntityCreated, Event, EventReceiver}
 
 /**
  * Created by Christian Treffs
  * Date: 14.03.14 18:34
  */
-object GameEngine extends Engine {
+object GameEngine extends Engine with EventReceiver{
 
   // set debug level
-  DC.debugLevel = 1
+  DC.debugLevel = 0
 
   private var assetsDir: String = null
   private var gameTitle:String = null
@@ -107,7 +106,6 @@ object GameEngine extends Engine {
 
   def initGL() = {
 
-
     /*
     GL11.glMatrixMode(GL11.GL_PROJECTION_MATRIX)
     GL11.glLoadIdentity()
@@ -152,99 +150,10 @@ object GameEngine extends Engine {
     Collada.load(colladaFiles)
 
                                                          */
-
-
-    val shaders = Shader.load(shaderDir)
-
+    val shaders = Shader.load(shaderDir) //TODO: remove?
 
     EntityTemplateLoader.load(entitiesDir)
-
     val tankEntity = Entity.newInstanceOf('Tank)
-
-    val renderNode = new Family(classOf[RenderNode])
-    add(renderNode)
-    for(family <- families.values){
-      family.addIfMatch(tankEntity)
-    }
-
-
-    println(tankEntity.components.toList)
-
-
-    /*
-   //TURRET
-   val turretEntity = Entity.create("Turret")
-   val turretPos = new Position()
-   val turretDisplay = new main.scala.components.Display('Turret, 'Turret)
-   turretEntity.add(turretPos)
-   turretEntity.add(turretDisplay)
-   //for(comp <- turretEntity.components) DC.log("Turret" + comp.toString)
-   val turretFam = new Family(classOf[RenderNode])
-   turretFam.components.+=(classOf[Position], classOf[main.scala.components.Display])
-   add(turretFam)
-   for(family <- families.values){
-     family.addIfMatch(turretEntity)
-   }
-
-   //ChassisTread
-   val chassisTreadEntity = Entity.create("ChassisTread")
-   val chassisTreadPos = new Position()
-   val chassisTreadDisplay = new main.scala.components.Display('ChassisTread, 'ChassisTread)
-   chassisTreadEntity.add(chassisTreadPos)
-   chassisTreadEntity.add(chassisTreadDisplay)
-   //for(comp <- chassisTreadEntity.components) DC.log("ChassisTread", comp.toString, 3)
-   val chassisTreadFam = new Family(classOf[RenderNode])
-   chassisTreadFam.components.+=(classOf[Position], classOf[main.scala.components.Display])
-   add(chassisTreadFam)
-   for(family <- families.values){
-     family.addIfMatch(chassisTreadEntity)
-   }
-
-   //ChassisBody
-   val chassisBodyEntity = Entity.create("ChassisBody")
-   val chassisBodyPos = new Position()
-   val chassisBodyDisplay = new main.scala.components.Display('ChassisBody, 'ChassisBody)
-   chassisBodyEntity.add(chassisBodyPos)
-   chassisBodyEntity.add(chassisBodyDisplay)
-   //for(comp <- chassisBodyEntity.components) DC.log("ChassisBody", comp.toString, 3)
-   val chassisBodyFam = new Family(classOf[RenderNode])
-   chassisBodyFam.components.+=(classOf[Position], classOf[main.scala.components.Display])
-   add(chassisBodyFam)
-   for(family <- families.values){
-     family.addIfMatch(chassisBodyEntity)
-   }
-
-   //MachineGun
-   val machineGunEntity = Entity.create("MachineGun")
-   val machineGunPos = new Position()
-   val machineGunDisplay = new main.scala.components.Display('MachineGun, 'MachineGun)
-   machineGunEntity.add(machineGunPos)
-   machineGunEntity.add(machineGunDisplay)
-   //for(comp <- machineGunEntity.components) DC.log("MachineGun", comp.toString, 3)
-   val machineGunFam = new Family(classOf[RenderNode])
-   machineGunFam.components.+=(classOf[Position], classOf[main.scala.components.Display])
-   add(machineGunFam)
-   for(family <- families.values){
-     family.addIfMatch(machineGunEntity)
-   }
-
-
-
-   //SKY BOX TEST
-   val skyBoxTestEntity = Entity.create("SkyBoxTest")
-   val skyBoxPos = new Position(Vec3f(0,0,0), Vec3f(0,0,0))
-   val skyBoxDisplay = new main.scala.components.Display('SkyBox, 'SkyBox)
-   skyBoxTestEntity.add(skyBoxPos)
-   skyBoxTestEntity.add(skyBoxDisplay)
-   //for(comp <- skyBoxTestEntity.components) DC.log("SkyBoxTest" + comp.toString)
-   val skyBoxFamily = new Family(classOf[RenderNode])
-   skyBoxFamily.components.+=(classOf[Position], classOf[main.scala.components.Display])
-   add(skyBoxFamily)
-   for(family <- families.values){
-     family.addIfMatch(skyBoxTestEntity)
-   }
-           */
-
 
 
     val camEntity = Entity.create("Camera")
@@ -254,47 +163,16 @@ object GameEngine extends Engine {
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(Key.ArrowUp,null,MouseMovement.MovementY), Triggers(Key.ArrowDown,null,MouseMovement.MovementY),
       Triggers(Key.ArrowLeft,null, MouseMovement.MovementX), Triggers(Key.ArrowRight,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
+
     val motion = new Motion()
     camEntity.add(camCon)
     camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
 
-
-    val camSys = new CameraSystem
-    val camFam = new Family(classOf[CameraNode])
-    add(camFam)
-
-
-    val camConSys= new CamControlSystem
-    val conFam = new Family(classOf[CamControlNode])
-
-    add(conFam)
-
-    val moveSys = new MovementSystem()
-    val moveFam = new Family(classOf[MovementNode])
-    add(moveFam)
-
-
-    families.values.foreach(family => family.addIfMatch(camEntity))
-  /*  families.values.foreach(family => family.addIfMatch(chassisTreadEntity))
-    families.values.foreach(family => family.addIfMatch(chassisBodyEntity))
-    families.values.foreach(family => family.addIfMatch(turretEntity))
-    families.values.foreach(family => family.addIfMatch(machineGunEntity))
-
-
-    families.values.foreach(family => family.addIfMatch(skyBoxTestEntity))*/
-
-    add(camConSys)
-
-    add(moveSys)
-
-    add(camSys)
-
+    //register systems with engine
+    add(new CameraSystem)
     add(new RenderingSystem)
-
-
-
 
 
     Input.init()
@@ -304,22 +182,6 @@ object GameEngine extends Engine {
 
     // CREATE SIMULATION CONTEXT
     simulationContext = new SimulationContext()
-
-    // CREATE ENTITY REGISTRY
-    // entities = new SimulationRegistry()
-
-    // ADD INITIAL ENTITIES
-    //entities += new Cube("Cube1")
-    //entities += new MeshEntity(Mesh.get('Turret))
-    //entities += new MeshEntity(Mesh.get('ChassisTread))
-    //entities += new MeshEntity(Mesh.get('ChassisBody))
-
-
-    // INIT PHYSICS
-
-
-    //INITIALIZE ALL ENTITIES
-    //entities.initAll(context)
 
     //FPS
     lastFPS = System.currentTimeMillis()
@@ -331,6 +193,8 @@ object GameEngine extends Engine {
   }
 
 
+
+
   override protected def gameLoop(): Unit = {
     DC.logT('engineStartup,"Engine", "initialized", 3)
     while (!Display.isCloseRequested) {
@@ -340,8 +204,8 @@ object GameEngine extends Engine {
 
       updateContext() // update the context
 
-      systems.values.foreach(_.update()) //update all systems with sim-context
-
+      //update all systems with sim-context
+      updateSystems(simulationContext)
 
       updateFPS() // update FPS Counter
 
@@ -417,6 +281,13 @@ object GameEngine extends Engine {
     fps = fps +1
   }
 
-
+  override def receive(event: Event): Unit = {
+    event match {
+      case ec: EntityCreated => {
+        //TODO:
+        componentAdded(ec.ent)
+      }
+    }
+  }
 }
 

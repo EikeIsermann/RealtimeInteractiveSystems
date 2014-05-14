@@ -50,7 +50,10 @@ abstract class System /*extends ObservingActor*/ {
   }
 
 
-  def getNodes: List[Node] = family.nodes.toList
+  def getNodes: List[Node] = {
+    println(family)
+    family.nodes.toList
+  }
 
 }
 

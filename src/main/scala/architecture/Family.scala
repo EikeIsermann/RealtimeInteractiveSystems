@@ -11,7 +11,7 @@ import main.scala.event.{NodeAdded, EventDispatcher}
  */
 class Family(val nodeClass: Class[_ <: Node]) {
 
- protected var _entities: mutable.HashMap[Entity, Node] = new mutable.HashMap[Entity, Node]
+ var _entities: mutable.HashMap[Entity, Node] = mutable.HashMap.empty[Entity, Node]
  implicit val family = this
  val components: List[Class[_ <: Component]] = nodeClass.newInstance().contains
  val unwanted: List[Class[_ <: Component]] = nodeClass.newInstance().containsNot

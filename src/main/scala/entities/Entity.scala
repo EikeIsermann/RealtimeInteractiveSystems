@@ -6,6 +6,7 @@ import main.scala.io.EntityTemplateLoader
 import main.scala.architecture
 import main.scala.components.{isPartOf, Children, Parent, hasParts}
 import scala.xml.Elem
+import main.scala.event.{EntityCreated, EventDispatcher}
 
 /**
  * Created by Christian Treffs
@@ -66,6 +67,10 @@ object Entity {
 class Entity(name1: String) extends main.scala.architecture.Entity {
 
   private val _identifier: Identifier = Identifier.create(name1)
+
+  EventDispatcher.dispatch(EntityCreated(this))
+
+
   def id: Long = _identifier.id
   def name: String = _identifier.name
   def identifier: Identifier = _identifier

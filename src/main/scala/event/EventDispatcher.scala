@@ -52,7 +52,8 @@ trait EventReceiver {
 trait Event
 case class TestEvent() extends Event
 case class NodeAdded(node: Node)(implicit val family: Family) extends Event
-case class EntityAdded(ent: Entity) extends Event
+
+case class EntityCreated(ent: Entity) extends Event
 case class EntityChanged(ent: Entity) extends Event
 case class EntityRemoved(ent: Entity) extends Event
 

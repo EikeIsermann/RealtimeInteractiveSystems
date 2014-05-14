@@ -26,6 +26,8 @@ trait Engine {
   def systems: mutable.HashMap[Class[_ <: System], System] = _systems
   def families: mutable.HashMap[Class[_ <: Node], Family] = _families
 
+
+
   def remove (entity: Entity): Engine = this.-=(entity)
   def -= (entity: Entity): Engine = {
     _entities - entity.getClass
@@ -86,10 +88,8 @@ trait Engine {
   }
 
 
-
-
-  def update(context: SimulationContext): Engine = {
-    systems.values.foreach(_.update())
+  def updateSystems(context: SimulationContext): Engine = {
+    systems.values.foreach(_.process(context))
     this
   }
 }
