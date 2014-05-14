@@ -1,7 +1,6 @@
 package main.scala.systems.physics
 
 import main.scala.architecture._
-import main.scala.systems.input.SimulationContext
 import main.scala.components._
 import main.scala.math.Mat4f
 import main.scala.tools.DC
@@ -22,7 +21,7 @@ import main.scala.nodes.PhysicsNode
 class PhysicsSystem extends ProcessingSystem {
 
   override var node: Class[_ <: Node] = classOf[PhysicsNode]
-  override var priority: Integer = 0
+  override var priority = 0
 
 
 
@@ -33,7 +32,7 @@ class PhysicsSystem extends ProcessingSystem {
 
   override def begin(): Unit = {}
 
-  override def processNode(node: Node)(ctx: SimulationContext): Unit = {
+  override def processNode(node: Node): Unit = {
       node match {
         case phyNode: PhysicsNode => integrate(phyNode.motion,phyNode.placement, ctx.deltaT)
         case _ => throw new IllegalArgumentException("not the right node")

@@ -15,7 +15,7 @@ import main.scala.math.Vec3f
 class CamControlSystem extends System {
 
   var node: Class[_ <: Node] = classOf[CamControlNode]
-  var priority: Integer = 0
+  var priority = 0
 
   var x: Float = 0.0f
   var y: Float = 0.0f
@@ -38,6 +38,7 @@ class CamControlSystem extends System {
 
   def end(): Unit = ???
 
+  //TODO!!!
   override def update(context: SimulationContext): System = {
 
 

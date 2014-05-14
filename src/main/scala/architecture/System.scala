@@ -35,12 +35,12 @@ abstract class System /*extends ObservingActor*/ {
   def end(): Unit
 
   def update(): System
+
   //def update(nodeType: Class[_ <: Node], context: Context): System
 
 
-
-  final def process(context: SimulationContext){
-    if(active){
+  final def process(context: SimulationContext) {
+    if (active) {
       ctx = context
       begin()
       update()
@@ -55,35 +55,32 @@ abstract class System /*extends ObservingActor*/ {
 }
 
 
-abstract class DelayedProcessingSystem extends System with EventReceiver{
+abstract class DelayedProcessingSystem extends System with EventReceiver {
   var delay: Float
   var running: Boolean
   var acc: Float
 
 
-  def receive(ev: Event){
+  def receive(ev: Event) {
     ev match {
-      case na: NodeAdded => {
-         if (na.family == this.family) nodeInserted(na.node)
-
-      }
+      case na: NodeAdded =>
+        if (na.family == this.family) nodeInserted(na.node)
       case _ =>
     }
   }
 
-  def nodeInserted(node: Node){
+  def nodeInserted(node: Node) {
 
-      var del = getRemainingDelay(node)
-      if(del > 0) offerDelay(del)
+    val del = getRemainingDelay(node)
+    if (del > 0) offerDelay(del)
   }
 
 
-   def update(ctx: SimulationContext): System = {
-    for(node <- getNodes)
-    {
+  def update(ctx: SimulationContext): System = {
+    for (node <- getNodes) {
       processDelta(node, acc)
-      var remaining = getRemainingDelay(node)
-      if (remaining <= 0){
+      val remaining = getRemainingDelay(node)
+      if (remaining <= 0) {
         processExpired(node)
 
       }
@@ -94,14 +91,13 @@ abstract class DelayedProcessingSystem extends System with EventReceiver{
   }
 
 
-
-  def offerDelay(del: Float){
-    if (!running || delay < getRemainingTimeUntilProcessing){
+  def offerDelay(del: Float) {
+    if (!running || delay < getRemainingTimeUntilProcessing) {
       restart(delay)
     }
   }
 
-  abstract def getRemainingDelay(node: Node) : Float
+  def getRemainingDelay(node: Node): Float
 
   final def checkProcessing: Boolean = {
     if (running) {
@@ -109,24 +105,24 @@ abstract class DelayedProcessingSystem extends System with EventReceiver{
 
       if (acc >= delay) return true
     }
-    return false
+    false
   }
 
   /**
    * Set new remaining delay for node
-   * @param node
-   * @param accDelta
+   * @param node the node
+   * @param accDelta the accumulated delta
    */
 
-  abstract def processDelta(node: Node, accDelta: Float)
+  def processDelta(node: Node, accDelta: Float)
 
   /**
-   *  Normal entity processing if acc < delay
+   * Normal entity processing if acc < delay
 
    */
-  abstract def processExpired(node: Node)
+  def processExpired(node: Node)
 
-  def restart(del: Float){
+  def restart(del: Float) {
     delay = del
     acc = 0
     running = true
@@ -135,17 +131,16 @@ abstract class DelayedProcessingSystem extends System with EventReceiver{
   def getInitialTimeDelay: Float = delay
 
   def getRemainingTimeUntilProcessing: Float = {
-    if(running) return delay-acc
-    return 0
+    if (running) delay - acc
+    else 0
   }
 
   def isRunning: Boolean = running
-  def stop {
+
+  def stop() {
     running = false
     acc = 0
   }
-
-
 
 
 }
@@ -156,18 +151,19 @@ abstract class ProcessingSystem extends System {
     getNodes.foreach(processNode)
     this
   }
+
   def processNode(node: Node)
 
 }
 
 abstract class IntervalProcessingSystem extends System {
-    val acc: Float
-	  val interval: Float
+  var acc: Float
+  val interval: Float
 
 
   def checkProcessing(ctx: SimulationContext): Boolean = {
     acc += ctx.deltaT
-    if(acc >= interval) {
+    if (acc >= interval) {
       acc -= interval
       true
     }
@@ -176,10 +172,11 @@ abstract class IntervalProcessingSystem extends System {
   }
 
 
-   def update(ctx: SimulationContext) = {
-    if(checkProcessing(ctx)) getNodes.foreach(processNode)
+  def update(ctx: SimulationContext) = {
+    if (checkProcessing(ctx)) getNodes.foreach(processNode)
     this
   }
+
   def processNode(node: Node)
 
 }
@@ -187,22 +184,22 @@ abstract class IntervalProcessingSystem extends System {
 abstract class VoidProcessingSystem extends System {
 
 
-   def update(ctx: SimulationContext) = {
+  def update(ctx: SimulationContext) = {
     processSystem(ctx)
     this
   }
+
   def processSystem(ctx: SimulationContext)
 
 }
 
 
-
 object SystemPriorities {
- val Pre_Update = 1
- val Update = 2
- val Move = 3
- val ResolveCollisions = 4
- val Render = 5
+  val Pre_Update = 1
+  val Update = 2
+  val Move = 3
+  val ResolveCollisions = 4
+  val Render = 5
 
 }
 

@@ -340,7 +340,7 @@ object GameEngine extends Engine {
 
       updateContext() // update the context
 
-      systems.values.foreach(_.update(simulationContext)) //update all systems with sim-context
+      systems.values.foreach(_.update()) //update all systems with sim-context
 
 
       updateFPS() // update FPS Counter
