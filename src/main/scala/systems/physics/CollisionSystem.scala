@@ -76,7 +76,9 @@ class CollisionSystem extends ProcessingSystem {
       p._2 == 3
     }).keySet
 
-    println(collisions.toList)
+    if(!collisions.isEmpty) {
+      println("Collisions: "+collisions.toList)
+    }
 
     //TODO:
 
