@@ -61,6 +61,7 @@ class CollisionSystem extends ProcessingSystem {
         }
       case _ => throw new IllegalArgumentException("not a CollisionNode")
     }
+
   }
 
   override def end(): Unit = {
@@ -84,7 +85,7 @@ class CollisionSystem extends ProcessingSystem {
 
   def deinit(): Unit = {
     DC.log("Collision System", "ended")
-    this
+
   }
 
 
