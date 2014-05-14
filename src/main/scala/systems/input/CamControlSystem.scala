@@ -1,6 +1,6 @@
 package main.scala.systems.input
 
-import main.scala.architecture.{Node, System}
+import main.scala.architecture.{ProcessingSystem, Node, System}
 import main.scala.tools.DC
 import main.scala.engine.GameEngine
 import main.scala.nodes.CamControlNode
@@ -12,7 +12,7 @@ import main.scala.math.Vec3f
  * Created by Eike
  * 23.03.14.
  */
-class CamControlSystem extends System {
+class CamControlSystem extends ProcessingSystem {
 
   var node: Class[_ <: Node] = classOf[CamControlNode]
   var priority = 0
@@ -39,103 +39,104 @@ class CamControlSystem extends System {
   def end(): Unit = ???
 
   //TODO!!!
-  override def update(context: SimulationContext): System = {
+  override def processNode(node: Node): Unit = {
+    node match {
+        case camCon: CamControlNode => {
+        val motion = node -> classOf[Motion]
+        val control = node -> classOf[CamControl]
 
 
-    val nodes = GameEngine.getNodeList(new CamControlNode)
-    for (node <- nodes) {
-      val motion = node -> classOf[Motion]
-      val control = node -> classOf[CamControl]
+        val movementVelocity = control.movementVelocity * ctx.deltaT
+        val pitchSensitivity = control.pitchVelocity
+        val yawSensitivity = control.yawVelocity
 
 
-      val movementVelocity = control.movementVelocity * context.deltaT
-      val pitchSensitivity = control.pitchVelocity
-      val yawSensitivity = control.yawVelocity
+        //PITCH POSITIVE/UP
+        doAction(control.triggerPitchPositive, _ => {pitch += 1}, delta => motionDirectionViaMouse(delta))
+
+        //PITCH NEGATIVE/DOWN
+        doAction(control.triggerPitchNegative, _ => {pitch -= 1}, delta => motionDirectionViaMouse(delta))
+
+        //YAW NEGATIVE/LEFT
+        doAction(control.triggerYawLeft, _ => {yaw = (yaw + 1) % 360}, delta => motionDirectionViaMouse(delta))
+
+        //YAW POSITIVE/RIGHT
+        doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
+
+        doAction(control.triggerStepUp, _ => {y+=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
+
+        doAction(control.triggerStepDown, _ => {y-=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
 
 
-      //PITCH POSITIVE/UP
-      doAction(control.triggerPitchPositive, _ => {pitch += 1}, delta => motionDirectionViaMouse(delta))
+        // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
+        //FORWARD
+        doAction(control.triggerForward, _ => {
 
-      //PITCH NEGATIVE/DOWN
-      doAction(control.triggerPitchNegative, _ => {pitch -= 1}, delta => motionDirectionViaMouse(delta))
+          x += movementVelocity * xRad * (1-Math.abs(yRad))
+          z -= movementVelocity * zRad * (1-Math.abs(yRad))
+          y += movementVelocity * yRad
+        }, delta => {})
 
-      //YAW NEGATIVE/LEFT
-      doAction(control.triggerYawLeft, _ => {yaw = (yaw + 1) % 360}, delta => motionDirectionViaMouse(delta))
+        //BACKWARD
+        doAction(control.triggerBackward, _ => {
+          x -= movementVelocity  * xRad * (1-Math.abs(yRad))
+          z += movementVelocity * zRad * (1-Math.abs(yRad))
+          y -= movementVelocity * yRad
+        }, delta => {})
 
-      //YAW POSITIVE/RIGHT
-      doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
+        //LEFT
+        doAction(control.triggerLeft, _ => {
+          x -= movementVelocity * math.sin(math.toRadians(-yaw + 90f)).toFloat
+          z += movementVelocity * math.cos(math.toRadians(-yaw + 90f)).toFloat
+        }, delta => {})
 
-      doAction(control.triggerStepUp, _ => {y+=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
-      
-      doAction(control.triggerStepDown, _ => {y-=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
+        //RIGHT
+        doAction(control.triggerRight, _ => {
+          x -= movementVelocity * math.sin(math.toRadians(-yaw - 90f)).toFloat
+          z += movementVelocity * math.cos(math.toRadians(-yaw - 90f)).toFloat
+        }, delta => {})
 
 
-      // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
-      //FORWARD
-      doAction(control.triggerForward, _ => {
+        def motionDirectionViaMouse(mouseDeltaNew: Vec3f) {
 
-        x += movementVelocity * xRad * (1-Math.abs(yRad))
-        z -= movementVelocity * zRad * (1-Math.abs(yRad))
-        y += movementVelocity * yRad
-      }, delta => {})
+          // calculate current mouse delta - considering velocities/sensitivities
+          val deltaX: Float = (mouseDeltaNew.x - mouseDelta.x) * pitchSensitivity
+          val deltaY: Float = (mouseDeltaNew.y - mouseDelta.y) * yawSensitivity
 
-      //BACKWARD
-      doAction(control.triggerBackward, _ => {
-        x -= movementVelocity  * xRad * (1-Math.abs(yRad))
-        z += movementVelocity * zRad * (1-Math.abs(yRad))
-        y -= movementVelocity * yRad
-      }, delta => {})
+          // update old mouse delta
+          mouseDelta = mouseDeltaNew
 
-      //LEFT
-      doAction(control.triggerLeft, _ => {
-        x -= movementVelocity * math.sin(math.toRadians(-yaw + 90f)).toFloat
-        z += movementVelocity * math.cos(math.toRadians(-yaw + 90f)).toFloat
-      }, delta => {})
+          // sum deltas to get a pitch and yaw delta
+          pitchDelta += deltaY
+          yawDelta += deltaX
 
-      //RIGHT
-      doAction(control.triggerRight, _ => {
-        x -= movementVelocity * math.sin(math.toRadians(-yaw - 90f)).toFloat
-        z += movementVelocity * math.cos(math.toRadians(-yaw - 90f)).toFloat
-      }, delta => {})
+          //calculate pitch and yaw
+          yaw -= yawDelta
+          pitch +=  pitchDelta
 
-      def motionDirectionViaMouse(mouseDeltaNew: Vec3f) {
+          // constrain pitch
+          if (pitch > 90.0f)  pitch = 90.0f
+          if (pitch < -90.0f) pitch = -90.0f
 
-        // calculate current mouse delta - considering velocities/sensitivities
-        val deltaX: Float = (mouseDeltaNew.x - mouseDelta.x) * pitchSensitivity
-        val deltaY: Float = (mouseDeltaNew.y - mouseDelta.y) * yawSensitivity
+          //constrain yaw
+          if (yaw < -180.0f) yaw += 360.0f
+          if (yaw > 180.0f)   yaw -= 360.0f
 
-        // update old mouse delta
-        mouseDelta = mouseDeltaNew
+          //calculate radians
+          xRad = math.sin(math.toRadians(-yaw)).toFloat
+          zRad = math.cos(math.toRadians(-yaw)).toFloat
+          yRad = math.sin(math.toRadians(pitch)).toFloat
 
-        // sum deltas to get a pitch and yaw delta
-        pitchDelta += deltaY
-        yawDelta += deltaX
-
-        //calculate pitch and yaw
-        yaw -= yawDelta
-        pitch +=  pitchDelta
-
-        // constrain pitch
-        if (pitch > 90.0f)  pitch = 90.0f
-        if (pitch < -90.0f) pitch = -90.0f
-
-        //constrain yaw
-        if (yaw < -180.0f) yaw += 360.0f
-        if (yaw > 180.0f)   yaw -= 360.0f
-
-        //calculate radians
-        xRad = math.sin(math.toRadians(-yaw)).toFloat
-        zRad = math.cos(math.toRadians(-yaw)).toFloat
-        yRad = math.sin(math.toRadians(pitch)).toFloat
-
-      }
+        }
 
 
       motion.velocity = Vec3f(x, y, z)
       //TODO: different
 //      motion.direction = Vec3f(pitch, yaw, 0)
-    }
+      }
+        case _ =>
 
+    }
     this
   }
 
