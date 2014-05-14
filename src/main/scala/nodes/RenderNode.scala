@@ -13,9 +13,4 @@ import main.scala.architecture.{Component, Node}
 
 case class RenderNode(placement: Placement, display: Display) extends Node(placement, display){
   def this() = this(new Placement(), new Display())
-
-
-  def containsNot: List[Class[_ <: Component]] = List()
-
-  def contains: List[Class[_ <: Component]] = List(classOf[Placement], classOf[Display])
 }

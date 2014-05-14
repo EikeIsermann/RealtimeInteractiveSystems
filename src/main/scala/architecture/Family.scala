@@ -15,8 +15,8 @@ class Family(val nodeClass: Class[_ <: Node]) extends EventReceiver {
  EventDispatcher.subscribe(classOf[Event])(this)
  var _entities: mutable.HashMap[Entity, Node] = mutable.HashMap.empty[Entity, Node]
  implicit val family = this
- val components: List[Class[_ <: Component]] = nodeClass.newInstance().contains
- val unwanted: List[Class[_ <: Component]] = nodeClass.newInstance().containsNot
+ val components: List[Class[_ <: Component]] = Node.getDefinition(nodeClass).apply(true)
+ val unwanted: List[Class[_ <: Component]] = Node.getDefinition(nodeClass).apply(false)
 
   def receive(ev: Event ){
     ev match {

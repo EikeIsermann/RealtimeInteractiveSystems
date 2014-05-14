@@ -17,7 +17,4 @@ case class MovementNode(motion: Motion, placement:Placement) extends Node(motion
     new Placement(Vec3f(0,0,0), Vec3f(0,0,0))
   )
 
-  var containsNot: List[Class[_ <: Component]] = List()
-
-  override def contains: List[Class[_ <: Component]] = List(classOf[Motion],classOf[Placement])
 }
