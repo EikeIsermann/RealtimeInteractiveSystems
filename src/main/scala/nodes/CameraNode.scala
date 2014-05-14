@@ -5,9 +5,10 @@ import main.scala.components.{Placement, Camera}
 import main.scala.math.Vec3f
 
 /**
- * Created by Eike on 22.03.14.
+ * Created by Eike on
+ * 22.03.14.
  */
-class CameraNode(cam: Camera, position:Placement) extends Node(cam, position) {
+case class CameraNode(camera: Camera, placement:Placement) extends Node(camera, placement) {
   def this() = this(new Camera(90,true),new Placement(Vec3f(0,0,0), Vec3f(0,0,0)))
 
   var containsNot: List[Class[_ <: Component]] = List() //TODO

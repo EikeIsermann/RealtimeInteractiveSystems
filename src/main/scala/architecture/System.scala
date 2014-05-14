@@ -4,6 +4,7 @@ import main.scala.systems.input.SimulationContext
 import scala.Predef._
 import main.scala.engine.GameEngine
 import main.scala.event.{NodeAdded, Event, EventReceiver}
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs
@@ -16,6 +17,8 @@ import main.scala.event.{NodeAdded, Event, EventReceiver}
  */
 abstract class System /*extends ObservingActor*/ {
 
+  override def toString = this.getClass.getSimpleName
+
   var node: Class[_ <: Node]
   var priority: Int
   var active = false
@@ -23,6 +26,7 @@ abstract class System /*extends ObservingActor*/ {
   var ctx: SimulationContext = _
 
   def initialize(): System = {
+    DC.log(this.toString,"registered & initialized", 3)
     family = new Family(node)
     GameEngine.registerFamily(family)
     active = true
@@ -51,7 +55,6 @@ abstract class System /*extends ObservingActor*/ {
 
 
   def getNodes: List[Node] = {
-    println(family)
     family.nodes.toList
   }
 

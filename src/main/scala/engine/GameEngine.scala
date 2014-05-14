@@ -11,7 +11,12 @@ import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
 import main.scala.components.{Motion, CamControl, Placement}
 import main.scala.components.Camera
-import main.scala.event.{EntityCreated, Event, EventReceiver}
+import main.scala.event._
+import main.scala.components.CamControl
+import main.scala.event.EntityRemoved
+import main.scala.systems.input.Triggers
+import main.scala.components.Camera
+import main.scala.event.EntityCreated
 
 /**
  * Created by Christian Treffs
@@ -19,6 +24,7 @@ import main.scala.event.{EntityCreated, Event, EventReceiver}
  */
 object GameEngine extends Engine with EventReceiver{
 
+  EventDispatcher.subscribe(classOf[Event])(this)
   // set debug level
   DC.debugLevel = 0
 
@@ -189,6 +195,7 @@ object GameEngine extends Engine with EventReceiver{
     // set initial deltaT
     simulationContext.updateDeltaT()
 
+
     DC.log("Game","initialized",3)
   }
 
@@ -283,10 +290,10 @@ object GameEngine extends Engine with EventReceiver{
 
   override def receive(event: Event): Unit = {
     event match {
-      case ec: EntityCreated => {
-        //TODO:
-        componentAdded(ec.ent)
-      }
+      case ec: EntityCreated => add(ec.ent)
+      case er: EntityRemoved => remove(er.ent)
+      case _ =>
+
     }
   }
 }

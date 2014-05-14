@@ -2,6 +2,7 @@ package main.scala.architecture
 
 import main.scala.systems.input.{SimulationContext, Context}
 import scala.collection.mutable
+import main.scala.entities.Entity
 
 /**
  * Created by Christian Treffs
@@ -44,7 +45,7 @@ trait Engine {
     //system.deinit()
     this
   }
-  def add (system: System): Engine = this.+=(system)
+  def add (system: System): Engine = {system.initialize(); this.+=(system)}
   def += (system: System): Engine = {
     _systems.put(system.getClass, system)
     //system.init()
@@ -72,18 +73,21 @@ trait Engine {
 
   def registerFamily(fam: Family){
     families.put(fam.nodeClass, fam)
+    for(entity <- entities.values){
+      fam.addIfMatch(entity)
+    }
   }
 
   def getNodeList(nodeClass : Node) : List[Node] = {
      families.get(nodeClass.getClass) match {
-       case Some(fam) => fam.nodes.toList.asInstanceOf[List[Node]]
+       case Some(fam) => fam.nodes.toList
        case None =>
          val family: Family = new Family(nodeClass.getClass)
          families.put(nodeClass.getClass, family)
          for (entity <- entities.values){
            family.addIfMatch(entity)
          }
-         family.nodes.toList.asInstanceOf[List[Node]]
+         family.nodes.toList
      }
   }
 

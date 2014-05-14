@@ -1,7 +1,8 @@
 package main.scala.event.deprecated
 
 import akka.actor.ActorRef
-import main.scala.architecture.{Component, Entity}
+import main.scala.architecture.Component
+import main.scala.entities.Entity
 
 
 /**

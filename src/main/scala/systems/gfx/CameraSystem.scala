@@ -1,36 +1,19 @@
 package main.scala.systems.gfx
 import main.scala.architecture._
-import main.scala.systems.input.SimulationContext
 import main.scala.tools.DC
-import main.scala.engine.GameEngine
 import main.scala.nodes.CameraNode
-import main.scala.components.{Camera, Placement}
 import main.scala.math.{Vec3f, Mat4f}
 
 
 /**
- * Created by Eike on 22.03.14.
+ * Created by Eike on
+ * 22.03.14.
  */
-class CameraSystem extends System {
+class CameraSystem extends ProcessingSystem {
 
-  def update(context: SimulationContext): System = {
-    val nodes = GameEngine.getNodeList(new CameraNode)
+  override var node: Class[_ <: Node] = classOf[CameraNode]
+  override var priority: Int = 0
 
-
-    for(node <- nodes){
-      val pos = node -> classOf[Placement]
-      var cam = node -> classOf[Camera]
-      val matPos = Mat4f.translation(pos.position)
-      val pitch = pos.rotation.x
-      val yaw = pos.rotation.y
-      val matRot = Mat4f.rotation(Vec3f(1,0,0),pitch) *Mat4f.rotation(Vec3f(0,1,0),yaw)
-      val viewMat = matRot * matPos
-      context.setViewMatrix(viewMat.inverseRigid)
-      DC.log("Camera is at: ", pos.position.inline)
-    }
-
-    this
-  }
 
 
   def init(): System = {
@@ -42,13 +25,41 @@ class CameraSystem extends System {
     DC.log("Camera System","ended",2)
   }
 
-  override var node: Class[_ <: Node] = _
+  override def begin(): Unit = {}
 
-  override def update(): System = ???
+  override def processNode(n: Node): Unit = {
+    n match {
+      case camNode: CameraNode =>
+        val pos = camNode.placement
+        var cam = camNode.camera //TODO
 
-  override def begin(): Unit = ???
+        val matPos = Mat4f.translation(pos.position)
+        val pitch = pos.rotation.x
+        val yaw = pos.rotation.y
+        val matRot = Mat4f.rotation(Vec3f(1,0,0),pitch) *Mat4f.rotation(Vec3f(0,1,0),yaw)
+        val viewMat = matRot * matPos
+        ctx.setViewMatrix(viewMat.inverseRigid)
+        //DC.log("Camera is at: ", pos.position.inline)
+      case _ =>
+    }
+  }
 
-  override def end(): Unit = ???
 
-  override var priority: Int = _
+
+  override def end(): Unit = {}
+
+
+  /*
+  def update(context: SimulationContext): System = {
+    val nodes = GameEngine.getNodeList(new CameraNode)
+
+
+    for(node <- nodes){
+
+    }
+
+    this
+  }
+
+   */
 }

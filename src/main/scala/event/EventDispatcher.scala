@@ -4,6 +4,7 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import main.scala.architecture.{Component, Node, Family}
 import main.scala.entities.Entity
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs
@@ -35,7 +36,9 @@ object EventDispatcher {
 
   def dispatch(event: Event){
     val distinctReceivers = eventReceivers.filterKeys(_.isAssignableFrom(event.getClass)).values.flatten.toSeq.distinct
-    distinctReceivers.foreach(_.receive(event))
+    distinctReceivers.foreach(e => {
+      e.receive(event)
+    })
    }
 }
 

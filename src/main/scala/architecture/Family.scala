@@ -4,6 +4,7 @@ import scala.collection.mutable
 import main.scala.tools.DC
 import main.scala.event._
 import main.scala.event.NodeAdded
+import main.scala.entities.Entity
 
 /**
  * Created by Eike on 20.03.14.
@@ -11,7 +12,7 @@ import main.scala.event.NodeAdded
  * A collection of Entities with a set of Components
  */
 class Family(val nodeClass: Class[_ <: Node]) extends EventReceiver {
-
+ EventDispatcher.subscribe(classOf[Event])(this)
  var _entities: mutable.HashMap[Entity, Node] = mutable.HashMap.empty[Entity, Node]
  implicit val family = this
  val components: List[Class[_ <: Component]] = nodeClass.newInstance().contains
@@ -21,7 +22,7 @@ class Family(val nodeClass: Class[_ <: Node]) extends EventReceiver {
     ev match {
       case compRemoved: ComponentRemoved => componentRemoved(compRemoved.ent, compRemoved.comp.getClass)
       case compAdded: ComponentAdded => addIfMatch(compAdded.ent)
-      case entAdded: EntityAdded => addIfMatch(entAdded.ent)
+      case entAdded: EntityCreated => addIfMatch(entAdded.ent)
       case _ =>
     }
   }
