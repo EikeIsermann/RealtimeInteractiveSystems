@@ -62,10 +62,10 @@ abstract class DelayedProcessingSystem extends System {
 abstract class ProcessingSystem extends System {
 
   override def update(ctx: SimulationContext) = {
-    getNodes.foreach(processNode)
+    getNodes.foreach(processNode(_)(ctx))
     this
   }
-  def processNode(node: Node)
+  def processNode(node: Node)(ctx: SimulationContext)
 
 }
 
