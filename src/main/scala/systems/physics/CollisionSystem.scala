@@ -6,6 +6,7 @@ import main.scala.components._
 import scala.collection.mutable
 import main.scala.components.AABB
 import main.scala.nodes.CollisionNode
+import main.scala.systems.input.SimulationContext
 
 /**
  * Created by Christian Treffs
@@ -47,7 +48,7 @@ class CollisionSystem extends ProcessingSystem {
   }
 
 
-  override def processNode(n: Node) = {
+  override def processNode(n: Node)(ctx: SimulationContext) = {
     //update bounding box with the objects position
     n match {
       case colNode: CollisionNode => {
