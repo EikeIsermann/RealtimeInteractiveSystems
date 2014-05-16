@@ -13,22 +13,22 @@ import scala.collection.mutable.ArrayBuffer
  * Date: 20.03.14 21:13
  */
 
-object Entity {
-  def create(name: String, template: Boolean = false): Entity = {
+object EntityManager {
+  def create(name: String, template: Boolean = false): EntityManager = {
     if(template) DC.log("TEMPLATE: "+name,"created",3) else DC.log("INSTANCE OF: "+name,"created",3)
-    new Entity(name,template)
+    new EntityManager(name,template)
   }
-  def createWith(name: String, components: Component*): Entity = {
+  def createWith(name: String, components: Component*): EntityManager = {
     val e = create(name)
     components.foreach(e.add)
     e
   }
 
-  def newInstanceOf(name: Symbol): Entity  = {
+  def newInstanceOf(name: Symbol): EntityManager  = {
 
     val templateEntity = EntityTemplateLoader.get(name)
 
-    val newEntity: Entity = templateEntity.newInstance()
+    val newEntity: EntityManager = templateEntity.newInstance()
     val templateComp = templateEntity.components
 
     templateComp.foreach{
@@ -39,7 +39,7 @@ object Entity {
        // for each part that is child of this entity
        hP.parts.foreach(part => {
          // create child
-         val subEntity = Entity.newInstanceOf(part)
+         val subEntity = EntityManager.newInstanceOf(part)
          // add this entity as parent
          val p1 = new Parent(newEntity)
          p1.owner = subEntity.identifier
@@ -71,15 +71,15 @@ object Entity {
 
 }
 
-class Entity(name1: String, template: Boolean = false) {
+class EntityManager(name1: String, template: Boolean = false) {
 
   private val _components: ArrayBuffer[Component] = ArrayBuffer.empty[Component]
 
   def components: Array[Component] = _components.toArray
   def components(componentType: Class[_ <: Component]): Array[Component] = components.filter(_.getClass.equals(componentType))
 
-  def add(component: Component): Entity = this.+=(component)
-  def += (component: Option[Component]): Entity = {
+  def add(component: Component): EntityManager = this.+=(component)
+  def += (component: Option[Component]): EntityManager = {
     component.collect {
       case c: Component =>
         this.+=(c)
@@ -88,14 +88,14 @@ class Entity(name1: String, template: Boolean = false) {
     }
     this
   }
-  def +=(component: Component): Entity = {
+  def +=(component: Component): EntityManager = {
     _components.+=(component)
     EventDispatcher.dispatch(ComponentAdded(this,component))
 
     this
   }
-  def remove(component: Component): Entity = this.-=(component)
-  def -=(component: Component): Entity = {
+  def remove(component: Component): EntityManager = this.-=(component)
+  def -=(component: Component): EntityManager = {
     _components -= component
 
     EventDispatcher.dispatch(ComponentRemoved(this,component))
@@ -120,8 +120,8 @@ class Entity(name1: String, template: Boolean = false) {
   def id: Long = _identifier.id
   def name: String = _identifier.name
   def identifier: Identifier = _identifier
-  def equals(e: Entity): Boolean = this.==(e)
-  def ==(e: Entity): Boolean = e.identifier == this.identifier
+  def equals(e: EntityManager): Boolean = this.==(e)
+  def ==(e: EntityManager): Boolean = e.identifier == this.identifier
   override def toString: String = "[Entity] "+identifier.toString
 
 
@@ -131,7 +131,7 @@ class Entity(name1: String, template: Boolean = false) {
     case m:Message => DC.log(this+" received", m)
   } */
 
-  def newInstance(template: Boolean = false): Entity = Entity.create(name, template)
+  def newInstance(template: Boolean = false): EntityManager = EntityManager.create(name, template)
   def toXML: Elem = {
     <entity identifier={identifier.toString}>
       {components.map(_.toXML)}

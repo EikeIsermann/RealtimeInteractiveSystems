@@ -38,7 +38,9 @@ case class CamControl(triggerForward: Triggers,
   def yawVelocity_=(v: Float) = _yawVel = v
 
   //override def toXML: NodeSeq = {<position x={vec.x} y={vec.y} z={vec.z} />}
-  override def toXML: Node = ???
+  override def toXML: Node = {
+    <camControl>//TODO</camControl>
+  }
 
   override def newInstance(i:Identifier): Component = new CamControl(triggerForward,triggerBackward,triggerLeft,triggerRight,triggerPitchPositive, triggerPitchNegative,triggerYawLeft,triggerYawRight,triggerStepUp,triggerStepDown,velocities)
 

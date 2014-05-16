@@ -3,7 +3,7 @@ package main.scala.io
 import scala.xml.{NodeSeq, XML, Elem}
 import java.io.File
 import main.scala.components._
-import main.scala.entities.Entity
+import main.scala.entities.EntityManager
 import main.scala.tools.DC
 import scala.collection.mutable
 
@@ -15,9 +15,9 @@ import scala.collection.mutable
 object EntityTemplateLoader {
 
   private val rootLabel = "entityTemplate"
-  private val entityTemplates = mutable.HashMap.empty[Symbol,Entity]
+  private val entityTemplates = mutable.HashMap.empty[Symbol,EntityManager]
 
-  def get(name: Symbol): Entity = {
+  def get(name: Symbol): EntityManager = {
     if(!entityTemplates.contains(name)) {
       throw new IllegalArgumentException("no template with name '"+name.name+"' found")
     }
@@ -70,7 +70,7 @@ object EntityTemplateLoader {
 
     val name: Symbol = Symbol(nameStr)
 
-    val entity = Entity.create(name.name, template = true)
+    val entity = EntityManager.create(name.name, template = true)
 
 
     val mesh: NodeSeq = xml \ "mesh"

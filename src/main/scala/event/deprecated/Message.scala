@@ -2,7 +2,7 @@ package main.scala.event.deprecated
 
 import akka.actor.ActorRef
 import main.scala.architecture.Component
-import main.scala.entities.Entity
+import main.scala.entities.EntityManager
 
 
 /**
@@ -42,13 +42,13 @@ case class UpdateSignalValue[T](signal: Signal[T], value: T) extends Message
  */
 case class PublishSignalValueUpdate[T](signal: Signal[T], value: T) extends Message
 
-case class ComponentRemovedMessage(entity: Entity, comp: Component) extends Message
+case class ComponentRemovedMessage(entity: EntityManager, comp: Component) extends Message
 
 case class ReceiveSignalUpdates[T](signalType: T, implicit val observer: ActorRef) extends Message
 
 
 
-case class ComponentAdded(entity: Entity) extends Message
-case class ComponentRemoved(entity: Entity) extends Message
+case class ComponentAdded(entity: EntityManager) extends Message
+case class ComponentRemoved(entity: EntityManager) extends Message
 
 

@@ -3,7 +3,7 @@ package main.scala.components
 import main.scala.architecture.Component
 import scala.xml.Node
 import scala.collection.mutable.ArrayBuffer
-import main.scala.entities.Entity
+import main.scala.entities.EntityManager
 import main.scala.tools.Identifier
 
 /**
@@ -12,11 +12,11 @@ import main.scala.tools.Identifier
  */
 class Children() extends Component{
 
-  private var _children =  ArrayBuffer.empty[Entity]
+  private var _children =  ArrayBuffer.empty[EntityManager]
 
-  def children: Seq[Entity] = _children.toSeq
+  def children: Seq[EntityManager] = _children.toSeq
 
-  def +=(e: Entity): Children = {
+  def +=(e: EntityManager): Children = {
     _children += e
     this
   }

@@ -2,7 +2,7 @@ package main.scala.architecture
 
 import main.scala.systems.input.{SimulationContext, Context}
 import scala.collection.mutable
-import main.scala.entities.Entity
+import main.scala.entities.EntityManager
 
 /**
  * Created by Christian Treffs
@@ -11,7 +11,7 @@ import main.scala.entities.Entity
 
 trait Engine {
 
-  private val _entities:mutable.HashMap[/*Class[_ <: Entity]*/ String, Entity] = new mutable.HashMap[/*Class[_ <: Entity]*/ String, Entity]
+  private val _entities:mutable.HashMap[/*Class[_ <: Entity]*/ String, EntityManager] = new mutable.HashMap[/*Class[_ <: Entity]*/ String, EntityManager]
   private val _systems: mutable.HashMap[Class[_ <: System], System] = new mutable.HashMap[Class[_ <: System], System]
   private val _families: mutable.HashMap[Class[_ <: Node], Family] = new mutable.HashMap[Class[_ <: Node], Family]
 
@@ -23,19 +23,19 @@ trait Engine {
   protected def gameLoop(): Unit
 
 
-  def entities:  mutable.HashMap[/*Class[_ <: Entity]*/ String, Entity] = _entities
+  def entities:  mutable.HashMap[/*Class[_ <: Entity]*/ String, EntityManager] = _entities
   def systems: mutable.HashMap[Class[_ <: System], System] = _systems
   def families: mutable.HashMap[Class[_ <: Node], Family] = _families
 
 
 
-  def remove (entity: Entity): Engine = this.-=(entity)
-  def -= (entity: Entity): Engine = {
+  def remove (entity: EntityManager): Engine = this.-=(entity)
+  def -= (entity: EntityManager): Engine = {
     _entities - entity.toString
     this
   }
-  def add (entity: Entity): Engine = this.+=(entity)
-  def += (entity: Entity): Engine = {
+  def add (entity: EntityManager): Engine = this.+=(entity)
+  def += (entity: EntityManager): Engine = {
     _entities.put(entity.toString, entity)
     //println(_entities.toList)
     this
@@ -68,7 +68,7 @@ trait Engine {
 
   def getSystem(systemClass : Class[_ <: System]) = systems.apply(systemClass)
 
-  def componentAdded(entity: Entity){
+  def componentAdded(entity: EntityManager){
     for(family <- families.values) family.addIfMatch(entity)
   }
 

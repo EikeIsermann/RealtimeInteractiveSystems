@@ -30,7 +30,12 @@ case class Camera(fieldOfView1: Float, active1: Boolean = true) extends Componen
   def active: Boolean = _active
   def active_=(state: Boolean) = _active = state
 
-  override def toXML: Node = ???
+  override def toXML: Node = {
+    <camera>
+      <fieldOfView>{fieldOfView}</fieldOfView>
+      <active>{active}</active>
+    </camera>
+  }
 
   override def newInstance(i:Identifier): Component = new Camera(fieldOfView,active)
 }

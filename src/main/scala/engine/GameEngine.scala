@@ -5,9 +5,9 @@ import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.EntityTemplateLoader
+import main.scala.io.{Level, EntityTemplateLoader}
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
-import main.scala.entities.Entity
+import main.scala.entities.EntityManager
 import main.scala.components.Motion
 import main.scala.event._
 import main.scala.components.CamControl
@@ -31,6 +31,8 @@ object GameEngine extends Engine with EventReceiver{
   private var entitiesDir:String = null
   private var shaderDir:String = null
   private var meshesDir:String = null
+  var levelsDir: String = null
+
 
   private val width = 800
   private val height = 600
@@ -54,6 +56,8 @@ object GameEngine extends Engine with EventReceiver{
   var time: StopWatch = null
 
 
+
+
   override def createNewGame(title: String, assetsPath: String = "src/main/resources") = {
 
     gameTitle = title
@@ -62,6 +66,7 @@ object GameEngine extends Engine with EventReceiver{
     entitiesDir = assetsDir+"/entities"
     shaderDir = assetsDir+"/shaders"
     meshesDir = assetsDir+"/meshes"
+    levelsDir = assetsDir+"/levels"
 
     this
 
@@ -147,16 +152,16 @@ object GameEngine extends Engine with EventReceiver{
     EntityTemplateLoader.load(entitiesDir)
 
     //creating SkyBox
-    Entity.newInstanceOf('SkyBox)
+    EntityManager.newInstanceOf('SkyBox)
 
     //creating Floor
-    Entity.newInstanceOf('Floor)
+    EntityManager.newInstanceOf('Floor)
 
     // creating Tank
     //Entity.newInstanceOf('Tank)
 
     // creating Camera
-    val camEntity = Entity.newInstanceOf('Camera)
+    val camEntity = EntityManager.newInstanceOf('Camera)
 
     /*val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
@@ -196,6 +201,8 @@ object GameEngine extends Engine with EventReceiver{
 
 
     DC.log("Game","initialized",3)
+
+    (new Level).saveAs("TestLevel","LevelTest")
   }
 
 
