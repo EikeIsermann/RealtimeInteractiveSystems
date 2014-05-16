@@ -26,7 +26,7 @@ object GameEngine extends Engine with EventReceiver{
 
   EventDispatcher.subscribe(classOf[Event])(this)
   // set debug level
-  DC.debugLevel = 3
+  DC.debugLevel = 2
 
   private var assetsDir: String = null
   private var gameTitle:String = null
@@ -162,6 +162,9 @@ object GameEngine extends Engine with EventReceiver{
 
     //creating SkyBox
     Entity.newInstanceOf('SkyBox)
+
+    //creating Floor
+    Entity.newInstanceOf('Floor)
 
     // creating Tank
     //Entity.newInstanceOf('Tank)

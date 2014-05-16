@@ -14,18 +14,21 @@ import scala.collection.mutable.ArrayBuffer
  */
 
 object Entity {
-  def create(name: String, template: Boolean = false): Entity = new Entity(name,template)
+  def create(name: String, template: Boolean = false): Entity = {
+    if(template) DC.log("TEMPLATE: "+name,"created",3) else DC.log("INSTANCE OF: "+name,"created",3)
+    new Entity(name,template)
+  }
   def createWith(name: String, components: Component*): Entity = {
     val e = create(name)
     components.foreach(e.add)
     e
   }
 
-  def newInstanceOf(name: Symbol, template: Boolean = false): Entity  = {
-    if(template) DC.log("NewTemplateOf",name,3) else DC.log("NewInstanceOf",name,3)
+  def newInstanceOf(name: Symbol): Entity  = {
+
     val templateEntity = EntityTemplateLoader.get(name)
 
-    val newEntity: Entity = templateEntity.newInstance(template)
+    val newEntity: Entity = templateEntity.newInstance()
     val templateComp = templateEntity.components
 
     templateComp.foreach{
@@ -36,7 +39,7 @@ object Entity {
        // for each part that is child of this entity
        hP.parts.foreach(part => {
          // create child
-         val subEntity = Entity.newInstanceOf(part, template)
+         val subEntity = Entity.newInstanceOf(part)
          // add this entity as parent
          val p1 = new Parent(newEntity)
          p1.owner = subEntity.identifier
@@ -78,10 +81,9 @@ class Entity(name1: String, template: Boolean = false) {
   def add(component: Component): Entity = this.+=(component)
   def += (component: Option[Component]): Entity = {
     component.collect {
-      case c: Component => {
+      case c: Component =>
         this.+=(c)
         c.owner = this.identifier
-      }
       case _ =>
     }
     this

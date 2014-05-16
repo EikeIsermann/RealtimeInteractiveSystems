@@ -1,0 +1,12 @@
+<entityTemplate name="FloorSW">
+    <isPartOf>Floor</isPartOf>
+    <display>
+        <meshId>RoadSW</meshId>
+        <shaderId>default</shaderId>
+    </display>
+    <placement>
+        <position x="-1" y="2" z="-6" />
+        <rotation angleX="0" angleY="0" angleZ="0" />
+        <scale x="1" y="1" z="1" />
+    </placement>
+</entityTemplate>

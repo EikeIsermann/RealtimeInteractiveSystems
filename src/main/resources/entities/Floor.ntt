@@ -1,0 +1,20 @@
+<entityTemplate name="Floor">
+    <placement>
+        <position x="0" y="0" z="0" />
+        <rotation angleX="0" angleY="0" angleZ="0" />
+        <scale x="1" y="1" z="1" />
+    </placement>
+    <mesh>
+        <source>src/main/resources/meshes/Roads/Roads.dae</source>
+    </mesh>
+    <hasParts>
+        <part>FloorSW</part>
+        <part>FloorSE</part>
+        <part>FloorPLAZA</part>
+        <part>FloorNW</part>
+        <part>FloorNS</part>
+        <part>FloorNE</part>
+        <part>FloorEW</part>
+        <part>FloorNEWS</part>
+    </hasParts>
+</entityTemplate>
