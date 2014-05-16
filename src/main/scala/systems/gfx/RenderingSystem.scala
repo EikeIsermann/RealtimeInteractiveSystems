@@ -76,7 +76,7 @@ class RenderingSystem extends ProcessingSystem {
         val scale = placementComp.scale
 
 
-        println("PE: "+placementComp.owner,position.inline,rotation.inline,scale.inline)
+        //println("PE: "+placementComp.owner,position.inline,rotation.inline,scale.inline)
         //println("\t"+GameEngine.entities.values.toList)
 
 

@@ -1,9 +1,9 @@
 <entityTemplate name="Tank">
     <hasParts>
-        <part>ChassisBody</part>
-        <part>Turret</part>
         <part>MachineGun</part>
-        <!--<part>ChassisTread</part>-->
+        <part>Turret</part>
+        <part>ChassisBody</part>
+        <part>ChassisTread</part>
     </hasParts>
     <placement>
         <position x="0" y="0" z="0" />
