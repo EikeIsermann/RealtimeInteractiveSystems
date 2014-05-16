@@ -1,0 +1,11 @@
+<entityTemplate name="Camera">
+    <camera>
+        <fieldOfView>90</fieldOfView>
+        <active>true</active>
+    </camera>
+    <placement>
+        <position x="0" y="0" z="0" />
+        <rotation angleX="0" angleY="0" angleZ="0" />
+        <scale x="0" y="0" z="0" />
+    </placement>
+</entityTemplate>

@@ -164,12 +164,16 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('SkyBox)
 
     // creating Tank
-    Entity.newInstanceOf('Tank)
+    //Entity.newInstanceOf('Tank)
 
-    val camEntity = Entity.create("Camera")
+    // creating Camera
+    val camEntity = Entity.newInstanceOf('Camera)
+
+    /*val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
     val camPos = new Placement(Vec3f(0,0,0),Vec3f(0,0,0))
-    //
+    */
+
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(Key.ArrowUp,null,MouseMovement.MovementY), Triggers(Key.ArrowDown,null,MouseMovement.MovementY),
       Triggers(Key.ArrowLeft,null, MouseMovement.MovementX), Triggers(Key.ArrowRight,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
@@ -177,8 +181,8 @@ object GameEngine extends Engine with EventReceiver{
     val motion = new Motion()
     camEntity.add(camCon)
     camEntity.add(motion)
-    camEntity.add(cam)
-    camEntity.add(camPos)
+    /*camEntity.add(cam)
+    camEntity.add(camPos)*/
 
     //register systems with engine
     add(new CameraSystem)
