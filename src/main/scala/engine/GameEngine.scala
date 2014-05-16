@@ -6,15 +6,13 @@ import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.EntityTemplateLoader
-import main.scala.math.Vec3f
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.entities.Entity
-import main.scala.components.{Motion, Placement}
+import main.scala.components.Motion
 import main.scala.event._
 import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
-import main.scala.components.Camera
 import main.scala.event.EntityCreated
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
 
@@ -136,28 +134,16 @@ object GameEngine extends Engine with EventReceiver{
 
   def initGame(): Unit = {
 
+    // load shader dir
+    Shader.load(shaderDir)
+
     // init a default shader
     val defaultShader = Shader.init()
 
     // set the default shader as default for all the meshes
     Mesh.defaultShader(defaultShader)
 
-    /*
-    // load all stuff
-    val colladaFiles = Map[Symbol, String](
-      'SkyBox         -> "src/main/resources/meshes/SkyBox/SkyBox.dae",
-      'CompanionCube  -> "src/main/resources/meshes/CompanionCube/CompanionCube.dae",
-      'Tank           -> "src/main/resources/meshes/T-90/T-90.dae",
-      'PhoneBooth     -> "src/main/resources/meshes/PhoneBooth/PhoneBooth.dae",
-      'Roads          -> "src/main/resources/meshes/Roads/Roads.dae"
-    )
-
-    // load collada files and create meshes -> now everything is available via Mesh.get()
-    Collada.load(colladaFiles)
-
-                                                         */
-    val shaders = Shader.load(shaderDir) //TODO: remove?
-
+    // load all entity templates
     EntityTemplateLoader.load(entitiesDir)
 
     //creating SkyBox
