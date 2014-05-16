@@ -155,8 +155,10 @@ abstract class DelayedProcessingSystem extends System with EventReceiver {
 abstract class ProcessingSystem extends System {
 
   override def update() = {
+    //println(family.entities)
     getNodes.foreach(processNode)
-    this
+
+  this
   }
 
   def processNode(node: Node)
@@ -180,7 +182,10 @@ abstract class IntervalProcessingSystem extends System {
 
 
   def update(ctx: SimulationContext) = {
-    if (checkProcessing(ctx)) getNodes.foreach(processNode)
+    if (checkProcessing(ctx)) {
+      getNodes.foreach(processNode)
+
+    }
     this
   }
 

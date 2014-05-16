@@ -66,16 +66,18 @@ class RenderingSystem extends ProcessingSystem {
   override def processNode(node: Node): Unit = {
     node match {
       case renNode: RenderNode => {
-        val positionNode: Placement = renNode -> classOf[Placement]
-        val displayNode: Display = renNode -> classOf[Display]
+        val placementComp: Placement = renNode -> classOf[Placement]
+        val displayComp: Display = renNode -> classOf[Display]
 
-        val meshId = displayNode.meshId
-        val shaderId = displayNode.shaderId
-        val position = positionNode.position
-        val rotation = positionNode.rotation
-        val scale = positionNode.scale
+        val meshId = displayComp.meshId
+        val shaderId = displayComp.shaderId
+        val position = placementComp.position
+        val rotation = placementComp.rotation
+        val scale = placementComp.scale
 
 
+        println("PE: "+placementComp.owner,position.inline,rotation.inline,scale.inline)
+        //println("\t"+GameEngine.entities.values.toList)
 
 
         val mesh = Mesh.getByName(meshId)

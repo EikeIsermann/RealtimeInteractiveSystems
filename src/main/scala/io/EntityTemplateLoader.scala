@@ -14,52 +14,6 @@ import scala.collection.mutable
  */
 object EntityTemplateLoader {
 
-  def main(args: Array[String]) {
-    EntityTemplateLoader.load("src/main/resources/entities/")
-
-
-    val s = System.currentTimeMillis()
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    Entity.newInstanceOf('Tank)
-    val q = Entity.newInstanceOf('Tank)
-    val e = System.currentTimeMillis()
-    println(e-s)
-
-    println(q.toXML)
-  }
-
   private val rootLabel = "entityTemplate"
   private val entityTemplates = mutable.HashMap.empty[Symbol,Entity]
 
@@ -116,7 +70,7 @@ object EntityTemplateLoader {
 
     val name: Symbol = Symbol(nameStr)
 
-    val entity = Entity.create(name.name)
+    val entity = Entity.create(name.name, template = true)
 
 
     val mesh: NodeSeq = xml \ "mesh"

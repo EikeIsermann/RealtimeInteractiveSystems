@@ -14,55 +14,60 @@ import scala.collection.mutable.ArrayBuffer
  */
 
 object Entity {
-  def create(name: String): Entity = new Entity(name)
+  def create(name: String, template: Boolean = false): Entity = new Entity(name,template)
   def createWith(name: String, components: Component*): Entity = {
     val e = create(name)
     components.foreach(e.add)
     e
   }
 
-  def newInstanceOf(name: Symbol): Entity  = {
-    val e = EntityTemplateLoader.get(name)
+  def newInstanceOf(name: Symbol, template: Boolean = false): Entity  = {
+    val templateEntity = EntityTemplateLoader.get(name)
 
-    val superEntity: Entity = e.newInstance()
-    val parentComps = e.components
+    val newEntity: Entity = templateEntity.newInstance(template)
+    val templateComp = templateEntity.components
 
-    parentComps.foreach{
+    templateComp.foreach{
      case hP: hasParts =>
        // has children - so add them
         val children = new Children()
+        children.owner = newEntity.identifier
        // for each part that is child of this entity
        hP.parts.foreach(part => {
          // create child
-         val subEntity = Entity.newInstanceOf(part)
+         val subEntity = Entity.newInstanceOf(part, template)
          // add this entity as parent
-         subEntity += new Parent(superEntity)
-         DC.log("Child entity added to parent entity",(subEntity,superEntity),1)
+         val p1 = new Parent(newEntity)
+         p1.owner = subEntity.identifier
+         subEntity += p1
+         DC.log("Child entity added to parent entity",(subEntity,newEntity),1)
          // add each child to this entity as a child
          children += subEntity
        })
 
        // add all children
-       superEntity += children
+       newEntity += children
      //do nothing - this can only be checked backwards
      // by doing nothing it is prevented, that the isPartOf component is not added to the real entity
      case iPO: isPartOf =>
        // add all other components as new instances
      case c: Component =>
-       superEntity += c.newInstance()
-       DC.log("Component added to entity",(c,superEntity),1)
+       val c1 = c.newInstance()
+       c1.owner = newEntity.identifier
+       newEntity += c1
+       DC.log("Component added to entity",(c.owner,c,newEntity),1)
     }
 
 
 
-    DC.log("Entity instance created",superEntity,1)
-    superEntity
+    DC.log("Entity instance created",newEntity,1)
+    newEntity
 
   }
 
 }
 
-class Entity(name1: String) {
+class Entity(name1: String, template: Boolean = false) {
 
   private val _components: ArrayBuffer[Component] = ArrayBuffer.empty[Component]
 
@@ -106,7 +111,7 @@ class Entity(name1: String) {
   private val _identifier: Identifier = Identifier.create(name1)
 
   //dispatching entity creation event
-  EventDispatcher.dispatch(EntityCreated(this))
+  if(!template) EventDispatcher.dispatch(EntityCreated(this))
 
 
   def id: Long = _identifier.id
@@ -122,8 +127,8 @@ class Entity(name1: String) {
   /*override def receive: Receive = {
     case m:Message => DC.log(this+" received", m)
   } */
-  def newInstance(): Entity = Entity.create(name)
 
+  def newInstance(template: Boolean = false): Entity = Entity.create(name, template)
   def toXML: Elem = {
     <entity identifier={identifier.toString}>
       {components.map(_.toXML)}

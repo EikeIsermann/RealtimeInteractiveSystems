@@ -185,7 +185,6 @@ object GameEngine extends Engine with EventReceiver{
     add(new CollisionSystem)
     add(new PhysicsSystem)
 
-
     Input.init()
 
     time = new StopWatch()
