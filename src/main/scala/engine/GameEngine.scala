@@ -159,10 +159,12 @@ object GameEngine extends Engine with EventReceiver{
     val shaders = Shader.load(shaderDir) //TODO: remove?
 
     EntityTemplateLoader.load(entitiesDir)
-    val tankEntity = Entity.newInstanceOf('Tank)
-    DC.log(tankEntity.components.toList+"")
 
-    Mesh.get('MachineGun)
+    /*val tankEntity = Entity.newInstanceOf('Tank)
+    DC.log(tankEntity.components.toList+"")*/
+
+    val skyBox = Entity.newInstanceOf('SkyBox)
+
 
     val camEntity = Entity.create("Camera")
     val cam = new Camera(90)

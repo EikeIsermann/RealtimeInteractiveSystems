@@ -76,7 +76,7 @@ class RenderingSystem extends ProcessingSystem {
         val scale = placementComp.scale
 
 
-        //println("PE: "+placementComp.owner,position.inline,rotation.inline,scale.inline)
+        println("PE: "+placementComp.owner,position.inline,rotation.inline,scale.inline)
         //println("\t"+GameEngine.entities.values.toList)
 
 
@@ -87,7 +87,7 @@ class RenderingSystem extends ProcessingSystem {
 
 
         //TODO use parent and child construct to get the right trafos!
-        val modelMatrix: Mat4f = Mat4f.rotation(position) * Mat4f.translation(rotation) * Mat4f.scale(scale)
+        val modelMatrix: Mat4f = Mat4f.rotation(rotation) * Mat4f.translation(position) * Mat4f.scale(scale)
 
 
         mesh.draw(shader, modelMatrix, ctx.projectionMatrix, ctx.viewMatrix)
