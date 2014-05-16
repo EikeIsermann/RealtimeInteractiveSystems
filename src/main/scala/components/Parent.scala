@@ -18,7 +18,7 @@ class Parent(parentEntity1: EntityManager) extends Component {
   def entity: EntityManager = _entity
 
   override def toXML: Node = {
-    <parent>//TODO</parent>
+    <parent>{entity.identifier}</parent>
   }
 
   override def newInstance(i:Identifier): Component = new Parent(entity)
