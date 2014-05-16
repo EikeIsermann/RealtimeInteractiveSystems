@@ -29,6 +29,7 @@ abstract class System /*extends ObservingActor*/ {
     DC.log(this.toString,"registered & initialized", 3)
     family = new Family(node)
     GameEngine.registerFamily(family)
+
     active = true
     this
   }

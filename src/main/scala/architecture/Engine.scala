@@ -11,7 +11,7 @@ import main.scala.entities.Entity
 
 trait Engine {
 
-  private val _entities:mutable.HashMap[Class[_ <: Entity], Entity] = new mutable.HashMap[Class[_ <: Entity], Entity]
+  private val _entities:mutable.HashMap[/*Class[_ <: Entity]*/ String, Entity] = new mutable.HashMap[/*Class[_ <: Entity]*/ String, Entity]
   private val _systems: mutable.HashMap[Class[_ <: System], System] = new mutable.HashMap[Class[_ <: System], System]
   private val _families: mutable.HashMap[Class[_ <: Node], Family] = new mutable.HashMap[Class[_ <: Node], Family]
 
@@ -23,7 +23,7 @@ trait Engine {
   protected def gameLoop(): Unit
 
 
-  def entities:  mutable.HashMap[Class[_ <: Entity], Entity] = _entities
+  def entities:  mutable.HashMap[/*Class[_ <: Entity]*/ String, Entity] = _entities
   def systems: mutable.HashMap[Class[_ <: System], System] = _systems
   def families: mutable.HashMap[Class[_ <: Node], Family] = _families
 
@@ -31,12 +31,13 @@ trait Engine {
 
   def remove (entity: Entity): Engine = this.-=(entity)
   def -= (entity: Entity): Engine = {
-    _entities - entity.getClass
+    _entities - entity.toString
     this
   }
   def add (entity: Entity): Engine = this.+=(entity)
   def += (entity: Entity): Engine = {
-    _entities.put(entity.getClass, entity)
+    _entities.put(entity.toString, entity)
+    //println(_entities.toList)
     this
   }
   def remove (system: System): Engine = this.-=(system)

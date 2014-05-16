@@ -26,7 +26,7 @@ object GameEngine extends Engine with EventReceiver{
 
   EventDispatcher.subscribe(classOf[Event])(this)
   // set debug level
-  DC.debugLevel = 0
+  DC.debugLevel = 3
 
   private var assetsDir: String = null
   private var gameTitle:String = null
@@ -156,12 +156,13 @@ object GameEngine extends Engine with EventReceiver{
     Collada.load(colladaFiles)
 
                                                          */
-    //val shaders = Shader.load(shaderDir) //TODO: remove?
+    val shaders = Shader.load(shaderDir) //TODO: remove?
 
     EntityTemplateLoader.load(entitiesDir)
     val tankEntity = Entity.newInstanceOf('Tank)
-    DC.log(tankEntity.toString)
+    DC.log(tankEntity.components.toList+"")
 
+    Mesh.get('MachineGun)
 
     val camEntity = Entity.create("Camera")
     val cam = new Camera(90)

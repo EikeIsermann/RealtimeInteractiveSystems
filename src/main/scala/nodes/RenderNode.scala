@@ -11,6 +11,6 @@ import main.scala.architecture.{Component, Node}
  * 21.03.14.
  */
 
-case class RenderNode(placement: Placement, display: Display) extends Node(placement, display){
+class RenderNode(placement: Placement, display: Display) extends Node(placement, display){
   def this() = this(new Placement(), new Display())
 }

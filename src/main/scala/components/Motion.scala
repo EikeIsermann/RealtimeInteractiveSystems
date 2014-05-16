@@ -47,7 +47,7 @@ class Motion() extends Component {
   private var _inverseMass: Float = 0f
 
 
-  private var _inverseInertiaTensor: Mat3f = Mat3f()
+  private val _inverseInertiaTensor: Mat3f = Mat3f()
   private var _inverseInertiaTensorWorld: Mat3f = Mat3f()
 
   private var _transformMatrix: Mat4f = Mat4f()
@@ -188,7 +188,7 @@ class Motion() extends Component {
   // sleep.
   def checkSleepState(duration: Double) {
     if (canSleep) {
-      val currentMotion: Float = velocity ° velocity + angularVelocity ° angularVelocity
+      val currentMotion: Float = (velocity ° velocity) + (angularVelocity ° angularVelocity)
 
       val bias: Float = math.pow(0.5, duration).toFloat
       motion = bias*motion + (1-bias)*currentMotion

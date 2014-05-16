@@ -3,13 +3,14 @@
         <part>ChassisBody</part>
         <part>Turret</part>
         <part>MachineGun</part>
-        <!--<part>ChassisTread</part>
-
-            -->
+        <!--<part>ChassisTread</part>-->
     </hasParts>
     <placement>
         <position x="0" y="0" z="0" />
         <rotation angleX="0" angleY="0" angleZ="0" />
         <scale x="1" y="1" z="1" />
     </placement>
+    <mesh>
+        <source>src/main/resources/meshes/T-90/T-90.dae</source>
+    </mesh>
 </entityTemplate>

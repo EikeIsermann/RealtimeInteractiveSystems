@@ -72,7 +72,10 @@ class Entity(name1: String) {
   def add(component: Component): Entity = this.+=(component)
   def += (component: Option[Component]): Entity = {
     component.collect {
-      case c: Component => this.+=(c)
+      case c: Component => {
+        this.+=(c)
+        c.owner = this.identifier
+      }
       case _ =>
     }
     this
@@ -102,6 +105,7 @@ class Entity(name1: String) {
 
   private val _identifier: Identifier = Identifier.create(name1)
 
+  //dispatching entity creation event
   EventDispatcher.dispatch(EntityCreated(this))
 
 

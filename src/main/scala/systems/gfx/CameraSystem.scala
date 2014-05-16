@@ -3,6 +3,7 @@ import main.scala.architecture._
 import main.scala.tools.DC
 import main.scala.nodes.CameraNode
 import main.scala.math.{Vec3f, Mat4f}
+import main.scala.components.{Camera, Placement}
 
 
 /**
@@ -30,8 +31,8 @@ class CameraSystem extends ProcessingSystem {
   override def processNode(n: Node): Unit = {
     n match {
       case camNode: CameraNode =>
-        val pos = camNode.placement
-        var cam = camNode.camera //TODO
+        val pos: Placement = camNode -> classOf[Placement]
+        var cam: Camera = camNode -> classOf[Camera]
 
         val matPos = Mat4f.translation(pos.position)
         val pitch = pos.rotation.x

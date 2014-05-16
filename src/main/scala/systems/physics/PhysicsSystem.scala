@@ -34,7 +34,12 @@ class PhysicsSystem extends ProcessingSystem {
 
   override def processNode(node: Node): Unit = {
       node match {
-        case phyNode: PhysicsNode => integrate(phyNode.motion,phyNode.placement, ctx.deltaT)
+        case phyNode: PhysicsNode => {
+          //val physics: Physics = phyNode -> classOf[Physics]
+          val motion: Motion = phyNode -> classOf[Motion]
+          val placement: Placement = phyNode -> classOf[Placement]
+          integrate(motion,placement, ctx.deltaT)
+        }
         case _ => throw new IllegalArgumentException("not the right node")
       }
   }

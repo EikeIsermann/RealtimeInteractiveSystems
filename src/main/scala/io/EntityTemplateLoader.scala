@@ -1,6 +1,6 @@
 package main.scala.io
 
-import scala.xml.{XML, Elem}
+import scala.xml.{NodeSeq, XML, Elem}
 import java.io.File
 import main.scala.components._
 import main.scala.entities.Entity
@@ -119,6 +119,15 @@ object EntityTemplateLoader {
     val entity = Entity.create(name.name)
 
 
+    val mesh: NodeSeq = xml \ "mesh"
+
+    mesh.foreach(m => {
+      val src = (m \ "source").text
+      Collada.load(name,src)
+    })
+
+
+
     entity += hasParts.fromXML(xml)
     entity += isPartOf.fromXML(xml)
     entity += Display.fromXML(xml)
@@ -127,10 +136,10 @@ object EntityTemplateLoader {
 
     //TODO: add componentes
 
-    println(name, entity)
-    entity.components.map(println)
 
     entityTemplates.put(name, entity)
+
+
 
   }
 }

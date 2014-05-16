@@ -14,8 +14,11 @@ import main.scala.tools.Identifier
 trait Component /*extends ObservingActor*/ {
 
   var _identifier: Identifier = newIdentifier()
+  var _owner: Identifier = _
 
   def identifier: Identifier = _identifier
+  def owner_=(id: Identifier) = _owner = id
+  def owner = _owner
 
   def toXML: scala.xml.Node
 

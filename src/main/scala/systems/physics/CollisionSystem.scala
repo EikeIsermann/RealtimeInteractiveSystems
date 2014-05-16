@@ -52,10 +52,13 @@ class CollisionSystem extends ProcessingSystem {
     //update bounding box with the objects position
     n match {
       case colNode: CollisionNode =>
-        //update bounding box with the objects position
-        colNode.collision.updateBoundingVolume(colNode.placement.position)
+        val collision: Collision = colNode -> classOf[Collision]
+        val placement: Placement = colNode -> classOf[Placement]
 
-        colNode.collision.boundingVolume match {
+        //update bounding box with the objects position
+        collision.updateBoundingVolume(placement.position)
+
+        collision.boundingVolume match {
           case a: AABB => addAABB2AxisArray(a)
           case s: Sphere => //TODO:
         }

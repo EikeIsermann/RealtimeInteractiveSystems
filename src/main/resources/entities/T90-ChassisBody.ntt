@@ -1,3 +1,7 @@
 <entityTemplate name="ChassisBody">
     <isPartOf>Tank</isPartOf>
+    <display>
+        <meshId>ChassisBody</meshId>
+        <shaderId>default</shaderId>
+    </display>
 </entityTemplate>

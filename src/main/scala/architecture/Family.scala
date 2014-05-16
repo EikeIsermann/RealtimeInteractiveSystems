@@ -53,6 +53,7 @@ class Family(val nodeClass: Class[_ <: Node]) extends EventReceiver {
       EventDispatcher.dispatch(NodeAdded(node))
       DC.log("Family added entity ",(entity,node))
     }
+
   }
 
 

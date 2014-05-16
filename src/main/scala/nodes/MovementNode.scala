@@ -10,7 +10,7 @@ import main.scala.math.Vec3f
  * Time: 11:34
  * This is a RIS Project class
  */
-case class MovementNode(motion: Motion, placement:Placement) extends Node(motion, placement){
+class MovementNode(motion: Motion, placement:Placement) extends Node(motion, placement){
 
   def this() = this(
     new Motion(),
