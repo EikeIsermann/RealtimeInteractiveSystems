@@ -22,6 +22,7 @@ object Entity {
   }
 
   def newInstanceOf(name: Symbol, template: Boolean = false): Entity  = {
+    if(template) DC.log("NewTemplateOf",name,3) else DC.log("NewInstanceOf",name,3)
     val templateEntity = EntityTemplateLoader.get(name)
 
     val newEntity: Entity = templateEntity.newInstance(template)

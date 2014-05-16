@@ -160,11 +160,11 @@ object GameEngine extends Engine with EventReceiver{
 
     EntityTemplateLoader.load(entitiesDir)
 
-    /*val tankEntity = Entity.newInstanceOf('Tank)
-    DC.log(tankEntity.components.toList+"")*/
+    //creating SkyBox
+    Entity.newInstanceOf('SkyBox)
 
-    val skyBox = Entity.newInstanceOf('SkyBox)
-
+    // creating Tank
+    Entity.newInstanceOf('Tank)
 
     val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
