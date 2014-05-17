@@ -2,7 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.Component
 import scala.xml.Node
-import main.scala.entities.EntityManager
+import main.scala.entities.Entity
 import main.scala.tools.Identifier
 
 /**
@@ -12,10 +12,10 @@ import main.scala.tools.Identifier
 
 
 
-class Parent(parentEntity1: EntityManager) extends Component {
-  private val _entity: EntityManager = parentEntity1
+class Parent(parentEntity1: Entity) extends Component {
+  private val _entity: Entity = parentEntity1
 
-  def entity: EntityManager = _entity
+  def entity: Entity = _entity
 
   override def toXML: Node = {
     <parent>{entity.identifier}</parent>

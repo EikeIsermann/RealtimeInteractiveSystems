@@ -4,7 +4,7 @@ import scala.collection.mutable
 import main.scala.tools.DC
 import main.scala.event._
 import main.scala.event.NodeAdded
-import main.scala.entities.EntityManager
+import main.scala.entities.Entity
 
 /**
  * Created by Eike on 20.03.14.
@@ -13,7 +13,7 @@ import main.scala.entities.EntityManager
  */
 class Family(val nodeClass: Class[_ <: Node]) extends EventReceiver {
  EventDispatcher.subscribe(classOf[Event])(this)
- var _entities: mutable.HashMap[EntityManager, Node] = mutable.HashMap.empty[EntityManager, Node]
+ var _entities: mutable.HashMap[Entity, Node] = mutable.HashMap.empty[Entity, Node]
  implicit val family = this
  val components: List[Class[_ <: Component]] = Node.getDefinition(nodeClass).apply(true)
  val unwanted: List[Class[_ <: Component]] = Node.getDefinition(nodeClass).apply(false)
@@ -30,7 +30,7 @@ class Family(val nodeClass: Class[_ <: Node]) extends EventReceiver {
   def entities = _entities
   def nodes = _entities.values
 
-  def addIfMatch(entity: EntityManager){
+  def addIfMatch(entity: Entity){
     if (!_entities.contains(entity)){
 
       for(componentClass <- unwanted){
@@ -57,11 +57,11 @@ class Family(val nodeClass: Class[_ <: Node]) extends EventReceiver {
   }
 
 
-  def componentRemoved(entity : EntityManager , componentClass : Class[_ <: Component] ) : Unit = {
+  def componentRemoved(entity : Entity , componentClass : Class[_ <: Component] ) : Unit = {
     if(components.contains(componentClass) && entities.contains(entity)) entities.remove(entity)
 }
 
-  def remove(entity: EntityManager){
+  def remove(entity: Entity){
     entities.remove(entity)
   }
 

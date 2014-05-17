@@ -1,9 +1,9 @@
 package main.scala.io
 
-import scala.xml.{NodeSeq, XML, Elem}
+import scala.xml.{Node, NodeSeq, XML, Elem}
 import java.io.File
 import main.scala.components._
-import main.scala.entities.EntityManager
+import main.scala.entities.Entity
 import main.scala.tools.DC
 import scala.collection.mutable
 
@@ -15,9 +15,9 @@ import scala.collection.mutable
 object EntityTemplateLoader {
 
   private val rootLabel = "entityTemplate"
-  private val entityTemplates = mutable.HashMap.empty[Symbol,EntityManager]
+  private val entityTemplates = mutable.HashMap.empty[Symbol,Entity]
 
-  def get(name: Symbol): EntityManager = {
+  def get(name: Symbol): Entity = {
     if(!entityTemplates.contains(name)) {
       throw new IllegalArgumentException("no template with name '"+name.name+"' found")
     }
@@ -71,7 +71,7 @@ object EntityTemplateLoader {
     val name: Symbol = Symbol(nameStr)
 
     // create the entity template
-    val entity = EntityManager.create(name.name, template = true)
+    val entity = Entity.create(name.name, template = true)
 
 
     // load mesh if there is one
@@ -82,18 +82,23 @@ object EntityTemplateLoader {
     })
 
     // parse components
-    entity += hasParts.fromXML(xml)
-    entity += isPartOf.fromXML(xml)
-    entity += Display.fromXML(xml)
-    entity += Motion.fromXML(xml)
-    entity += Placement.fromXML(xml)
 
-    //TODO: add components
+    parseComponents(entity,xml)
+
+
 
 
     entityTemplates.put(name, entity)
 
 
 
+  }
+  def parseComponents(entity: Entity,xml: Node) {
+    //TODO: add components
+    entity += hasParts.fromXML(xml)
+    entity += isPartOf.fromXML(xml)
+    entity += Display.fromXML(xml)
+    entity += Motion.fromXML(xml)
+    entity += Placement.fromXML(xml)
   }
 }

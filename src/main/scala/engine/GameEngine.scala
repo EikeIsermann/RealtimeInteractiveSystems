@@ -5,9 +5,9 @@ import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.{Level, EntityTemplateLoader}
+import main.scala.io.{LevelLoader, Level, EntityTemplateLoader}
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
-import main.scala.entities.EntityManager
+import main.scala.entities.Entity
 import main.scala.components.Motion
 import main.scala.event._
 import main.scala.components.CamControl
@@ -148,20 +148,31 @@ object GameEngine extends Engine with EventReceiver{
     // set the default shader as default for all the meshes
     Mesh.defaultShader(defaultShader)
 
-    // load all entity templates
+    // load all entity templates  - needs to happen before level is loaded
     EntityTemplateLoader.load(entitiesDir)
 
+    // loading all level files - or one specific
+    LevelLoader.load()
+    // get the level and initialize it
+    LevelLoader.get('TestLevel).initialize()
+
+    /*
+    //create a level from current game with this name and save it to disk
+    val lvl = new Level("TestLevel")
+    lvl.save()
+    */
+
     //creating SkyBox
-    EntityManager.newInstanceOf('SkyBox)
+    //Entity.newInstanceOf('SkyBox)
 
     //creating Floor
-    EntityManager.newInstanceOf('Floor)
+    //Entity.newInstanceOf('Floor)
 
     // creating Tank
     //Entity.newInstanceOf('Tank)
 
     // creating Camera
-    val camEntity = EntityManager.newInstanceOf('Camera)
+    //val camEntity = Entity.newInstanceOf('Camera)
 
     /*val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
@@ -173,8 +184,8 @@ object GameEngine extends Engine with EventReceiver{
       Triggers(Key.ArrowLeft,null, MouseMovement.MovementX), Triggers(Key.ArrowRight,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
     val motion = new Motion()
-    camEntity.add(camCon)
-    camEntity.add(motion)
+    //camEntity.add(camCon)
+    //camEntity.add(motion)
     /*camEntity.add(cam)
     camEntity.add(camPos)*/
 
@@ -202,8 +213,7 @@ object GameEngine extends Engine with EventReceiver{
 
     DC.log("Game","initialized",3)
 
-    val lvl = new Level("TestLevel")
-    lvl.save()
+
 
   }
 
