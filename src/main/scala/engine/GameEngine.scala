@@ -202,7 +202,9 @@ object GameEngine extends Engine with EventReceiver{
 
     DC.log("Game","initialized",3)
 
-    (new Level).saveAs("TestLevel","LevelTest")
+    val lvl = new Level("TestLevel")
+    lvl.save()
+
   }
 
 

@@ -70,25 +70,25 @@ object EntityTemplateLoader {
 
     val name: Symbol = Symbol(nameStr)
 
+    // create the entity template
     val entity = EntityManager.create(name.name, template = true)
 
 
+    // load mesh if there is one
     val mesh: NodeSeq = xml \ "mesh"
-
     mesh.foreach(m => {
       val src = (m \ "source").text
       Collada.load(name,src)
     })
 
-
-
+    // parse components
     entity += hasParts.fromXML(xml)
     entity += isPartOf.fromXML(xml)
     entity += Display.fromXML(xml)
     entity += Motion.fromXML(xml)
     entity += Placement.fromXML(xml)
 
-    //TODO: add componentes
+    //TODO: add components
 
 
     entityTemplates.put(name, entity)
