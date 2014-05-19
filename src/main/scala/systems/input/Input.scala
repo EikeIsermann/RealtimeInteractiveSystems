@@ -110,7 +110,10 @@ object Input {
 
 
   def mouseMovementDo(mv: MouseMovement.Value, func: Vec3f => Unit) {
-    func(mouseMovement())
+    if(mv != null) {
+     func(mouseMovement())
+    }
+
   }
 
   def isKeyDown(key: Key.Value):Boolean = key != null && pressedKeys.contains(key.id)

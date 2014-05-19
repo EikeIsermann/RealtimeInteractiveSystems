@@ -15,7 +15,7 @@ import main.scala.event.EntityCreated
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
 import main.scala.systems.sound.SoundSystem
 import main.scala.entities.Entity
-import main.scala.math.Vec3f
+import main.scala.math.{Quat, Vec3f}
 import main.scala.systems.positional.{RelativePositionalSystem, MovementSystem}
 
 /**
@@ -175,16 +175,10 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('Floor)
 
     // creating Tank
-    //val tank = Entity.newInstanceOf('Tank)
-
-   //val collisionBox = Entity.newInstanceOf('CollisionBox)
-    //val collisionBox1 = Entity.newInstanceOf('CollisionBox)
-
-    //collisionBox1.getComponent(classOf[Placement]).position = new Vec3f(5,0,0)
-
+    val tank = Entity.newInstanceOf('Tank)
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
-    // creating Camera
+        // creating Camera
     val camEntity = Entity.newInstanceOf('Camera)
 
     //val camEntity = Entity.create("Camera")
@@ -194,13 +188,15 @@ object GameEngine extends Engine with EventReceiver{
 
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(Key.ArrowUp,null,MouseMovement.MovementY), Triggers(Key.ArrowDown,null,MouseMovement.MovementY),
-      Triggers(Key.ArrowLeft,null, MouseMovement.MovementX), Triggers(Key.ArrowRight,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
+      Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
     val motion = new Motion()
     camEntity.add(camCon)
     camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
+
+
 
     //register systems with engine
     add(new CameraSystem)

@@ -2,7 +2,7 @@ package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
 import scala.xml.{Node, NodeSeq, NodeBuffer}
-import main.scala.math.{Quat, Vec3f}
+import main.scala.math.{Mat4f, Quat, Vec3f}
 import main.scala.architecture
 import main.scala.tools.Identifier
 
@@ -27,7 +27,7 @@ object Placement extends ComponentCreator {
     })
   }
 }
-class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0), scale1: Vec3f = Vec3f(1,1,1), off: Vec3f = Vec3f(0,0,0)) extends Component {
+class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0), scale1: Vec3f = Vec3f(1,1,1)) extends Component {
 
 
 
@@ -36,42 +36,40 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
   private var _relativeScale: Vec3f = scale1
   private var _relativeRotation: Vec3f = rotation1
 
-  private var _position: Vec3f = position1
-  private var _orientation: Quat = Quat()
-  private var _scale: Vec3f = scale1
-
+  private var _basePosition: Mat4f = Mat4f.identity
 
   /**
    * linear position
    */
-  def position: Vec3f = _position
-  def position_=(v: Vec3f) = {_position = v ; _relativePosition = v}
+  def position: Vec3f = _relativePosition
+  def position_=(v: Vec3f) = { _relativePosition = v}
 
-  def orientation: Quat  = _orientation
-  def orientation_=(o: Quat) = {_orientation = o ; _relativeOrientation = o}
+  def orientation: Quat  = _relativeOrientation
+  def orientation_=(o: Quat) = { _relativeOrientation = o}
 
   //TODO: remove
-  private var _rotation: Vec3f = rotation1
-  def rotation: Vec3f = _rotation
-  def rotation_=(v: Vec3f) = {_rotation = v ; _relativeRotation = v  }
+  def rotation: Vec3f = _relativeRotation
+  def rotation_=(v: Vec3f) = {_relativeRotation = v  }
 
-  def scale: Vec3f = _scale
-  def scale_=(v: Vec3f) = {_scale = v ; _relativeScale = v}
+  def scale: Vec3f = _relativeScale
+  def scale_=(v: Vec3f) = {_relativeScale = v}
+
+  def basePosition = _basePosition
+
+  def getMatrix = (Mat4f.translation(position) * Mat4f.rotation(rotation)  * Mat4f.scale(scale)) * _basePosition
 
 
-
-  def relativeUpdate(p: Placement){
-
-       _orientation = _relativeOrientation + p.orientation
-       _rotation = _relativeRotation +  p.rotation
-       _position = _relativePosition + p.position
-       _scale = _relativeScale + p.scale
+  def relativeUpdate(p: Mat4f){
+      _basePosition = p
   }
+
   def setTo(p: Placement) = {
     position = p.position
     orientation = p.orientation
     rotation = p.rotation
   }
+
+
 
   override def toXML: Node = {
     <placement>

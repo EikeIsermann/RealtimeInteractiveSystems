@@ -26,6 +26,9 @@ object Motion extends ComponentCreator {
 
 class Motion() extends Component {
 
+
+  var testRot: Vec3f = Vec3f(0,0,0)
+
   final val sleepEpsilon: Float = 0.3f
   private var _canSleep: Boolean = false
   private var _isAwake: Boolean = true

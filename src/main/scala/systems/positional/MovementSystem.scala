@@ -33,8 +33,8 @@ class MovementSystem extends ProcessingSystem {
         motion.velocity = Vec3f(0, 0, 0)
 
         //TODO: different!
-        //pos.rotation = motion.direction
-        //motion.direction = Vec3f(0,0,0)
+        placement.rotation = motion.testRot
+        motion.testRot = Vec3f(0,0,0)
       }
       case _ => throw new IllegalArgumentException("not a valid node")
     }

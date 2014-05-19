@@ -2,7 +2,7 @@ package main.scala.systems.input
 
 import main.scala.architecture.{System, ProcessingSystem, Node}
 import main.scala.nodes.CamControlNode
-import main.scala.components.{CamControl, Motion}
+import main.scala.components.{Placement, CamControl, Motion}
 import main.scala.math.Vec3f
 import main.scala.tools.DC
 
@@ -61,6 +61,7 @@ class CamControlSystem extends ProcessingSystem {
           doAction(control.triggerPitchNegative, _ => {pitch -= 1}, delta => motionDirectionViaMouse(delta))
 
           //YAW NEGATIVE/LEFT
+          // doAction(triggers: Triggers, keyAction: Unit => Unit, mouseAction: Vec3f => Unit)
           doAction(control.triggerYawLeft, _ => {yaw = (yaw + 1) % 360}, delta => motionDirectionViaMouse(delta))
 
           //YAW POSITIVE/RIGHT
@@ -135,7 +136,7 @@ class CamControlSystem extends ProcessingSystem {
 
           motion.velocity = Vec3f(x, y, z)
           //TODO: different
-          //      motion.direction = Vec3f(pitch, yaw, 0)
+          motion.testRot = Vec3f(pitch, yaw, 0)
         case _ =>
 
     }

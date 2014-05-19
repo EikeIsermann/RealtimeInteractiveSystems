@@ -87,8 +87,9 @@ class RenderingSystem extends ProcessingSystem {
 
 
         //TODO use parent and child construct to get the right trafos!
-        val modelMatrix: Mat4f = Mat4f.rotation(rotation) * Mat4f.translation(position) * Mat4f.scale(scale)
+        val modelMatrix: Mat4f = placementComp.getMatrix //Mat4f.rotation(rotation) * Mat4f.translation(position) * Mat4f.scale(scale)
 
+        println("Rendering " + placementComp.owner + " at " + modelMatrix.position)
 
         mesh.draw(shader, modelMatrix, ctx.projectionMatrix, ctx.viewMatrix)
       }
