@@ -5,7 +5,7 @@ import ogl.app.StopWatch
 import main.scala.tools.{HUD, DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.EntityTemplateLoader
+import main.scala.io.{LevelLoader, EntityTemplateLoader}
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.components.{Camera, Placement, Motion, CamControl}
 import main.scala.event._

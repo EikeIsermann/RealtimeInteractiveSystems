@@ -1,12 +1,15 @@
 <entityTemplate name="Turret">
     <isPartOf>Tank</isPartOf>
+    <hasParts>
+        <part>MachineGun</part>
+    </hasParts>
     <display>
         <meshId>Turret</meshId>
         <shaderId>default</shaderId>
     </display>
     <placement>
         <position x="0" y="95" z="-190" />
-        <rotation angleX="0" angleY="90" angleZ="0" />
-        <scale x="0.001" y="0.001" z="0.001" />
+        <rotation angleX="0" angleY="45" angleZ="0" />
+        <scale x="1" y="1" z="1" />
     </placement>
 </entityTemplate>
