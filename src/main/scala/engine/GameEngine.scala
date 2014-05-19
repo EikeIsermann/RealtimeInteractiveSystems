@@ -166,24 +166,24 @@ object GameEngine extends Engine with EventReceiver{
     // get the level and initialize it
     LevelLoader.get('TestLevel).initialize()
 
-    /*
+
     //create a level from current game with this name and save it to disk
-    val lvl = new Level("TestLevel")
-    lvl.save()
-    */
+   //val lvl = new Level("TestLevel")
+    //lvl.save()
+
 
     //creating SkyBox
     //Entity.newInstanceOf('SkyBox)
 
     //creating Floor
-    //Entity.newInstanceOf('Floor)
+   // Entity.newInstanceOf('Floor)
 
     // creating Tank
 
-    val tank = Entity.newInstanceOf('Tank)
+   // val tank = Entity.newInstanceOf('Tank)
 
-    val tank2 = Entity.newInstanceOf('Tank)
-    tank2.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
+    //val tank2 = Entity.newInstanceOf('Tank)
+    //tank2.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
         // creating Camera
@@ -234,8 +234,8 @@ object GameEngine extends Engine with EventReceiver{
     DC.log("Game","initialized",3)
 
 
-    //val lvl = new Level("TestLevel")
-   // lvl.save()
+   val lvl = new Level("TestLevel")
+   lvl.save()
   }
 
 

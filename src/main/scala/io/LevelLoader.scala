@@ -7,6 +7,8 @@ import java.nio.channels.Channels
 import scala.collection._
 import main.scala.tools.{Identifier, DC}
 import main.scala.entities.Entity
+import scala.collection.mutable.ListBuffer
+import main.scala.components.{Parent, Children, hasParts, isPartOf}
 
 /**
  * Created by Christian Treffs
@@ -81,7 +83,7 @@ class Level(nameLvl: String) {
     }
     val xml = _xml
     val entities = xml \ "entity"
-
+    var entityList: ListBuffer[Entity] = new ListBuffer[Entity]()
     entities.foreach(entityXML => {
       val eId = (entityXML \ "@identifier").text
 
@@ -89,11 +91,33 @@ class Level(nameLvl: String) {
       val name = eIdSplit(0).toString
       val id = eIdSplit(1).toLong
       val ent = new Entity(Identifier.create(name,id))
-
       //parsing and registering the components
       entityXML.foreach(a => EntityTemplateLoader.parseComponents(ent,a))
+      if(ent.has(classOf[hasParts])) entityList.+=(ent)
+      }
+    )
+    for(e <- entityList){
+        val children = new Children()
+        children.owner = e.identifier
+        // for each part that is child of this entity
+        e.getComponent(classOf[hasParts]).parts.foreach(part => {
+          // create child
+          var childEntity = GameEngine.entities.apply(part.name)
+          // add this entity as parent
+          val p1 = new Parent(e)
+          p1.owner = e.identifier
+          childEntity += p1
+          DC.log("Child entity added to parent entity",(childEntity,e),1)
+          // add each child to this entity as a child
+          children += childEntity
+        })
 
-    })
+        // add all children
+        e += children
+      //do nothing - this can only be checked backwards
+      // by doing nothing it is prevented, that the isPartOf component is not added to the real entity
+
+    }
 
   }
 
