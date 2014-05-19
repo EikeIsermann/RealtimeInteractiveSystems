@@ -15,6 +15,7 @@ import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
 import main.scala.event.EntityCreated
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
+import main.scala.systems.sound.{Audio, SoundSystem}
 
 /**
  * Created by Christian Treffs
@@ -24,7 +25,7 @@ object GameEngine extends Engine with EventReceiver{
 
   EventDispatcher.subscribe(classOf[Event])(this)
   // set debug level
-  DC.debugLevel = 2
+  DC.debugLevel = 0
 
   private var assetsDir: String = null
   private var gameTitle:String = null
@@ -32,6 +33,7 @@ object GameEngine extends Engine with EventReceiver{
   private var shaderDir:String = null
   private var meshesDir:String = null
   var levelsDir: String = null
+  var soundsDir: String = null
 
 
   private val width = 800
@@ -67,6 +69,7 @@ object GameEngine extends Engine with EventReceiver{
     shaderDir = assetsDir+"/shaders"
     meshesDir = assetsDir+"/meshes"
     levelsDir = assetsDir+"/levels"
+    soundsDir = assetsDir+"/sounds"
 
     this
 
@@ -139,6 +142,10 @@ object GameEngine extends Engine with EventReceiver{
 
   def initGame(): Unit = {
 
+    // load sounds
+    Audio.init()
+    Audio.load()
+
     // load shader dir
     Shader.load(shaderDir)
 
@@ -195,6 +202,7 @@ object GameEngine extends Engine with EventReceiver{
     add(new RenderingSystem)
     add(new CollisionSystem)
     add(new PhysicsSystem)
+    add(new SoundSystem)
 
     Input.init()
 

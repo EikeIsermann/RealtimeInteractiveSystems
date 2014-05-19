@@ -18,6 +18,7 @@ object FileIO {
     fn.substring(i).toLowerCase
   }
 
+  def getName(file: File): String = file.getName.split('.')(0)
 
 
   def getPath(file: java.io.File): String = {

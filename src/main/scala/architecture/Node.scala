@@ -66,6 +66,11 @@ object Node {
         retVal.put(true, List(classOf[Placement], classOf[Display]))
         retVal.put(false, List())
       }
+
+      case soundNode if soundNode == classOf[SoundNode] => {
+        retVal.put(true, List(classOf[Sound], classOf[Placement], classOf[Motion]))
+        retVal.put(false, List())
+      }
       case _ =>
     }
     retVal

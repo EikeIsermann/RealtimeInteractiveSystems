@@ -39,12 +39,12 @@ object GLMinExample {
     Audio.init()
 
 
-    Audio.loadWave('tankFiring, "src/main/resources/sounds/tank-fire.wav")
+    /*Audio.loadWave('tankFiring, "src/main/resources/sounds/tank-fire.wav")
     Audio.loadWave('tankMoving, "src/main/resources/sounds/tank-moving.wav")
 
     Audio.createSource('tankFire01, Audio.getBuffer('tankFiring))
     Audio.createSource('tankMove01, Audio.getBuffer('tankMoving))
-
+      */
 
   }
 
@@ -73,9 +73,9 @@ object GLMinExample {
     Display.sync(60)
 
     Input.update()
-    Input.keyDownOnceDo(Key._1, _ => Audio.getSource('tankFire01).play())
+    /*Input.keyDownOnceDo(Key._1, _ => Audio.getSource('tankFire01).play())
     Input.keyDownOnceDo(Key._2, _ => Audio.getSource('tankMove01).play())
-
+      */
 
 
   }

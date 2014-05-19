@@ -10,6 +10,8 @@ import scala.collection.mutable
 import org.lwjgl.BufferUtils
 import java.nio.{FloatBuffer, IntBuffer}
 import javax.sound.sampled.{AudioSystem, AudioInputStream}
+import main.scala.engine.GameEngine
+import java.io.File
 
 /**
  * Created by Christian Treffs
@@ -33,9 +35,18 @@ object Audio {
     DC.log("Audio", "initialized")
   }
 
-  def loadWave(identifier: Symbol, filePath: String) {
-    audioBuffers += identifier -> new AudioBuffer(filePath)
-    DC.log(identifier + " audio buffer", "loaded from " + filePath)
+  def loadWave(identifier: Symbol, file: File) {
+    audioBuffers += identifier -> new AudioBuffer(file)
+    DC.log(identifier + " audio buffer", "loaded from " + file.getAbsoluteFile)
+  }
+
+  def load() {
+    val soundFiles = FileIO.loadAll("wav",GameEngine.soundsDir)
+    soundFiles.foreach(f => {
+      val nameSym = Symbol(FileIO.getName(f))
+      loadWave(nameSym,f)
+      createSource(nameSym,audioBuffers(nameSym))
+    })
   }
 
   def createSource(identifier: Symbol, audioBuffer: AudioBuffer) {
@@ -43,9 +54,11 @@ object Audio {
     DC.log(identifier + " audio source", "created")
   }
 
-  def getBuffer(identifier: Symbol): AudioBuffer = audioBuffers(identifier)
 
-  def getSource(identifier: Symbol): AudioSource = audioSources(identifier)
+
+  def getBuffer(identifier: Symbol): Option[AudioBuffer] = audioBuffers.get(identifier)
+
+  def getSource(identifier: Symbol): Option[AudioSource] = audioSources.get(identifier)
 
   def deinit() {
     audioSources.values.foreach(_.deinit())
@@ -103,12 +116,14 @@ sealed class AudioListener extends AudioDynamicLocation {
     alListener(AL_POSITION, position)
   }
 
+
   // override setVelocity method in AudioDynamicLocation
 
   override def velocity_=(vec: Vec3f) {
     super.velocity_=(vec)
     alListener(AL_VELOCITY, velocity)
   }
+
 
   def setOrientation(x: Float, y: Float, z: Float, upX: Float, upY: Float, upZ: Float) {
     orientation.put(0, x)
@@ -124,17 +139,17 @@ sealed class AudioListener extends AudioDynamicLocation {
 }
 
 
-sealed class AudioBuffer(filePath: String) extends AudioDynamicLocation {
+sealed class AudioBuffer(file: File) extends AudioDynamicLocation {
 
   private val buffer: IntBuffer = BufferUtils.createIntBuffer(1)
 
   alGenBuffers(buffer)
   if (alGetError() != AL_NO_ERROR) {
-    throw new Exception("error generating audio buffer for '" + filePath + "'")
+    throw new Exception("error generating audio buffer for '" + file.getAbsoluteFile + "'")
   }
 
 
-  val file = FileIO.load(filePath)
+
   val audioIn: AudioInputStream = AudioSystem.getAudioInputStream(file)
   val waveFile: WaveData = WaveData.create(audioIn)
 
@@ -144,7 +159,7 @@ sealed class AudioBuffer(filePath: String) extends AudioDynamicLocation {
 
   if (alGetError() != AL_NO_ERROR) {
     DC.warn("check your audio file", (audioIn.getFormat, audioIn.getFrameLength))
-    throw new Exception("error generating wave data '" + filePath + "' ERROR#:" + alGetError())
+    throw new Exception("error generating wave data '" + file.getAbsoluteFile + "' ERROR#:" + alGetError())
   }
 
   def id: Int = buffer.get(0)
@@ -154,7 +169,7 @@ sealed class AudioBuffer(filePath: String) extends AudioDynamicLocation {
   }
 
   override def toString: String = {
-    "AudioBuffer file : " + filePath
+    "AudioBuffer file : " + file.getAbsoluteFile
   }
 
   override def finalize() {
