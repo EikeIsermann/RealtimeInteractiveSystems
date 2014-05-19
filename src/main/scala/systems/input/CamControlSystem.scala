@@ -2,7 +2,7 @@ package main.scala.systems.input
 
 import main.scala.architecture.{System, ProcessingSystem, Node}
 import main.scala.nodes.CamControlNode
-import main.scala.components.{CamControl, Motion}
+import main.scala.components.{Placement, CamControl, Motion}
 import main.scala.math.Vec3f
 
 /**
@@ -44,7 +44,7 @@ class CamControlSystem extends ProcessingSystem {
   override def processNode(node: Node): Unit = {
     node match {
         case camCon: CamControlNode =>
-          val motion = node -> classOf[Motion]
+          val pos = node -> classOf[Placement]
           val control = node -> classOf[CamControl]
 
 
@@ -133,9 +133,8 @@ class CamControlSystem extends ProcessingSystem {
           }
 
 
-          motion.velocity = Vec3f(x, y, z)
-          //TODO: different
-          motion.testRot = Vec3f(pitch, yaw, 0)
+          pos.position = Vec3f(x, y, z)
+          pos.rotation = Vec3f(pitch, yaw, 0)
         case _ =>
 
     }

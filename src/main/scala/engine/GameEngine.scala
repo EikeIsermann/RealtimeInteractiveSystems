@@ -173,19 +173,26 @@ object GameEngine extends Engine with EventReceiver{
 
 
     //creating SkyBox
-    //Entity.newInstanceOf('SkyBox)
+    Entity.newInstanceOf('SkyBox)
 
     //creating Floor
-   // Entity.newInstanceOf('Floor)
+    Entity.newInstanceOf('Floor)
 
     Entity.newInstanceOf('CollisionBox)
 
     // creating Tank
 
-   // val tank = Entity.newInstanceOf('Tank)
+    val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
-    //tank2.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
+    val test = entities.apply("Turret:1")
+    test.add(new GunControl)
+    test.add(new Gun)
+
+    println(test.components.toList)
+
+
+
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
         // creating Camera
@@ -196,28 +203,29 @@ object GameEngine extends Engine with EventReceiver{
     val camPos = new Placement(Vec3f(0,0,0),Vec3f(0,0,0))
 
 
- /*   val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
-      Triggers(Key.ArrowUp,null,MouseMovement.MovementY), Triggers(Key.ArrowDown,null,MouseMovement.MovementY),
+    val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
+      Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
       Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
-    val motion = new Motion(Float.MaxValue)
+    val motion = new Motion()
     camEntity.add(camCon)
-    camEntity.add(motion)
+    //camEntity.add(motion)
     camEntity.add(cam)
-    camEntity.add(camPos)*/
+    camEntity.add(camPos)
     //println(camEntity.components.toList)
 
 
 
     //register systems with engine
     add(new CameraSystem)
-    //add(new CamControlSystem)
+    add(new CamControlSystem)
     add(new RenderingSystem)
     add(new CollisionSystem)
     add(new PhysicsSystem)
     //add(new MovementSystem)
     add(new RelativePositionalSystem)
     add(new SoundSystem)
+    add(new GunControlSystem)
     Input.init()
 
     time = new StopWatch()
@@ -236,8 +244,8 @@ object GameEngine extends Engine with EventReceiver{
     DC.log("Game","initialized",3)
 
 
-   //val lvl = new Level("TestLevel")
-   //lvl.save()
+   val lvl = new Level("TestLevel")
+   lvl.save()
   }
 
 

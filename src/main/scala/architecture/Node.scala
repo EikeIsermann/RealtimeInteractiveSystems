@@ -40,7 +40,7 @@ object Node {
 
     cl match {
       case camcontrol if camcontrol == classOf[CamControlNode] => {
-        retVal.put(true, List(classOf[CamControl], classOf[Motion]))
+        retVal.put(true, List(classOf[CamControl], classOf[Camera], classOf[Placement]))
         retVal.put(false, List())
       }
       case camnode if camnode == classOf[CameraNode] => {
@@ -74,6 +74,10 @@ object Node {
       case posroot if posroot == classOf[PositionalRootNode] => {
         retVal.put(true, List(classOf[Placement], classOf[Children]))
         retVal.put(false, List(classOf[Parent]))
+      }
+      case guncontrol if guncontrol == classOf[GunControlNode] => {
+        retVal.put(true, List(classOf[GunControl], classOf[Gun], classOf[Placement]))
+        retVal.put(false, List())
       }
 
       case _ => DC.warn("No valid definition for " + cl.getClass.getSimpleName)

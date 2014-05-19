@@ -61,9 +61,6 @@
   </entity>
   <entity identifier="Camera:1">
     <camControl>//TODO</camControl>
-    <motion>
-      <velocity x="0.0" y="0.0" z="0.0"/>
-    </motion>
     <camera>
       <fieldOfView>90.0</fieldOfView>
       <active>true</active>
@@ -126,6 +123,18 @@
       <scale x="2.0" y="2.0" z="2.0"/>
     </placement>
   </entity>
+  <entity identifier="MachineGun:1">
+    <display>
+      <meshId>MachineGun</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="68.0" y="78.0" z="60.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+    <isPartOf>Turret:1</isPartOf>
+  </entity>
   <entity identifier="FloorPLAZA:1">
     <display>
       <meshId>RoadPLAZA</meshId>
@@ -138,17 +147,29 @@
     </placement>
     <isPartOf>Floor:1</isPartOf>
   </entity>
-  <entity identifier="MachineGun:1">
+  <entity identifier="CollisionBox:1">
     <display>
-      <meshId>MachineGun</meshId>
+      <meshId>Cube</meshId>
       <shaderId>default</shaderId>
     </display>
+    <motion>
+      <mass>200.0</mass>
+      <gravity x="0.0" y="-9.81" z="0.0"/>
+      <velocity x="10.0" y="20.0" z="0.0"/>
+      <acceleration x="0.0" y="0.0" z="0.0"/>
+      <damping>
+        <linear>0.99</linear>
+        <angular>0.99</angular>
+      </damping>
+      <inertia>
+        ArrayBuffer(1.0 , -0.0 , 0.0 , -0.0 , 1.0 , -0.0 , 0.0 , -0.0 , 1.0 )
+      </inertia>
+    </motion>
     <placement>
-      <position x="68.0" y="78.0" z="60.0"/>
+      <position x="-30.0" y="0.0" z="-50.0"/>
       <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
       <scale x="1.0" y="1.0" z="1.0"/>
     </placement>
-    <isPartOf>Turret:1</isPartOf>
   </entity>
   <entity identifier="ChassisTread:1">
     <display>

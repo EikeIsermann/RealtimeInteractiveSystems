@@ -45,7 +45,6 @@ class RelativePositionalSystem extends ProcessingSystem{
 
   def updateChildren(e: Entity, m: Mat4f): Boolean = {
     e.getComponent(classOf[Placement]).relativeUpdate(m)
-    println(e.toString + " " + e.getComponent(classOf[Placement]).getMatrix.position)
     if(e.has(classOf[Children])){
       val mat = e.getComponent(classOf[Placement]).getMatrix
        for (c <- e.getComponent(classOf[Children]).children){
