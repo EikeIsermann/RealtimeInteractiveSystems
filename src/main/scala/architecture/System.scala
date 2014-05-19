@@ -63,8 +63,8 @@ abstract class System /*extends ObservingActor*/ {
    * executed once on system shutdown
    */
   def shutdown(): Unit = {
-    DC.log(this.toString,"shutdown",3)
     deinit()
+    DC.log(this.toString,"shutdown",3)
   }
   /**
    * called on system shutdown

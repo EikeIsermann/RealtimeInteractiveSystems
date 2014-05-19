@@ -245,6 +245,7 @@ object GameEngine extends Engine with EventReceiver{
 
   override protected def gameLoop(): Unit = {
     DC.logT('engineStartup,"Engine", "initialized", 3)
+    DC.log("Game","running...",3)
     while (!Display.isCloseRequested) {
       Display.sync(preferredFPS) //needs to be first
 
