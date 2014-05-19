@@ -6,6 +6,7 @@ import main.scala.components.{Placement, Children}
 import main.scala.entities.Entity
 import scala.collection.mutable.ListBuffer
 import main.scala.tools.DC
+import main.scala.math.Mat4f
 
 /**
  * User: uni
@@ -36,27 +37,23 @@ class RelativePositionalSystem extends ProcessingSystem{
 
     val placement = node -> classOf[Placement]
     val children = node -> classOf[Children]
-    val allChilds: ListBuffer[Entity] = new ListBuffer[Entity]
     for(e <- children.children){
-      getChildren(e, allChilds)
+      updateChildren(e, placement.getMatrix)
     }
-    for(e <- allChilds){
-      println("Processing " + e.identifier)
 
-      if(e.has(classOf[Placement])){
-       var p = e.getComponent(classOf[Placement])
-       p.relativeUpdate(placement)
-      }
-    }
   }
 
-  def getChildren(e: Entity, list: ListBuffer[Entity]): ListBuffer[Entity] = {
-     if(e.has(classOf[Children])){
+  def updateChildren(e: Entity, m: Mat4f): Boolean = {
+    e.getComponent(classOf[Placement]).relativeUpdate(m)
+
+    if(e.has(classOf[Children])){
        for (c <- e.getComponent(classOf[Children]).children){
-          getChildren(c, list)
+
+         updateChildren(c, e.getComponent(classOf[Placement]).getMatrix)
        }
+      false
      }
-    list.+=(e)
+    true
   }
 
 

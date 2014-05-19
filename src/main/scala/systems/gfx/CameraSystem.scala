@@ -34,7 +34,7 @@ class CameraSystem extends ProcessingSystem {
         val matPos = Mat4f.translation(pos.position)
         val pitch = pos.rotation.x
         val yaw = pos.rotation.y
-        val matRot = Mat4f.rotation(Vec3f(1,0,0),pitch) *Mat4f.rotation(Vec3f(0,1,0),yaw)
+        val matRot = Mat4f.rotation(Vec3f(1,0,0),pitch) * Mat4f.rotation(Vec3f(0,1,0),yaw)
         val viewMat = matRot * matPos
         ctx.setViewMatrix(viewMat.inverseRigid)
         //DC.log("Camera is at: ", pos.position.inline)

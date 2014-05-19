@@ -37,7 +37,7 @@ trait Engine {
   }
   def add (entity: Entity): Engine = this.+=(entity)
   def += (entity: Entity): Engine = {
-    _entities.put(entity.toString, entity)
+    _entities.put(entity.identifier.toString, entity)
     //println(_entities.toList)
     this
   }
