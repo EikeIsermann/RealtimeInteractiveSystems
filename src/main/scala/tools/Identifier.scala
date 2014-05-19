@@ -26,7 +26,7 @@ object Identifier {
     }
     new Identifier(name.toUpperCase,id)
   }
-  def create(name: String): Identifier = new Identifier(name.toUpperCase, getNextId(name))
+  def create(name: String): Identifier = new Identifier(name, getNextId(name))
 
 }
 sealed case class Identifier(name: String, id: Long) {
