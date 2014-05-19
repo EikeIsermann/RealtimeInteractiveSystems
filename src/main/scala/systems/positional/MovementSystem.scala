@@ -1,11 +1,8 @@
 package main.scala.systems.positional
 
 import main.scala.architecture._
-import main.scala.engine.GameEngine
 import main.scala.nodes.MovementNode
 import main.scala.components.{Motion, Placement}
-
-import main.scala.tools.DC
 import main.scala.math.Vec3f
 
 /**
@@ -24,7 +21,7 @@ class MovementSystem extends ProcessingSystem {
 
   override def processNode(n: Node): Unit = {
     n match {
-      case movNode: MovementNode => {
+      case movNode: MovementNode =>
 
         val motion = movNode -> classOf[Motion]
         val placement = movNode -> classOf[Placement]
@@ -35,7 +32,6 @@ class MovementSystem extends ProcessingSystem {
         //TODO: different!
         placement.rotation = motion.testRot
         motion.testRot = Vec3f(0,0,0)
-      }
       case _ => throw new IllegalArgumentException("not a valid node")
     }
   }

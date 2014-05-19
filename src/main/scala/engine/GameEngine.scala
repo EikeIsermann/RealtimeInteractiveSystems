@@ -162,9 +162,9 @@ object GameEngine extends Engine with EventReceiver{
     EntityTemplateLoader.load(entitiesDir)
 
     // loading all level files - or one specific
-    LevelLoader.load()
+    //LevelLoader.load()
     // get the level and initialize it
-    LevelLoader.get('TestLevel).initialize()
+    //LevelLoader.get('TestLevel).initialize()
 
 
     //create a level from current game with this name and save it to disk
@@ -177,6 +177,8 @@ object GameEngine extends Engine with EventReceiver{
 
     //creating Floor
    // Entity.newInstanceOf('Floor)
+
+    Entity.newInstanceOf('CollisionBox)
 
     // creating Tank
 
@@ -194,26 +196,26 @@ object GameEngine extends Engine with EventReceiver{
     val camPos = new Placement(Vec3f(0,0,0),Vec3f(0,0,0))
 
 
-    val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
+ /*   val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(Key.ArrowUp,null,MouseMovement.MovementY), Triggers(Key.ArrowDown,null,MouseMovement.MovementY),
       Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
-    val motion = new Motion()
+    val motion = new Motion(Float.MaxValue)
     camEntity.add(camCon)
     camEntity.add(motion)
     camEntity.add(cam)
-    camEntity.add(camPos)
-    println(camEntity.components.toList)
+    camEntity.add(camPos)*/
+    //println(camEntity.components.toList)
 
 
 
     //register systems with engine
     add(new CameraSystem)
-    add(new CamControlSystem)
+    //add(new CamControlSystem)
     add(new RenderingSystem)
     add(new CollisionSystem)
     add(new PhysicsSystem)
-    add(new MovementSystem)
+    //add(new MovementSystem)
     add(new RelativePositionalSystem)
     add(new SoundSystem)
     Input.init()
@@ -234,8 +236,8 @@ object GameEngine extends Engine with EventReceiver{
     DC.log("Game","initialized",3)
 
 
-   val lvl = new Level("TestLevel")
-   lvl.save()
+   //val lvl = new Level("TestLevel")
+   //lvl.save()
   }
 
 

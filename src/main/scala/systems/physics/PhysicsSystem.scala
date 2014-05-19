@@ -2,8 +2,7 @@ package main.scala.systems.physics
 
 import main.scala.architecture._
 import main.scala.components._
-import main.scala.math.Mat4f
-import main.scala.tools.DC
+import main.scala.math.{Vec3f, Mat4f}
 import main.scala.nodes.PhysicsNode
 
 /**
@@ -33,12 +32,15 @@ class PhysicsSystem extends ProcessingSystem {
 
   override def processNode(node: Node): Unit = {
       node match {
-        case phyNode: PhysicsNode => {
-          //val physics: Physics = phyNode -> classOf[Physics]
+        case phyNode: PhysicsNode =>
+
           val motion: Motion = phyNode -> classOf[Motion]
+
+
+
+
           val placement: Placement = phyNode -> classOf[Placement]
           integrate(motion,placement, ctx.deltaT)
-        }
         case _ => throw new IllegalArgumentException("not the right node")
       }
   }
@@ -52,9 +54,12 @@ class PhysicsSystem extends ProcessingSystem {
   private def integrate(m: Motion, p: Placement, duration: Double) {
     if(!m.isAwake) return
 
+
+
+
     // Calculate linear acceleration from force inputs.
     // a2 = a0 + F/m
-    m.lastFrameAcceleration = m.acceleration + m.forceAccum * m.inverseMass
+    m.lastFrameAcceleration = m.gravity + m.acceleration + m.forceAccum * m.inverseMass
 
     // Calculate angular acceleration from torque inputs.
     m.angularAcceleration = m.inverseInertiaTensorWorld * m.torqueAccum
@@ -94,7 +99,6 @@ class PhysicsSystem extends ProcessingSystem {
     // Update the kinetic energy store, and possibly put the body to
     // sleep.
     m.checkSleepState(duration)
-
   }
 
 

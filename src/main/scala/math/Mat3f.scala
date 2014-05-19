@@ -14,9 +14,12 @@ object Mat3f {
 
 class Mat3f(m00: Float = 1, m01: Float = 0, m02: Float = 0, m10: Float = 0, m11: Float = 1, m12: Float = 0, m20: Float = 0, m21: Float = 0, m22: Float = 1) extends {
 
-  private val values: ArrayBuffer[Float] = ArrayBuffer(m00,m01,m02,m10,m11,m12,m20,m21,m22)
+  val values: ArrayBuffer[Float] = ArrayBuffer(m00,m01,m02,m10,m11,m12,m20,m21,m22)
+
 
   def apply(index: Int) = values(index)
+
+
 
 
   implicit def *(vector: Vec3f): Vec3f = new Vec3f(

@@ -2,9 +2,8 @@ package main.scala.systems.input
 
 import main.scala.architecture.{System, ProcessingSystem, Node}
 import main.scala.nodes.CamControlNode
-import main.scala.components.{Placement, CamControl, Motion}
+import main.scala.components.{CamControl, Motion}
 import main.scala.math.Vec3f
-import main.scala.tools.DC
 
 /**
  * Camera Control System

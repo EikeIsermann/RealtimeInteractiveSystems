@@ -58,7 +58,7 @@ object Node {
       }
 
       case physnode if physnode == classOf[PhysicsNode] => {
-        retVal.put(true, List(classOf[Physics], classOf[Placement], classOf[Motion]))
+        retVal.put(true, List(classOf[Placement], classOf[Motion]))
         retVal.put(false, List())
       }
 

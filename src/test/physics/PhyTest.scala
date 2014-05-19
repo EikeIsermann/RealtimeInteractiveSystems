@@ -1,14 +1,9 @@
 package test.physics
 
 import main.scala.math.{Mat3f, Vec3f}
-import javax.swing.JFrame
-import java.awt.{Color, Dimension, Graphics}
-import java.awt.image.BufferedImage
 import test.physics.millington.{RigidBodyPhysics, ParticlePhysics}
 import main.scala.tools.phy
-import scala.collection.mutable.ArrayBuffer
-import java.awt.event.{MouseEvent, MouseListener}
-import main.scala.components.{Physics, Motion, Placement}
+import main.scala.components.{Motion, Placement}
 
 /**
  * Created by Christian Treffs
@@ -22,7 +17,7 @@ object PhyTest {
 
     val placement = new Placement()
     val motion = new Motion()
-    val physics = new Physics()
+
 
 
 
