@@ -67,11 +67,16 @@ object Node {
         retVal.put(false, List())
       }
 
-      case soundNode if soundNode == classOf[SoundNode] => {
+     case soundNode if soundNode == classOf[SoundNode] => {
         retVal.put(true, List(classOf[Sound], classOf[Placement], classOf[Motion]))
         retVal.put(false, List())
       }
-      case _ =>
+      case posroot if posroot == classOf[PositionalRootNode] => {
+        retVal.put(true, List(classOf[Placement], classOf[Children]))
+        retVal.put(false, List(classOf[Parent]))
+      }
+
+      case _ => DC.warn("No valid definition for " + cl.getClass.getSimpleName)
     }
     retVal
   }

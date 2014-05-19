@@ -8,8 +8,8 @@ import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.{LevelLoader, EntityTemplateLoader}
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.components.Motion
+import main.scala.components.{Camera, Placement, Motion, CamControl}
 import main.scala.event._
-import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
 import main.scala.event.EntityCreated
@@ -24,7 +24,7 @@ object GameEngine extends Engine with EventReceiver{
 
   EventDispatcher.subscribe(classOf[Event])(this)
   // set debug level
-  DC.debugLevel = 0
+  DC.debugLevel = 3
 
   private var assetsDir: String = null
   private var gameTitle:String = null
@@ -156,9 +156,9 @@ object GameEngine extends Engine with EventReceiver{
     EntityTemplateLoader.load(entitiesDir)
 
     // loading all level files - or one specific
-    LevelLoader.load()
+   // LevelLoader.load()
     // get the level and initialize it
-    LevelLoader.get('TestLevel).initialize()
+    //LevelLoader.get('TestLevel).initialize()
 
     /*
     //create a level from current game with this name and save it to disk
@@ -173,25 +173,27 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('Floor)
 
     // creating Tank
-    //Entity.newInstanceOf('Tank)
+    var tank = Entity.newInstanceOf('Tank)
 
+    tank.getComponent(classOf[Placement]).position = (new Vec3f(-30,0,-500))
+    tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
     // creating Camera
-    //val camEntity = Entity.newInstanceOf('Camera)
+    val camEntity = Entity.newInstanceOf('Camera)
 
-    /*val camEntity = Entity.create("Camera")
+    //val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
     val camPos = new Placement(Vec3f(0,0,0),Vec3f(0,0,0))
-    */
+
 
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(Key.ArrowUp,null,MouseMovement.MovementY), Triggers(Key.ArrowDown,null,MouseMovement.MovementY),
       Triggers(Key.ArrowLeft,null, MouseMovement.MovementX), Triggers(Key.ArrowRight,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
     val motion = new Motion()
-    //camEntity.add(camCon)
-    //camEntity.add(motion)
-    /*camEntity.add(cam)
-    camEntity.add(camPos)*/
+    camEntity.add(camCon)
+    camEntity.add(motion)
+    camEntity.add(cam)
+    camEntity.add(camPos)
 
     //register systems with engine
     add(new CameraSystem)
@@ -199,8 +201,8 @@ object GameEngine extends Engine with EventReceiver{
     add(new RenderingSystem)
     add(new CollisionSystem)
     add(new PhysicsSystem)
-    add(new SoundSystem)
-
+    add(new MovementSystem)
+    add(new RelativePositionalSystem)
     Input.init()
 
     time = new StopWatch()

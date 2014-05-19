@@ -27,8 +27,14 @@ object Placement extends ComponentCreator {
     })
   }
 }
-class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0), scale1: Vec3f = Vec3f(1,1,1)) extends Component {
+class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0), scale1: Vec3f = Vec3f(1,1,1), off: Vec3f = Vec3f(0,0,0)) extends Component {
 
+
+
+  private var _relativePosition: Vec3f = position1
+  private var _relativeOrientation: Quat = Quat()
+  private var _relativeScale: Vec3f = scale1
+  private var _relativeRotation: Vec3f = rotation1
 
   private var _position: Vec3f = position1
   private var _orientation: Quat = Quat()
@@ -39,18 +45,33 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
    * linear position
    */
   def position: Vec3f = _position
-  def position_=(v: Vec3f) = _position = v
+  def position_=(v: Vec3f) = {_position = v ; _relativePosition = v}
 
   def orientation: Quat  = _orientation
-  def orientation_=(o: Quat) = _orientation = o
+  def orientation_=(o: Quat) = {_orientation = o ; _relativeOrientation = o}
 
   //TODO: remove
   private var _rotation: Vec3f = rotation1
   def rotation: Vec3f = _rotation
-  def rotation_=(v: Vec3f) = _rotation = v
+  def rotation_=(v: Vec3f) = {_rotation = v ; _relativeRotation = v  }
 
   def scale: Vec3f = _scale
-  def scale_=(v: Vec3f) = _scale = v
+  def scale_=(v: Vec3f) = {_scale = v ; _relativeScale = v}
+
+
+
+  def relativeUpdate(p: Placement){
+
+       _orientation = _relativeOrientation + p.orientation
+       _rotation = _relativeRotation +  p.rotation
+       _position = _relativePosition + p.position
+       _scale = _relativeScale + p.scale
+  }
+  def setTo(p: Placement) = {
+    position = p.position
+    orientation = p.orientation
+    rotation = p.rotation
+  }
 
   override def toXML: Node = {
     <placement>

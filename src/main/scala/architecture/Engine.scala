@@ -3,6 +3,7 @@ package main.scala.architecture
 import main.scala.systems.input.{SimulationContext, Context}
 import scala.collection.mutable
 import main.scala.entities.Entity
+import main.scala.tools.DC
 
 /**
  * Created by Christian Treffs

@@ -5,7 +5,7 @@
         <shaderId>default</shaderId>
     </display>
     <placement>
-        <position x="0" y="93" z="-190" />
+        <position x="0" y="200" z="-190" />
         <rotation angleX="0" angleY="0" angleZ="0" />
         <scale x="0.001" y="0.001" z="0.001" />
     </placement>

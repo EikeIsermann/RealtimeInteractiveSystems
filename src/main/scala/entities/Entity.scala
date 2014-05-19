@@ -41,7 +41,7 @@ object Entity {
          // create child
          val subEntity = Entity.newInstanceOf(part)
          // add this entity as parent
-         val p1 = new Parent(newEntity)
+        val p1 = new Parent(newEntity)
          p1.owner = subEntity.identifier
          subEntity += p1
          DC.log("Child entity added to parent entity",(subEntity,newEntity),1)
@@ -80,7 +80,7 @@ class Entity(idx: Identifier, template: Boolean = false) {
   def this(name1: String, template1: Boolean) = this(Identifier.create(name1),template1)
 
   def components: Array[Component] = _components.toArray
-  def components(componentType: Class[_ <: Component]): Array[Component] = components.filter(_.getClass.equals(componentType))
+  def components[T <: Component](componentType: Class[T]): Array[T] = components.filter(_.getClass.equals(componentType)).asInstanceOf[Array[T]]
 
   def add(component: Component): Entity = this.+=(component)
   def += (component: Option[Component]): Entity = {
@@ -109,6 +109,10 @@ class Entity(idx: Identifier, template: Boolean = false) {
 
   def has(componentClass: Class[_ <: Component]): Boolean = {
     !components(componentClass).isEmpty
+  }
+
+  def getComponent[T <: Component](c: Class[T]): T = {
+   components(c).apply(0)
   }
 
 
