@@ -2,6 +2,8 @@ package main.scala.components
 
 import main.scala.architecture.Component
 import main.scala.systems.input.Triggers
+import scala.xml.Node
+import main.scala.tools.Identifier
 
 /**
  * User: uni
@@ -12,4 +14,8 @@ import main.scala.systems.input.Triggers
 case class DriveControl(triggerForward: Triggers, triggerBackward: Triggers, triggerLeft: Triggers,
                         triggerRight: Triggers, triggerBoost: Triggers) extends Component {
 
+  def newInstance(identifier: Identifier): Component = new DriveControl(triggerForward, triggerBackward,
+                  triggerLeft, triggerRight, triggerBoost)
+
+  def toXML: Node = ???
 }

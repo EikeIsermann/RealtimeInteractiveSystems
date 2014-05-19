@@ -75,6 +75,10 @@ object Node {
         retVal.put(true, List(classOf[Placement], classOf[Children]))
         retVal.put(false, List(classOf[Parent]))
       }
+      case guncontrol if guncontrol == classOf[GunControlNode] => {
+        retVal.put(true, List(classOf[GunControl], classOf[Gun], classOf[Placement]))
+        retVal.put(false, List())
+      }
 
       case _ => DC.warn("No valid definition for " + cl.getClass.getSimpleName)
     }
