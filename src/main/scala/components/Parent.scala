@@ -19,7 +19,7 @@ class Parent(parentEntity1: Entity) extends Component {
 
   //<parent>{entity.identifier}</parent>
   override def toXML: Node = {
-    <isPartOf>{entity.identifier.name}</isPartOf>
+    <isPartOf>{entity.identifier}</isPartOf>
   }
 
   override def newInstance(i:Identifier): Component = new Parent(entity)

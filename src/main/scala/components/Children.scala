@@ -23,7 +23,7 @@ class Children() extends Component{
 
   override def toXML: Node =
     <hasParts>
-      {children.map(c => <part>{c.identifier.name}</part>)}
+      {children.map(c => <part>{c.identifier}</part>)}
     </hasParts>
 
 

@@ -11,7 +11,7 @@ object Identifier {
   final val separator: String = ":"
 
   protected def getNextId(name: String): Long = {
-    val n = name.toUpperCase
+    val n = name
     var id: Long = 0
     identifier.get(n).collect{
       case i: Long => id = i+1
@@ -24,7 +24,7 @@ object Identifier {
     if(identifier.contains(name) && identifier(name) == id) {
       throw new IllegalArgumentException("Identifier "+name+separator+id+" can not be created because it already exists")
     }
-    new Identifier(name.toUpperCase,id)
+    new Identifier(name,id)
   }
   def create(name: String): Identifier = new Identifier(name, getNextId(name))
 
