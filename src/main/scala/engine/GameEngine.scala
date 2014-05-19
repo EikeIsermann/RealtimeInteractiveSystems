@@ -220,8 +220,9 @@ object GameEngine extends Engine with EventReceiver{
     add(new CameraSystem)
     add(new CamControlSystem)
     add(new RenderingSystem)
-    add(new CollisionSystem)
+
     add(new PhysicsSystem)
+    add(new CollisionSystem)
     //add(new MovementSystem)
     add(new RelativePositionalSystem)
     add(new SoundSystem)
@@ -244,8 +245,8 @@ object GameEngine extends Engine with EventReceiver{
     DC.log("Game","initialized",3)
 
 
-   val lvl = new Level("TestLevel")
-   lvl.save()
+   //val lvl = new Level("TestLevel")
+   //lvl.save()
   }
 
 

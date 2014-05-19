@@ -39,7 +39,7 @@ class Collision(boundingVolume1: BoundingVolume = new AABB(Vec3f(0,0,0), Vec3f(0
 
   def updateBoundingVolume(position: Vec3f) = {
     boundingVolume.update(position)
-    println("updateBV",position.inline)
+    //println("updateBV",position.inline)
   }
 
   override def newInstance(identifier: Identifier): Component = new Collision(boundingVolume)
@@ -82,7 +82,7 @@ case class Sphere(cent: Vec3f, radius: Float) extends BoundingVolume{
 case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVolume {
   private var _owner: Identifier = null
 
-  println("AABB",leftBottomBack,rightTopFront)
+  //println("AABB",leftBottomBack,rightTopFront)
   val endPoints = Array(
    new BBEndPoint(leftBottomBack.x(),0,true)(this), //xMin
    new BBEndPoint(rightTopFront.x(),0,false)(this), //xMax
@@ -103,7 +103,7 @@ case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVol
 
   override def update(atPosition: Vec3f = Vec3f()): Array[BBEndPoint] = {
     endPoints.foreach(_.update(atPosition))
-    println(endPoints.toList)
+    //println(endPoints.toList)
     endPoints
   }
 
@@ -120,11 +120,11 @@ case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVol
 
 
 case class BBEndPoint(var value: Float, axis: Int, isMin: Boolean)(implicit sub: BoundingVolume) {
-  println("BBEndPoint",value,axis,isMin)
+  //println("BBEndPoint",value,axis,isMin)
 
-  def update(v: Float) {value = value + v}
+  def update(v: Float) {value = value }//+ v} //TODO: update position & rotation and everything else
   def update(vec: Vec3f) {
-    println("update a with ",axis,vec.inline)
+    //println("update a with ",axis,vec.inline)
     axis match {
       case 0 => update(vec.x)
       case 1 => update(vec.y)

@@ -27,7 +27,7 @@ class GunControlSystem extends ProcessingSystem {
    * executed before nodes are processed - every update
    */
   def begin(): Unit = {
-    println(family._entities)
+    //println(family._entities)
   }
 
   /**
@@ -95,7 +95,7 @@ class GunControlSystem extends ProcessingSystem {
             */
         }
           pos.rotation = Vec3f(pitch,yaw, pos.rotation.z)
-          println(pos.rotation)
+          //println(pos.rotation)
 
       case _ =>
 

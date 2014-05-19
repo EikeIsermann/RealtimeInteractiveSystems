@@ -70,7 +70,7 @@ class CollisionSystem extends ProcessingSystem {
 
 
     collisions.foreach(pair => {
-      println(pair._1 +"<->"+ pair._2)
+      //println("COLLISION:"+pair._1 +"<->"+ pair._2)
     })
 
   }
@@ -99,7 +99,8 @@ class CollisionSystem extends ProcessingSystem {
             case true =>
               pairs(pair) += 1
               if (pairs(pair) == 3) {
-                println("collision", before.owner(), current.owner())
+                //println("collision", before.owner(), current.owner())
+                println("collision")
               }
             case false => pairs += pair -> 1
           }

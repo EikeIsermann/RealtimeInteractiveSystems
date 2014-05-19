@@ -12,10 +12,10 @@
 * Vertex/Fragment Shader
 * Camera
 * Save and Load Level via XML
+* Event System: Signaling/Event Dispatcher
 
 ## Unfinished
 
-* Event System: Signaling/Event Dispatcher
 * Sound: OpenAL positional audio playback
 * InGame Terminal console
 * Display Text on Screen

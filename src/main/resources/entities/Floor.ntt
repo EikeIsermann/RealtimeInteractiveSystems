@@ -17,4 +17,10 @@
         <part>FloorEW</part>
         <part>FloorNEWS</part>
     </hasParts>
+    <collision>
+        <AABB>
+            <leftBottomBack x="-100" y="-1" z="-100" />
+            <rightTopFront x="100" y="1" z="100" />
+        </AABB>
+    </collision>
 </entityTemplate>
