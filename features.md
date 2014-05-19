@@ -11,6 +11,7 @@
 * XML Entity Templates
 * Vertex/Fragment Shader
 * Camera
+* Save and Load Level via XML
 
 ## Unfinished
 
@@ -24,7 +25,7 @@
 
 * AI System
 * Light
-* Save and Load Level via XML
+
 
 ## Minor
 

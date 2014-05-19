@@ -2,7 +2,7 @@ package main.scala.engine
 
 import main.scala.architecture.Engine
 import ogl.app.StopWatch
-import main.scala.tools.{DisplayManager, DC}
+import main.scala.tools.{HUD, DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.EntityTemplateLoader
@@ -175,10 +175,15 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('Floor)
 
     // creating Tank
-    val tank = Entity.newInstanceOf('Tank)
+    //val tank = Entity.newInstanceOf('Tank)
 
-    tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
-    tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
+   //val collisionBox = Entity.newInstanceOf('CollisionBox)
+    //val collisionBox1 = Entity.newInstanceOf('CollisionBox)
+
+    //collisionBox1.getComponent(classOf[Placement]).position = new Vec3f(5,0,0)
+
+    //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
+    //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
     // creating Camera
     val camEntity = Entity.newInstanceOf('Camera)
 

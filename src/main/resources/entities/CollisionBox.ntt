@@ -1,0 +1,20 @@
+<entityTemplate name="CollisionBox">
+    <placement>
+        <position x="0" y="0" z="0" />
+        <rotation angleX="0" angleY="0" angleZ="0" />
+        <scale x="1" y="1" z="1" />
+    </placement>
+    <mesh>
+        <source>src/main/resources/meshes/CompanionCube/CompanionCube.dae</source>
+    </mesh>
+    <display>
+        <meshId>Cube</meshId>
+        <shaderId>default</shaderId>
+    </display>
+    <collision>
+        <AABB>
+            <leftBottomBack x="-1" y="-1" z="-1" />
+            <rightTopFront x="1" y="1" z="1" />
+        </AABB>
+    </collision>
+</entityTemplate>

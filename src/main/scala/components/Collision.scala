@@ -11,10 +11,25 @@ import main.scala.math.Vec3f
  */
 object Collision extends ComponentCreator {
 
-  override def fromXML(xml: Node): Option[Collision] = ???
+  override def fromXML(xml: Node): Option[Collision] = xmlToComp[Collision](xml, "collision",n => {
+
+    (n \ "AABB").foreach(aabb => {
+      val lBB = (aabb \ "leftBottomBack").head
+      val leftBottomBack = Vec3f((lBB \ "@x").text.toFloat,(lBB \ "@y").text.toFloat,(lBB \ "@z").text.toFloat)
+
+      val rTF = (aabb \ "rightTopFront").head
+      val rightTopFront = Vec3f((rTF \ "@x").text.toFloat,(rTF \ "@y").text.toFloat,(rTF \ "@z").text.toFloat)
+
+      return Some(new Collision(new AABB(leftBottomBack, rightTopFront)))
+
+    })
+
+
+    None
+  })
 }
 
-class Collision(boundingVolume1: BoundingVolume) extends Component {
+class Collision(boundingVolume1: BoundingVolume = new AABB(Vec3f(0,0,0), Vec3f(0,0,0))) extends Component {
 
 
   private val _boundingVolume: BoundingVolume = boundingVolume1
@@ -22,9 +37,12 @@ class Collision(boundingVolume1: BoundingVolume) extends Component {
 
   def boundingVolume: BoundingVolume = _boundingVolume
 
-  def updateBoundingVolume(position: Vec3f) = boundingVolume.update(position)
+  def updateBoundingVolume(position: Vec3f) = {
+    boundingVolume.update(position)
+    println("updateBV",position.inline)
+  }
 
-  override def newInstance(identifier: Identifier): Component = ???
+  override def newInstance(identifier: Identifier): Component = new Collision(boundingVolume)
 
   override def toXML: Node = ???
 }
@@ -64,6 +82,7 @@ case class Sphere(cent: Vec3f, radius: Float) extends BoundingVolume{
 case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVolume {
   private var _owner: Identifier = null
 
+  println("AABB",leftBottomBack,rightTopFront)
   val endPoints = Array(
    new BBEndPoint(leftBottomBack.x(),0,true)(this), //xMin
    new BBEndPoint(rightTopFront.x(),0,false)(this), //xMax
@@ -84,6 +103,7 @@ case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVol
 
   override def update(atPosition: Vec3f = Vec3f()): Array[BBEndPoint] = {
     endPoints.foreach(_.update(atPosition))
+    println(endPoints.toList)
     endPoints
   }
 
@@ -100,9 +120,11 @@ case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVol
 
 
 case class BBEndPoint(var value: Float, axis: Int, isMin: Boolean)(implicit sub: BoundingVolume) {
+  println("BBEndPoint",value,axis,isMin)
 
   def update(v: Float) {value = value + v}
   def update(vec: Vec3f) {
+    println("update a with ",axis,vec.inline)
     axis match {
       case 0 => update(vec.x)
       case 1 => update(vec.y)

@@ -1,7 +1,7 @@
 package main.scala.systems.physics
 
 import main.scala.architecture._
-import main.scala.tools.{Identifier, DC}
+import main.scala.tools.Identifier
 import main.scala.components._
 import scala.collection.mutable
 import main.scala.components.AABB
@@ -12,18 +12,6 @@ import main.scala.nodes.CollisionNode
  * Date: 06.05.14 15:55
  */
 case class Pair(a: Identifier, b: Identifier)
-
-object CollisionSystem {
-  def main(args: Array[String]) {
-    val cs = new CollisionSystem
-
-    cs.init()
-
-    cs.update()
-
-    cs.deinit()
-  }
-}
 
 class CollisionSystem extends ProcessingSystem {
 
@@ -78,12 +66,12 @@ class CollisionSystem extends ProcessingSystem {
       p._2 == 3
     }).keySet
 
-    if(!collisions.isEmpty) {
-      println("Collisions: "+collisions.toList)
-    }
-
     //TODO: find the point to collide
 
+
+    collisions.foreach(pair => {
+      println(pair._1 +"<->"+ pair._2)
+    })
 
   }
 
@@ -103,6 +91,7 @@ class CollisionSystem extends ProcessingSystem {
       var i = j - 1
       while (i >= 0 && axis(i).value > current.value) {
         val before: BBEndPoint = axis(i)
+
         val pair = (current.owner(), before.owner())
 
         if (current.isMin && !before.isMin) {

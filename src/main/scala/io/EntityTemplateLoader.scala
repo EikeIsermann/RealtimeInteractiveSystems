@@ -100,5 +100,6 @@ object EntityTemplateLoader {
     entity += Display.fromXML(xml)
     entity += Motion.fromXML(xml)
     entity += Placement.fromXML(xml)
+    entity += Collision.fromXML(xml)
   }
 }

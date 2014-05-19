@@ -41,7 +41,7 @@ class RelativePositionalSystem extends ProcessingSystem{
       getChildren(e, allChilds)
     }
     for(e <- allChilds){
-      println("Processing " + e.identifier)
+      //println("Processing " + e.identifier)
 
       if(e.has(classOf[Placement])){
        var p = e.getComponent(classOf[Placement])

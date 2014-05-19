@@ -9,4 +9,5 @@ import main.scala.components._
  */
 class CollisionNode(collision: Collision, placement: Placement) extends Node(collision, placement) {
 
+  def this() = this(new Collision(), new Placement())
 }
