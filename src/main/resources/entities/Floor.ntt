@@ -1,8 +1,8 @@
 <entityTemplate name="Floor">
     <placement>
         <position x="0" y="0" z="0" />
-        <rotation angleX="0" angleY="0" angleZ="0" />
-        <scale x="1" y="1" z="1" />
+        <rotation angleX="-90" angleY="0" angleZ="0" />
+        <scale x="2" y="2" z="2" />
     </placement>
     <mesh>
         <source>src/main/resources/meshes/Roads/Roads.dae</source>

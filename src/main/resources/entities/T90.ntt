@@ -5,7 +5,7 @@
         <part>ChassisTread</part>
     </hasParts>
     <placement>
-        <position x="0" y="0" z="0" />
+        <position x="0" y="100" z="0" />
         <rotation angleX="0" angleY="0" angleZ="0" />
         <scale x="0.001" y="0.001" z="0.001" />
     </placement>

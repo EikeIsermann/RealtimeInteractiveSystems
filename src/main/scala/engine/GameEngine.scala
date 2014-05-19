@@ -5,9 +5,9 @@ import ogl.app.StopWatch
 import main.scala.tools.{HUD, DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.{LevelLoader, EntityTemplateLoader}
+import main.scala.io.{Level, LevelLoader, EntityTemplateLoader}
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
-import main.scala.components.{Camera, Placement, Motion, CamControl}
+import main.scala.components._
 import main.scala.event._
 import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
@@ -17,6 +17,10 @@ import main.scala.systems.sound.SoundSystem
 import main.scala.entities.Entity
 import main.scala.math.{Quat, Vec3f}
 import main.scala.systems.positional.{RelativePositionalSystem, MovementSystem}
+import main.scala.components.CamControl
+import main.scala.event.EntityRemoved
+import main.scala.systems.input.Triggers
+import main.scala.event.EntityCreated
 
 /**
  * Created by Christian Treffs
@@ -158,9 +162,9 @@ object GameEngine extends Engine with EventReceiver{
     EntityTemplateLoader.load(entitiesDir)
 
     // loading all level files - or one specific
-   // LevelLoader.load()
+    LevelLoader.load()
     // get the level and initialize it
-    //LevelLoader.get('TestLevel).initialize()
+    LevelLoader.get('TestLevel).initialize()
 
     /*
     //create a level from current game with this name and save it to disk
@@ -175,13 +179,17 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('Floor)
 
     // creating Tank
+
     val tank = Entity.newInstanceOf('Tank)
+
+    val tank2 = Entity.newInstanceOf('Tank)
+    tank2.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
         // creating Camera
-    val camEntity = Entity.newInstanceOf('Camera)
+    //val camEntity = Entity.newInstanceOf('Camera)
 
-    //val camEntity = Entity.create("Camera")
+    val camEntity = Entity.create("Camera")
     val cam = new Camera(90)
     val camPos = new Placement(Vec3f(0,0,0),Vec3f(0,0,0))
 
@@ -195,6 +203,7 @@ object GameEngine extends Engine with EventReceiver{
     camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
+    println(camEntity.components.toList)
 
 
 
@@ -225,7 +234,8 @@ object GameEngine extends Engine with EventReceiver{
     DC.log("Game","initialized",3)
 
 
-
+    //val lvl = new Level("TestLevel")
+   // lvl.save()
   }
 
 

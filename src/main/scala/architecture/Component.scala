@@ -47,7 +47,8 @@ trait ComponentCreator {
   def xmlToComp[T <: Component](xml: scala.xml.Node, label: String, func: scala.xml.Node => Option[T]): Option[T] = {
     val x = (xml \ label).filter(_.label.equals(label))
     if(x.length > 1) {
-      throw new IllegalArgumentException("multiple components defined for component '"+label+"'")
+
+      throw new IllegalArgumentException("multiple components defined for component '"+label+"'" + " " + x)
     }
     var ret: Option[T] = None
     x.foreach(c => ret = func(c))
