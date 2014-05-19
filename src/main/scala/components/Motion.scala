@@ -75,7 +75,7 @@ class Motion(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1: 
   velocity_=(velocity1)
   acceleration_=(acceleration1)
   damping_=(linearDampening1,angularDampening1)
-  inertia_=(inertia1)
+  //inertia_=(inertia1)
   canSleep = true
   awake(awake = true)
 

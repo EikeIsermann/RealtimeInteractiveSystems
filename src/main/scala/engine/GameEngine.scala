@@ -209,7 +209,7 @@ object GameEngine extends Engine with EventReceiver{
 
     val motion = new Motion()
     camEntity.add(camCon)
-    camEntity.add(motion)
+    //camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
     //println(camEntity.components.toList)
@@ -222,7 +222,7 @@ object GameEngine extends Engine with EventReceiver{
     add(new RenderingSystem)
     add(new CollisionSystem)
     add(new PhysicsSystem)
-    add(new MovementSystem)
+    //add(new MovementSystem)
     add(new RelativePositionalSystem)
     add(new SoundSystem)
     add(new GunControlSystem)

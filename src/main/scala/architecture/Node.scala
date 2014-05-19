@@ -40,7 +40,7 @@ object Node {
 
     cl match {
       case camcontrol if camcontrol == classOf[CamControlNode] => {
-        retVal.put(true, List(classOf[CamControl], classOf[Motion]))
+        retVal.put(true, List(classOf[CamControl], classOf[Camera], classOf[Placement]))
         retVal.put(false, List())
       }
       case camnode if camnode == classOf[CameraNode] => {
