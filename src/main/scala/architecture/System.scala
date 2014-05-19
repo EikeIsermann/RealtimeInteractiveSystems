@@ -25,21 +25,51 @@ abstract class System /*extends ObservingActor*/ {
   var family: Family = _
   var ctx: SimulationContext = _
 
+  /**
+   * executed on system startup
+   * @return
+   */
   def initialize(): System = {
     DC.log(this.toString,"registered & initialized", 3)
     family = new Family(node)
     GameEngine.registerFamily(family)
 
     active = true
-    this
+    init()
   }
 
+  /**
+   * called on system startup
+   * @return
+   */
+  def init(): System
 
+
+
+
+  /**
+   * executed before nodes are processed - every update
+   */
   def begin(): Unit
 
+  /**
+   * executed after nodes are processed - every update
+   */
   def end(): Unit
 
   def update(): System
+
+  /**
+   * executed once on system shutdown
+   */
+  def shutdown(): Unit = {
+    DC.log(this.toString,"shutdown",3)
+    deinit()
+  }
+  /**
+   * called on system shutdown
+   */
+  def deinit(): Unit
 
   //def update(nodeType: Class[_ <: Node], context: Context): System
 

@@ -102,13 +102,10 @@ class RenderingSystem extends ProcessingSystem {
 
 
   def init(): System = {
-    DC.log("Rendering System", "initialized", 2)
     this
   }
 
-  def deinit(): Unit = {
-    DC.log("Rendering System", "ended", 2)
-  }
+  def deinit(): Unit = {}
 
   /*def update(context: SimulationContext): System = {
 

@@ -5,9 +5,8 @@ import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.{LevelLoader, Level, EntityTemplateLoader}
+import main.scala.io.{LevelLoader, EntityTemplateLoader}
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
-import main.scala.entities.Entity
 import main.scala.components.Motion
 import main.scala.event._
 import main.scala.components.CamControl
@@ -142,9 +141,7 @@ object GameEngine extends Engine with EventReceiver{
 
   def initGame(): Unit = {
 
-    // load sounds
-    Audio.init()
-    Audio.load()
+
 
     // load shader dir
     Shader.load(shaderDir)
@@ -252,7 +249,8 @@ object GameEngine extends Engine with EventReceiver{
     DC.logT('engineShutdown,"Engine","shutting down",3)
     //TODO: stop thread clean up and end
 
-    //systems.values.foreach(system => system.deinit()) // shut down all systems
+    // shut down all systems
+    systems.values.foreach(system => system.shutdown())
 
     Display.destroy()
     DC.logT('engineShutdown,"Engine","ended",3)

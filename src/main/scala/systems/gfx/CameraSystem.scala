@@ -18,13 +18,10 @@ class CameraSystem extends ProcessingSystem {
 
 
   def init(): System = {
-    DC.log("Camera System","initialized",2)
     this
   }
 
-  def deinit(): Unit = {
-    DC.log("Camera System","ended",2)
-  }
+  def deinit(): Unit = {}
 
   override def begin(): Unit = {}
 

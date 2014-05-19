@@ -18,9 +18,9 @@ class MovementSystem extends ProcessingSystem {
   override var priority: Int = 0
 
 
-  override def begin(): Unit = ???
+  override def begin(): Unit = {}
 
-  override def end(): Unit = ???
+  override def end(): Unit = {}
 
   override def processNode(n: Node): Unit = {
     n match {
@@ -42,12 +42,10 @@ class MovementSystem extends ProcessingSystem {
 
 
   def init(): System = {
-    DC.log("Movement System", "initialized", 2)
     this
   }
 
   def deinit(): Unit = {
-    DC.log("Control System", "ended", 2)
   }
 
 

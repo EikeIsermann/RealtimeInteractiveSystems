@@ -1,9 +1,10 @@
 package main.scala.systems.input
 
-import main.scala.architecture.{ProcessingSystem, Node}
+import main.scala.architecture.{System, ProcessingSystem, Node}
 import main.scala.nodes.CamControlNode
 import main.scala.components.{CamControl, Motion}
 import main.scala.math.Vec3f
+import main.scala.tools.DC
 
 /**
  * Camera Control System
@@ -148,14 +149,11 @@ class CamControlSystem extends ProcessingSystem {
 
   }
 
-  /*override def init(): System = {
-    DC.log("Control System", "initialized", 2)
+  override def init(): System = {
     this
   }
 
   override def deinit(): Unit = {
-    DC.log("Control System", "ended", 2)
   }
-  */
 
 }

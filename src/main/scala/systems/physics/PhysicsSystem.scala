@@ -26,7 +26,6 @@ class PhysicsSystem extends ProcessingSystem {
 
 
   def init(): System = {
-    DC.log("PhysicsSystem","initialized")
     this
   }
 
@@ -102,7 +101,6 @@ class PhysicsSystem extends ProcessingSystem {
 
 
   def deinit(): Unit = {
-    DC.log("PhysicsSystem","shutting down")
   }
 
 

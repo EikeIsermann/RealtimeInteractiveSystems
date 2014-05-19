@@ -39,7 +39,6 @@ class CollisionSystem extends ProcessingSystem {
 
 
   def init(): System = {
-    DC.log("Collision System", "initialized")
     this
   }
 
@@ -83,15 +82,12 @@ class CollisionSystem extends ProcessingSystem {
       println("Collisions: "+collisions.toList)
     }
 
-    //TODO:
+    //TODO: find the point to collide
 
 
   }
 
-  def deinit(): Unit = {
-    DC.log("Collision System", "ended")
-
-  }
+  def deinit(): Unit = {}
 
 
   private def addAABB2AxisArray(aabb: AABB) {
