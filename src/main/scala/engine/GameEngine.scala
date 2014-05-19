@@ -5,16 +5,18 @@ import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.{LevelLoader, EntityTemplateLoader}
+import main.scala.io.EntityTemplateLoader
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
-import main.scala.components.Motion
 import main.scala.components.{Camera, Placement, Motion, CamControl}
 import main.scala.event._
 import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
 import main.scala.event.EntityCreated
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
-import main.scala.systems.sound.{Audio, SoundSystem}
+import main.scala.systems.sound.SoundSystem
+import main.scala.entities.Entity
+import main.scala.math.Vec3f
+import main.scala.systems.positional.{RelativePositionalSystem, MovementSystem}
 
 /**
  * Created by Christian Treffs
@@ -173,9 +175,9 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('Floor)
 
     // creating Tank
-    var tank = Entity.newInstanceOf('Tank)
+    val tank = Entity.newInstanceOf('Tank)
 
-    tank.getComponent(classOf[Placement]).position = (new Vec3f(-30,0,-500))
+    tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
     // creating Camera
     val camEntity = Entity.newInstanceOf('Camera)
@@ -203,6 +205,7 @@ object GameEngine extends Engine with EventReceiver{
     add(new PhysicsSystem)
     add(new MovementSystem)
     add(new RelativePositionalSystem)
+    add(new SoundSystem)
     Input.init()
 
     time = new StopWatch()

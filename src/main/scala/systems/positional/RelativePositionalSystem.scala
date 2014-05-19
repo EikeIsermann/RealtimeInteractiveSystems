@@ -1,8 +1,8 @@
 package main.scala.systems.positional
 
-import main.scala.architecture.{Node, ProcessingSystem}
+import main.scala.architecture.{System, Node, ProcessingSystem}
 import main.scala.nodes.PositionalRootNode
-import main.scala.components.{Parent, isPartOf, Placement, Children}
+import main.scala.components.{Placement, Children}
 import main.scala.entities.Entity
 import scala.collection.mutable.ListBuffer
 import main.scala.tools.DC
@@ -17,13 +17,20 @@ class RelativePositionalSystem extends ProcessingSystem{
   var node: Class[_ <: Node] = classOf[PositionalRootNode]
 
   var priority: Int = 4
+  /**
+   * called on system startup
+   * @return
+   */
+  override def init(): System = {
+    this
+  }
 
   def begin(): Unit = {
     DC.log("RelativePositional run")
 
   }
 
-  def end(): Unit = {}
+
 
   def processNode(node: Node): Unit = {
 
@@ -51,4 +58,12 @@ class RelativePositionalSystem extends ProcessingSystem{
      }
     list.+=(e)
   }
+
+
+  def end(): Unit = {}
+
+  /**
+   * called on system shutdown
+   */
+  override def deinit(): Unit = {}
 }
