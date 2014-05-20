@@ -1,6 +1,6 @@
 package main.scala.math
 
-import ogl.vecmathimp.FactoryDefault
+import ogl.vecmathimp.{MatrixImp, FactoryDefault}
 
 
 /**
@@ -12,6 +12,8 @@ object Mat4f {
   implicit def apply(mat: ogl.vecmath.Matrix) = new Mat4f(mat.getValues)
   implicit def apply(arr: Array[Float]) = new Mat4f(arr)
   implicit def apply(seq: Seq[Float]) = new Mat4f(seq)
+
+  implicit def apply(quat: Quat): Mat4f = new Mat4f().apply(quat)
 
   implicit def apply(position: Vec3f, orientation: Quat): Mat4f =
     new Mat4f(
@@ -86,6 +88,10 @@ case class Mat4f(m00: Float = 1.0f,m01: Float = 0,m02: Float = 0,m03: Float = 0,
 
   def this(arr: Array[Float]) = this(arr(0), arr(1), arr(2), arr(3), arr(4), arr(5), arr(6), arr(7), arr(8), arr(9), arr(10), arr(11), arr(12), arr(13), arr(14), arr(15))
   def this(seq: Seq[Float]) = this(seq.toArray)
+
+
+  implicit def apply(quaternion: Quat): Mat4f = new MatrixImp(quaternion)
+
 
   def apply(index: Int): Float = get((index.toFloat / 4f).toInt,index % 4)
 
