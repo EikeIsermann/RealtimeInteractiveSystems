@@ -2,7 +2,7 @@ package main.scala.systems.positional
 
 import main.scala.architecture._
 import main.scala.nodes.MovementNode
-import main.scala.components.{Motion, Placement}
+import main.scala.components.{Physics, Placement}
 import main.scala.math.Vec3f
 
 /**
@@ -23,7 +23,7 @@ class MovementSystem extends ProcessingSystem {
     n match {
       case movNode: MovementNode =>
 
-        val motion = movNode -> classOf[Motion]
+        val motion = movNode -> classOf[Physics]
         val placement = movNode -> classOf[Placement]
 
         placement.position = motion.velocity

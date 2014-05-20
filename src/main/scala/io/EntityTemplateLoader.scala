@@ -98,7 +98,7 @@ object EntityTemplateLoader {
     entity += hasParts.fromXML(xml)
     entity += isPartOf.fromXML(xml)
     entity += Display.fromXML(xml)
-    entity += Motion.fromXML(xml)
+    entity += Physics.fromXML(xml)
     entity += Placement.fromXML(xml)
     entity += Collision.fromXML(xml)
   }

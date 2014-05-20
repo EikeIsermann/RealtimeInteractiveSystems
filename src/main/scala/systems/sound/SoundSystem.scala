@@ -2,7 +2,7 @@ package main.scala.systems.sound
 
 import main.scala.architecture.{System, Node, ProcessingSystem}
 import main.scala.nodes.SoundNode
-import main.scala.components.{Motion, Placement, Sound}
+import main.scala.components.{Physics, Placement, Sound}
 
 /**
  * Created by Christian Treffs
@@ -26,7 +26,7 @@ class SoundSystem extends ProcessingSystem {
       case soundNode: SoundNode =>
         val sound: Sound = soundNode -> classOf[Sound]
         val placement: Placement = soundNode -> classOf[Placement]
-        val motion: Motion = soundNode -> classOf[Motion]
+        val motion: Physics = soundNode -> classOf[Physics]
 
 
         sound.position_=(placement.position)

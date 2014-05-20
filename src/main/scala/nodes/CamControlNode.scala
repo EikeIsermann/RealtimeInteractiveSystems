@@ -1,7 +1,7 @@
 package main.scala.nodes
 
 import main.scala.architecture.{Component, Node}
-import main.scala.components.{Placement, Camera, Motion, CamControl}
+import main.scala.components.{Placement, Camera, Physics, CamControl}
 import main.scala.systems.input._
 
 /**

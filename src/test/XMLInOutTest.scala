@@ -50,7 +50,7 @@ object Loader {
     val c = Comp.fromXML(xml)
 
     val p = Placement.fromXML(xml)
-    val m = Motion.fromXML(xml)
+    val m = Physics.fromXML(xml)
     val d = Display.fromXML(xml)
 
 

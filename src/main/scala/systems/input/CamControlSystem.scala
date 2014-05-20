@@ -2,7 +2,7 @@ package main.scala.systems.input
 
 import main.scala.architecture.{System, ProcessingSystem, Node}
 import main.scala.nodes.CamControlNode
-import main.scala.components.{Placement, CamControl, Motion}
+import main.scala.components.{Placement, CamControl, Physics}
 import main.scala.math.Vec3f
 
 /**

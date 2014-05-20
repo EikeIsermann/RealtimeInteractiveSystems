@@ -1,19 +1,14 @@
 package main.scala.components
 
-/**
- * Created by Eike
- * 23.03.14.
- */
-
 import main.scala.math.{Mat4f, Mat3f, Vec3f}
 import scala.xml.Node
 import main.scala.architecture.{ComponentCreator, Component}
 import main.scala.tools.Identifier
 
 
-object Motion extends ComponentCreator {
-  override def fromXML(xml: Node): Option[Motion] = {
-    xmlToComp[Motion](xml, "motion", n => {
+object Physics extends ComponentCreator {
+  override def fromXML(xml: Node): Option[Physics] = {
+    xmlToComp[Physics](xml, "physics", n => {
       val ma = n \ "mass"
       val gra = n \ "gravity"
       val vel = n \ "velocity"
@@ -36,12 +31,12 @@ object Motion extends ComponentCreator {
         }
         m
       }
-      Some(new Motion(velocity,acceleration,mass,linearDampening,inertia,angularDampening,gravity))
+      Some(new Physics(velocity,acceleration,mass,linearDampening,inertia,angularDampening,gravity))
     })
   }
 }
 
-class Motion(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1: Float = 1f, linearDampening1: Float = 0.99f, inertia1: Mat3f = Mat3f(), angularDampening1: Float = 0.8f, gravity1: Vec3f = Vec3f(0,-9.81f,0)) extends Component {
+class Physics(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1: Float = 1f, linearDampening1: Float = 0.99f, inertia1: Mat3f = Mat3f(), angularDampening1: Float = 0.8f, gravity1: Vec3f = Vec3f(0,-9.81f,0)) extends Component {
 
   final val sleepEpsilon: Float = 0.3f
 
@@ -250,10 +245,10 @@ class Motion(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1: 
   def angularAcceleration: Vec3f = _angularAcceleration
   def angularAcceleration_=(aA: Vec3f) = _angularAcceleration = aA
 
-  override def newInstance(identifier: Identifier): Component = new Motion(velocity,acceleration,mass,linearDamping,inertia,angularDamping,gravity)
+  override def newInstance(identifier: Identifier): Component = new Physics(velocity,acceleration,mass,linearDamping,inertia,angularDamping,gravity)
 
   override def toXML: Node = {
-    <motion>
+    <physics>
       <mass>{mass.toString}</mass>
       <gravity x={gravity.x.toString} y={gravity.y.toString} z={gravity.z.toString} />
       <velocity x={velocity.x.toString} y={velocity.y.toString} z={velocity.z.toString} />
@@ -263,6 +258,6 @@ class Motion(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1: 
         <angular>{linearDamping.toString}</angular>
       </damping>
       <inertia>{inertia.values.map(_+" ").toString().trim()}</inertia>
-    </motion>
+    </physics>
   }
 }

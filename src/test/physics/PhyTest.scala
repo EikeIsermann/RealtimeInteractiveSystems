@@ -3,7 +3,7 @@ package test.physics
 import main.scala.math.{Mat3f, Vec3f}
 import test.physics.millington.{RigidBodyPhysics, ParticlePhysics}
 import main.scala.tools.phy
-import main.scala.components.{Motion, Placement}
+import main.scala.components.{Physics, Placement}
 
 /**
  * Created by Christian Treffs
@@ -16,7 +16,7 @@ object PhyTest {
   def main(args: Array[String]) {
 
     val placement = new Placement()
-    val motion = new Motion()
+    val motion = new Physics()
 
 
 

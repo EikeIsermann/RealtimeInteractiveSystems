@@ -207,7 +207,7 @@ object GameEngine extends Engine with EventReceiver{
       Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
       Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
-    val motion = new Motion()
+    val motion = new Physics()
     camEntity.add(camCon)
     //camEntity.add(motion)
     camEntity.add(cam)

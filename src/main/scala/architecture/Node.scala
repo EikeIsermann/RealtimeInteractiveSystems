@@ -53,12 +53,12 @@ object Node {
 
       }
       case movnode if movnode == classOf[MovementNode] => {
-        retVal.put(true, List(classOf[Motion],classOf[Placement]))
+        retVal.put(true, List(classOf[Physics],classOf[Placement]))
         retVal.put(false, List())
       }
 
       case physnode if physnode == classOf[PhysicsNode] => {
-        retVal.put(true, List(classOf[Placement], classOf[Motion]))
+        retVal.put(true, List(classOf[Placement], classOf[Physics]))
         retVal.put(false, List())
       }
 
@@ -68,7 +68,7 @@ object Node {
       }
 
      case soundNode if soundNode == classOf[SoundNode] => {
-        retVal.put(true, List(classOf[Sound], classOf[Placement], classOf[Motion]))
+        retVal.put(true, List(classOf[Sound], classOf[Placement], classOf[Physics]))
         retVal.put(false, List())
       }
       case posroot if posroot == classOf[PositionalRootNode] => {
