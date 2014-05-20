@@ -2,7 +2,7 @@ package main.scala.systems.input
 
 import main.scala.architecture.{System, ProcessingSystem, Node}
 import main.scala.nodes.CamControlNode
-import main.scala.components.{Placement, CamControl, Physics}
+import main.scala.components.{Camera, Placement, CamControl, Physics}
 import main.scala.math.Vec3f
 
 /**
@@ -46,7 +46,7 @@ class CamControlSystem extends ProcessingSystem {
         case camCon: CamControlNode =>
           val pos = node -> classOf[Placement]
           val control = node -> classOf[CamControl]
-
+          val cam = node -> classOf[Camera]
 
           val movementVelocity = control.movementVelocity * ctx.deltaT
           val pitchSensitivity = control.pitchVelocity
@@ -66,9 +66,9 @@ class CamControlSystem extends ProcessingSystem {
           //YAW POSITIVE/RIGHT
           doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
 
-          doAction(control.triggerStepUp, _ => {y+=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
+          doAction(control.triggerStepUp, _ => {/*y+=(movementVelocity * 0.5f);*/ cam.fieldOfView = cam.fieldOfView+1}, delta => motionDirectionViaMouse(delta))
 
-          doAction(control.triggerStepDown, _ => {y-=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
+          doAction(control.triggerStepDown, _ => {/*y-=(movementVelocity * 0.5f);*/ cam.fieldOfView = cam.fieldOfView+1}, delta => motionDirectionViaMouse(delta))
 
 
           // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
