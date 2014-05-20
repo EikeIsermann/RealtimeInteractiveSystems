@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import main.scala.systems.input.Triggers
+import main.scala.systems.input.{Key, Triggers}
 import scala.xml.Node
 import main.scala.tools.Identifier
 
@@ -11,8 +11,8 @@ import main.scala.tools.Identifier
  * Time: 21:06
  * This is a RIS Project class
  */
-case class DriveControl(triggerForward: Triggers, triggerBackward: Triggers, triggerLeft: Triggers,
-                        triggerRight: Triggers, triggerBoost: Triggers) extends Component {
+case class DriveControl(triggerForward: Triggers = Triggers(Key._U), triggerBackward: Triggers = Triggers(Key._K), triggerLeft: Triggers = Triggers(Key._J),
+                        triggerRight: Triggers = Triggers(Key._L), triggerBoost: Triggers = Triggers(Key.ShiftLeft)) extends Component {
 
   def newInstance(identifier: Identifier): Component = new DriveControl(triggerForward, triggerBackward,
                   triggerLeft, triggerRight, triggerBoost)

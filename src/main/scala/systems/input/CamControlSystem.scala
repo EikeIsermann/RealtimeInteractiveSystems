@@ -66,9 +66,9 @@ class CamControlSystem extends ProcessingSystem {
           //YAW POSITIVE/RIGHT
           doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
 
-          doAction(control.triggerStepUp, _ => {/*y+=(movementVelocity * 0.5f);*/ cam.fieldOfView = cam.fieldOfView+1}, delta => motionDirectionViaMouse(delta))
+          doAction(control.triggerStepUp, _ => {y+=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
 
-          doAction(control.triggerStepDown, _ => {/*y-=(movementVelocity * 0.5f);*/ cam.fieldOfView = cam.fieldOfView+1}, delta => motionDirectionViaMouse(delta))
+          doAction(control.triggerStepDown, _ => {y-=(movementVelocity * 0.5f)}, delta => motionDirectionViaMouse(delta))
 
 
           // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )

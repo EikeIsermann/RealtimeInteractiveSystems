@@ -179,12 +179,12 @@ object GameEngine extends Engine with EventReceiver{
 
     // creating Tank
 
-    //val tank = Entity.newInstanceOf('Tank)
+    val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
-    //val test = entities.apply("Turret:1")
-    //test.add(new GunControl)
-    //test.add(new Gun)
+    val test = entities.apply("Turret:1")
+    test.add(new GunControl)
+    test.add(new Gun)
 
 
 
@@ -255,7 +255,6 @@ object GameEngine extends Engine with EventReceiver{
       Display.sync(preferredFPS) //needs to be first
 
       Input.update() // needs to be before the context update because context depends on fresh key/mouse input?!
-
       updateContext() // update the context
 
       //update all systems with sim-context

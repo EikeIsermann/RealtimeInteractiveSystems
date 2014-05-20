@@ -64,35 +64,25 @@ class GunControlSystem extends ProcessingSystem {
 
 
         def motionDirectionViaMouse(mouseDeltaNew: Vec3f) {
-         /*
-          // calculate current mouse delta - considering velocities/sensitivities
-          val deltaX: Float = (mouseDeltaNew.x - mouseDelta.x) * pitchSensitivity
-          val deltaY: Float = (mouseDeltaNew.y - mouseDelta.y) * yawSensitivity
 
-          // update old mouse delta
-          mouseDelta = mouseDeltaNew
+          // calculate current mouse delta - considering velocities/sensitivities
+          val deltaX: Float = (Input.mouseMovement.x * 0.5f)
+          val deltaY: Float = (Input.mouseMovement.y * 0.5f)
 
           // sum deltas to get a pitch and yaw delta
-          pitchDelta += deltaY
-          yawDelta += deltaX
+          pitch += deltaY
+          yaw -= deltaX
 
-          //calculate pitch and yaw
-          yaw -= yawDelta
-          pitch +=  pitchDelta
+
 
           // constrain pitch
-          if (pitch > 90.0f)  pitch = 90.0f
-          if (pitch < -90.0f) pitch = -90.0f
+          if (pitch > gun.pitchConstraintPositive )  pitch = gun.pitchConstraintPositive
+          if (pitch < gun.pitchConstraintNegative) pitch = gun.pitchConstraintNegative
 
           //constrain yaw
-          if (yaw < -180.0f) yaw += 360.0f
-          if (yaw > 180.0f)   yaw -= 360.0f
+          if (yaw < -(gun.yawConstraint)) yaw = -(gun.yawConstraint)
+          if (yaw > gun.yawConstraint)   yaw = gun.yawConstraint
 
-          //calculate radians
-          xRad = math.sin(math.toRadians(-yaw)).toFloat
-          zRad = math.cos(math.toRadians(-yaw)).toFloat
-          yRad = math.sin(math.toRadians(pitch)).toFloat
-            */
         }
           pos.rotation = Vec3f(pitch,yaw, pos.rotation.z)
           //println(pos.rotation)

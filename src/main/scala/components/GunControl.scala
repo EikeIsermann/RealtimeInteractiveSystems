@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import main.scala.systems.input.{Key, Triggers}
+import main.scala.systems.input.{MouseMovement, Key, Triggers}
 import main.scala.tools.Identifier
 import scala.xml.Node
 
@@ -11,8 +11,9 @@ import scala.xml.Node
  * Time: 21:06
  * This is a RIS Project class
  */
-case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft), triggerYawRight: Triggers  = Triggers(Key.ArrowRight), triggerPitchPositive: Triggers = Triggers(Key.ArrowUp),
-                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown), triggerFire: Triggers = Triggers(),
+case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null, MouseMovement.MovementX ), triggerYawRight: Triggers  = Triggers(Key.ArrowRight, null, MouseMovement.MovementX)
+                      , triggerPitchPositive: Triggers = Triggers(Key.ArrowUp, null, MouseMovement.MovementY),
+                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY), triggerFire: Triggers = Triggers(),
                   triggerReload: Triggers = Triggers(), triggerSwitchAmmo: Triggers = Triggers()) extends Component {
 
   def toXML: Node = {
