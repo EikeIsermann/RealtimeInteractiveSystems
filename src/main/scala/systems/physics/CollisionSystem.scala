@@ -6,6 +6,7 @@ import main.scala.components._
 import scala.collection.mutable
 import main.scala.components.AABB
 import main.scala.nodes.CollisionNode
+import main.scala.math.Vec3f
 
 /**
  * Created by Christian Treffs
@@ -15,11 +16,12 @@ case class Pair(a: Identifier, b: Identifier)
 
 class CollisionSystem extends ProcessingSystem {
 
+
   private var xAxis = mutable.ArrayBuffer[BBEndPoint]()
   private var yAxis = mutable.ArrayBuffer[BBEndPoint]()
   private var zAxis = mutable.ArrayBuffer[BBEndPoint]()
-  private val pairs = mutable.HashMap[(Identifier, Identifier), Int]()
-  private val collisions = mutable.ArrayBuffer[(Identifier, Identifier)]()
+  private val pairs = mutable.HashMap[(Collision, Collision), Int]()
+  private val collisions = mutable.ArrayBuffer[(Collision, Collision)]()
 
 
   override var node: Class[_ <: Node] = classOf[CollisionNode]
@@ -31,7 +33,11 @@ class CollisionSystem extends ProcessingSystem {
   }
 
   override def begin(): Unit = {
-
+    xAxis.clear()
+    yAxis.clear()
+    zAxis.clear()
+    pairs.clear()
+    collisions.clear()
   }
 
 
@@ -42,8 +48,11 @@ class CollisionSystem extends ProcessingSystem {
         val collision: Collision = colNode -> classOf[Collision]
         val placement: Placement = colNode -> classOf[Placement]
 
+
         //update bounding box with the objects position
-        collision.updateBoundingVolume(placement.position)
+        //println(placement.position.inline,placement.getMatrix.position.inline)
+
+        collision.updateBoundingVolume(placement.getMatrix)
 
         collision.boundingVolume match {
           case a: AABB => addAABB2AxisArray(a)
@@ -55,10 +64,12 @@ class CollisionSystem extends ProcessingSystem {
   }
 
   override def end(): Unit = {
+
     // sweep and prune collisions
     sweepAndPrune(xAxis)
     sweepAndPrune(yAxis)
     sweepAndPrune(zAxis)
+
 
 
 
@@ -70,8 +81,9 @@ class CollisionSystem extends ProcessingSystem {
 
 
     collisions.foreach(pair => {
-      //println("COLLISION:"+pair._1 +"<->"+ pair._2)
+      println("COLLISION:"+pair._1 +"<->"+ pair._2)
     })
+
 
   }
 
@@ -90,6 +102,7 @@ class CollisionSystem extends ProcessingSystem {
       val current: BBEndPoint = axis(j)
       var i = j - 1
       while (i >= 0 && axis(i).value > current.value) {
+        //println(j,i,axis(i).value,current.value)
         val before: BBEndPoint = axis(i)
 
         val pair = (current.owner(), before.owner())
@@ -100,7 +113,7 @@ class CollisionSystem extends ProcessingSystem {
               pairs(pair) += 1
               if (pairs(pair) == 3) {
                 //println("collision", before.owner(), current.owner())
-                println("collision")
+                //println("collision")
               }
             case false => pairs += pair -> 1
           }

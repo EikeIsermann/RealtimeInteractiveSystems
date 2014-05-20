@@ -3,7 +3,7 @@ package main.scala.components
 import main.scala.architecture.{ComponentCreator, Component}
 import scala.xml.Node
 import main.scala.tools.Identifier
-import main.scala.math.Vec3f
+import main.scala.math.{Mat4f, Vec3f}
 
 /**
  * Created by Christian Treffs
@@ -20,7 +20,9 @@ object Collision extends ComponentCreator {
       val rTF = (aabb \ "rightTopFront").head
       val rightTopFront = Vec3f((rTF \ "@x").text.toFloat,(rTF \ "@y").text.toFloat,(rTF \ "@z").text.toFloat)
 
-      return Some(new Collision(new AABB(leftBottomBack, rightTopFront)))
+      val col = new Collision(leftBottomBack, rightTopFront)
+
+      return Some(col)
 
     })
 
@@ -29,22 +31,31 @@ object Collision extends ComponentCreator {
   })
 }
 
-class Collision(boundingVolume1: BoundingVolume = new AABB(Vec3f(0,0,0), Vec3f(0,0,0))) extends Component {
+class Collision(boundingVolume1: BoundingVolume = new AABB(Vec3f(),Vec3f())) extends Component {
 
+  def this(leftBottomBack: Vec3f, rightTopFront: Vec3f) = this(new AABB(leftBottomBack,rightTopFront))
 
   private val _boundingVolume: BoundingVolume = boundingVolume1
-  _boundingVolume setOwner this.identifier
+  _boundingVolume.setOwner(this)
+
 
   def boundingVolume: BoundingVolume = _boundingVolume
 
-  def updateBoundingVolume(position: Vec3f) = {
-    boundingVolume.update(position)
+
+  def updateBoundingVolume(matrix: Mat4f) = {
+    boundingVolume.update(matrix)
     //println("updateBV",position.inline)
   }
 
-  override def newInstance(identifier: Identifier): Component = new Collision(boundingVolume)
+
+
+  override def newInstance(identifier: Identifier): Component = boundingVolume match {
+    case aabb: AABB => new Collision(aabb.leftBottomBack,aabb.rightTopFront)
+    case _ => null
+  }
 
   override def toXML: Node = ???
+
 }
 
 object BoundingVolumeType extends Enumeration {
@@ -54,16 +65,14 @@ object BoundingVolumeType extends Enumeration {
 
 
 trait BoundingVolume {
-  def setOwner(i: Identifier)
-
-  def owner: Identifier
-
   def centroid(): Vec3f
 
   def center(a: Float, b: Float): Float = (a+b)/2f
 
-  def update(position: Vec3f): Array[BBEndPoint]
+  def update(mat: Mat4f): Array[BBEndPoint]
 
+  def owner: Collision
+  def setOwner(own: Collision)
 
 
 
@@ -72,25 +81,33 @@ case class Sphere(cent: Vec3f, radius: Float) extends BoundingVolume{
 
   override def centroid(): Vec3f = cent
 
-  override def update(position: Vec3f): Array[BBEndPoint] = ???
+  override def update(mat: Mat4f): Array[BBEndPoint] = ???
 
-  override def setOwner(i: Identifier): Unit = ???
+  override def owner: Collision = ???
 
-  override def owner: Identifier = ???
+  override def setOwner(own: Collision): Unit = ???
 }
 
 case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVolume {
-  private var _owner: Identifier = null
 
-  //println("AABB",leftBottomBack,rightTopFront)
-  val endPoints = Array(
-   new BBEndPoint(leftBottomBack.x(),0,true)(this), //xMin
-   new BBEndPoint(rightTopFront.x(),0,false)(this), //xMax
-   new BBEndPoint(leftBottomBack.y(),1,true)(this), //yMin
-   new BBEndPoint(rightTopFront.y(),1,false)(this), //yMax
-   new BBEndPoint(leftBottomBack.z(),2,true)(this), //zMix
-   new BBEndPoint(rightTopFront.z(),2,false)(this) //zMax
-  )
+  private var _lbb: Vec3f = leftBottomBack
+  private var _rtf: Vec3f = rightTopFront
+
+
+  private var _owner: Collision = null
+  var endPoints: Array[BBEndPoint] = updateEndpoints(_lbb,_rtf)
+
+  def updateEndpoints(lBB: Vec3f, rTF: Vec3f): Array[BBEndPoint] = {
+     Array(
+      new BBEndPoint(lBB.x(), 0, true)(this), //xMin
+      new BBEndPoint(rTF.x(), 0, false)(this), //xMax
+      new BBEndPoint(lBB.y(), 1, true)(this), //yMin
+      new BBEndPoint(rTF.y(), 1, false)(this), //yMax
+      new BBEndPoint(lBB.z(), 2, true)(this), //zMix
+      new BBEndPoint(rTF.z(), 2, false)(this) //zMax
+    )
+
+  }
 
   def interval(axis: Int): Array[BBEndPoint] = {
      axis match {
@@ -101,21 +118,38 @@ case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVol
   }
 
 
-  override def update(atPosition: Vec3f = Vec3f()): Array[BBEndPoint] = {
-    endPoints.foreach(_.update(atPosition))
+  override def update(mat: Mat4f): Array[BBEndPoint] = {
+
+    //TODO: update to real position
+    //println(mat.position.inline,leftBottomBack.inline,cent.inline,rightTopFront.inline)
+
+    val centBefore = centroid()
+
+    //println(mat.position.inline)
+
+    val offset = mat.position-centBefore
+
+
+    _lbb = _lbb+offset
+    _rtf = _rtf+offset
+
+    //println(offset.inline,_lbb.inline,_rtf.inline)
+
+    endPoints = updateEndpoints(_lbb,_rtf)
+
+
+    //endPoints.foreach(_.update(atPosition))
     //println(endPoints.toList)
     endPoints
   }
 
   override def centroid(): Vec3f = Vec3f(center(endPoints(0).value,endPoints(1).value),center(endPoints(2).value,endPoints(3).value),center(endPoints(4).value,endPoints(5).value))
 
+  override def owner: Collision = _owner
 
-
-  override def setOwner(i: Identifier): Unit = {
-    _owner = i
+  override def setOwner(own: Collision): Unit = {
+    _owner = own
   }
-
-  override def owner: Identifier = _owner
 }
 
 
@@ -132,7 +166,7 @@ case class BBEndPoint(var value: Float, axis: Int, isMin: Boolean)(implicit sub:
     }
   }
 
-  def owner(): Identifier = sub.owner
+  def owner(): Collision = sub.owner
 
   override def toString: String = {
     if(isMin) ""+value+" min"

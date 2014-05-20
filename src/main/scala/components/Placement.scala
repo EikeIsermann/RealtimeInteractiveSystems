@@ -48,6 +48,7 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
   def orientation: Quat  = _relativeOrientation
   def orientation_=(o: Quat) = { _relativeOrientation = o}
 
+
   //TODO: remove
   def rotation: Vec3f = _relativeRotation
   def rotation_=(v: Vec3f) = {_relativeRotation = v  }
@@ -57,7 +58,11 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
 
   def basePosition = _basePosition
 
-  def getMatrix = (Mat4f.translation(position) * Mat4f.rotation(rotation)  * Mat4f.scale(scale)) * _basePosition
+  def getMatrix: Mat4f = {
+    if(!(_basePosition == Mat4f.identity))  Mat4f.translation(position)  * Mat4f.rotation(rotation) * Mat4f.scale(scale) * _basePosition
+    else Mat4f.rotation(rotation) * Mat4f.translation(position)  *  Mat4f.scale(scale)
+
+  }
 
 
   def relativeUpdate(p: Mat4f){

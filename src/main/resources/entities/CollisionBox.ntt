@@ -1,8 +1,8 @@
 <entityTemplate name="CollisionBox">
     <placement>
-        <position x="-10" y="0" z="-10" />
+        <position x="0" y="0" z="0" />
         <rotation angleX="0" angleY="0" angleZ="0" />
-        <scale x="0.1" y="0.1" z="0.1" />
+        <scale x="1" y="1" z="1" />
     </placement>
     <mesh>
         <source>src/main/resources/meshes/CompanionCube/CompanionCube.dae</source>
@@ -19,8 +19,8 @@
     </collision>
     <physics>
         <mass>200.0</mass>
-        <gravity x="0" y="-9.81" z="0" />
-        <velocity x="5" y="25" z="0" />
+        <gravity x="0" y="0" z="0" />
+        <velocity x="0" y="0" z="0" />
         <acceleration x="0" y="0" z="0" />
         <damping>
             <linear>0.99</linear>

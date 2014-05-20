@@ -38,8 +38,8 @@ object GameEngine extends Engine with EventReceiver{
   var soundsDir: String = null
 
 
-  private val width = 800
-  private val height = 600
+  private val width = 1000
+  private val height = 1000
   private val prefFPS = 100
   private val multiSampling = false
   private val vSyncEnabled = true
@@ -167,7 +167,15 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('Floor)
 
     //Entity.newInstanceOf('CollisionBox)
-    Entity.newInstanceOf('Bullet)
+    //Entity.newInstanceOf('Bullet)
+
+    val box1 = Entity.newInstanceOf('CollisionBox)
+    val box2 = Entity.newInstanceOf('CollisionBox)
+
+    box1.getComponent(classOf[Placement]).position = Vec3f(0,0,0)
+    box2.getComponent(classOf[Placement]).position = Vec3f(0,5,0)
+    box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
+
 
     // creating Tank
 
@@ -186,7 +194,7 @@ object GameEngine extends Engine with EventReceiver{
     //val camEntity = Entity.newInstanceOf('Camera)
 
     val camEntity = Entity.create("Camera")
-    val cam = new Camera(95f,1f,0.1f,50f)
+    val cam = new Camera(70f,1f,0.1f,50f)
     val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
 
 
