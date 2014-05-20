@@ -28,4 +28,7 @@
         </damping>
         <inertia>0 0 0 0 0 0 0 0 0</inertia>
     </physics>
+    <sound>
+        <collision>collision</collision>
+    </sound>
 </entityTemplate>

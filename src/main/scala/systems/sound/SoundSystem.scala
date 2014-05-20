@@ -32,13 +32,18 @@ class SoundSystem extends ProcessingSystem {
         sound.position_=(placement.position)
         sound.velocity_=(motion.velocity)
 
+
         sound.play()
+
+        sound.playList.clear()
 
       case _ => throw new IllegalArgumentException("can not process node "+node)
     }
   }
 
-  override def end(): Unit = {}
+  override def end(): Unit = {
+
+  }
 
   override def deinit(): Unit = {
     Audio.deinit()

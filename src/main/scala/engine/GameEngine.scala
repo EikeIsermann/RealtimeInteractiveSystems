@@ -188,6 +188,7 @@ object GameEngine extends Engine with EventReceiver{
 
 
 
+
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
         // creating Camera

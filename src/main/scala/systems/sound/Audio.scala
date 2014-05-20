@@ -51,7 +51,7 @@ object Audio {
 
   def createSource(identifier: Symbol, audioBuffer: AudioBuffer) {
     audioSources += identifier -> new AudioSource(audioBuffer)
-    DC.log(identifier + " audio source", "created")
+    DC.log(identifier + " audio source", "created",3)
   }
 
 
@@ -59,6 +59,7 @@ object Audio {
   def getBuffer(identifier: Symbol): Option[AudioBuffer] = audioBuffers.get(identifier)
 
   def getSource(identifier: Symbol): Option[AudioSource] = audioSources.get(identifier)
+
 
   def deinit() {
     audioSources.values.foreach(_.deinit())
@@ -229,11 +230,23 @@ sealed class AudioSource(audioBuffer: AudioBuffer) extends AudioDynamicLocation 
     alSourcei(source.get(0), AL_LOOPING, if (loop) AL_TRUE else AL_FALSE)
   }
 
-  def play() = alSourcePlay(source.get(0))
+  def play() = {
+    if(!isPlaying) {
+      alSourcePlay(source.get(0))
+    }
+  }
 
-  def pause() = alSourcePause(source.get(0))
+  def pause() = {
+    if(!isPaused) {
+      alSourcePause(source.get(0))
+    }
+  }
 
-  def stop() = alSourceStop(source.get(0))
+  def stop() = {
+    if(!isStopped) {
+      alSourceStop(source.get(0))
+    }
+  }
 
   def isPlaying: Boolean = alGetSourcei(source.get(0), AL_SOURCE_STATE) == AL_PLAYING
 

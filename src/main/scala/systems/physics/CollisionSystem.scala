@@ -7,6 +7,7 @@ import scala.collection.mutable
 import main.scala.components.AABB
 import main.scala.nodes.CollisionNode
 import main.scala.math.Vec3f
+import main.scala.engine.GameEngine
 
 /**
  * Created by Christian Treffs
@@ -82,6 +83,15 @@ class CollisionSystem extends ProcessingSystem {
 
     collisions.foreach(pair => {
       println("COLLISION:"+pair._1 +"<->"+ pair._2)
+
+      val c1: Collision = pair._1
+      val c2: Collision = pair._2
+
+      val e1 = GameEngine.entities(c1.owner.toString)
+      val e2 = GameEngine.entities(c2.owner.toString)
+
+      e1.getComponent(classOf[Sound]).playList += 'collision
+      e2.getComponent(classOf[Sound]).playList += 'collision
     })
 
 
