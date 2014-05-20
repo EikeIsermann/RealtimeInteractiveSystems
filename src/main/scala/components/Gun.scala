@@ -15,9 +15,12 @@ case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 0, timeOfLastSho
   private var _pitchConstraintPositive: Float = 45f
   private var _pitchConstraintNegative: Float = -10f
   private var _yawConstraint: Float = 180f
+  private var _shoot: Boolean = false
 
   def pitchConstraintPositive: Float = _pitchConstraintPositive
   def pitchConstraintPositive_=(f: Float) = _pitchConstraintPositive = f
+
+  def shoot(s: Boolean) = {_shoot = s ; println("boom")}
 
 
   def pitchConstraintNegative: Float = _pitchConstraintNegative

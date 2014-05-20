@@ -62,6 +62,9 @@ class GunControlSystem extends ProcessingSystem {
         //YAW POSITIVE/RIGHT
         doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
 
+        //FIRE GUN
+        doAction(control.triggerFire, _ => {gun.shoot(true)}, delta => {}, _ => gun.shoot(true))
+
 
         def motionDirectionViaMouse(mouseDeltaNew: Vec3f) {
 
@@ -95,8 +98,9 @@ class GunControlSystem extends ProcessingSystem {
 
 
   }
-  private def doAction(triggers: Triggers, keyAction: Unit => Unit, mouseAction: Vec3f => Unit){
+  private def doAction(triggers: Triggers, keyAction: Unit => Unit, mouseAction: Vec3f => Unit, buttonAction: Unit => Unit = Unit => {}){
     Input.mouseMovementDo(triggers.mouseMovement, delta => mouseAction(delta))
+    Input.mouseButtonDownDo(triggers.mouseButton, _ => buttonAction())
     Input.keyDownDo(triggers.key, _ => keyAction())
   }
 

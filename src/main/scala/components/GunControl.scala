@@ -1,9 +1,10 @@
 package main.scala.components
 
 import main.scala.architecture.Component
-import main.scala.systems.input.{MouseMovement, Key, Triggers}
+import main.scala.systems.input.{MouseButton, MouseMovement, Key, Triggers}
 import main.scala.tools.Identifier
 import scala.xml.Node
+import org.lwjgl.input.Mouse
 
 /**
  * User: uni
@@ -13,7 +14,7 @@ import scala.xml.Node
  */
 case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null, MouseMovement.MovementX ), triggerYawRight: Triggers  = Triggers(Key.ArrowRight, null, MouseMovement.MovementX)
                       , triggerPitchPositive: Triggers = Triggers(Key.ArrowUp, null, MouseMovement.MovementY),
-                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY), triggerFire: Triggers = Triggers(),
+                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY), triggerFire: Triggers = Triggers(Key._O,MouseButton.Left, null ),
                   triggerReload: Triggers = Triggers(), triggerSwitchAmmo: Triggers = Triggers()) extends Component {
 
   def toXML: Node = {

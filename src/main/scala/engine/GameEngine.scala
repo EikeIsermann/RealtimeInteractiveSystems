@@ -12,7 +12,7 @@ import main.scala.event._
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
 import main.scala.systems.sound.SoundSystem
 import main.scala.entities.Entity
-import main.scala.math.Vec3f
+import main.scala.math.{Quat, Mat4f, Vec3f}
 import main.scala.systems.positional.RelativePositionalSystem
 import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
@@ -135,8 +135,6 @@ object GameEngine extends Engine with EventReceiver{
 
   def initGame(): Unit = {
 
-
-
     // load shader dir
     Shader.load(shaderDir)
 
@@ -164,7 +162,7 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('SkyBox)
 
     //creating Floor
-    //Entity.newInstanceOf('Floor)
+    Entity.newInstanceOf('Floor)
 
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
