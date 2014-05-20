@@ -1,13 +1,20 @@
 package main.scala.components
 
-import scala.swing.Component
+import main.scala.architecture.Component
+import main.scala.tools.Identifier
+import scala.xml.Node
+
 
 /**
  * User: uni
  * Date: 20.05.14
- * Time: 12:26
+ * Time: 12:46
  * This is a RIS Project class
  */
-case class Vehicle(topSpeed: Integer = 100) extends Component {
+case class Vehicle(power: Float = 100000) extends Component {
+  def toXML: Node = {
+    null
+  }
 
+  def newInstance(identifier: Identifier): Component = new Vehicle(power)
 }

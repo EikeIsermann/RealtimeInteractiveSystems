@@ -186,7 +186,13 @@ object GameEngine extends Engine with EventReceiver{
     test.add(new GunControl)
     test.add(new Gun)
 
+    tank.add(new DriveControl)
+    tank.add(new Vehicle)
 
+    var phys = new Physics()
+    phys.mass = 6f
+    phys.damping_=(0.1f,0.1f)
+    tank.add(phys)
 
 
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
@@ -216,7 +222,7 @@ object GameEngine extends Engine with EventReceiver{
     add(new CameraSystem)
     add(new CamControlSystem)
     add(new RenderingSystem)
-
+    add(new DriveControlSystem)
     add(new PhysicsSystem)
     add(new CollisionSystem)
     //add(new MovementSystem)

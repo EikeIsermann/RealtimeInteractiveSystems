@@ -1,7 +1,7 @@
 package main.scala.nodes
 
 import main.scala.architecture.Node
-import main.scala.components.{Physics, DriveControl, Vehicle}
+import main.scala.components.{Placement, Vehicle, Physics, DriveControl}
 
 /**
  * User: uni
@@ -9,7 +9,7 @@ import main.scala.components.{Physics, DriveControl, Vehicle}
  * Time: 12:29
  * This is a RIS Project class
  */
-class DriveControlNode(veh: Vehicle, con: DriveControl, phy: Physics) extends Node {
-  def this() = this(new Vehicle(), new DriveControl(), new Physics())
+class DriveControlNode(veh: Vehicle, con: DriveControl, phy: Physics, pos: Placement) extends Node {
+  def this() = this(new Vehicle(),new DriveControl(), new Physics(), new Placement())
 
 }

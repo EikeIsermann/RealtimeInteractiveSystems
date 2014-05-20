@@ -2,12 +2,8 @@ package main.scala.architecture
 
 import scala.collection.mutable
 import main.scala.tools.DC
-import scala.collection.mutable.HashMap
 import main.scala.nodes._
 import main.scala.components._
-import main.scala.components.Camera
-import main.scala.components.CamControl
-import main.scala.components.CamControl
 import main.scala.components.Camera
 import main.scala.nodes.CameraNode
 import main.scala.nodes.CollisionNode
@@ -80,7 +76,7 @@ object Node {
         retVal.put(false, List())
       }
       case drivecontrol if drivecontrol == classOf[DriveControlNode] => {
-        retVal.put(true, List(classOf[DriveControl], classOf[Vehicle], classOf[Physics]))
+        retVal.put(true, List(classOf[DriveControl], classOf[Physics], classOf[Vehicle], classOf[Placement]))
         retVal.put(false, List())
       }
 

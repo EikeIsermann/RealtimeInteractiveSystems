@@ -11,7 +11,7 @@ import main.scala.tools.Identifier
  * Time: 21:06
  * This is a RIS Project class
  */
-case class DriveControl(triggerForward: Triggers = Triggers(Key._U), triggerBackward: Triggers = Triggers(Key._K), triggerLeft: Triggers = Triggers(Key._J),
+case class DriveControl(triggerForward: Triggers = Triggers(Key._I), triggerBackward: Triggers = Triggers(Key._K), triggerLeft: Triggers = Triggers(Key._J),
                         triggerRight: Triggers = Triggers(Key._L), triggerBoost: Triggers = Triggers(Key.ShiftLeft)) extends Component {
 
   def newInstance(identifier: Identifier): Component = new DriveControl(triggerForward, triggerBackward,

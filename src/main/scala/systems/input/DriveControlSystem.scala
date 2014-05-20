@@ -1,7 +1,10 @@
 package main.scala.systems.input
 
 import main.scala.architecture.{System, Node, ProcessingSystem}
-import main.scala.nodes.DriveControlNode
+import main.scala.nodes.{GunControlNode, DriveControlNode}
+import main.scala.components.{Placement, Vehicle, DriveControl, Physics}
+import main.scala.math.Vec3f
+import main.scala.io.Wavefront.Vec3
 
 /**
  * User: uni
@@ -17,22 +20,74 @@ class DriveControlSystem extends ProcessingSystem {
    * called on system startup
    * @return
    */
-  def init(): System = ???
+  def init(): System = {this}
 
   /**
    * executed before nodes are processed - every update
    */
-  def begin(): Unit = ???
+  def begin(): Unit = {}
 
   /**
    * executed after nodes are processed - every update
    */
-  def end(): Unit = ???
+  def end(): Unit = {}
 
   /**
    * called on system shutdown
    */
-  def deinit(): Unit = ???
+  def deinit(): Unit = {}
 
-  def processNode(node: Node): Unit = ???
+  def processNode(node: Node): Unit = {
+    node match{
+      case driveCon: DriveControlNode =>
+        var phy = node -> classOf[Physics]
+        var con = node -> classOf[DriveControl]
+        var veh = node -> classOf[Vehicle]
+        var pos = node -> classOf[Placement]
+
+        var xRad = math.sin(math.toRadians(-pos.rotation.y)).toFloat
+        var zRad = math.cos(math.toRadians(-pos.rotation.y)).toFloat
+        var  yRad = math.sin(math.toRadians(pos.rotation.x)).toFloat
+
+
+        // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
+        //FORWARD
+        doAction(con.triggerForward, _ => {
+           println("Triggerworfard")
+          var x = veh.power * xRad * (1-Math.abs(yRad))
+          var z = -( veh.power * zRad * (1-Math.abs(yRad)))
+          var y = veh.power * yRad
+          phy.addForce(Vec3f(x,y,z))
+
+        }, delta => {})
+
+        //BACKWARD
+        doAction(con.triggerBackward, _ => {
+          var x = -(veh.power  * xRad * (1-Math.abs(yRad)) )
+          var z = (veh.power * zRad * (1-Math.abs(yRad)))
+          var y = veh.power * yRad
+          phy.addForce(Vec3f(x,y,z))
+        }, delta => {})
+
+        //LEFT
+        doAction(con.triggerLeft, _ => {
+          pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y + 1, pos.rotation.z)
+        }, delta => {})
+
+        //RIGHT
+        doAction(con.triggerRight, _ => {
+          pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y - 1, pos.rotation.z)
+
+
+        }, delta => {})
+
+      case _ =>
+
+    }
+  }
+  private def doAction(triggers: Triggers, keyAction: Unit => Unit, mouseAction: Vec3f => Unit){
+    Input.mouseMovementDo(triggers.mouseMovement, delta => mouseAction(delta))
+    Input.keyDownDo(triggers.key, _ => keyAction())
+  }
+
 }
