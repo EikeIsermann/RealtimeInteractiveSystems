@@ -4,6 +4,7 @@ import main.scala.tools.{GameConsole, DisplayManager}
 import main.scala.math.Mat4f
 import main.scala.systems.gfx.Shader
 import main.scala.engine.GameEngine
+import main.scala.components.Camera
 
 /**
  * Created by Christian Treffs
@@ -13,23 +14,38 @@ import main.scala.engine.GameEngine
  */
 class SimulationContext extends Context {
 
+
+
   var shader: Shader = null
   var modelMatrix: Mat4f = Mat4f.identity
-  var projectionMatrix: Mat4f = Mat4f.identity
   var viewMatrix: Mat4f = Mat4f.identity
   var displayWidth: Int = 0
   var displayHeight: Int = 0
   var preferredFPS: Int = -1
-  var fieldOfView: Float = -1
-  var nearPlane: Float = -1
-  var farPlane: Float = -1
+
+  private var _aspect: Float = Camera.defaultAspect
+  private var _fieldOfView: Float = Camera.defaultFOV
+  private var _nearPlane: Float = Camera.defaultNearPlane
+  private var _farPlane: Float = Camera.defaultFarPlane
+
+
+  def aspect:Float = _aspect
+  def aspect_=(a:Float) = _aspect = a
+
+  def fieldOfView: Float = _fieldOfView
+  def fieldOfView_=(fov:Float) = _fieldOfView = fov
+
+  def nearPlane: Float = _nearPlane
+  def nearPlane_=(nP: Float) = _nearPlane = nP
+
+  def farPlane: Float = _farPlane
+  def farPlane_=(fP: Float) = _farPlane = fP
+
+
 
   private var _deltaT: Float = 0f
 
-  def setProjectionMatrix(mat: Mat4f): Mat4f = {
-    projectionMatrix = mat
-    projectionMatrix
-  }
+
   def setViewMatrix(mat: Mat4f): Mat4f = {
     viewMatrix = mat
     viewMatrix

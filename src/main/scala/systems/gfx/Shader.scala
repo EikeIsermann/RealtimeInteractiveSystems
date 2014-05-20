@@ -67,7 +67,7 @@ sealed class Shader() {
   final val normalsAttributeIndex = 1
   final val texCoordsAttributeIndex = 2
 
-  final val defaultProjection: Mat4f = Mat4f.projection(70f, 1, 0.1f, 20f )
+  final val defaultProjection: Mat4f = Mat4f.projection(90f, 1, 0.1f, 50f)
   final val defaultView: Mat4f = Mat4f.identity
 
   private var prog: Int = -1
@@ -164,12 +164,9 @@ sealed class Shader() {
   /**
    * use the shader
    */
-  def useProgram(projection: Mat4f = defaultProjection, view: Mat4f = defaultView) {
+  def useProgram(fov: Float, aspect: Float, zNear:Float, zFar:Float, view: Mat4f = defaultView) {
     glUseProgram(programIndex())
-
-    projectionMatrix.set(projection)
+    projectionMatrix.set(Mat4f.projection(fov,aspect,zNear,zFar))
     viewMatrix.set(view)
-
-    DC.log("USE PROGRAM", ("View Mat", view.getPosition))
   }
 }

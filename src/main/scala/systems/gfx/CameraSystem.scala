@@ -29,13 +29,21 @@ class CameraSystem extends ProcessingSystem {
     n match {
       case camNode: CameraNode =>
         val pos: Placement = camNode -> classOf[Placement]
-        var cam: Camera = camNode -> classOf[Camera]
+        val cam: Camera = camNode -> classOf[Camera]
+
+        //set field of view
+        ctx.fieldOfView = cam.fieldOfView
+        ctx.aspect = cam.aspect
+        ctx.farPlane = cam.farPlane
+        ctx.nearPlane = cam.nearPlane
 
         val matPos = Mat4f.translation(pos.position)
         val pitch = pos.rotation.x
         val yaw = pos.rotation.y
         val matRot = Mat4f.rotation(Vec3f(1,0,0),pitch) * Mat4f.rotation(Vec3f(0,1,0),yaw)
         val viewMat = matRot * matPos
+
+        // set camera pos
         ctx.setViewMatrix(viewMat.inverseRigid)
         //DC.log("Camera is at: ", pos.position.inline)
       case _ =>

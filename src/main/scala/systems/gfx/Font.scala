@@ -44,7 +44,7 @@ object Font {
 
     beforeFunc()
 
-    shader.useProgram(projectionMatrix, viewMatrix)
+//    shader.useProgram(projectionMatrix, viewMatrix)
     shader.setModelMatrix(modelTransformation)
 
     glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT)

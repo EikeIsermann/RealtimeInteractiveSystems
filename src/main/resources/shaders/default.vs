@@ -16,5 +16,5 @@ void main() {
 
   vec4 world =  modelMatrix * vec4(vertex, 1);
   vec4 camera = viewMatrix * world;
-  gl_Position = projectionMatrix * camera;
+  gl_Position = projectionMatrix*camera;
 }

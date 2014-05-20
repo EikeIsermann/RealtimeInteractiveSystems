@@ -2,7 +2,7 @@
     <placement>
         <position x="0" y="0" z="0" />
         <rotation angleX="-90" angleY="0" angleZ="0" />
-        <scale x="50" y="50" z="50" />
+        <scale x="20" y="20" z="20" />
     </placement>
     <mesh>
         <source>src/main/resources/meshes/SkyBox/SkyBox.dae</source>

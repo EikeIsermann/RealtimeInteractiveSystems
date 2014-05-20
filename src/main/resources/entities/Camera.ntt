@@ -1,6 +1,9 @@
 <entityTemplate name="Camera">
     <camera>
         <fieldOfView>90</fieldOfView>
+        <aspect>1</aspect>
+        <nearPlane>0.1</nearPlane>
+        <farPlane>50</farPlane>
         <active>true</active>
     </camera>
     <placement>

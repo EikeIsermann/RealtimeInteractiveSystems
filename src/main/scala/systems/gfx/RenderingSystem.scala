@@ -2,12 +2,9 @@ package main.scala.systems.gfx
 
 
 import main.scala.architecture._
-import main.scala.systems.input.SimulationContext
-import main.scala.engine.GameEngine
 import main.scala.nodes.RenderNode
 import main.scala.components.Placement
 import main.scala.math.Mat4f
-import main.scala.tools.DC
 import org.lwjgl.opengl.GL11._
 import main.scala.components.Display
 import org.lwjgl.opengl.GL11
@@ -41,7 +38,9 @@ class RenderingSystem extends ProcessingSystem {
     val aspect: Float = ctx.displayWidth.asInstanceOf[Float] / ctx.displayHeight.asInstanceOf[Float]
 
 
-    ctx.setProjectionMatrix(Mat4f.projection(ctx.fieldOfView, aspect, ctx.nearPlane, ctx.farPlane))
+
+
+
     //context.setViewMatrix(Mat4f.translation(0,0,0))
     val mat = Mat4f.translation(0, 0, -0.8f).mult(Mat4f.rotation(0, 1, 0, 90f)).mult(Mat4f.scale(0.001f, 0.001f, 0.001f))
     ctx.setModelMatrix(mat)
@@ -89,7 +88,8 @@ class RenderingSystem extends ProcessingSystem {
         //TODO use parent and child construct to get the right trafos!
         val modelMatrix: Mat4f = placementComp.getMatrix //Mat4f.rotation(rotation) * Mat4f.translation(position) * Mat4f.scale(scale)
 
-        mesh.draw(shader, modelMatrix, ctx.projectionMatrix, ctx.viewMatrix)
+
+        mesh.draw(shader, modelMatrix, ctx.viewMatrix, ctx.fieldOfView,ctx.aspect,ctx.nearPlane,ctx.farPlane)
       }
       case _ => throw new IllegalArgumentException("not the right node")
     }

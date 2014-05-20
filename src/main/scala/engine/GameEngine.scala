@@ -2,21 +2,18 @@ package main.scala.engine
 
 import main.scala.architecture.Engine
 import ogl.app.StopWatch
-import main.scala.tools.{HUD, DisplayManager, DC}
+import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.{Level, LevelLoader, EntityTemplateLoader}
+import main.scala.io.EntityTemplateLoader
 import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
 import main.scala.components._
 import main.scala.event._
-import main.scala.event.EntityRemoved
-import main.scala.systems.input.Triggers
-import main.scala.event.EntityCreated
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
 import main.scala.systems.sound.SoundSystem
 import main.scala.entities.Entity
-import main.scala.math.{Quat, Vec3f}
-import main.scala.systems.positional.{RelativePositionalSystem, MovementSystem}
+import main.scala.math.Vec3f
+import main.scala.systems.positional.RelativePositionalSystem
 import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
@@ -44,15 +41,9 @@ object GameEngine extends Engine with EventReceiver{
   private val width = 800
   private val height = 600
   private val prefFPS = 100
-  private val FOV = 60f
-  private val nearPl = 0.1f
-  private val farPl = 100f
   private val multiSampling = false
   private val vSyncEnabled = true
   private var preferredFPS: Int = -1
-  private var fieldOfView: Float = -1
-  private var nearPlane: Float = -1
-  private var farPlane: Float = -1
   private var fps: Float = 0.0f /** frames per second */
   private var lastFPS: Long = -1 /** last fps time */
 
@@ -83,7 +74,7 @@ object GameEngine extends Engine with EventReceiver{
   override def start(): Engine = {
     DC.logT('engineStartup,"Engine", "starting up", 3)
     // init the display
-    initDisplay(gameTitle, width, height, FOV, nearPl, farPl, prefFPS,vSyncEnabled, multiSampling)
+    initDisplay(gameTitle, width, height, prefFPS,vSyncEnabled, multiSampling)
 
     // init openGL
     initGL()
@@ -98,7 +89,7 @@ object GameEngine extends Engine with EventReceiver{
   }
 
 
-  def initDisplay(title: String, width: Int, height: Int, fov: Float, nP: Float, fP: Float, fps: Int, vSync: Boolean = true, multiSampling: Boolean = false) = {
+  def initDisplay(title: String, width: Int, height: Int, fps: Int, vSync: Boolean = true, multiSampling: Boolean = false) = {
     /*val dm = new DisplayMode(width, height)
 
     Display.setDisplayMode(dm)*/
@@ -114,9 +105,6 @@ object GameEngine extends Engine with EventReceiver{
     Display.setVSyncEnabled(vSync)
     preferredFPS = fps
     Display.setSwapInterval(1)
-    fieldOfView = fov
-    nearPlane = nP
-    farPlane = fP
 
     DC.log("Display", "initialized@"+width+"x"+height, 3)
   }
@@ -182,14 +170,12 @@ object GameEngine extends Engine with EventReceiver{
 
     // creating Tank
 
-    val tank = Entity.newInstanceOf('Tank)
+    //val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
-    val test = entities.apply("Turret:1")
-    test.add(new GunControl)
-    test.add(new Gun)
-
-    println(test.components.toList)
+    //val test = entities.apply("Turret:1")
+    //test.add(new GunControl)
+    //test.add(new Gun)
 
 
 
@@ -199,15 +185,15 @@ object GameEngine extends Engine with EventReceiver{
     //val camEntity = Entity.newInstanceOf('Camera)
 
     val camEntity = Entity.create("Camera")
-    val cam = new Camera(90)
-    val camPos = new Placement(Vec3f(0,0,0),Vec3f(0,0,0))
+    val cam = new Camera(40f,1f,0.1f,50f)
+    val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
 
 
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
       Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
-    val motion = new Physics()
+
     camEntity.add(camCon)
     //camEntity.add(motion)
     camEntity.add(cam)
@@ -313,9 +299,6 @@ object GameEngine extends Engine with EventReceiver{
     simulationContext.displayHeight = Display.getHeight
     simulationContext.displayWidth = Display.getWidth
     simulationContext.preferredFPS = preferredFPS
-    simulationContext.fieldOfView = fieldOfView
-    simulationContext.nearPlane = nearPlane
-    simulationContext.farPlane = farPlane
     simulationContext.updateDeltaT(time.elapsed())
    simulationContext.updateInput()
   }
