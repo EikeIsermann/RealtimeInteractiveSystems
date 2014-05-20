@@ -164,9 +164,10 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('SkyBox)
 
     //creating Floor
-    Entity.newInstanceOf('Floor)
+    //Entity.newInstanceOf('Floor)
 
-    Entity.newInstanceOf('CollisionBox)
+    //Entity.newInstanceOf('CollisionBox)
+    Entity.newInstanceOf('Bullet)
 
     // creating Tank
 
@@ -185,7 +186,7 @@ object GameEngine extends Engine with EventReceiver{
     //val camEntity = Entity.newInstanceOf('Camera)
 
     val camEntity = Entity.create("Camera")
-    val cam = new Camera(40f,1f,0.1f,50f)
+    val cam = new Camera(95f,1f,0.1f,50f)
     val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
 
 

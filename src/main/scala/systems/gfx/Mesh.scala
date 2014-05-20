@@ -362,7 +362,7 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
 
   def setTexId(id: Int) {
     if(hasTexId) {
-      throw new IllegalArgumentException("TexId already set "+this.name)
+      //throw new IllegalArgumentException("TexId already set "+this.name)
     }
     textureId = id
     if(textureId != -1) {
