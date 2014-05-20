@@ -11,5 +11,15 @@
         <meshId>Bullet</meshId>
         <shaderId>default</shaderId>
     </display>
-
+    <physics>
+            <mass>200.0</mass>
+            <gravity x="0" y="-100" z="0" />
+            <velocity x="0" y="0" z="0" />
+            <acceleration x="0" y="0" z="0" />
+            <damping>
+                <linear>0.99</linear>
+                <angular>0.8</angular>
+            </damping>
+            <inertia>0 0 0 0 0 0 0 0 0</inertia>
+        </physics>
 </entityTemplate>

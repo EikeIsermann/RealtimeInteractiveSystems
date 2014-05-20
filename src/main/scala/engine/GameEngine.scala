@@ -18,6 +18,7 @@ import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
 import main.scala.event.EntityCreated
+import main.scala.systems.gameplay.GunSystem
 
 /**
  * Created by Christian Treffs
@@ -167,13 +168,13 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
 
-    val box1 = Entity.newInstanceOf('CollisionBox)
+    /*val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
 
     box1.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
     box2.getComponent(classOf[Placement]).position = Vec3f(0,5,-10)
     box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
-
+     */
 
     // creating Tank
 
@@ -223,7 +224,7 @@ object GameEngine extends Engine with EventReceiver{
     add(new DriveControlSystem)
     add(new PhysicsSystem)
     add(new CollisionSystem)
-    //add(new MovementSystem)
+    add(new GunSystem)
     add(new RelativePositionalSystem)
     add(new SoundSystem)
     add(new GunControlSystem)

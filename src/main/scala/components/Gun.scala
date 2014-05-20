@@ -16,11 +16,16 @@ case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 0, timeOfLastSho
   private var _pitchConstraintNegative: Float = -10f
   private var _yawConstraint: Float = 180f
   private var _shoot: Boolean = false
+  private var _projectile: Symbol = 'Tank
 
   def pitchConstraintPositive: Float = _pitchConstraintPositive
   def pitchConstraintPositive_=(f: Float) = _pitchConstraintPositive = f
 
   def shoot(s: Boolean) = {_shoot = s ; println("boom")}
+  def shoot = _shoot
+
+  def projectile = _projectile
+  def projectile_=(p: Symbol) = _projectile = p
 
 
   def pitchConstraintNegative: Float = _pitchConstraintNegative
@@ -37,6 +42,7 @@ case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 0, timeOfLastSho
 
   def timeOfLastShot: Long = _timeOfLastShot
   def timeOfLastShot_=(t: Long) = _timeOfLastShot = t
+
 
   override def toXML: Node = {
     null

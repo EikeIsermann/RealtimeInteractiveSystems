@@ -79,7 +79,10 @@ object Node {
         retVal.put(true, List(classOf[DriveControl], classOf[Physics], classOf[Vehicle], classOf[Placement]))
         retVal.put(false, List())
       }
-
+      case gunnode if gunnode == classOf[GunNode] => {
+        retVal.put(true, List(classOf[Gun], classOf[Placement]))
+        retVal.put(false, List())
+      }
 
       case _ => DC.warn("No valid definition for " + cl.getClass.getSimpleName)
     }
