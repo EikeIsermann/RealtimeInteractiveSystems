@@ -41,7 +41,7 @@ object GameEngine extends Engine with EventReceiver{
 
   private val width = 1000
   private val height = 600
-  private val prefFPS = 100
+  private val prefFPS = 60
   private val multiSampling = false
   private val vSyncEnabled = true
   private var preferredFPS: Int = -1
@@ -141,18 +141,24 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
 
+
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
     //val box3 = Entity.newInstanceOf('CollisionBox)
     //val box4 = Entity.newInstanceOf('CollisionBox)
 
 
-    box1.getComponent(classOf[Placement]).position = Vec3f(6,6,6)
+    box1.getComponent(classOf[Placement]).position = Vec3f(4,0,-10)
+    box2.getComponent(classOf[Placement]).position = Vec3f(-4,0,-10)
+
+    box1.getComponent(classOf[Physics]).addForce(Vec3f(-20000f,0,0))
+    box2.getComponent(classOf[Physics]).addForce(Vec3f(0,0,0))
+
 
     //box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
-    box2.getComponent(classOf[Physics]).mass = 100000f
-    box2.getComponent(classOf[Physics]).acceleration = Vec3f(0,-9.81f,0)
-    box2.getComponent(classOf[Physics]).damping_=(0.99f,0.8f)
+    //box2.getComponent(classOf[Physics]).mass = 100000f
+    //box2.getComponent(classOf[Physics]).acceleration = Vec3f(0,-9.81f,0)
+    //box2.getComponent(classOf[Physics]).damping_=(0.99f,0.8f)
 
     //box3.getComponent(classOf[Placement]).position = Vec3f(0,4,-10)
 
@@ -163,7 +169,7 @@ object GameEngine extends Engine with EventReceiver{
 
 
     // creating Tank
-
+     /*
     val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
@@ -180,15 +186,15 @@ object GameEngine extends Engine with EventReceiver{
     phys.damping_=(0.1f,0.1f)
     phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
-
+       */
 
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
         // creating Camera
     //val camEntity = Entity.newInstanceOf('Camera)
 
-
-    /*val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
+    //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
+    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
 
     val camEntity = Entity.create("Camera")
 
@@ -205,23 +211,24 @@ object GameEngine extends Engine with EventReceiver{
     //camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
-    */
-    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
 
-    test.add(cam)
+
+
+    //test.add(cam)
     //box1.add(new Vehicle)
     //box1.add(new DriveControl)
     //println(camEntity.components.toList)
 
 
 
+
     //register systems with engine
     add(new CameraSystem)
     add(new CamControlSystem)
-    add(new RenderingSystem)
+    add(new RenderingSystem(prefFPS))
     add(new DriveControlSystem)
-    add(new PhysicsSystem)
-    add(new CollisionSystem)
+    add(new PhysicsSystem(200))
+    add(new CollisionSystem(200))
     add(new GunSystem)
     add(new RelativePositionalSystem)
     add(new SoundSystem)

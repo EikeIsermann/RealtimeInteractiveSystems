@@ -83,7 +83,6 @@ object Input {
 
     _mousePosition = Vec3f(Mouse.getX, Mouse.getY, 0.0f)
     _mouseMovement = Vec3f(Mouse.getDX, Mouse.getDY, 0.0f)
-
   }
 
   private def setMouseWheel() {

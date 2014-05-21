@@ -17,7 +17,10 @@ import main.scala.nodes.PhysicsNode
 
 
 
-class PhysicsSystem extends ProcessingSystem {
+class PhysicsSystem(simSpeed: Int) extends IntervalProcessingSystem {
+
+  override var acc: Float = 0
+  override val interval: Float = 1f/simSpeed.toFloat
 
   override var node: Class[_ <: Node] = classOf[PhysicsNode]
   override var priority = 0
@@ -25,6 +28,7 @@ class PhysicsSystem extends ProcessingSystem {
 
 
   def init(): System = {
+    println(this,"interval:"+interval)
     this
   }
 
@@ -56,8 +60,7 @@ class PhysicsSystem extends ProcessingSystem {
 
     // Calculate linear acceleration from force inputs.
     // a2 = a0 + F/m
-    m.lastFrameAcceleration = m.gravity + m.acceleration + m.forceAccum * m.inverseMass
-    println(m.lastFrameAcceleration.inline)
+    m.lastFrameAcceleration = m.acceleration + m.forceAccum * m.inverseMass
 
     // Calculate angular acceleration from torque inputs.
     m.angularAcceleration = m.inverseInertiaTensorWorld * m.torqueAccum

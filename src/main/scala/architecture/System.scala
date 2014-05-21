@@ -4,7 +4,7 @@ import main.scala.systems.input.SimulationContext
 import scala.Predef._
 import main.scala.engine.GameEngine
 import main.scala.event.{NodeAdded, Event, EventReceiver}
-import main.scala.tools.DC
+import main.scala.tools.{phy, DC}
 
 /**
  * Created by Christian Treffs
@@ -211,7 +211,7 @@ abstract class IntervalProcessingSystem extends System {
   }
 
 
-  def update(ctx: SimulationContext) = {
+  override def update() = {
     if (checkProcessing(ctx)) {
       getNodes.foreach(processNode)
 
@@ -221,6 +221,50 @@ abstract class IntervalProcessingSystem extends System {
 
   def processNode(node: Node)
 
+}
+
+abstract class FixedIntervalSystem extends System {
+
+  var c = 0
+
+  // Semi-fixed timestep
+  val simulationsPerSecond: Int = 200
+
+  var t: Double = 0
+  var dt: Double = 0.04//1/simulationsPerSecond
+
+  val maxFrameTime: Double = 0.25
+
+  var currentTime = phy.timeInSeconds()
+  var accumulator: Double = 0.0
+
+  def processNode(node: Node)
+
+
+  override def update()  = {
+
+    val newTime: Double = phy.timeInSeconds()
+    var frameTime: Double = newTime - currentTime
+    if(frameTime > maxFrameTime) {
+      frameTime = maxFrameTime  // max frame time to avoid spiral of death
+    }
+    currentTime = newTime
+
+    accumulator += frameTime
+
+
+    while(accumulator >= dt)  {
+      getNodes.foreach(processNode)
+      t += dt
+      accumulator -= dt
+    }
+
+    // render (state)
+
+    c += 1
+
+    this
+  }
 }
 
 abstract class VoidProcessingSystem extends System {

@@ -1,7 +1,7 @@
 package main.scala.systems.physics
 
 import main.scala.architecture._
-import main.scala.tools.Identifier
+import main.scala.tools.{phy, Identifier}
 import main.scala.components._
 import scala.collection.mutable
 import main.scala.components.AABB
@@ -15,7 +15,11 @@ import main.scala.engine.GameEngine
  */
 case class Pair(a: Identifier, b: Identifier)
 
-class CollisionSystem extends ProcessingSystem {
+class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
+
+  override var acc: Float = 0
+  override val interval: Float = 1f/simSpeed.toFloat
+
 
 
   private var xAxis = mutable.ArrayBuffer[BBEndPoint]()
@@ -31,6 +35,7 @@ class CollisionSystem extends ProcessingSystem {
 
 
   def init(): System = {
+    println(this,"interval:"+interval)
     this
   }
 
@@ -45,24 +50,28 @@ class CollisionSystem extends ProcessingSystem {
 
 
   override def processNode(n: Node) = {
-    //update bounding box with the objects position
-    n match {
-      case colNode: CollisionNode =>
-        val collision: Collision = colNode -> classOf[Collision]
-        val placement: Placement = colNode -> classOf[Placement]
 
 
-        //update bounding box with the objects position
-        //println(placement.position.inline,placement.getMatrix.position.inline)
+      //update bounding box with the objects position
+      n match {
+        case colNode: CollisionNode =>
+          val collision: Collision = colNode -> classOf[Collision]
+          val placement: Placement = colNode -> classOf[Placement]
 
-        collision.updateBoundingVolume(placement.getMatrix)
 
-        collision.boundingVolume match {
-          case a: AABB => addAABB2AxisArray(a)
-          case s: Sphere => //TODO:
-        }
-      case _ => throw new IllegalArgumentException("not a CollisionNode")
-    }
+          //update bounding box with the objects position
+          //println(placement.position.inline,placement.getMatrix.position.inline)
+
+          collision.updateBoundingVolume(placement.getMatrix)
+
+          collision.boundingVolume match {
+            case a: AABB => addAABB2AxisArray(a)
+            case s: Sphere => //TODO:
+          }
+        case _ => throw new IllegalArgumentException("not a CollisionNode")
+      }
+
+
 
   }
 
@@ -106,21 +115,35 @@ class CollisionSystem extends ProcessingSystem {
       val e2Phys = e2.getIfPresent(classOf[Physics]).get
 
 
-      val a1 = e1Phys.acceleration + e1Phys.gravity
-      val a2 = e2Phys.acceleration + e2Phys.gravity
+
+      //println(e1Phys.velocity.inline,e2Phys.velocity.inline,e1Phys.acceleration.inline,e2Phys.acceleration.inline)
+
+
+
+
+
+      val a1 = e1Phys.velocity
+      val a2 = e2Phys.velocity
+
+      println(a1.inline,a2.inline)
 
       val m1 = e1Phys.mass
       val m2 = e2Phys.mass
 
 
-      val f1: Vec3f = (-9.80f*(a2*m2)/m1)*m1
-      val f2: Vec3f = (-9.80f*(a1*m1)/m2)*m2
+      val f1: Vec3f = (-100f*a2*a2*m2)/m1
+      val f2: Vec3f = (-100f*a1*a1*m1)/m2
 
 
       println("FORCE: "+f1.inline,f2.inline)
 
-      e1.getIfPresent(classOf[Physics]).get.addForce(f2)
-      e2.getIfPresent(classOf[Physics]).get.addForce(f1)
+      e1Phys.velocity = Vec3f(0,0,0)
+      e2Phys.velocity = Vec3f(0,0,0)
+      e1Phys.acceleration = Vec3f(0,0,0)
+      e2Phys.acceleration = Vec3f(0,0,0)
+
+      e1.getIfPresent(classOf[Physics]).get.addForce(f1)
+      e2.getIfPresent(classOf[Physics]).get.addForce(f2)
 
 
 
@@ -301,6 +324,5 @@ class CollisionSystem extends ProcessingSystem {
  def pairHandle(pair: Pair, increase: Boolean) {
 
  }*/
-
 
 }

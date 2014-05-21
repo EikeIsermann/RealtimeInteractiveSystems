@@ -13,12 +13,14 @@ import org.lwjgl.opengl.GL11
  * Created by Christian Treffs
  * Date: 14.03.14 18:33
  */
-class RenderingSystem extends ProcessingSystem {
+class RenderingSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
   override var node: Class[_ <: Node] = classOf[RenderNode]
   override var priority: Int = 0
 
 
+  override var acc: Float = 0
+  override val interval: Float = 1f/simSpeed.toFloat
 
   override def begin(): Unit = {
     // Adjust the the viewport to the actual window size. This makes the
@@ -138,8 +140,5 @@ class RenderingSystem extends ProcessingSystem {
 
     this
   }     */
-
-
-
 
 }
