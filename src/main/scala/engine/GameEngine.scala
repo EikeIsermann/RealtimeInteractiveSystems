@@ -146,12 +146,16 @@ object GameEngine extends Engine with EventReceiver{
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
     val box3 = Entity.newInstanceOf('CollisionBox)
+    val box4 = Entity.newInstanceOf('CollisionBox)
 
 
-    box3.getComponent(classOf[Placement]).position = Vec3f(0,-6,-10)
-    box1.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
-    box2.getComponent(classOf[Placement]).position = Vec3f(0,5,-10)
-    box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
+    box1.getComponent(classOf[Placement]).position = Vec3f(0,-6,-10)
+    box2.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
+    box3.getComponent(classOf[Placement]).position = Vec3f(0,5,-10)
+    box3.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
+    box4.getComponent(classOf[Placement]).position = Vec3f(0,10,-10)
+    box4.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
+
 
 
 

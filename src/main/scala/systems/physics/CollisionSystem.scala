@@ -21,6 +21,7 @@ class CollisionSystem extends ProcessingSystem {
   private var xAxis = mutable.ArrayBuffer[BBEndPoint]()
   private var yAxis = mutable.ArrayBuffer[BBEndPoint]()
   private var zAxis = mutable.ArrayBuffer[BBEndPoint]()
+  private val pairVecs = mutable.HashMap[(Collision, Collision), PairVec]()
   private val pairs = mutable.HashMap[(Collision, Collision), Int]()
   private val collisions = mutable.ArrayBuffer[(Collision, Collision)]()
 
@@ -67,9 +68,9 @@ class CollisionSystem extends ProcessingSystem {
   override def end(): Unit = {
 
     // sweep and prune collisions
-    sweepAndPrune(xAxis)
-    sweepAndPrune(yAxis)
-    sweepAndPrune(zAxis)
+    sweepAndPrune(xAxis, 0)
+    sweepAndPrune(yAxis, 1)
+    sweepAndPrune(zAxis, 2)
 
 
 
@@ -82,20 +83,27 @@ class CollisionSystem extends ProcessingSystem {
 
 
     collisions.foreach(pair => {
-      println("COLLISION:"+pair._1 +"<->"+ pair._2)
+
 
       val c1: Collision = pair._1
       val c2: Collision = pair._2
 
+      val vecPair = pairVecs(pair)
+      val colPoint = collisionPoint(vecPair.vec1,vecPair.vec2)
+
       val e1 = GameEngine.entities(c1.owner.toString)
       val e2 = GameEngine.entities(c2.owner.toString)
+
+      println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
+
+
 
       // play collision sound if there is a sound component with collision
       e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
       e2.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
 
-     // e1.destroy()
-      e2.destroy()
+     //e1.destroy()
+     //e2.destroy()
 
 
     })
@@ -106,33 +114,42 @@ class CollisionSystem extends ProcessingSystem {
   def deinit(): Unit = {}
 
 
+  private def collisionPoint(v1: Vec3f,v2: Vec3f): Vec3f = 0.5f*(v2+v1)
+
   private def addAABB2AxisArray(aabb: AABB) {
     xAxis ++= aabb.interval(0)
     yAxis ++= aabb.interval(1)
     zAxis ++= aabb.interval(2)
   }
 
+  case class PairVec(vec: (Float,Float),axis: Int) {
+    val values: Array[Array[Float]] = Array.ofDim[Float](3,2)
+    add(vec,axis)
+    def vec1: Vec3f = Vec3f(values(0)(0),values(1)(0),values(2)(0))
+    def vec2: Vec3f = Vec3f(values(0)(1),values(1)(1),values(2)(1))
+    def add(vec: (Float,Float), axis: Int) {
 
-  private def sweepAndPrune(axis: mutable.ArrayBuffer[BBEndPoint]) {
+      values(axis)(0) = vec._1
+      values(axis)(1) = vec._2
+    }
+  }
+
+  private def sweepAndPrune(axis: mutable.ArrayBuffer[BBEndPoint], axisHint: Int) {
     for (j <- 1 until axis.size) {
       val current: BBEndPoint = axis(j)
       var i = j - 1
       while (i >= 0 && axis(i).value > current.value) {
-        //println(j,i,axis(i).value,current.value)
         val before: BBEndPoint = axis(i)
-
         val pair = (current.owner(), before.owner())
-
         if (current.isMin && !before.isMin) {
           pairs.contains(pair) match {
             case true =>
+              pairVecs(pair).add((before.value,current.value),axisHint)
               pairs(pair) += 1
-              if (pairs(pair) == 3) {
-                println(axis(j).value, axis(i).value)
-                //println("collision", before.owner(), current.owner())
-                //println("collision")
-              }
-            case false => pairs += pair -> 1
+            case false => {
+              pairVecs += pair -> PairVec((before.value,current.value),axisHint)
+              pairs += pair -> 1
+            }
           }
         }
 
