@@ -15,9 +15,11 @@ object RISMath {
     var zRad = math.cos(math.toRadians(-rot.y)).toFloat
     var  yRad = math.sin(math.toRadians(rot.x)).toFloat
 
-    var x =  xRad * (1-Math.abs(yRad))
-    var z =  zRad * (1-Math.abs(yRad))
-    var y =  yRad
+    var x =  xRad * math.cos(math.toRadians((rot.x))).toFloat
+    var z =  zRad * math.cos(math.toRadians((rot.x))).toFloat
+    var y =  Math.abs(yRad)
+
+
     if(forward) z = z * -1
     else x = x * -1
 

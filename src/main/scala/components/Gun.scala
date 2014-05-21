@@ -17,7 +17,7 @@ case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 1000, timeOfLast
   private var _yawConstraint: Float = 180f
   private var _shoot: Boolean = false
   private var _projectile: Symbol = 'Bullet
-  private var _power: Float = 10000
+  private var _power: Float = 30000
 
   def power = _power
   def power_=(f:Float) = _power = f

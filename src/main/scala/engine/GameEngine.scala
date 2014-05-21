@@ -132,8 +132,6 @@ object GameEngine extends Engine with EventReceiver{
     //create a level from current game with this name and save it to disk
    //val lvl = new Level("TestLevel")
     //lvl.save()
-
-
     //creating SkyBox
     Entity.newInstanceOf('SkyBox)
 
@@ -149,10 +147,7 @@ object GameEngine extends Engine with EventReceiver{
     //val box4 = Entity.newInstanceOf('CollisionBox)
 
 
-    box1.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
-    box1.getComponent(classOf[Physics]).mass = 100000f
-    //box1.getComponent(classOf[Physics]).damping_=(0f,0f)
-    box2.getComponent(classOf[Placement]).position = Vec3f(0,3,-10)
+    box1.getComponent(classOf[Placement]).position = Vec3f(6,6,6)
 
     //box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
     box2.getComponent(classOf[Physics]).mass = 100000f
@@ -168,7 +163,7 @@ object GameEngine extends Engine with EventReceiver{
 
 
     // creating Tank
-  /*
+
     val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
@@ -180,20 +175,23 @@ object GameEngine extends Engine with EventReceiver{
     tank.add(new Vehicle)
 
     var phys = new Physics()
-    phys.mass = 6f
+    phys.mass = 60f
     phys.gravity = Vec3f()
     phys.damping_=(0.1f,0.1f)
     phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
-       */
+
 
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
         // creating Camera
     //val camEntity = Entity.newInstanceOf('Camera)
 
+
+    /*val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
+
     val camEntity = Entity.create("Camera")
-    val cam = new Camera(70f,None,0.1f,50f)
+
     val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
 
 
@@ -202,10 +200,17 @@ object GameEngine extends Engine with EventReceiver{
       Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
 
+
     camEntity.add(camCon)
     //camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
+    */
+    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
+
+    test.add(cam)
+    //box1.add(new Vehicle)
+    //box1.add(new DriveControl)
     //println(camEntity.components.toList)
 
 
