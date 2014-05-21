@@ -201,7 +201,7 @@ object GameEngine extends Engine with EventReceiver{
     camEntity.add(cam)
     camEntity.add(camPos)
     */
-    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
+    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-15,0,0), 1f )
 
     test.add(cam)
     //box1.add(new Vehicle)
