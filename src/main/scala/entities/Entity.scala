@@ -5,8 +5,12 @@ import main.scala.tools.{DC, Identifier}
 import main.scala.io.EntityTemplateLoader
 import main.scala.components.{isPartOf, Children, Parent, hasParts}
 import scala.xml.Elem
-import main.scala.event.{ComponentRemoved, ComponentAdded, EntityCreated, EventDispatcher}
+import main.scala.event._
 import scala.collection.mutable.ArrayBuffer
+import main.scala.event.ComponentRemoved
+import scala.Some
+import main.scala.event.ComponentAdded
+import main.scala.event.EntityCreated
 
 /**
  * Created by Christian Treffs
@@ -122,6 +126,15 @@ class Entity(idx: Identifier, template: Boolean = false) {
     }
   }
 
+
+  def kill() = destroy()
+  def destroy() {
+     // remove my components
+    components.foreach(remove)
+
+    // send remove myself from gameEngine event
+    EventDispatcher.dispatch(EntityRemoved(this))
+  }
 
 
   //dispatching entity creation event

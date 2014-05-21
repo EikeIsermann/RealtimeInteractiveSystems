@@ -94,6 +94,9 @@ class CollisionSystem extends ProcessingSystem {
       e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
       e2.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
 
+     // e1.destroy()
+      e2.destroy()
+
 
     })
 
@@ -125,6 +128,7 @@ class CollisionSystem extends ProcessingSystem {
             case true =>
               pairs(pair) += 1
               if (pairs(pair) == 3) {
+                println(axis(j).value, axis(i).value)
                 //println("collision", before.owner(), current.owner())
                 //println("collision")
               }
