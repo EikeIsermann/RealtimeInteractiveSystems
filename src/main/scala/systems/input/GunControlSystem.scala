@@ -70,8 +70,8 @@ class GunControlSystem extends ProcessingSystem {
         def motionDirectionViaMouse(mouseDeltaNew: Vec3f) {
 
           // calculate current mouse delta - considering velocities/sensitivities
-          val deltaX: Float = (Input.mouseMovement.x * 0.3f) * ds
-          val deltaY: Float = (Input.mouseMovement.y * 0.5f) * ds
+          val deltaX: Float = (Input.mouseMovement.x * 0.02f) * ds
+          val deltaY: Float = (Input.mouseMovement.y * 0.01f) * ds
 
           // sum deltas to get a pitch and yaw delta
           pitch += deltaY
