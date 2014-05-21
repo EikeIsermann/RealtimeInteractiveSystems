@@ -168,13 +168,13 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
 
-    /*val box1 = Entity.newInstanceOf('CollisionBox)
+    val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
 
     box1.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
     box2.getComponent(classOf[Placement]).position = Vec3f(0,5,-10)
     box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
-     */
+
 
     // creating Tank
 
@@ -190,6 +190,7 @@ object GameEngine extends Engine with EventReceiver{
 
     var phys = new Physics()
     phys.mass = 6f
+    phys.gravity = Vec3f()
     phys.damping_=(0.1f,0.1f)
     tank.add(phys)
 

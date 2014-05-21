@@ -5,7 +5,7 @@
         <scale x="0.001" y="0.001" z="0.001" />
     </placement>
     <mesh>
-        <source>src/main/resources/meshes/Bullet/Bullet1.dae</source>
+        <source>src/main/resources/meshes/Bullet/Bullet2.dae</source>
     </mesh>
     <display>
         <meshId>Bullet</meshId>
