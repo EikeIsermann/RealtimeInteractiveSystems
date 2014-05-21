@@ -138,11 +138,11 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('SkyBox)
 
     //creating Floor
-    //Entity.newInstanceOf('Floor)
+    Entity.newInstanceOf('Floor)
 
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
-
+     /*
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
     val box3 = Entity.newInstanceOf('CollisionBox)
@@ -161,7 +161,7 @@ object GameEngine extends Engine with EventReceiver{
 
     // creating Tank
 
-   /* val tank = Entity.newInstanceOf('Tank)
+    val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
     val test = entities.apply("Turret:1")
@@ -177,7 +177,7 @@ object GameEngine extends Engine with EventReceiver{
     phys.damping_=(0.1f,0.1f)
     phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
-     */
+
 
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)

@@ -45,14 +45,16 @@ class GunSystem extends ProcessingSystem {
         var pos = node -> classOf[Placement]
         if(gun.timeOfLastShot + gun.coolDown < System.currentTimeMillis() && gun.shoot){
            var bullet = Entity.newInstanceOf(gun.projectile)
-           bullet.getComponent(classOf[Placement]).setTo(pos)
-          bullet.getComponent(classOf[Placement]).scale = Vec3f(0.5f,0.5f,0.5f)
-          println(bullet.components.toList)
+          bullet.getComponent(classOf[Placement]).setTo(pos)
+          //bullet.getComponent(classOf[Placement]).scale = Vec3f(0.2f,0.2f,0.2f)
           var bullphys =  bullet.getComponent(classOf[Physics])
-          bullphys.velocity = RISMath.DirFromRot(bullet.getComponent(classOf[Placement]).rotation) * 10000
+          bullphys.velocity = RISMath.DirFromRot(pos.basePosition.rotation*pos.rotation) * gun.power
+
+          //bullphys.addForce(RISMath.DirFromRot(pos.rotation)*10000000)
            gun.shoot(false)
            gun.timeOfLastShot = System.currentTimeMillis()
         }
+          gun.shoot(false)
 
       case _ =>
     }

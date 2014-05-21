@@ -45,15 +45,10 @@ class DriveControlSystem extends ProcessingSystem {
         var veh = node -> classOf[Vehicle]
         var pos = node -> classOf[Placement]
 
-        var xRad = math.sin(math.toRadians(-pos.rotation.y)).toFloat
-        var zRad = math.cos(math.toRadians(-pos.rotation.y)).toFloat
-        var yRad = math.sin(math.toRadians(pos.rotation.x)).toFloat
-
 
         // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
         //FORWARD
         doAction(con.triggerForward, _ => {
-
 
 
 

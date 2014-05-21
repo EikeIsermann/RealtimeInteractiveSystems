@@ -8,7 +8,7 @@ import main.scala.tools.Identifier
  * Created by Christian Treffs
  * Date: 21.03.14 00:46
  */
-case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 0, timeOfLastShot1: Long = 0) extends Component {
+case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 1000, timeOfLastShot1: Long = 0) extends Component {
   private var _lifetimeProjectile: Long = lifetimeProjectile1
   private var _coolDown: Long = coolDown1
   private var _timeOfLastShot: Long = timeOfLastShot1
@@ -17,11 +17,15 @@ case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 0, timeOfLastSho
   private var _yawConstraint: Float = 180f
   private var _shoot: Boolean = false
   private var _projectile: Symbol = 'Bullet
+  private var _power: Float = 10000
+
+  def power = _power
+  def power_=(f:Float) = _power = f
 
   def pitchConstraintPositive: Float = _pitchConstraintPositive
   def pitchConstraintPositive_=(f: Float) = _pitchConstraintPositive = f
 
-  def shoot(s: Boolean) = {_shoot = s ; println("boom")}
+  def shoot(s: Boolean) = {_shoot = s}
   def shoot = _shoot
 
   def projectile = _projectile
