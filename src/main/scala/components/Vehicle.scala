@@ -11,7 +11,7 @@ import scala.xml.Node
  * Time: 12:46
  * This is a RIS Project class
  */
-case class Vehicle(power: Float = 100000) extends Component {
+case class Vehicle(power: Float = 100000, boostFactor:Float = 3f , turnSpeed: Float = 1f) extends Component {
   def toXML: Node = {
     null
   }

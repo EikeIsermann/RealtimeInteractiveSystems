@@ -8,7 +8,7 @@ import main.scala.tools.Identifier
  * Created by Christian Treffs
  * Date: 21.03.14 00:46
  */
-case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 1000, timeOfLastShot1: Long = 0) extends Component {
+case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 500, timeOfLastShot1: Long = 0) extends Component {
   private var _lifetimeProjectile: Long = lifetimeProjectile1
   private var _coolDown: Long = coolDown1
   private var _timeOfLastShot: Long = timeOfLastShot1

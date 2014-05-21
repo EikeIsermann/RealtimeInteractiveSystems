@@ -86,18 +86,18 @@ class Entity(idx: Identifier, template: Boolean = false) {
   def components: Array[Component] = _components.toArray
   def components[T <: Component](componentType: Class[T]): Array[T] = components.filter(_.getClass.equals(componentType)).asInstanceOf[Array[T]]
 
-  def add(component: Component): Entity = this.+=(component)
+  def add(component: Component): Entity = {println(this.identifier) ;  +=(component)}
   def += (component: Option[Component]): Entity = {
     component.collect {
       case c: Component =>
         this.+=(c)
-        c.owner = this.identifier
       case _ =>
     }
     this
   }
   def +=(component: Component): Entity = {
     _components.+=(component)
+    component.owner = identifier
     EventDispatcher.dispatch(ComponentAdded(this,component))
 
     this
