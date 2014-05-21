@@ -161,12 +161,15 @@ sealed class Shader() {
     DC.log("Shader","bindMatrixUniforms")
   }
 
+  def windowAspect(): Float = org.lwjgl.opengl.Display.getWidth.toFloat/org.lwjgl.opengl.Display.getHeight.toFloat
+
   /**
    * use the shader
    */
-  def useProgram(fov: Float, aspect: Float, zNear:Float, zFar:Float, view: Mat4f = defaultView) {
+  def useProgram(fov: Float, aspect: Option[Float], zNear:Float, zFar:Float, view: Mat4f = defaultView) {
     glUseProgram(programIndex())
-    projectionMatrix.set(Mat4f.projection(fov,aspect,zNear,zFar))
+    val asp = if(aspect.isDefined) aspect.get else windowAspect()
+    projectionMatrix.set(Mat4f.projection(fov,asp,zNear,zFar))
     viewMatrix.set(view)
   }
 }

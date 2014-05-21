@@ -231,21 +231,21 @@ sealed class AudioSource(audioBuffer: AudioBuffer) extends AudioDynamicLocation 
   }
 
   def play() = {
-    if(!isPlaying) {
+    //if(!isPlaying) {
       alSourcePlay(source.get(0))
-    }
+    //}
   }
 
   def pause() = {
-    if(!isPaused) {
+    //if(!isPaused) {
       alSourcePause(source.get(0))
-    }
+    //}
   }
 
   def stop() = {
-    if(!isStopped) {
+    //if(!isStopped) {
       alSourceStop(source.get(0))
-    }
+    //}
   }
 
   def isPlaying: Boolean = alGetSourcei(source.get(0), AL_SOURCE_STATE) == AL_PLAYING

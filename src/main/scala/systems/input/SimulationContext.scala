@@ -1,6 +1,6 @@
 package main.scala.systems.input
 
-import main.scala.tools.{GameConsole, DisplayManager}
+import main.scala.tools.DisplayManager
 import main.scala.math.Mat4f
 import main.scala.systems.gfx.Shader
 import main.scala.engine.GameEngine
@@ -23,14 +23,14 @@ class SimulationContext extends Context {
   var displayHeight: Int = 0
   var preferredFPS: Int = -1
 
-  private var _aspect: Float = Camera.defaultAspect
+  private var _aspect: Option[Float] = Camera.defaultAspect
   private var _fieldOfView: Float = Camera.defaultFOV
   private var _nearPlane: Float = Camera.defaultNearPlane
   private var _farPlane: Float = Camera.defaultFarPlane
 
 
-  def aspect:Float = _aspect
-  def aspect_=(a:Float) = _aspect = a
+  def aspect:Option[Float] = _aspect
+  def aspect_=(a:Option[Float]) = _aspect = a
 
   def fieldOfView: Float = _fieldOfView
   def fieldOfView_=(fov:Float) = _fieldOfView = fov

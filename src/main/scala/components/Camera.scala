@@ -12,7 +12,13 @@ object Camera extends ComponentCreator {
   def fromXML(xml: Node): Option[Camera] = {
     xmlToComp[Camera](xml, "camera", n => {
       val fov:Float = (n \ "fieldOfView").text.toFloat
-      val asp:Float = (n \ "aspect").text.toFloat
+      val asp:Option[Float] = {
+        val a = (n \ "aspect").text.trim()
+        if(a.isEmpty) {
+          return None
+        }
+        Some(a.toFloat)
+      }
       val nP:Float = (n \ "nearPlane").text.toFloat
       val fP:Float = (n \ "farPlane").text.toFloat
       val active:Boolean = (n \ "active").text.toBoolean
@@ -21,22 +27,23 @@ object Camera extends ComponentCreator {
     })
   }
 
-  final val defaultAspect: Float = 1f
+  final val defaultAspect: Option[Float] = None
   final val defaultFOV: Float = 90f
   final val defaultNearPlane: Float = 0.1f
   final val defaultFarPlane: Float = 50f
 }
 
-class Camera(fieldOfView1: Float = Camera.defaultFOV, aspect1:Float = Camera.defaultAspect, nearPlane1:Float = Camera.defaultNearPlane, farPlane1: Float = Camera.defaultFarPlane,active1: Boolean = true) extends Component {
-  private var _aspect: Float = aspect1
+class Camera(fieldOfView1: Float = Camera.defaultFOV, aspect1:Option[Float] = Camera.defaultAspect, nearPlane1:Float = Camera.defaultNearPlane, farPlane1: Float = Camera.defaultFarPlane,active1: Boolean = true) extends Component {
+  private var _aspect: Option[Float] = aspect1
   private var _fieldOfView: Float = fieldOfView1
   private var _nearPlane: Float = nearPlane1
   private var _farPlane: Float = farPlane1
   private var _active: Boolean = active1
 
 
-  def aspect:Float = _aspect
-  def aspect_=(a:Float) = _aspect = a
+
+  def aspect:Option[Float] = _aspect
+  def aspect_=(a:Option[Float]) = _aspect = a
 
   def fieldOfView: Float = _fieldOfView
   def fieldOfView_=(fov:Float) = _fieldOfView = fov

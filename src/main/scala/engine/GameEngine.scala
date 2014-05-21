@@ -12,7 +12,7 @@ import main.scala.event._
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
 import main.scala.systems.sound.SoundSystem
 import main.scala.entities.Entity
-import main.scala.math.{Quat, Mat4f, Vec3f}
+import main.scala.math.Vec3f
 import main.scala.systems.positional.RelativePositionalSystem
 import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
@@ -40,7 +40,7 @@ object GameEngine extends Engine with EventReceiver{
 
 
   private val width = 1000
-  private val height = 1000
+  private val height = 600
   private val prefFPS = 100
   private val multiSampling = false
   private val vSyncEnabled = true
@@ -48,14 +48,8 @@ object GameEngine extends Engine with EventReceiver{
   private var fps: Float = 0.0f /** frames per second */
   private var lastFPS: Long = -1 /** last fps time */
 
-
-  //TODO: remove?
-  //var entities: SimulationRegistry = null
   var simulationContext: SimulationContext = null
   var time: StopWatch = null
-
-
-
 
   override def createNewGame(title: String, assetsPath: String = "src/main/resources") = {
 
@@ -111,28 +105,9 @@ object GameEngine extends Engine with EventReceiver{
   }
 
   def initGL() = {
-
-    /*
-    GL11.glMatrixMode(GL11.GL_PROJECTION_MATRIX)
-    GL11.glLoadIdentity()
-
-    val topClippingPlane    = 0
-    val leftClippingPlane   = 0
-    val rightClippingPlane  = Display.getWidth
-    val bottomClippingPlane = Display.getHeight
-
-    GL11.glOrtho(leftClippingPlane,rightClippingPlane, bottomClippingPlane, topClippingPlane, nearPlane, farPlane)
-
-    GL11.glMatrixMode(GL11.GL_MODELVIEW)
-    GL11.glLoadIdentity()
-
-    GL11.glViewport(0, 0, Display.getWidth, Display.getHeight) //TODO: necessary?*/
     GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)  // Black
-
     DC.log("OpenGL", "initialized", 3)
   }
-
-//  private val _entities: mutable.HashMap[Class[_ <: architecture.Entity], architecture.Entity] = _
 
   def initGame(): Unit = {
 
@@ -163,22 +138,26 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('SkyBox)
 
     //creating Floor
-    Entity.newInstanceOf('Floor)
+    //Entity.newInstanceOf('Floor)
 
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
 
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
+    val box3 = Entity.newInstanceOf('CollisionBox)
 
+
+    box3.getComponent(classOf[Placement]).position = Vec3f(0,-6,-10)
     box1.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
     box2.getComponent(classOf[Placement]).position = Vec3f(0,5,-10)
     box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
 
 
+
     // creating Tank
 
-    val tank = Entity.newInstanceOf('Tank)
+   /* val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
     val test = entities.apply("Turret:1")
@@ -193,7 +172,7 @@ object GameEngine extends Engine with EventReceiver{
     phys.gravity = Vec3f()
     phys.damping_=(0.1f,0.1f)
     tank.add(phys)
-
+     */
 
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
@@ -201,7 +180,7 @@ object GameEngine extends Engine with EventReceiver{
     //val camEntity = Entity.newInstanceOf('Camera)
 
     val camEntity = Entity.create("Camera")
-    val cam = new Camera(70f,1f,0.1f,50f)
+    val cam = new Camera(70f,None,0.1f,50f)
     val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
 
 
@@ -276,7 +255,6 @@ object GameEngine extends Engine with EventReceiver{
 
   override def shutdown(): Unit = {
     DC.logT('engineShutdown,"Engine","shutting down",3)
-    //TODO: stop thread clean up and end
 
     // shut down all systems
     systems.values.foreach(system => system.shutdown())
@@ -284,27 +262,6 @@ object GameEngine extends Engine with EventReceiver{
     Display.destroy()
     DC.logT('engineShutdown,"Engine","ended",3)
     System.exit(0)
-  }
-
-
-  /*override def receive: Receive = {
-    case ComponentAdded(entity) => componentAdded(entity)
-    case ComponentRemoved(entity) => //TODO
-  }
-*/
-
-  //TODO: to be done in the physics system
-  def simulate(elapsed: Float): Unit = {
-
-    // INPUT
-    // update user input
-    //simulationContext.updateInput()
-
-    // PHYSICS
-    //simulate all entities
-    //entities.simulateAll(context)
-
-
   }
 
 
