@@ -15,7 +15,8 @@ import main.scala.io.Wavefront.Vec3
 class DriveControlSystem extends ProcessingSystem {
   var node: Class[_ <: Node] = classOf[DriveControlNode]
   var priority: Int = 1
-
+  var boost: Float = 1
+  var ds: Float = 1
   /**
    * called on system startup
    * @return
@@ -25,7 +26,7 @@ class DriveControlSystem extends ProcessingSystem {
   /**
    * executed before nodes are processed - every update
    */
-  def begin(): Unit = {}
+  def begin(): Unit = { boost = 1}
 
   /**
    * executed after nodes are processed - every update
@@ -48,28 +49,33 @@ class DriveControlSystem extends ProcessingSystem {
 
         // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
         //FORWARD
+        doAction(con.triggerBoost, _ => {
+          boost = veh.boostFactor
+          ds = 1 //ctx.deltaT * 100
+        }, delta => {})
+
         doAction(con.triggerForward, _ => {
 
 
 
-          phy.addForce(RISMath.DirFromRot(pos.rotation, true)*veh.power)
+          phy.addForce(RISMath.DirFromRot(pos.rotation, true)*veh.power*boost)
 
         }, delta => {})
 
         //BACKWARD
         doAction(con.triggerBackward, _ => {
 
-          phy.addForce(RISMath.DirFromRot(pos.rotation, false)*veh.power)
+          phy.addForce(RISMath.DirFromRot(pos.rotation, false)*veh.power*boost )
         }, delta => {})
 
         //LEFT
         doAction(con.triggerLeft, _ => {
-          pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y + 1, pos.rotation.z)
+          pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y + (veh.turnSpeed / boost ), pos.rotation.z)
         }, delta => {})
 
         //RIGHT
         doAction(con.triggerRight, _ => {
-          pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y - 1, pos.rotation.z)
+          pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y - (veh.turnSpeed /boost ), pos.rotation.z)
 
 
         }, delta => {})

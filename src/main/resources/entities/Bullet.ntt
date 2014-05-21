@@ -22,4 +22,7 @@
             </damping>
             <inertia>0 0 0 0 0 0 0 0 0</inertia>
         </physics>
+        <sound>
+                    <tankFire>tankFire</tankFire>
+            </sound>
 </entityTemplate>

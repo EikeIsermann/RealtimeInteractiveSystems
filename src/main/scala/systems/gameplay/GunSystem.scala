@@ -2,7 +2,7 @@ package main.scala.systems.gameplay
 
 import main.scala.architecture.{System, Node, ProcessingSystem}
 import main.scala.nodes.GunNode
-import main.scala.components.{Physics, Gun, Placement}
+import main.scala.components.{Sound, Physics, Gun, Placement}
 import main.scala.engine.GameEngine
 import main.scala.entities.Entity
 import main.scala.math.{RISMath, Mat4f, Vec3f}
@@ -49,7 +49,8 @@ class GunSystem extends ProcessingSystem {
           //bullet.getComponent(classOf[Placement]).scale = Vec3f(0.2f,0.2f,0.2f)
           var bullphys =  bullet.getComponent(classOf[Physics])
           bullphys.velocity = RISMath.DirFromRot(pos.basePosition.rotation*pos.rotation) * gun.power
-
+          bullet.getIfPresent(classOf[Sound]).map(_.playList += 'tankFire)
+          println(bullet.getIfPresent(classOf[Sound]))
           //bullphys.addForce(RISMath.DirFromRot(pos.rotation)*10000000)
            gun.shoot(false)
            gun.timeOfLastShot = System.currentTimeMillis()

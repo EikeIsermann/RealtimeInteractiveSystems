@@ -14,7 +14,7 @@ import org.lwjgl.input.Mouse
  */
 case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null,  MouseMovement.MovementX ), triggerYawRight: Triggers  = Triggers(Key.ArrowRight, null,MouseMovement.MovementX)
                       , triggerPitchPositive: Triggers = Triggers(Key.ArrowUp, null, MouseMovement.MovementY),
-                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY), triggerFire: Triggers = Triggers(Key.Space ,MouseButton.Left, null ),
+                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY), triggerFire: Triggers = Triggers(Key.CtrlRight ,MouseButton.Left, null ),
                   triggerReload: Triggers = Triggers(), triggerSwitchAmmo: Triggers = Triggers()) extends Component {
 
   def toXML: Node = {
