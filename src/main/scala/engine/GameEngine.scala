@@ -142,7 +142,7 @@ object GameEngine extends Engine with EventReceiver{
 
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
-     /*
+
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
     val box3 = Entity.newInstanceOf('CollisionBox)
