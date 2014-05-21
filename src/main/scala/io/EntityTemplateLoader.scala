@@ -24,6 +24,11 @@ object EntityTemplateLoader {
     entityTemplates(name)
   }
 
+  def find(name: String): Entity = {
+    val etK = entityTemplates.keys.filter(_.name.toLowerCase == name.toLowerCase)
+    entityTemplates(etK.head)
+  }
+
   def load(pathToDir: String, extension: String = "ntt") {
     val files = FileIO.loadAll(extension, pathToDir)
     createEntityTemplates(files)
@@ -39,16 +44,14 @@ object EntityTemplateLoader {
 
     entityTemplates.values.foreach(e => {
       e.components.foreach {
-        case hp: hasParts => {
+        case hp: hasParts =>
           if(!hp.parts.forall(entityTemplates.contains)) {
             throw new IllegalArgumentException("a part of entity template '"+e+"' is missing")
           }
-        }
-        case iPO: isPartOf => {
+        case iPO: isPartOf =>
           if(!entityTemplates.contains(iPO.part)) {
             throw new IllegalArgumentException("parent entity '"+iPO.part+"' is missing in entity template '"+e+"'")
           }
-        }
         case _ =>
       }
 

@@ -12,7 +12,7 @@ import main.scala.event._
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
 import main.scala.systems.sound.SoundSystem
 import main.scala.entities.Entity
-import main.scala.math.{RISMath, Vec3f}
+import main.scala.math.Vec3f
 import main.scala.systems.positional.RelativePositionalSystem
 import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
@@ -142,6 +142,7 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('Bullet)
 
 
+    /*
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
     //val box3 = Entity.newInstanceOf('CollisionBox)
@@ -151,8 +152,8 @@ object GameEngine extends Engine with EventReceiver{
     box1.getComponent(classOf[Placement]).position = Vec3f(4,0,-10)
     box2.getComponent(classOf[Placement]).position = Vec3f(-4,0,-10)
 
-    box1.getComponent(classOf[Physics]).addForce(Vec3f(-20000f,0,0))
-    box2.getComponent(classOf[Physics]).addForce(Vec3f(0,0,0))
+    box1.getComponent(classOf[Physics]).addForce(Vec3f(-3000f,0,0))
+    box2.getComponent(classOf[Physics]).addForce(Vec3f(9100f,0,0))  */
 
 
     //box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
@@ -167,9 +168,11 @@ object GameEngine extends Engine with EventReceiver{
 
 
 
+    Entity.create("GameConsole").add(new GameConsole)
+
 
     // creating Tank
-     /*
+
     val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
@@ -186,42 +189,46 @@ object GameEngine extends Engine with EventReceiver{
     phys.damping_=(0.1f,0.1f)
     phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
-       */
+
+
 
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
         // creating Camera
     //val camEntity = Entity.newInstanceOf('Camera)
 
-    //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
-    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
-
-    val camEntity = Entity.create("Camera")
-
-    val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
+    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
+    //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
 
 
+    //val camEntity = Entity.create("Camera")
+
+    //val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
+
+
+    /*
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
       Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
+          */
 
 
 
-    camEntity.add(camCon)
+    //camEntity.add(camCon)
     //camEntity.add(motion)
-    camEntity.add(cam)
-    camEntity.add(camPos)
+    //camEntity.add(cam)
+    //camEntity.add(camPos)
 
 
 
-    //test.add(cam)
+    test.add(cam)
     //box1.add(new Vehicle)
     //box1.add(new DriveControl)
     //println(camEntity.components.toList)
 
 
 
-
+    Input.init()
     //register systems with engine
     add(new CameraSystem)
     add(new CamControlSystem)
@@ -233,7 +240,8 @@ object GameEngine extends Engine with EventReceiver{
     add(new RelativePositionalSystem)
     add(new SoundSystem)
     add(new GunControlSystem)
-    Input.init()
+    add(new GameInputAndConsoleSystem)
+
 
     time = new StopWatch()
 
@@ -243,9 +251,6 @@ object GameEngine extends Engine with EventReceiver{
 
     //FPS
     lastFPS = System.currentTimeMillis()
-
-    // set initial deltaT
-    simulationContext.updateDeltaT()
 
 
     DC.log("Game","initialized",3)
@@ -264,8 +269,11 @@ object GameEngine extends Engine with EventReceiver{
     while (!Display.isCloseRequested) {
       Display.sync(preferredFPS) //needs to be first
 
-      Input.update() // needs to be before the context update because context depends on fresh key/mouse input?!
-      updateContext() // update the context
+      // update the input
+      Input.update()
+
+      // update the context
+      simulationContext.updateDeltaT(time.elapsed())
 
       //update all systems with sim-context
       updateSystems(simulationContext)
@@ -288,18 +296,6 @@ object GameEngine extends Engine with EventReceiver{
     DC.logT('engineShutdown,"Engine","ended",3)
     System.exit(0)
   }
-
-
-  //todo: move variables to context
-  def updateContext(): Unit = {
-
-    simulationContext.displayHeight = Display.getHeight
-    simulationContext.displayWidth = Display.getWidth
-    simulationContext.preferredFPS = preferredFPS
-    simulationContext.updateDeltaT(time.elapsed())
-   simulationContext.updateInput()
-  }
-
 
   def setGameTitle(fps: Float = 0, name: String = gameTitle, w: Int = Display.getWidth, h: Int = Display.getHeight) {
     Display.setTitle(name +" @ "+w+"x"+h+" "+ fps +" fps")

@@ -6,9 +6,9 @@ import org.lwjgl.opengl.DisplayMode
 
 
 import org.lwjgl.opengl.GL11._
-import main.scala.systems.gfx.{Font, Texture}
+import main.scala.systems.gfx.Texture
 import main.scala.systems.sound.Audio
-import main.scala.systems.input.{Key, Input}
+import main.scala.systems.input.Input
 
 /**
  * Created by Christian Treffs
@@ -87,4 +87,5 @@ object GLMinExample {
     System.exit(0)
   }
 
+  override def hashCode(): Int = super.hashCode()
 }

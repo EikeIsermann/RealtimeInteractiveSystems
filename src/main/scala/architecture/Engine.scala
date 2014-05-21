@@ -1,9 +1,9 @@
 package main.scala.architecture
 
-import main.scala.systems.input.{SimulationContext, Context}
+import main.scala.systems.input.SimulationContext
 import scala.collection.mutable
 import main.scala.entities.Entity
-import main.scala.tools.DC
+import scala.collection.mutable.ArrayBuffer
 
 /**
  * Created by Christian Treffs
@@ -16,7 +16,26 @@ trait Engine {
   private val _systems: mutable.HashMap[Class[_ <: System], System] = new mutable.HashMap[Class[_ <: System], System]
   private val _families: mutable.HashMap[Class[_ <: Node], Family] = new mutable.HashMap[Class[_ <: Node], Family]
 
+  private val activeSystems: ArrayBuffer[System] = ArrayBuffer()
 
+
+  def pause(excludedSystems: Seq[Class[_ <: System]]) {
+    if(activeSystems.isEmpty) {
+      for ((sysClass,sys) <- _systems) {
+        if(!excludedSystems.contains(sysClass)) {
+          sys.active match {
+            case true => activeSystems += sys
+            case false =>
+          }
+          activeSystems.foreach(_.active = false)
+        }
+      }
+    }
+  }
+  def resume() {
+    activeSystems.foreach(_.active = true)
+    activeSystems.clear()
+  }
 
   def start(): Engine
   def createNewGame(title: String, assetsPath: String): Engine

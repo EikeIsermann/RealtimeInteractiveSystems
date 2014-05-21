@@ -22,7 +22,6 @@ class RenderingSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
   def init(): System = this
   override def begin(): Unit = {
-    glViewport(0, 0, ctx.displayWidth, ctx.displayHeight)
     glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT)
 
   }
