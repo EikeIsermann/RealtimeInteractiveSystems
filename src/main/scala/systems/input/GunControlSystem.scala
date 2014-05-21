@@ -14,7 +14,7 @@ import main.scala.math.Vec3f
 class GunControlSystem extends ProcessingSystem {
   var node: Class[_ <: Node] = classOf[GunControlNode]
   var priority: Int = 1
-
+  var ds: Float = 1
   /**
    * called on system startup
    * @return
@@ -27,6 +27,7 @@ class GunControlSystem extends ProcessingSystem {
    * executed before nodes are processed - every update
    */
   def begin(): Unit = {
+    ds = (ctx.deltaT) * 100
     //println(family._entities)
   }
 
@@ -51,16 +52,16 @@ class GunControlSystem extends ProcessingSystem {
           var yaw = pos.rotation.y
 
         //PITCH POSITIVE/UP
-        doAction(control.triggerPitchPositive, _ => {pitch += 1}, delta => motionDirectionViaMouse(delta))
+        doAction(control.triggerPitchPositive, _ => {pitch += 1 * ds}, delta => motionDirectionViaMouse(delta))
 
         //PITCH NEGATIVE/DOWN
-        doAction(control.triggerPitchNegative, _ => {pitch -= 1}, delta => motionDirectionViaMouse(delta))
+        doAction(control.triggerPitchNegative, _ => {pitch -= 1 * ds}, delta => motionDirectionViaMouse(delta))
 
         //YAW NEGATIVE/LEFT
-        doAction(control.triggerYawLeft, _ => {yaw = (yaw + 1) % 360}, delta => motionDirectionViaMouse(delta))
+        doAction(control.triggerYawLeft, _ => {yaw = (yaw + 1 * ds) % 360}, delta => motionDirectionViaMouse(delta))
 
         //YAW POSITIVE/RIGHT
-        doAction(control.triggerYawRight, _ => {yaw = (yaw - 1) % 360}, delta => motionDirectionViaMouse(delta))
+        doAction(control.triggerYawRight, _ => {yaw = (yaw - 1 * ds) % 360}, delta => motionDirectionViaMouse(delta))
 
         //FIRE GUN
         doAction(control.triggerFire, _ => {gun.shoot(true)}, delta => {}, _ => gun.shoot(true))
@@ -69,8 +70,8 @@ class GunControlSystem extends ProcessingSystem {
         def motionDirectionViaMouse(mouseDeltaNew: Vec3f) {
 
           // calculate current mouse delta - considering velocities/sensitivities
-          val deltaX: Float = (Input.mouseMovement.x * 0.5f)
-          val deltaY: Float = (Input.mouseMovement.y * 0.5f)
+          val deltaX: Float = (Input.mouseMovement.x * 0.3f) * ds
+          val deltaY: Float = (Input.mouseMovement.y * 0.5f) * ds
 
           // sum deltas to get a pitch and yaw delta
           pitch += deltaY

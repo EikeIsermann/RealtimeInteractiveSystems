@@ -12,9 +12,9 @@ import org.lwjgl.input.Mouse
  * Time: 21:06
  * This is a RIS Project class
  */
-case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null, null /*MouseMovement.MovementX*/ ), triggerYawRight: Triggers  = Triggers(Key.ArrowRight, null, null /*MouseMovement.MovementX*/)
-                      , triggerPitchPositive: Triggers = Triggers(Key.ArrowUp, null,null /*MouseMovement.MovementY*/),
-                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, null /*MouseMovement.MovementY*/), triggerFire: Triggers = Triggers(Key._O,MouseButton.Left, null ),
+case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null,  MouseMovement.MovementX ), triggerYawRight: Triggers  = Triggers(Key.ArrowRight, null,MouseMovement.MovementX)
+                      , triggerPitchPositive: Triggers = Triggers(Key.ArrowUp, null, MouseMovement.MovementY),
+                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY), triggerFire: Triggers = Triggers(Key.Space ,MouseButton.Left, null ),
                   triggerReload: Triggers = Triggers(), triggerSwitchAmmo: Triggers = Triggers()) extends Component {
 
   def toXML: Node = {

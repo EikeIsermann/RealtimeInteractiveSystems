@@ -38,17 +38,18 @@ class RelativePositionalSystem extends ProcessingSystem{
     val placement = node -> classOf[Placement]
     val children = node -> classOf[Children]
     for(e <- children.children){
-      updateChildren(e, placement.getMatrix)
+      updateChildren(e, placement.getMatrix , placement.getUnscaledMatrix)
     }
 
   }
 
-  def updateChildren(e: Entity, m: Mat4f): Boolean = {
-    e.getComponent(classOf[Placement]).relativeUpdate(m)
+  def updateChildren(e: Entity, m: Mat4f, unscaledMat: Mat4f): Boolean = {
+    e.getComponent(classOf[Placement]).relativeUpdate(m,unscaledMat)
     if(e.has(classOf[Children])){
       val mat = e.getComponent(classOf[Placement]).getMatrix
+      val unscaledMat = e.getComponent(classOf[Placement]).getUnscaledMatrix
        for (c <- e.getComponent(classOf[Children]).children){
-         updateChildren(c, mat)
+         updateChildren(c, mat, unscaledMat)
        }
       false
      }

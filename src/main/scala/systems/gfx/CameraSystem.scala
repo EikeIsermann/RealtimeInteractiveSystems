@@ -2,8 +2,10 @@ package main.scala.systems.gfx
 import main.scala.architecture._
 import main.scala.tools.DC
 import main.scala.nodes.CameraNode
-import main.scala.math.{Vec3f, Mat4f}
+import main.scala.math.{Mat4f, RISMath, Vec3f}
 import main.scala.components.{Camera, Placement}
+import scala.collection.mutable.ListBuffer
+import scala.collection.mutable
 
 
 /**
@@ -15,6 +17,7 @@ class CameraSystem extends ProcessingSystem {
   override var node: Class[_ <: Node] = classOf[CameraNode]
   override var priority: Int = 0
 
+  var activeCam: Seq[Camera] =   Seq[Camera]()
 
 
   def init(): System = {
@@ -31,6 +34,7 @@ class CameraSystem extends ProcessingSystem {
         val pos: Placement = camNode -> classOf[Placement]
         val cam: Camera = camNode -> classOf[Camera]
 
+        //if(!activeCam.contains(cam)) activeCam.+:(cam)
         //set field of view
         ctx.fieldOfView = cam.fieldOfView
         ctx.aspect = cam.aspect
@@ -40,9 +44,12 @@ class CameraSystem extends ProcessingSystem {
         val matPos = Mat4f.translation(pos.position)
         val pitch = pos.rotation.x
         val yaw = pos.rotation.y
-        val matRot = Mat4f.rotation(Vec3f(1,0,0),pitch) * Mat4f.rotation(Vec3f(0,1,0),yaw)
-        val viewMat = matRot * matPos
+        //val matRot = Mat4f.rotation(Vec3f(1,0,0),pitch) * Mat4f.rotation(Vec3f(0,1,0),yaw) * pos.basePosition.rotation
+         val matRot = pos.getMatrix.rotation
+        //val viewMat = matRot * matPos
 
+         var viewMat =  Mat4f.rotation(cam.offSetRot) * Mat4f.translation((RISMath.DirFromRot(cam.offSetRot,false)*cam.offSetDistance))
+         viewMat = viewMat * pos.getUnscaledMatrix.getRotation * Mat4f.translation(pos.getMatrix.position)
         // set camera pos
         ctx.setViewMatrix(viewMat.inverseRigid)
         //DC.log("Camera is at: ", pos.position.inline)
@@ -51,6 +58,7 @@ class CameraSystem extends ProcessingSystem {
   }
 
 
+  //def activateCam(cam:Camera)
 
   override def end(): Unit = {}
 

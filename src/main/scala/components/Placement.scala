@@ -36,6 +36,7 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
   private var _relativeRotation: Vec3f = rotation1
 
   private var _basePosition: Mat4f = Mat4f.identity
+  private var _unscaledBase: Mat4f = Mat4f.identity
 
   /**
    * linear position
@@ -53,6 +54,8 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
   def rotation: Vec3f = _relativeRotation
   def rotation_=(v: Vec3f) = {_relativeRotation = v  }
 
+
+
   def scale: Vec3f = _relativeScale
   def scale_=(v: Vec3f) = {_relativeScale = v}
 
@@ -61,12 +64,16 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
   def getMatrix: Mat4f = {
     if(!(_basePosition == Mat4f.identity))  Mat4f.translation(position)  * Mat4f.rotation(rotation) * Mat4f.scale(scale) * _basePosition
     else Mat4f.rotation(rotation) * Mat4f.translation(position)  *  Mat4f.scale(scale)
-
   }
 
+  def getUnscaledMatrix: Mat4f = {
+    if(!(_unscaledBase == Mat4f.identity))  Mat4f.translation(position)  * Mat4f.rotation(rotation) * _unscaledBase
+    else Mat4f.rotation(rotation) * Mat4f.translation(position)
+  }
 
-  def relativeUpdate(p: Mat4f){
+  def relativeUpdate(p: Mat4f, p2: Mat4f){
       _basePosition = p
+      _unscaledBase = p2
   }
 
   def setTo(p: Placement) = {
