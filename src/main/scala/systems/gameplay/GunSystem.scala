@@ -5,7 +5,7 @@ import main.scala.nodes.GunNode
 import main.scala.components.{Physics, Gun, Placement}
 import main.scala.engine.GameEngine
 import main.scala.entities.Entity
-import main.scala.math.{Mat4f, Vec3f}
+import main.scala.math.{RISMath, Mat4f, Vec3f}
 
 /**
  * User: uni
@@ -47,9 +47,9 @@ class GunSystem extends ProcessingSystem {
            var bullet = Entity.newInstanceOf(gun.projectile)
            bullet.getComponent(classOf[Placement]).setTo(pos)
           bullet.getComponent(classOf[Placement]).scale = Vec3f(0.5f,0.5f,0.5f)
-
-          //var bullphys =  bullet.getComponent(classOf[Physics])
-          //bullphys.velocity = Mat4f.rotation(pos.rotation)*Vec3f(,1000,1000)
+          println(bullet.components.toList)
+          var bullphys =  bullet.getComponent(classOf[Physics])
+          bullphys.velocity = RISMath.DirFromRot(bullet.getComponent(classOf[Placement]).rotation) * 10000
            gun.shoot(false)
            gun.timeOfLastShot = System.currentTimeMillis()
         }

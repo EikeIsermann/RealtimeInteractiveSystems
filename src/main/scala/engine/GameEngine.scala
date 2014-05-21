@@ -175,6 +175,7 @@ object GameEngine extends Engine with EventReceiver{
     phys.mass = 6f
     phys.gravity = Vec3f()
     phys.damping_=(0.1f,0.1f)
+    phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
      */
 

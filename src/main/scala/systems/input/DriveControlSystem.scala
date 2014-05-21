@@ -3,7 +3,7 @@ package main.scala.systems.input
 import main.scala.architecture.{System, Node, ProcessingSystem}
 import main.scala.nodes.{GunControlNode, DriveControlNode}
 import main.scala.components.{Placement, Vehicle, DriveControl, Physics}
-import main.scala.math.Vec3f
+import main.scala.math.{RISMath, Vec3f}
 import main.scala.io.Wavefront.Vec3
 
 /**
@@ -47,26 +47,24 @@ class DriveControlSystem extends ProcessingSystem {
 
         var xRad = math.sin(math.toRadians(-pos.rotation.y)).toFloat
         var zRad = math.cos(math.toRadians(-pos.rotation.y)).toFloat
-        var  yRad = math.sin(math.toRadians(pos.rotation.x)).toFloat
+        var yRad = math.sin(math.toRadians(pos.rotation.x)).toFloat
 
 
         // doAction ( TRIGGER , KEYBOARD ACTION, MOUSE ACTION, CONTROLLER ACTION .... )
         //FORWARD
         doAction(con.triggerForward, _ => {
-           println("Triggerworfard")
-          var x = veh.power * xRad * (1-Math.abs(yRad))
-          var z = -( veh.power * zRad * (1-Math.abs(yRad)))
-          var y = veh.power * yRad
-          phy.addForce(Vec3f(x,y,z))
+
+
+
+
+          phy.addForce(RISMath.DirFromRot(pos.rotation, true)*veh.power)
 
         }, delta => {})
 
         //BACKWARD
         doAction(con.triggerBackward, _ => {
-          var x = -(veh.power  * xRad * (1-Math.abs(yRad)) )
-          var z = (veh.power * zRad * (1-Math.abs(yRad)))
-          var y = veh.power * yRad
-          phy.addForce(Vec3f(x,y,z))
+
+          phy.addForce(RISMath.DirFromRot(pos.rotation, false)*veh.power)
         }, delta => {})
 
         //LEFT
