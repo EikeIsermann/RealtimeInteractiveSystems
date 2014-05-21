@@ -115,6 +115,13 @@ class Entity(idx: Identifier, template: Boolean = false) {
    components(c).apply(0)
   }
 
+  def getIfPresent[T <: Component](c: Class[T]): Option[T] = {
+    has(c) match {
+      case true   => Some(getComponent(c))
+      case false  => None
+    }
+  }
+
 
 
   //dispatching entity creation event

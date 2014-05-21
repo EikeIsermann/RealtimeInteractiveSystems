@@ -90,12 +90,11 @@ class CollisionSystem extends ProcessingSystem {
       val e1 = GameEngine.entities(c1.owner.toString)
       val e2 = GameEngine.entities(c2.owner.toString)
 
-      if(e1.has(classOf[Sound])) {
-        e1.getComponent(classOf[Sound]).playList += 'collision
-      }
-      if(e2.has(classOf[Sound])) {
-        e2.getComponent(classOf[Sound]).playList += 'collision
-      }
+      // play collision sound if there is a sound component with collision
+      e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
+      e2.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
+
+
     })
 
 
