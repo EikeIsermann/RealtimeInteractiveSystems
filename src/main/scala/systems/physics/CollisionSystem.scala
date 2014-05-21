@@ -98,8 +98,33 @@ class CollisionSystem extends ProcessingSystem {
       println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
 
 
-      e1.getIfPresent(classOf[Physics]).map(p => {if(p.isAwake) p.velocity = -1f*p.velocity})
-      e2.getIfPresent(classOf[Physics]).map(p => {if(p.isAwake) p.velocity = -1f*p.velocity})
+      var forceE1onE2: Vec3f = Vec3f()
+      var forceE2onE1: Vec3f = Vec3f()
+
+
+      val e1Phys = e1.getIfPresent(classOf[Physics]).get
+      val e2Phys = e2.getIfPresent(classOf[Physics]).get
+
+
+      val a1 = e1Phys.acceleration + e1Phys.gravity
+      val a2 = e2Phys.acceleration + e2Phys.gravity
+
+      val m1 = e1Phys.mass
+      val m2 = e2Phys.mass
+
+
+      val f1: Vec3f = (-9.80f*(a2*m2)/m1)*m1
+      val f2: Vec3f = (-9.80f*(a1*m1)/m2)*m2
+
+
+      println("FORCE: "+f1.inline,f2.inline)
+
+      e1.getIfPresent(classOf[Physics]).get.addForce(f2)
+      e2.getIfPresent(classOf[Physics]).get.addForce(f1)
+
+
+
+
 
       // play collision sound if there is a sound component with collision
       e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)

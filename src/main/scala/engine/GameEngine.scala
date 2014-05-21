@@ -145,23 +145,30 @@ object GameEngine extends Engine with EventReceiver{
 
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
-    val box3 = Entity.newInstanceOf('CollisionBox)
-    val box4 = Entity.newInstanceOf('CollisionBox)
+    //val box3 = Entity.newInstanceOf('CollisionBox)
+    //val box4 = Entity.newInstanceOf('CollisionBox)
 
 
-    box1.getComponent(classOf[Placement]).position = Vec3f(0,-6,-10)
-    box2.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
-    box3.getComponent(classOf[Placement]).position = Vec3f(0,5,-10)
-    box3.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
-    //box3.getComponent(classOf[Physics]).damping_=(0.1f,0.1f)
-    box4.getComponent(classOf[Placement]).position = Vec3f(0,10,-10)
+    box1.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
+    box1.getComponent(classOf[Physics]).mass = 100000f
+    //box1.getComponent(classOf[Physics]).damping_=(0f,0f)
+    box2.getComponent(classOf[Placement]).position = Vec3f(0,3,-10)
+
+    //box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
+    box2.getComponent(classOf[Physics]).mass = 100000f
+    box2.getComponent(classOf[Physics]).acceleration = Vec3f(0,-9.81f,0)
+    box2.getComponent(classOf[Physics]).damping_=(0.99f,0.8f)
+
+    //box3.getComponent(classOf[Placement]).position = Vec3f(0,4,-10)
+
+    //box4.getComponent(classOf[Placement]).position = Vec3f(0,10,-10)
     //box4.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
 
 
 
 
     // creating Tank
-
+  /*
     val tank = Entity.newInstanceOf('Tank)
 
     //val tank2 = Entity.newInstanceOf('Tank)
@@ -178,7 +185,7 @@ object GameEngine extends Engine with EventReceiver{
     phys.damping_=(0.1f,0.1f)
     phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
-
+       */
 
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)

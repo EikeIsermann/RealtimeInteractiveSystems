@@ -35,6 +35,8 @@ class PhysicsSystem extends ProcessingSystem {
         case phyNode: PhysicsNode =>
           val motion: Physics = phyNode -> classOf[Physics]
           val placement: Placement = phyNode -> classOf[Placement]
+
+
           integrate(motion,placement,ctx.deltaT)
         case _ => throw new IllegalArgumentException("not the right node")
       }
@@ -55,6 +57,7 @@ class PhysicsSystem extends ProcessingSystem {
     // Calculate linear acceleration from force inputs.
     // a2 = a0 + F/m
     m.lastFrameAcceleration = m.gravity + m.acceleration + m.forceAccum * m.inverseMass
+    println(m.lastFrameAcceleration.inline)
 
     // Calculate angular acceleration from torque inputs.
     m.angularAcceleration = m.inverseInertiaTensorWorld * m.torqueAccum

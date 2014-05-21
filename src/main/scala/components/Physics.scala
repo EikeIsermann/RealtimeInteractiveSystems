@@ -167,11 +167,11 @@ class Physics(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1:
 
       if (motion < sleepEpsilon){
 
-        println(motion,_isAwake)
+
         _isAwake = false
       }
       else if (motion > 10 * sleepEpsilon){
-        println(motion,_isAwake)
+
         motion = 10 * sleepEpsilon
       }
     }
