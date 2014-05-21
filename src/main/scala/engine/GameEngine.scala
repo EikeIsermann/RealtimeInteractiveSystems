@@ -153,8 +153,9 @@ object GameEngine extends Engine with EventReceiver{
     box2.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
     box3.getComponent(classOf[Placement]).position = Vec3f(0,5,-10)
     box3.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
+    //box3.getComponent(classOf[Physics]).damping_=(0.1f,0.1f)
     box4.getComponent(classOf[Placement]).position = Vec3f(0,10,-10)
-    box4.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
+    //box4.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
 
 
 

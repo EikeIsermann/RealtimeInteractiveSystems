@@ -45,12 +45,12 @@ class Physics(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1:
   private var _acceleration: Vec3f = null
   private var _inverseMass: Float = -1f
 
-  private var _angularVelocity: Vec3f = Vec3f()
+  private var _angularVelocity: Vec3f = Vec3f(0,0,0)
   private var _angularAcceleration: Vec3f = Vec3f()
 
 
   private var _transformMatrix: Mat4f = Mat4f()
-  private var _canSleep: Boolean = false
+  private var _canSleep: Boolean = true
   private var _isAwake: Boolean = true
   private var motion: Float = 0f
 
@@ -157,14 +157,23 @@ class Physics(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1:
   // Update the kinetic energy store, and possibly put the body to
   // sleep.
   def checkSleepState(duration: Double) {
-    if (canSleep) {
-      val currentMotion: Float = (velocity ° velocity) + (angularVelocity ° angularVelocity)
+
+    if (canSleep) {                                        //TODO: angular
+      val currentMotion: Float = (velocity ° velocity) //+ (angularVelocity ° angularVelocity)
 
       val bias: Float = math.pow(0.5, duration).toFloat
       motion = bias*motion + (1-bias)*currentMotion
 
-      if (motion < sleepEpsilon) _isAwake = false
-      else if (motion > 10 * sleepEpsilon) motion = 10 * sleepEpsilon
+
+      if (motion < sleepEpsilon){
+
+        println(motion,_isAwake)
+        _isAwake = false
+      }
+      else if (motion > 10 * sleepEpsilon){
+        println(motion,_isAwake)
+        motion = 10 * sleepEpsilon
+      }
     }
   }
 

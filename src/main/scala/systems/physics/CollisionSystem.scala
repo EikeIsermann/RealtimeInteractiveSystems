@@ -39,6 +39,7 @@ class CollisionSystem extends ProcessingSystem {
     yAxis.clear()
     zAxis.clear()
     pairs.clear()
+    pairVecs.clear()
     collisions.clear()
   }
 
@@ -97,6 +98,8 @@ class CollisionSystem extends ProcessingSystem {
       println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
 
 
+      e1.getIfPresent(classOf[Physics]).map(p => {if(p.isAwake) p.velocity = -1f*p.velocity})
+      e2.getIfPresent(classOf[Physics]).map(p => {if(p.isAwake) p.velocity = -1f*p.velocity})
 
       // play collision sound if there is a sound component with collision
       e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
