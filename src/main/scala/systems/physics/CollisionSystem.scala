@@ -1,7 +1,7 @@
 package main.scala.systems.physics
 
 import main.scala.architecture._
-import main.scala.tools.{phy, Identifier}
+import main.scala.tools.Identifier
 import main.scala.components._
 import scala.collection.mutable
 import main.scala.components.AABB
@@ -19,7 +19,6 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
   override var acc: Float = 0
   override val interval: Float = 1f/simSpeed.toFloat
-
 
 
   private var xAxis = mutable.ArrayBuffer[BBEndPoint]()
@@ -82,84 +81,64 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     sweepAndPrune(yAxis, 1)
     sweepAndPrune(zAxis, 2)
 
+    // keep the ones that are collisions
+    collisions ++= pairs.filter(p => {p._2 == 3}).keySet
+
+    //handle them
+    collisions.foreach(handleCollision)
+
+  }
+
+  private def handleCollision(pair: (Collision,Collision)) {
+    val c1: Collision = pair._1
+    val c2: Collision = pair._2
+
+    val vecPair = pairVecs(pair)
+    val colPoint = collisionPoint(vecPair.vec1,vecPair.vec2)
+
+    val e1 = GameEngine.entities(c1.owner.toString)
+    val e2 = GameEngine.entities(c2.owner.toString)
+
+    println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
+
+    val e1Phys = e1.getIfPresent(classOf[Physics]).get
+    val e2Phys = e2.getIfPresent(classOf[Physics]).get
+
+    //println(e1Phys.velocity.inline,e2Phys.velocity.inline,e1Phys.acceleration.inline,e2Phys.acceleration.inline)
+
+    val a1 = e1Phys.velocity
+    val a2 = e2Phys.velocity
+
+    println(a1.inline,a2.inline)
+
+    val m1 = e1Phys.mass
+    val m2 = e2Phys.mass
 
 
-
-    collisions ++= pairs.filter(p => {
-      p._2 == 3
-    }).keySet
-
-    //TODO: find the point to collide
+    val f1: Vec3f = (-100f*a2*a2*m2)/m1
+    val f2: Vec3f = (-100f*a1*a1*m1)/m2
 
 
-    collisions.foreach(pair => {
+    println("FORCE: "+f1.inline,f2.inline)
 
+    e1Phys.velocity = Vec3f(0,0,0)
+    e2Phys.velocity = Vec3f(0,0,0)
+    e1Phys.acceleration = Vec3f(0,0,0)
+    e2Phys.acceleration = Vec3f(0,0,0)
 
-      val c1: Collision = pair._1
-      val c2: Collision = pair._2
-
-      val vecPair = pairVecs(pair)
-      val colPoint = collisionPoint(vecPair.vec1,vecPair.vec2)
-
-      val e1 = GameEngine.entities(c1.owner.toString)
-      val e2 = GameEngine.entities(c2.owner.toString)
-
-      println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
-
-
-      var forceE1onE2: Vec3f = Vec3f()
-      var forceE2onE1: Vec3f = Vec3f()
-
-
-      val e1Phys = e1.getIfPresent(classOf[Physics]).get
-      val e2Phys = e2.getIfPresent(classOf[Physics]).get
-
-
-
-      //println(e1Phys.velocity.inline,e2Phys.velocity.inline,e1Phys.acceleration.inline,e2Phys.acceleration.inline)
-
-
-
-
-
-      val a1 = e1Phys.velocity
-      val a2 = e2Phys.velocity
-
-      println(a1.inline,a2.inline)
-
-      val m1 = e1Phys.mass
-      val m2 = e2Phys.mass
-
-
-      val f1: Vec3f = (-100f*a2*a2*m2)/m1
-      val f2: Vec3f = (-100f*a1*a1*m1)/m2
-
-
-      println("FORCE: "+f1.inline,f2.inline)
-
-      e1Phys.velocity = Vec3f(0,0,0)
-      e2Phys.velocity = Vec3f(0,0,0)
-      e1Phys.acceleration = Vec3f(0,0,0)
-      e2Phys.acceleration = Vec3f(0,0,0)
-
-      e1.getIfPresent(classOf[Physics]).get.addForce(f1)
-      e2.getIfPresent(classOf[Physics]).get.addForce(f2)
+    e1.getIfPresent(classOf[Physics]).get.addForce(f1)
+    e2.getIfPresent(classOf[Physics]).get.addForce(f2)
 
 
 
 
 
-      // play collision sound if there is a sound component with collision
-      e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
-      e2.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
+    // play collision sound if there is a sound component with collision
+    e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
+    e2.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
 
-     //e1.destroy()
-     //e2.destroy()
-
-
-    })
-
-
+    //e1.destroy()
+    //e2.destroy()
   }
 
   def deinit(): Unit = {}
@@ -197,10 +176,9 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
             case true =>
               pairVecs(pair).add((before.value,current.value),axisHint)
               pairs(pair) += 1
-            case false => {
+            case false =>
               pairVecs += pair -> PairVec((before.value,current.value),axisHint)
               pairs += pair -> 1
-            }
           }
         }
 
@@ -219,110 +197,4 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
     }
   }
-
-  /*
- override def update(context: SimulationContext): System = {
-   val start = System.currentTimeMillis()
-   // 1. get all collision nodes
-   val collisionNodes = Seq(
-     new CollisionNode(new Collision(new AABB(Vec3f(-1,-1,-1), Vec3f(1,1,1))), new Placement(Vec3f(1,0,0))),
-     new CollisionNode(new Collision(new AABB(Vec3f(-1,-1,-1), Vec3f(1,1,1))), new Placement(Vec3f(1,0,0))),
-     new CollisionNode(new Collision(new AABB(Vec3f(-1,-1,-1), Vec3f(1,1,1))), new Placement(Vec3f(1,0,0))),
-     new CollisionNode(new Collision(new AABB(Vec3f(-1,-1,-1), Vec3f(1,1,1))), new Placement(Vec3f(1,0,0))),
-     new CollisionNode(new Collision(new AABB(Vec3f(-1,-1,-1), Vec3f(1,1,1))), new Placement(Vec3f(1,0,0)))
-   )
-
-   // 2. update their bounding boxes with the objects position
-   collisionNodes.foreach(cN => cN.collision.updateBoundingVolume(cN.placement.position))
-
-
-   // 3. add every axis' min and max value to a axis-array
-   collisionNodes.foreach(cN => {
-     cN.collision.boundingVolume match {
-       case a: AABB => addAABB2AxisArray(a)
-       case s: Sphere => //TODO: do something here
-       case _ =>
-     }
-   })
-
-
-   // sweep and prune collisions
-   sweepAndPrune(xAxis)
-   sweepAndPrune(yAxis)
-   sweepAndPrune(zAxis)
-
-
-
-
-   collisions ++= pairs.filter(p => {p._2 == 3}).keySet
-
-   val end = System.currentTimeMillis()
-
-   println("elems: "+collisionNodes.length,"collisions: "+collisions.length)
-   println(collisions.toList)
-
-
-
-
-   println("Time:" +(end-start))
-
-
-   this
- }
-
- def sapOld(axis: mutable.ArrayBuffer[BBEndPoint]) {
-   for(i <- 1 until axis.length) {
-     val current = axis(i)
-     val before = axis(i-1)
-
-     val pair: (Identifier, Identifier) = (current.owner(), before.owner())
-
-     if(current.isMin && !before.isMin) {
-       // before MAX && current MIN
-       // no collision
-       if(pairs.contains(pair)) {
-         pairs(pair) -= 1
-       } else {
-         // don't add a pair - can't remove because none is in pairs
-         println("ähm2")
-       }
-     }
-     else if(!current.isMin && before.isMin) {
-       //  before MIN && current MAX
-       // collision
-       if(pairs.contains(pair)) {
-         pairs(pair) += 1
-       } else {
-         pairs += pair -> 1
-       }
-
-     }
-     else if(!current.isMin && !before.isMin){
-       //before MAX && current MAX
-       println("ähm ...")
-
-     }
-     else if(current.isMin && before.isMin){
-       // current MIN && before MIN
-       // nested start collision
-       if(pairs.contains(pair)) {
-         pairs(pair) += 1
-       } else {
-         pairs += pair -> 1
-       }
-
-     } else {
-       println("what?!")
-     }
-
-
-   }
- }
-
-
-
- def pairHandle(pair: Pair, increase: Boolean) {
-
- }*/
-
 }

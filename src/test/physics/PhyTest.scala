@@ -108,3 +108,56 @@ object PhyTest {
   }
 }
 
+/*object PhysicsSystem {
+  def main(args: Array[String]) {
+    val m = new Motion()
+    val p = new Placement()
+
+    m.mass = 200.0f
+    m.velocity =  Vec3f(40.0f, -100.0f, 0)
+    m.acceleration =  Vec3f(0.0f, 21.0f, 0.0f)
+    m.damping_=(0.99f, 0.8f)
+    val tensor = new Mat3f()
+    val coeff: Float = 0.064f*m.mass
+    tensor.setInertiaTensorCoeffs(coeff,coeff,coeff)
+    m.inertia = tensor
+    m.canSleep = true
+    m.awake(awake = true)
+
+
+    p.position = Vec3f(0.0f, 1.5f, 0.0f)
+
+
+    val ps = PhysicsSystem.newInstance(m,p)
+    ps.init()
+
+    val w = new TestWindow()
+
+    var lastT = phy.timeInSeconds()
+    var currentT = 0d
+    while(!w.quit) {
+
+      currentT = phy.timeInSeconds()
+
+      val dt = currentT-lastT
+      if(dt > 0.0) {
+        ps.integrate(dt)
+        w.update(Vec3f(),p.position)
+      }
+      lastT = currentT
+    }
+
+    ps.deinit()
+
+
+
+
+  }
+  def newInstance(m1: Motion, p1: Placement): PhysicsSystem = {
+    val ps = new PhysicsSystem
+    ps.m = m1
+    ps.p = p1
+    ps
+  }
+}    */
+
