@@ -136,6 +136,8 @@ sealed class Texture(texFile: File, flipped: Boolean) {
   glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR)
   glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR)
 
+  //required for some gpus
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
 
   // Load the texture image
   glTexImage2D(GL11.GL_TEXTURE_2D, 0, internalFormat, width, height, 0, pixelFormat, dataType, imageBuffer)
