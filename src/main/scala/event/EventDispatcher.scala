@@ -5,6 +5,7 @@ import scala.collection.mutable.ArrayBuffer
 import main.scala.architecture.{Component, Node, Family}
 import main.scala.entities.Entity
 import main.scala.tools.DC
+import main.scala.components.Camera
 
 /**
  * Created by Christian Treffs
@@ -62,3 +63,6 @@ case class EntityRemoved(ent: Entity) extends Event
 case class ComponentRemoved(ent: Entity, comp: Component) extends Event
 case class ComponentAdded(ent: Entity, comp: Component) extends Event
 
+case class CycleCam() extends Event
+case class RemoveCam(cam: Camera) extends Event
+case class ActivateCam(cam: Camera) extends Event

@@ -4,6 +4,7 @@ import main.scala.systems.input.{Key, Input}
 import main.scala.engine.GameEngine
 import main.scala.tools.DisplayManager
 import main.scala.architecture.System
+import main.scala.event.{CycleCam, EventDispatcher}
 
 /**
  * Created by Christian Treffs
@@ -20,7 +21,7 @@ class Playing extends GameState{
     //GLOBAL GAME INPUTS
     Input.keyDownOnceDo(Key._F,   _ => DisplayManager.toggleFullscreen()) // FULLSCREEN toggle
     Input.keyDownOnceDo(Key.Esc,  _ => GameEngine.shutdown()) // engine shutdown
-
+    Input.keyDownOnceDo(Key._C, _=> EventDispatcher.dispatch(new CycleCam))
 
     Input.keyDownOnceDo(Key.GameConsole, _ => return new InGameConsole)
 

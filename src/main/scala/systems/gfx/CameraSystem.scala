@@ -6,18 +6,24 @@ import main.scala.math.{Mat4f, RISMath, Vec3f}
 import main.scala.components.{Camera, Placement}
 import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
+import main.scala.event._
+import main.scala.event.CycleCam
 
 
 /**
  * Created by Eike on
  * 22.03.14.
  */
-class CameraSystem extends ProcessingSystem {
+class CameraSystem extends ProcessingSystem with EventReceiver {
 
   override var node: Class[_ <: Node] = classOf[CameraNode]
   override var priority: Int = 0
 
   var activeCam: Seq[Camera] =   Seq[Camera]()
+
+  EventDispatcher.subscribe(classOf[Event])(this)
+
+
 
 
   def init(): System = {
@@ -34,12 +40,17 @@ class CameraSystem extends ProcessingSystem {
         val pos: Placement = camNode -> classOf[Placement]
         val cam: Camera = camNode -> classOf[Camera]
 
-        //if(!activeCam.contains(cam)) activeCam.+:(cam)
+        if(!activeCam.contains(cam)) activeCam = activeCam.:+(cam)
+        if(cam.active && cam != activeCam.head) cam.active = false
+        if(cam.active && cam == activeCam.head){
+
+          //if(!activeCam.contains(cam)) activeCam.+:(cam)
         //set field of view
         ctx.fieldOfView = cam.fieldOfView
         ctx.aspect = cam.aspect
         ctx.farPlane = cam.farPlane
         ctx.nearPlane = cam.nearPlane
+
 
         val matPos = Mat4f.translation(pos.position)
         val pitch = pos.rotation.x
@@ -53,6 +64,7 @@ class CameraSystem extends ProcessingSystem {
         // set camera pos
         ctx.setViewMatrix(viewMat.inverseRigid)
         //DC.log("Camera is at: ", pos.position.inline)
+        }
       case _ =>
     }
   }
@@ -76,4 +88,26 @@ class CameraSystem extends ProcessingSystem {
   }
 
    */
+  def receive(event: Event): Unit = {
+    event match {
+      case cc: CycleCam => {
+          activeCam = activeCam.tail.:+(activeCam.head)
+          activeCam.head.active = true
+          activeCam.last.active = false
+      }
+      case rc: RemoveCam => {
+        activeCam = activeCam.filterNot(c => c == rc.cam)
+        activeCam.head.active = true
+      }
+      case ac: ActivateCam => {
+        activeCam.head.active = false
+        activeCam = activeCam.filterNot(c => c == ac.cam).+:(ac.cam)
+        activeCam.head.active = true
+
+      }
+      case _ =>
+
+    }
+
+  }
 }

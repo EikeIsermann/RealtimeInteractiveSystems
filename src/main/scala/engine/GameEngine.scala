@@ -199,7 +199,7 @@ object GameEngine extends Engine with EventReceiver{
     phys.damping_=(0.1f,0.1f)
     phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
-
+    phys.canSleep = false
 
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
@@ -208,15 +208,15 @@ object GameEngine extends Engine with EventReceiver{
 
     val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
 
-    //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
+    val cam2 = new Camera(70f,None,0.1f,50f, false ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
 
 
-    //val camEntity = Entity.create("Camera")
+    val camEntity = Entity.create("Camera")
 
-    //val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
+    val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
 
 
-    /*
+
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
       Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
@@ -226,9 +226,9 @@ object GameEngine extends Engine with EventReceiver{
 
     camEntity.add(camCon)
     //camEntity.add(motion)
-    camEntity.add(cam)
+    camEntity.add(cam2)
     camEntity.add(camPos)
-      */
+
     //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
 
 

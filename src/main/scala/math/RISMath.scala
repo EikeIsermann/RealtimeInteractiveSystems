@@ -10,7 +10,6 @@ object RISMath {
 
   def DirFromRot(rot: Vec3f, forward: Boolean  = true): Vec3f = {
 
-
     var xRad = math.sin(math.toRadians(-rot.y)).toFloat
     var zRad = math.cos(math.toRadians(-rot.y)).toFloat
     var  yRad = math.sin(math.toRadians(rot.x)).toFloat
