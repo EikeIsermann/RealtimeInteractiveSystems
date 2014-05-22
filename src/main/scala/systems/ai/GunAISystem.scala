@@ -1,6 +1,7 @@
 package main.scala.systems.ai
 
 import main.scala.architecture.{System, Node, ProcessingSystem}
+import main.scala.nodes.GunAINode
 
 /**
  * User: uni
@@ -10,10 +11,13 @@ import main.scala.architecture.{System, Node, ProcessingSystem}
  */
 class GunAISystem extends ProcessingSystem {
 
-  override var node: Class[_ <: Node] = _
+  override var node: Class[_ <: Node] = classOf[GunAINode]
   override var priority: Int = _
 
-  override def processNode(node: Node): Unit = ???
+  override def processNode(node: Node): Unit = {
+
+
+  }
 
   /**
    * called on system startup

@@ -133,10 +133,10 @@ object GameEngine extends Engine with EventReceiver{
     EntityTemplateLoader.load(entitiesDir)
 
     // loading all level files - or one specific
-    LevelLoader.load()
+    //LevelLoader.load()
     // get the level and initialize it
-    LevelLoader.get('testlevel).initialize()
-    /*
+   // LevelLoader.get('testlevel).initialize()
+
 
     //create a level from current game with this name and save it to disk
     //val lvl = new Level("TestLevel")
@@ -207,9 +207,6 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('FloorSW).getComponent(classOf[Placement]).position = Vec3f(10,0,10)
 
 
-
-
-
     // creating Tank
     val tank = Entity.newInstanceOf('Tank)
 
@@ -219,6 +216,8 @@ object GameEngine extends Engine with EventReceiver{
     var test2 = new Gun
     test.add(test2)
     tank.getComponent(classOf[Placement]).position = Vec3f(0,100,10000)
+    tank.getComponent(classOf[Placement]).rotation = Vec3f(0,-90,0)
+
     tank.add(new DriveControl)
     tank.add(new Vehicle)
     ent = tank
@@ -230,6 +229,38 @@ object GameEngine extends Engine with EventReceiver{
     phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
     phys.canSleep = false
+    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
+
+
+
+    test.add(cam)
+
+
+
+
+    var tank1 = Entity.newInstanceOf('Tank)
+    tank1.getComponent(classOf[Placement]).position = Vec3f(0,100,0)
+
+
+    var tank2 = Entity.newInstanceOf('Tank)
+    tank2.getComponent(classOf[Placement]).position = Vec3f(2000,100,8000)
+
+
+    var tank3 = Entity.newInstanceOf('Tank)
+    tank3.getComponent(classOf[Placement]).position = Vec3f(4000,100,2000)
+
+
+    var tank4 = Entity.newInstanceOf('Tank)
+    tank4.getComponent(classOf[Placement]).position = Vec3f(6000,100,0)
+
+
+    var tank5 = Entity.newInstanceOf('Tank)
+    tank5.getComponent(classOf[Placement]).position = Vec3f(6000,100,6000)
+
+
+    var tank6 = Entity.newInstanceOf('Tank)
+    tank6.getComponent(classOf[Placement]).position = Vec3f(10000,100,6000)
+
 
 
 
@@ -254,12 +285,7 @@ object GameEngine extends Engine with EventReceiver{
     camEntity.add(cam2)
     camEntity.add(camPos)
 
-    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
 
-
-
-    test.add(cam)
-    */
 
     Input.init()
     //register systems with engine

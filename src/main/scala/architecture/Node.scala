@@ -95,6 +95,11 @@ object Node {
         retVal.put(true, List(classOf[Health]))
         retVal.put(false, List())
       }
+      case gunainode if gunainode == classOf[GunAINode] => {
+        retVal.put(true, List(classOf[Gun], classOf[GunAI]))
+        retVal.put(true, List())
+    }
+
 
       case _ => DC.warn("No valid definition for " + cl.getClass.getSimpleName)
     }
