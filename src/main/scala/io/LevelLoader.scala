@@ -85,14 +85,16 @@ class Level(nameLvl: String) {
   }
 
   def initialize() {
-    /*GameEngine.pause(Seq())
+
+  /*
+    GameEngine.pause(Seq())
 
 
     GameEngine.entities.values.foreach(_.destroy())
     GameEngine.entities.clear()
     Identifier.identifier.clear()
+                                   */
 
-    GameEngine.resume()*/
 
     if(_xml == null) {
       throw new IllegalArgumentException("level is empty can't load anything")
@@ -135,6 +137,7 @@ class Level(nameLvl: String) {
 
     }
 
+    //GameEngine.resume()
 
 
 

@@ -22,6 +22,7 @@ object Physics extends ComponentCreator {
       val acceleration = Vec3f((acc \ "@x").text.toFloat,(acc \ "@y").text.toFloat,(acc \ "@z").text.toFloat )
       val linearDampening = (damp \ "linear").text.toFloat
       val angularDampening = (damp \ "angular").text.toFloat
+
       val inertia: Mat3f = {
         val arr = ine.text.split(" ")
         val aF = arr.map(_.toFloat)
@@ -31,7 +32,11 @@ object Physics extends ComponentCreator {
         }
         m
       }
-      Some(new Physics(velocity,acceleration,mass,linearDampening,inertia,angularDampening,gravity))
+      val phy = new Physics(velocity,acceleration,mass,linearDampening,inertia,angularDampening,gravity)
+
+      phy.canSleep = (n \ "canSleep").text.toBoolean
+      phy.awake((n \ "awake").text.toBoolean)
+      Some(phy)
     })
   }
 }

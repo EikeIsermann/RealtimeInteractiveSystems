@@ -17,7 +17,8 @@ object hasParts extends ComponentCreator {
     n \\ "part" foreach (p => {
       parts += Symbol(p.text.toString)
     })
-    Some(new hasParts(parts.toSeq))
+    if(parts.isEmpty) None
+    else Some(new hasParts(parts.toSeq))
   })
 }
 
@@ -28,11 +29,11 @@ class hasParts(parts1: Seq[Symbol]) extends Component {
 
   def parts: Seq[Symbol] = _parts
 
-  override def toXML: Node = {
+  override def toXML: Node = null/*{
     <hasParts>
       { parts.foreach(p => <part>{p.name}</part>) }
     </hasParts>
-  }
+  }*/
 
   override def newInstance(i:Identifier): Component = new hasParts(parts)
 

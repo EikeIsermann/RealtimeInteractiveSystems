@@ -28,6 +28,8 @@
             <angular>0.8</angular>
         </damping>
         <inertia>0 0 0 0 0 0 0 0 0</inertia>
+        <canSleep>true</canSleep>
+        <awake>true</awake>
     </physics>
     <sounds>
         <sound type="collision">collision</sound>

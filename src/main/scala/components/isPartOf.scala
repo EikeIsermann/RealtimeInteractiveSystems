@@ -11,8 +11,11 @@ import main.scala.tools.Identifier
 
 object isPartOf extends ComponentCreator {
   override def fromXML(xml: Node): Option[isPartOf] = xmlToComp(xml, "isPartOf", n => {
-     val partOf = Symbol(n.text)
-    
+    if(n.text.trim.isEmpty) {
+      return None
+    }
+
+      val partOf = Symbol(n.text.trim)
       Some(new isPartOf(partOf))
     })
   }
@@ -23,7 +26,8 @@ class isPartOf(part1: Symbol) extends Component {
   private val _part: Symbol = part1
   def part: Symbol = _part
   //TODO: correct to actual name?!
-  override def toXML: Node = {<isPartOf>{part.name}</isPartOf>}
+  //<isPartOf>{part.name}</isPartOf>
+  override def toXML: Node = null
 
   override def newInstance(i:Identifier): Component = new isPartOf(part)
 

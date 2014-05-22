@@ -21,6 +21,8 @@
             <angular>0.8</angular>
         </damping>
         <inertia>0 0 0 0 0 0 0 0 0</inertia>
+        <canSleep>false</canSleep>
+        <awake>true</awake>
     </physics>
     <collision>
         <AABB>
@@ -31,4 +33,7 @@
     <sounds>
         <sound type="tankFire">tankFire</sound>
     </sounds>
+    <projectile>
+        <damage>100.0</damage>
+    </projectile>
 </entityTemplate>
