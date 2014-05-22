@@ -1,0 +1,763 @@
+<level name="testlevel" saveTime="23.05.14 00:14">
+  <entity identifier="FloorPLAZA:6">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="6.0" y="0.0" z="2.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorPLAZA:9">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="10.0" y="0.0" z="2.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNEWS:1">
+    <display>
+      <meshId>RoadNEWS</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="4.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:7">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="4.0" y="0.0" z="4.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:11">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="6.0" y="0.0" z="4.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="Tower:1">
+    <display>
+      <meshId>Tower</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="1.0" z="8.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="3.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNEWS:4">
+    <display>
+      <meshId>RoadNEWS</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="8.0" y="0.0" z="0.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:1">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="10.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="Tower:4">
+    <display>
+      <meshId>Tower</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="6.0" y="1.0" z="2.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="3.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="Tank:1">
+    <hasParts>
+      <part>Turret:1</part>
+      <part>ChassisBody:1</part>
+      <part>ChassisTread:1</part>
+    </hasParts>
+    <placement>
+      <position x="0.0" y="100.0" z="10000.0"/>
+      <rotation angleX="0.0" angleY="-86.0" angleZ="0.0"/>
+      <scale x="0.001" y="0.001" z="0.001"/>
+    </placement>
+    <driveControl>
+      <forward>
+        <key>_W</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </forward>
+      <backward>
+        <key>_S</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </backward>
+      <left>
+        <key>_A</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </left>
+      <right>
+        <key>_D</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </right>
+      <boost>
+        <key>ShiftLeft</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </boost>
+    </driveControl>
+    <vehicle>
+      <power>100000.0</power>
+      <boostFactor>3.0</boostFactor>
+      <turnSpeed>1.0</turnSpeed>
+    </vehicle>
+    <physics>
+      <mass>59.999996</mass>
+      <gravity x="0.0" y="0.0" z="0.0"/>
+      <velocity x="0.0" y="0.0" z="0.0"/>
+      <acceleration x="0.0" y="0.0" z="0.0"/>
+      <damping>
+        <linear>0.1</linear>
+        <angular>0.1</angular>
+      </damping>
+      <forceAccum x="0.0" y="0.0" z="0.0"/>
+      <inertia>1.0 -0.0 0.0 -0.0 1.0 -0.0 0.0 -0.0 1.0</inertia>
+      <canSleep>false</canSleep>
+      <awake>true</awake>
+    </physics>
+  </entity>
+  <entity identifier="ChassisBody:1">
+    <display>
+      <meshId>ChassisBody</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="0.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+    <isPartOf>Tank:1</isPartOf>
+  </entity>
+  <entity identifier="FloorNS:4">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="2.0" y="0.0" z="6.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorPLAZA:10">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="10.0" y="0.0" z="4.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorSW:1">
+    <display>
+      <meshId>RoadNW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="8.0" y="0.0" z="4.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorPLAZA:2">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="2.0" y="0.0" z="2.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorEW:1">
+    <display>
+      <meshId>RoadNS</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="2.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorSE:1">
+    <display>
+      <meshId>RoadSW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="10.0" y="0.0" z="6.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorPLAZA:5">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="4.0" y="0.0" z="8.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:3">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="2.0" y="0.0" z="4.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="SkyBox:1">
+    <display>
+      <meshId>SkyBox</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="0.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="20.0" y="20.0" z="20.0"/>
+    </placement>
+  </entity>
+  <entity identifier="Tower:3">
+    <display>
+      <meshId>Tower</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="4.0" y="1.0" z="8.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="3.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorEW:4">
+    <display>
+      <meshId>RoadNS</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="10.0" y="0.0" z="8.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="Tower:6">
+    <display>
+      <meshId>Tower</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="10.0" y="1.0" z="2.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="3.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:6">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="4.0" y="0.0" z="0.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorPLAZA:8">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="10.0" y="0.0" z="0.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="GameConsoleText:1">
+    <text>//TODO</text>
+    <placement>
+      <position x="-0.1" y="0.3" z="-1.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:10">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="6.0" y="0.0" z="0.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNEWS:3">
+    <display>
+      <meshId>RoadNEWS</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="6.0" y="0.0" z="10.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:9">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="4.0" y="0.0" z="10.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:13">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="8.0" y="0.0" z="10.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorPLAZA:7">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="8.0" y="0.0" z="8.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="MachineGun:1">
+    <display>
+      <meshId>MachineGun</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="68.0" y="78.0" z="60.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+    <isPartOf>Turret:1</isPartOf>
+  </entity>
+  <entity identifier="FloorPLAZA:1">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="8.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:2">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="2.0" y="0.0" z="0.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="Tower:2">
+    <display>
+      <meshId>Tower</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="2.0" y="1.0" z="2.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="3.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorPLAZA:4">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="4.0" y="0.0" z="2.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorEW:3">
+    <display>
+      <meshId>RoadNS</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="8.0" y="0.0" z="2.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="ChassisTread:1">
+    <display>
+      <meshId>ChassisTread</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="0.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+    <isPartOf>Tank:1</isPartOf>
+  </entity>
+  <entity identifier="Camera:3">
+    <camControl>
+      <forward>
+        <key>_W</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </forward>
+      <backward>
+        <key>_S</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </backward>
+      <left>
+        <key>_A</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </left>
+      <right>
+        <key>_D</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </right>
+      <pitchPositive>
+        <key></key>
+        <mouse>
+          <button></button>
+          <movement>MovementY</movement>
+        </mouse>
+      </pitchPositive>
+      <pitchNegative>
+        <key></key>
+        <mouse>
+          <button></button>
+          <movement>MovementY</movement>
+        </mouse>
+      </pitchNegative>
+      <yawLeft>
+        <key></key>
+        <mouse>
+          <button></button>
+          <movement>MovementX</movement>
+        </mouse>
+      </yawLeft>
+      <yawRight>
+        <key></key>
+        <mouse>
+          <button></button>
+          <movement>MovementX</movement>
+        </mouse>
+      </yawRight>
+      <stepUp>
+        <key>Space</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </stepUp>
+      <stepDown>
+        <key>CtrlLeft</key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </stepDown>
+      <movementVel>15.0</movementVel>
+      <pitchVel>0.05</pitchVel>
+      <yawVel>0.03</yawVel>
+    </camControl>
+    <camera>
+      <fieldOfView>70.0</fieldOfView>
+      <aspect></aspect>
+      <nearPlane>0.1</nearPlane>
+      <farPlane>50.0</farPlane>
+      <active>false</active>
+      <offset>
+        <distance>0.0</distance>
+        <trans x="0.0" y="0.0" z="0.0"/>
+        <rot x="0.0" y="0.0" z="0.0"/>
+      </offset>
+    </camera>
+    <placement>
+      <position x="0.0" y="1.0" z="0.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNE:1">
+    <display>
+      <meshId>RoadSE</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="0.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNW:1">
+    <display>
+      <meshId>RoadNE</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="0.0" y="0.0" z="6.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="GameConsoleText:0"> </entity>
+  <entity identifier="FloorNS:5">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="2.0" y="0.0" z="10.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="Tower:5">
+    <display>
+      <meshId>Tower</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="8.0" y="1.0" z="8.0"/>
+      <rotation angleX="0.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="3.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:8">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="4.0" y="0.0" z="6.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNS:12">
+    <display>
+      <meshId>RoadEW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="8.0" y="0.0" z="6.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorNEWS:2">
+    <display>
+      <meshId>RoadNEWS</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="6.0" y="0.0" z="6.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorEW:2">
+    <display>
+      <meshId>RoadNS</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="6.0" y="0.0" z="8.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="FloorSW:2">
+    <display>
+      <meshId>RoadNW</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="10.0" y="0.0" z="10.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+  <entity identifier="Turret:1">
+    <display>
+      <meshId>Turret</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <hasParts>
+      <part>MachineGun:1</part>
+    </hasParts>
+    <placement>
+      <position x="0.0" y="95.0" z="-190.0"/>
+      <rotation angleX="-5.18487" angleY="-0.3791318" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+    <isPartOf>Tank:1</isPartOf>
+    <gunControl>
+      <yawLeft>
+        <key>ArrowLeft</key>
+        <mouse>
+          <button></button>
+          <movement>MovementX</movement>
+        </mouse>
+      </yawLeft>
+      <yawRight>
+        <key>ArrowRight</key>
+        <mouse>
+          <button></button>
+          <movement>MovementX</movement>
+        </mouse>
+      </yawRight>
+      <pitchPositive>
+        <key>ArrowUp</key>
+        <mouse>
+          <button></button>
+          <movement>MovementY</movement>
+        </mouse>
+      </pitchPositive>
+      <pitchNegative>
+        <key>ArrowDown</key>
+        <mouse>
+          <button></button>
+          <movement>MovementY</movement>
+        </mouse>
+      </pitchNegative>
+      <fire>
+        <key>CtrlRight</key>
+        <mouse>
+          <button>Left</button>
+          <movement></movement>
+        </mouse>
+      </fire>
+      <reload>
+        <key></key>
+        <mouse>
+          <button></button>
+          <movement></movement>
+        </mouse>
+      </reload>
+    </gunControl>
+    <gun>
+      <lifetimeProjectile>0</lifetimeProjectile>
+      <coolDown>100</coolDown>
+      <timeOfLastShot>0</timeOfLastShot>
+      <pitchConstraint positive="45.0" negative="-10.0"/>
+      <yawConstraint>180.0</yawConstraint>
+      <shoot>false</shoot>
+      <projectile>Bullet</projectile>
+      <power>30000.0</power>
+    </gun>
+    <camera>
+      <fieldOfView>70.0</fieldOfView>
+      <aspect></aspect>
+      <nearPlane>0.1</nearPlane>
+      <farPlane>50.0</farPlane>
+      <active>true</active>
+      <offset>
+        <distance>1.2</distance>
+        <trans x="0.0" y="0.0" z="0.0"/>
+        <rot x="-25.0" y="0.0" z="0.0"/>
+      </offset>
+    </camera>
+  </entity>
+  <entity identifier="FloorPLAZA:3">
+    <display>
+      <meshId>RoadPLAZA</meshId>
+      <shaderId>default</shaderId>
+    </display>
+    <placement>
+      <position x="2.0" y="0.0" z="8.0"/>
+      <rotation angleX="-90.0" angleY="0.0" angleZ="0.0"/>
+      <scale x="1.0" y="1.0" z="1.0"/>
+    </placement>
+  </entity>
+</level>

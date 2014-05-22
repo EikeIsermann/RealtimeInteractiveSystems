@@ -15,10 +15,8 @@ object Camera extends ComponentCreator {
       val fov:Float = (n \ "fieldOfView").text.toFloat
       val asp:Option[Float] = {
         val a = (n \ "aspect").text.trim()
-        if(a.isEmpty) {
-          return None
-        }
-        Some(a.toFloat)
+        if(a.isEmpty) None
+        else Some(a.toFloat)
       }
       val nP:Float = (n \ "nearPlane").text.toFloat
       val fP:Float = (n \ "farPlane").text.toFloat
@@ -38,8 +36,8 @@ object Camera extends ComponentCreator {
         (n \ "offset" \ "rot" \ "@y").text.toFloat,
         (n \ "offset" \ "rot" \ "@z").text.toFloat
       )
-
-      Some(new Camera(fov, asp, nP,fP,active, trans,rot,dist))
+      var test = new Camera(fov, asp, nP,fP,active, trans,rot,dist)
+      Some(test)
     })
   }
 
@@ -58,7 +56,6 @@ class Camera(fieldOfView1: Float = Camera.defaultFOV, aspect1:Option[Float] = Ca
   private var _offSetTrans = offSetTrans1
   private var _offSetRot = offSetRot1
   private var _offSetDistance = offSetDistance1
-
 
   def offSetDistance = _offSetDistance
   def offSetDistance_=(f:Float) = _offSetDistance = f

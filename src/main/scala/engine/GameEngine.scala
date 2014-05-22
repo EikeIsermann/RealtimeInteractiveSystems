@@ -5,7 +5,7 @@ import ogl.app.StopWatch
 import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
-import main.scala.io.EntityTemplateLoader
+import main.scala.io.{LevelLoader, EntityTemplateLoader}
 import main.scala.systems.gfx._
 import main.scala.components._
 import main.scala.event._
@@ -133,10 +133,10 @@ object GameEngine extends Engine with EventReceiver{
     EntityTemplateLoader.load(entitiesDir)
 
     // loading all level files - or one specific
-    //LevelLoader.load()
+    LevelLoader.load()
     // get the level and initialize it
-    //LevelLoader.get('TestLevel).initialize()
-
+    LevelLoader.get('testlevel).initialize()
+    /*
 
     //create a level from current game with this name and save it to disk
     //val lvl = new Level("TestLevel")
@@ -145,8 +145,23 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('SkyBox)
 
     var tower =     Entity.newInstanceOf('Tower)
+    tower.getComponent(classOf[Placement]).position = Vec3f(0,1f,8)
 
-    tower.getComponent(classOf[Placement]).position = Vec3f(0,0,0)
+
+    var tower2 =     Entity.newInstanceOf('Tower)
+    tower2.getComponent(classOf[Placement]).position = Vec3f(2,1f,2)
+
+    var tower3 =     Entity.newInstanceOf('Tower)
+    tower3.getComponent(classOf[Placement]).position = Vec3f(4,1f,8)
+
+    var tower4 =     Entity.newInstanceOf('Tower)
+    tower4.getComponent(classOf[Placement]).position = Vec3f(6,1f,2)
+
+    var tower5 =     Entity.newInstanceOf('Tower)
+    tower5.getComponent(classOf[Placement]).position = Vec3f(8,1f,8)
+
+    var tower6 =     Entity.newInstanceOf('Tower)
+    tower6.getComponent(classOf[Placement]).position = Vec3f(10,1f,2)
 
     //creating Floor
     Entity.newInstanceOf('FloorNE).getComponent(classOf[Placement]).position = Vec3f(0,0,0)
@@ -196,6 +211,25 @@ object GameEngine extends Engine with EventReceiver{
 
 
     // creating Tank
+    val tank = Entity.newInstanceOf('Tank)
+
+    //val tank2 = Entity.newInstanceOf('Tank)
+    val test = entities.apply("Turret:1")
+    test.add(new GunControl)
+    var test2 = new Gun
+    test.add(test2)
+    tank.getComponent(classOf[Placement]).position = Vec3f(0,100,10000)
+    tank.add(new DriveControl)
+    tank.add(new Vehicle)
+    ent = tank
+    var phys = new Physics()
+    phys.canSleep = false
+    phys.mass = 60f
+    phys.gravity = Vec3f()
+    phys.damping_=(0.1f,0.1f)
+    phys.gravity_=(Vec3f(0,0,0))
+    tank.add(phys)
+    phys.canSleep = false
 
 
 
@@ -220,12 +254,12 @@ object GameEngine extends Engine with EventReceiver{
     camEntity.add(cam2)
     camEntity.add(camPos)
 
-    //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
+    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
 
 
 
-   // test.add(cam)
-
+    test.add(cam)
+    */
 
     Input.init()
     //register systems with engine
