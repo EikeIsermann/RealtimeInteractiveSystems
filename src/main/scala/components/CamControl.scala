@@ -10,6 +10,12 @@ import main.scala.tools.Identifier
  * Created by Eike
  * 23.03.14.
  */
+object CamControl extends ComponentCreator {
+  override def fromXML(xml: Node): Option[CamControl] = {
+    //TODO
+    None
+  }
+}
 
 case class CamControl(triggerForward: Triggers,
                       triggerBackward: Triggers,

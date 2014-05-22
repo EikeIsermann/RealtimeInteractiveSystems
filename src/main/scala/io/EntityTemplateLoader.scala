@@ -98,13 +98,24 @@ object EntityTemplateLoader {
   }
   def parseComponents(entity: Entity,xml: Node) {
     //TODO: add components
-    entity += hasParts.fromXML(xml)
-    entity += isPartOf.fromXML(xml)
+    //entity += Ammo.fromXML(xml)
+    entity += CamControl.fromXML(xml)
+    entity += Camera.fromXML(xml)
+    entity += Collision.fromXML(xml)
     entity += Display.fromXML(xml)
+    entity += DriveControl.fromXML(xml)
+    entity += Gun.fromXML(xml)
+    entity += GunControl.fromXML(xml)
+    entity += hasParts.fromXML(xml)
+    entity += Health.fromXML(xml)
+    //entity += LifeTime.fromXML(xml)
+    //entity += Light.fromXML(xml)
+    entity += isPartOf.fromXML(xml)
     entity += Physics.fromXML(xml)
     entity += Placement.fromXML(xml)
-    entity += Collision.fromXML(xml)
+    entity += Projectile.fromXML(xml)
     entity += Sound.fromXML(xml)
-    entity += Health.fromXML(xml)
+    entity += Text.fromXML(xml)
+    entity += Vehicle.fromXML(xml)
   }
 }

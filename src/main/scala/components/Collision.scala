@@ -54,8 +54,23 @@ class Collision(boundingVolume1: BoundingVolume = new AABB(Vec3f(),Vec3f())) ext
     case _ => null
   }
 
-  override def toXML: Node = ???
+  override def toXML: Node = {
+    <collision>
+      {boundingVolumeToXML()}
+    </collision>
+  }
 
+  
+  def boundingVolumeToXML(): Node = {
+    boundingVolume match {
+      case aabb: AABB =>
+        <AABB>
+          <leftBottomBack x={aabb.leftBottomBack.x.toString} y={aabb.leftBottomBack.y.toString} z={aabb.leftBottomBack.y.toString} />
+          <rightTopFront x={aabb.rightTopFront.x.toString} y={aabb.rightTopFront.x.toString} z={aabb.rightTopFront.x.toString} />
+        </AABB>
+      case _ => <TODO></TODO>
+    }
+  }
 }
 
 object BoundingVolumeType extends Enumeration {

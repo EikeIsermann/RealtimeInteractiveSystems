@@ -5,6 +5,11 @@
         <nearPlane>0.1</nearPlane>
         <farPlane>50</farPlane>
         <active>true</active>
+        <offset>
+            <distance>0</distance>
+            <trans x="0" y="0" z="0" />
+            <rot x="0" y="0" z="0" />
+        </offset>
     </camera>
     <placement>
         <position x="0" y="0" z="0" />

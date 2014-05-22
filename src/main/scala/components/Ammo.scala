@@ -1,13 +1,16 @@
 package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
-import scala.xml.{Node, NodeBuffer, NodeSeq}
+import scala.xml.Node
 import main.scala.tools.Identifier
 
 /**
  * Created by Christian Treffs
  * Date: 21.03.14 00:45
  */
+object Ammo extends ComponentCreator {
+  override def fromXML(xml: Node): Option[Ammo] = ???
+}
 
 case class Ammo(ammo1: Int, maxAmmo1: Int) extends Component {
   private var _ammo: Int = ammo1

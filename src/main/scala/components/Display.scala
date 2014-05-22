@@ -29,10 +29,12 @@ class Display(meshId1: Symbol = '_undefined, shaderId1: Symbol = '_undefined) ex
   def shaderId: Symbol = _shaderId
   def shaderId_=(s: Symbol) = _shaderId = s
 
-  override def toXML: Node = {<display>
-    <meshId>{meshId.name.toString}</meshId>
-    <shaderId>{shaderId.name.toString}</shaderId>
-  </display>}
+  override def toXML: Node = {
+    <display>
+      <meshId>{meshId.name.toString}</meshId>
+      <shaderId>{shaderId.name.toString}</shaderId>
+    </display>
+  }
 
   override def newInstance(i:Identifier): Component = new Display(meshId,shaderId)
 }

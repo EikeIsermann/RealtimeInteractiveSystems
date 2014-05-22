@@ -1,6 +1,6 @@
 package main.scala.components
 
-import main.scala.architecture.Component
+import main.scala.architecture.{ComponentCreator, Component}
 import main.scala.systems.input.{Key, Triggers}
 import scala.xml.Node
 import main.scala.tools.Identifier
@@ -11,11 +11,20 @@ import main.scala.tools.Identifier
  * Time: 21:06
  * This is a RIS Project class
  */
+object DriveControl extends ComponentCreator {
+  override def fromXML(xml: Node): Option[DriveControl] = {
+    //TODO
+    None
+  }
+}
+
 case class DriveControl(triggerForward: Triggers = Triggers(Key._W), triggerBackward: Triggers = Triggers(Key._S), triggerLeft: Triggers = Triggers(Key._A),
                         triggerRight: Triggers = Triggers(Key._D), triggerBoost: Triggers = Triggers(Key.ShiftLeft)) extends Component {
 
   def newInstance(identifier: Identifier): Component = new DriveControl(triggerForward, triggerBackward,
                   triggerLeft, triggerRight, triggerBoost)
 
-  def toXML: Node = ???
+  def toXML: Node = {
+    <driveControl>//TODO</driveControl>
+  }
 }

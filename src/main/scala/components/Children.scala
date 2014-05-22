@@ -26,11 +26,5 @@ class Children() extends Component{
       {children.map(c => <part>{c.identifier}</part>)}
     </hasParts>
 
-
-    /*<children>
-      {children.map(c => <entity>{c.identifier.toString}</entity>)}
-    </children>*/
-
-
   override def newInstance(i:Identifier) = new Children()
 }

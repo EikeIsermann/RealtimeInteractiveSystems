@@ -24,7 +24,22 @@ object Camera extends ComponentCreator {
       val fP:Float = (n \ "farPlane").text.toFloat
       val active:Boolean = (n \ "active").text.toBoolean
 
-      Some(new Camera(fov, asp, nP,fP,active))
+      val dist: Float = (n \ "offset" \ "distance").text.toFloat
+
+      val trans = Vec3f(
+        (n \ "offset" \ "trans" \ "@x").text.toFloat,
+        (n \ "offset" \ "trans" \ "@y").text.toFloat,
+        (n \ "offset" \ "trans" \ "@z").text.toFloat
+      )
+
+
+      val rot = Vec3f(
+        (n \ "offset" \ "rot" \ "@x").text.toFloat,
+        (n \ "offset" \ "rot" \ "@y").text.toFloat,
+        (n \ "offset" \ "rot" \ "@z").text.toFloat
+      )
+
+      Some(new Camera(fov, asp, nP,fP,active, trans,rot,dist))
     })
   }
 
@@ -81,6 +96,11 @@ class Camera(fieldOfView1: Float = Camera.defaultFOV, aspect1:Option[Float] = Ca
       <nearPlane>{nearPlane.toString}</nearPlane>
       <farPlane>{farPlane.toString}</farPlane>
       <active>{active.toString}</active>
+      <offset>
+        <distance>{offSetDistance.toString}</distance>
+        <trans x={offSetTrans.x.toString} y={offSetTrans.y.toString} z={offSetTrans.z.toString} />
+        <rot x={offSetRot.x.toString} y={offSetRot.y.toString} z={offSetRot.z.toString}  />
+      </offset>
     </camera>
   }
 

@@ -1,6 +1,6 @@
 package main.scala.components
 
-import main.scala.architecture.Component
+import main.scala.architecture.{ComponentCreator, Component}
 import scala.xml.Node
 import main.scala.tools.Identifier
 
@@ -8,6 +8,13 @@ import main.scala.tools.Identifier
  * Created by Christian Treffs
  * Date: 21.03.14 00:46
  */
+object Gun extends ComponentCreator {
+  override def fromXML(xml: Node): Option[Gun] = {
+    //TODO
+    None
+  }
+}
+
 case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 100, timeOfLastShot1: Long = 0) extends Component {
   private var _lifetimeProjectile: Long = lifetimeProjectile1
   private var _coolDown: Long = coolDown1
@@ -49,7 +56,16 @@ case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 100, timeOfLastS
 
 
   override def toXML: Node = {
-    null
+    <gun>
+       <lifetimeProjectile>{_lifetimeProjectile.toString}</lifetimeProjectile>
+       <coolDown>{_coolDown.toString}</coolDown>
+       <timeOfLastShot>{_timeOfLastShot.toString}</timeOfLastShot>
+       <pitchConstraint positive={_pitchConstraintPositive.toString} negative={_pitchConstraintNegative.toString} />
+       <yawConstraint>{_yawConstraint.toString}</yawConstraint>
+       <shoot>{_shoot.toString}</shoot>
+       <projectile>{_projectile.name.toString}</projectile>
+       <power>{_power.toString}</power>
+    </gun>
   }
 
   override def newInstance(i:Identifier): Component = new Gun(lifetimeProjectile,coolDown,timeOfLastShot)

@@ -7,7 +7,7 @@ import main.scala.systems.gfx.{TextRenderingSystem, RenderingSystem}
 import main.scala.tools.DC
 import main.scala.components.{Text, Placement}
 import main.scala.entities.Entity
-import main.scala.io.EntityTemplateLoader
+import main.scala.io.{Level, EntityTemplateLoader}
 import main.scala.math.Vec3f
 
 /**
@@ -81,6 +81,13 @@ class InGameConsole extends GameState {
           ent.getIfPresent(classOf[Placement]).map(_.position = Vec3f(v(0).toFloat,v(1).toFloat,v(2).toFloat))
         }
 
+      }
+      if(s.length > 1 && s(0) == "save") {
+        if(s.length == 2 && !s(1).isEmpty) {
+          println("saveING")
+          val lvl = new Level(s(1).trim)
+          lvl.save()
+        }
       }
     }
   }

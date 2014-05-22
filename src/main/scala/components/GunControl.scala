@@ -1,6 +1,6 @@
 package main.scala.components
 
-import main.scala.architecture.Component
+import main.scala.architecture.{ComponentCreator, Component}
 import main.scala.systems.input.{MouseButton, MouseMovement, Key, Triggers}
 import main.scala.tools.Identifier
 import scala.xml.Node
@@ -12,6 +12,13 @@ import org.lwjgl.input.Mouse
  * Time: 21:06
  * This is a RIS Project class
  */
+object GunControl extends ComponentCreator {
+  override def fromXML(xml: Node): Option[GunControl] = {
+    //TODO
+    None
+  }
+}
+
 case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null,  MouseMovement.MovementX ), triggerYawRight: Triggers  = Triggers(Key.ArrowRight, null,MouseMovement.MovementX)
                       , triggerPitchPositive: Triggers = Triggers(Key.ArrowUp, null, MouseMovement.MovementY),
                   triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY), triggerFire: Triggers = Triggers(Key.CtrlRight ,MouseButton.Left, null ),

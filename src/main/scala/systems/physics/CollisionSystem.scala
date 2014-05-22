@@ -120,6 +120,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     println("Collision New",pair)
     //println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
 
+    /*
     val e1Phys = e1.getIfPresent(classOf[Physics]).get
     val e2Phys = e2.getIfPresent(classOf[Physics]).get
 
@@ -127,6 +128,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
     val a1 = e1Phys.velocity
     val a2 = e2Phys.velocity
+
 
     //println("VelACC:"+e1Phys.velocity.length(),e1Phys.acceleration.length(),e2Phys.velocity.length(),e2Phys.acceleration.length())
 
@@ -141,6 +143,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val f2: Vec3f = (-100f*a1*a1*m1)/m2
 
 
+*/
     //println("FORCE: "+f1.inline,f2.inline)
 
     /*

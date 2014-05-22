@@ -266,7 +266,15 @@ class Physics(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1:
         <linear>{linearDamping.toString}</linear>
         <angular>{linearDamping.toString}</angular>
       </damping>
-      <inertia>{inertia.values.map(_+" ").toString().trim()}</inertia>
+      <inertia>{inertiaToXML()}</inertia>
     </physics>
+  }
+
+  def inertiaToXML():String = {
+    val sb = new StringBuilder()
+
+    inertia.values.map(v => sb.append(v+" "))
+
+    sb.toString().trim
   }
 }

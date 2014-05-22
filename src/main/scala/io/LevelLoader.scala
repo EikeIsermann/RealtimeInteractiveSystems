@@ -9,6 +9,8 @@ import main.scala.tools.{Identifier, DC}
 import main.scala.entities.Entity
 import scala.collection.mutable.ListBuffer
 import main.scala.components.{Parent, Children, hasParts, isPartOf}
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 /**
  * Created by Christian Treffs
@@ -67,13 +69,18 @@ class Level(nameLvl: String) {
 
   def save() = saveAs(name)
   def saveAs(fileName: String) = {
+    DC.logT('savingLevel,"Saving Level",name,3)
     val xml = GameEngine.entities.values.map(_.toXML)
     val pp = new PrettyPrinter(80,2)
     val fos = new FileOutputStream(GameEngine.levelsDir+"/"+fileName+".lvl")
     val writer = Channels.newWriter(fos.getChannel, LevelLoader.encoding)
-    val lvl = <level name={name}>{xml}</level>
+    val now = Calendar.getInstance().getTime
+    val sdf = new SimpleDateFormat()
+    val saveTime = sdf.format(now)
+    val lvl = <level name={name} saveTime={saveTime.toString}>{xml}</level>
     writer.write(pp.format(lvl))
     writer.close()
+    DC.logT('savingLevel,"Level saved",name,3)
     fileName
   }
 

@@ -1,6 +1,6 @@
 package main.scala.components
 
-import main.scala.architecture.Component
+import main.scala.architecture.{ComponentCreator, Component}
 import main.scala.tools.Identifier
 import scala.xml.Node
 
@@ -11,6 +11,13 @@ import scala.xml.Node
  * Time: 12:46
  * This is a RIS Project class
  */
+object Vehicle extends ComponentCreator {
+  override def fromXML(xml: Node): Option[Vehicle] = {
+    //TODO
+    None
+  }
+}
+
 case class Vehicle(power: Float = 100000, boostFactor:Float = 3f , turnSpeed: Float = 1f) extends Component {
   def toXML: Node = {
     null
