@@ -1,6 +1,6 @@
 package main.scala.entities
 
-import main.scala.architecture.Component
+import main.scala.architecture.{Node, Component}
 import main.scala.tools.{DC, Identifier}
 import main.scala.io.EntityTemplateLoader
 import main.scala.components._
@@ -122,6 +122,19 @@ class Entity(idx: Identifier, template: Boolean = false) {
 
   def has(componentClass: Class[_ <: Component]): Boolean = {
     !components(componentClass).isEmpty
+  }
+
+  def hasAndThen(componentClass: Class[_ <: Component], func: Entity => Unit) {
+    if(has(componentClass)) func.apply(this)
+  }
+
+  def hasNodeAndThen(nodeClass: Class[_ <: Node], func: Entity => Unit) {
+    val pos = Node.getDefinition(nodeClass)(true)
+    val neg = Node.getDefinition(nodeClass)(false)
+
+    if(pos.forall(has) && !neg.forall(has)) {
+      func.apply(this)
+    }
   }
 
   def getComponent[T <: Component](c: Class[T]): T = {

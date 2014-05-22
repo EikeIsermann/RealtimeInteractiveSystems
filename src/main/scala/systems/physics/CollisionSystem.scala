@@ -171,6 +171,14 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
   private def handleEndedCollision(pair: (Collision,Collision)) {
     println("CollisionEnded",pair)
+    val c1: Collision = pair._1
+    val c2: Collision = pair._2
+    val e1 = GameEngine.entities(c1.owner.toString)
+    val e2 = GameEngine.entities(c2.owner.toString)
+
+    e1.hasAndThen(classOf[Projectile], e => {e.destroy()})
+    e2.hasAndThen(classOf[Projectile], e => {e.destroy()})
+
   }
 
 
