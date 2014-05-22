@@ -32,31 +32,18 @@ class TextRenderingSystem(simSpeed: Int) extends IntervalProcessingSystem {
   /**
    * executed before nodes are processed - every update
    */
-  override def begin(): Unit = {
-
-  }
+  override def begin(): Unit = {}
 
 
   override def processNode(node: Node): Unit = {
     node match {
       case tN: TextNode =>
-
         val text: Text = tN -> classOf[Text]
         val placement: Placement = tN -> classOf[Placement]
-
-
-
-        val shader = Shader.get('default)
-
+        val shader = Shader.get('default)    //TODO: get a useful shader
         val modelMatrix: Mat4f = placement.getMatrix
-
-
         font.stringToDraw = text.text
-
-
         font.draw(shader, modelMatrix, ctx.viewMatrix, ctx.fieldOfView,ctx.aspect,ctx.nearPlane,ctx.farPlane)
-
-
       case _ =>
     }
   }

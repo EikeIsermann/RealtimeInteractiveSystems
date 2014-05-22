@@ -32,9 +32,6 @@ class InGameConsole extends GameState {
 
     display()
 
-
-
-
     // return other states
     Input.keyDownOnceDo(Key.GameConsole, _ => {last();return new Playing}) // goto Playing
     this // go to console again
@@ -104,7 +101,6 @@ class InGameConsole extends GameState {
     stringBuffer.append(s)
     print(s)
   }
-  private def add(c: Char): Unit = add(c.toString)
 
   def clear() = stringBuffer.clear()
 
