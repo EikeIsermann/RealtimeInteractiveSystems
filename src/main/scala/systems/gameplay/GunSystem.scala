@@ -52,7 +52,7 @@ class GunSystem extends ProcessingSystem {
           var bullphys =  bullet.getComponent(classOf[Physics])
           bullphys.velocity = RISMath.DirFromRot(pos.basePosition.rotation*pos.rotation) * gun.power
           bullet.getIfPresent(classOf[Sound]).map(_.playList += 'tankFire)
-          val cam = new Camera(120f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0), 0f )
+          val cam = new Camera(120f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0), 0.1f )
           bullet.add(cam)
           EventDispatcher.dispatch(new ActivateCam(cam))
             println(bullet.getIfPresent(classOf[Sound]))
