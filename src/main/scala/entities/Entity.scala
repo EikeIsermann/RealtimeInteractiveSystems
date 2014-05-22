@@ -115,6 +115,7 @@ class Entity(idx: Identifier, template: Boolean = false) {
     EventDispatcher.dispatch(ComponentRemoved(this,component))
     component match {
       case c: Camera => EventDispatcher.dispatch(new RemoveCam(c))
+      case _ =>
     }
     this
   }
