@@ -18,7 +18,7 @@ import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
 import main.scala.event.EntityCreated
-import main.scala.systems.gameplay.GunSystem
+import main.scala.systems.gameplay.{HealthSystem, GunSystem}
 import main.scala.components.GunControl
 import main.scala.event.EntityRemoved
 import main.scala.components.DriveControl
@@ -149,7 +149,7 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
 
-  /*
+
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
     //val box3 = Entity.newInstanceOf('CollisionBox)
@@ -159,10 +159,10 @@ object GameEngine extends Engine with EventReceiver{
     box1.getComponent(classOf[Placement]).position = Vec3f(4,0,-10)
     box2.getComponent(classOf[Placement]).position = Vec3f(-4,0,-10)
 
-    box1.getComponent(classOf[Physics]).addForce(Vec3f(-20000f,0,0))
-    box2.getComponent(classOf[Physics]).addForce(Vec3f(0,0,0))
+    //box1.getComponent(classOf[Physics]).addForce(Vec3f(-2000f,0,0))
+    //box2.getComponent(classOf[Physics]).addForce(Vec3f(0,0,0))
 
-    */
+
     //box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
     //box2.getComponent(classOf[Physics]).mass = 100000f
     //box2.getComponent(classOf[Physics]).acceleration = Vec3f(0,-9.81f,0)
@@ -193,6 +193,7 @@ object GameEngine extends Engine with EventReceiver{
     tank.add(new Vehicle)
 
     var phys = new Physics()
+    phys.canSleep = false
     phys.mass = 60f
     phys.gravity = Vec3f()
     phys.damping_=(0.1f,0.1f)
@@ -253,6 +254,7 @@ object GameEngine extends Engine with EventReceiver{
     add(new SoundSystem)
     add(new GunControlSystem)
     add(new GameControlSystem)
+    add(new HealthSystem)
 
 
 

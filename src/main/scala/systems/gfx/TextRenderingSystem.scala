@@ -41,7 +41,7 @@ class TextRenderingSystem(simSpeed: Int) extends IntervalProcessingSystem {
         val text: Text = tN -> classOf[Text]
         val placement: Placement = tN -> classOf[Placement]
         val shader = Shader.get('default)    //TODO: get a useful shader
-        val modelMatrix: Mat4f = placement.getMatrix
+        val modelMatrix: Mat4f = placement.getMatrix //TODO: placement is somewhere ?!
         font.stringToDraw = text.text
         font.draw(shader, modelMatrix, ctx.viewMatrix, ctx.fieldOfView,ctx.aspect,ctx.nearPlane,ctx.farPlane)
       case _ =>

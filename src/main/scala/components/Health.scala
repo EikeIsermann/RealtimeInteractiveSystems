@@ -9,7 +9,7 @@ import main.scala.tools.Identifier
  * Date: 21.03.14 00:46
  */
 
-case class Health(health1: Int, maxHealth1: Int) extends Component {
+case class Health(health1: Int = 0, maxHealth1: Int = 0) extends Component {
   private var _health: Int = health1
   private var _maxHealth: Int = maxHealth1
 

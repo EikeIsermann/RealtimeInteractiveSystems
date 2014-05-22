@@ -91,6 +91,10 @@ object Node {
         retVal.put(true, List(classOf[Text],classOf[Placement]))
         retVal.put(false, List())
       }
+      case healthNode if healthNode == classOf[HealthNode] => {
+        retVal.put(true, List(classOf[Health]))
+        retVal.put(false, List())
+      }
 
       case _ => DC.warn("No valid definition for " + cl.getClass.getSimpleName)
     }

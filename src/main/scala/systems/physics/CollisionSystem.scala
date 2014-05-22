@@ -27,6 +27,8 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
   private val pairVecs = mutable.HashMap[(Collision, Collision), PairVec]()
   private val pairs = mutable.HashMap[(Collision, Collision), Int]()
   private val collisions = mutable.ArrayBuffer[(Collision, Collision)]()
+  private val activeCollisions = mutable.ArrayBuffer[(Collision, Collision)]() //DO NOT CLEAR
+
 
 
   override var node: Class[_ <: Node] = classOf[CollisionNode]
@@ -84,12 +86,27 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     // keep the ones that are collisions
     collisions ++= pairs.filter(p => {p._2 == 3}).keySet
 
-    //handle them
-    collisions.foreach(handleCollision)
+
+
+    val endedCollisions = activeCollisions.filterNot(collisions.contains)
+    endedCollisions.foreach(handleEndedCollision)
+
+    val stillActiveCollisions = activeCollisions.filter(collisions.contains)
+
+    val newCollisions = collisions.filterNot(stillActiveCollisions.contains)
+    newCollisions.foreach(handleNewCollision) //handle them
+
+    activeCollisions.clear()
+    activeCollisions ++= collisions
+
 
   }
 
-  private def handleCollision(pair: (Collision,Collision)) {
+
+  private def handleNewCollision(pair: (Collision,Collision)) {
+
+
+
     val c1: Collision = pair._1
     val c2: Collision = pair._2
 
@@ -99,7 +116,8 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val e1 = GameEngine.entities(c1.owner.toString)
     val e2 = GameEngine.entities(c2.owner.toString)
 
-    println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
+    println("Collision New",pair)
+    //println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
 
     val e1Phys = e1.getIfPresent(classOf[Physics]).get
     val e2Phys = e2.getIfPresent(classOf[Physics]).get
@@ -109,7 +127,10 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val a1 = e1Phys.velocity
     val a2 = e2Phys.velocity
 
-    println(a1.inline,a2.inline)
+    //println("VelACC:"+e1Phys.velocity.length(),e1Phys.acceleration.length(),e2Phys.velocity.length(),e2Phys.acceleration.length())
+
+
+    //println(a1.inline,a2.inline)
 
     val m1 = e1Phys.mass
     val m2 = e2Phys.mass
@@ -119,15 +140,15 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val f2: Vec3f = (-100f*a1*a1*m1)/m2
 
 
-    println("FORCE: "+f1.inline,f2.inline)
+    //println("FORCE: "+f1.inline,f2.inline)
 
-    e1Phys.velocity = Vec3f(0,0,0)
+    /*e1Phys.velocity = Vec3f(0,0,0)
     e2Phys.velocity = Vec3f(0,0,0)
     e1Phys.acceleration = Vec3f(0,0,0)
-    e2Phys.acceleration = Vec3f(0,0,0)
+    e2Phys.acceleration = Vec3f(0,0,0)  */
 
-    e1.getIfPresent(classOf[Physics]).get.addForce(f1)
-    e2.getIfPresent(classOf[Physics]).get.addForce(f2)
+    //e1.getIfPresent(classOf[Physics]).get.addForce(f1)
+    //e2.getIfPresent(classOf[Physics]).get.addForce(f2)
 
 
 
@@ -140,6 +161,11 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     //e1.destroy()
     //e2.destroy()
   }
+
+  private def handleEndedCollision(pair: (Collision,Collision)) {
+           println("CollisionEnded",pair)
+  }
+
 
   def deinit(): Unit = {}
 
