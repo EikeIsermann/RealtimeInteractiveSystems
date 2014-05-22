@@ -14,8 +14,17 @@ import org.lwjgl.input.Mouse
  */
 object GunControl extends ComponentCreator {
   override def fromXML(xml: Node): Option[GunControl] = {
-    //TODO
-    None
+    xmlToComp[GunControl](xml, "gunControl", n => {
+
+      val yL: Triggers = Triggers.fromXML((n \ "yawLeft").head)
+      val yR: Triggers = Triggers.fromXML((n \ "yawRight").head)
+      val pP: Triggers = Triggers.fromXML((n \ "pitchPositive").head)
+      val pN: Triggers = Triggers.fromXML((n \ "pitchNegative").head)
+      val tF: Triggers = Triggers.fromXML((n \ "fire").head)
+      val tR: Triggers = Triggers.fromXML((n \ "reload").head)
+
+      Some(new GunControl(yL,yR,pP,pN,tF,tR))
+    })
   }
 }
 
@@ -26,6 +35,7 @@ case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null,  
                       triggerFire: Triggers = Triggers(Key.CtrlRight ,MouseButton.Left, null ),
                       triggerReload: Triggers = Triggers(), triggerSwitchAmmo: Triggers = Triggers()
                        ) extends Component {
+
 
 
   def newInstance(identifier: Identifier): Component = new GunControl(triggerYawLeft, triggerYawRight, triggerPitchPositive, triggerPitchNegative, triggerFire, triggerReload, triggerSwitchAmmo)

@@ -13,8 +13,16 @@ import main.scala.tools.Identifier
  */
 object DriveControl extends ComponentCreator {
   override def fromXML(xml: Node): Option[DriveControl] = {
-    //TODO
-    None
+    xmlToComp[DriveControl](xml, "driveControl", n => {
+
+      val fwd: Triggers = Triggers.fromXML((n \ "forward").head)
+      val bwd: Triggers = Triggers.fromXML((n \ "backward").head)
+      val lft: Triggers = Triggers.fromXML((n \ "left").head)
+      val rgt: Triggers = Triggers.fromXML((n \ "right").head)
+      val boo: Triggers = Triggers.fromXML((n \ "boost").head)
+
+      Some(new DriveControl(fwd,bwd,lft,rgt,boo))
+    })
   }
 }
 

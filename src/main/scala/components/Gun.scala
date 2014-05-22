@@ -10,21 +10,33 @@ import main.scala.tools.Identifier
  */
 object Gun extends ComponentCreator {
   override def fromXML(xml: Node): Option[Gun] = {
-    //TODO
-    None
+    xmlToComp[Gun](xml, "gun", n => {
+
+      val lTP: Long = (n \ "lifetimeProjectile").text.toLong
+      val cd: Long = (n \ "coolDown").text.toLong
+      val tLS: Long = (n \ "timeOfLastShot").text.toLong
+      val pCP: Float = (n \ "pitchConstraint" \ "@positive").text.toFloat
+      val pCN: Float = (n \ "pitchConstraint" \ "@negative").text.toFloat
+      val yC: Float = (n \ "yawConstraint").text.toFloat
+      val sh: Boolean = (n \ "shoot").text.toBoolean
+      val pro: Symbol = Symbol((n \ "projectile").text.toString)
+      val pw: Float = (n \ "power").text.toFloat
+
+      Some(new Gun(lTP,cd,tLS,pCP,pCN,yC,sh,pro,pw))
+    })
   }
 }
 
-case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 100, timeOfLastShot1: Long = 0) extends Component {
+case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 100, timeOfLastShot1: Long = 0, pCP: Float = 45f, pCN: Float = -10f, yC: Float = 180f, sh: Boolean = false, pro: Symbol = 'Bullet, pw: Float=30000) extends Component {
   private var _lifetimeProjectile: Long = lifetimeProjectile1
   private var _coolDown: Long = coolDown1
   private var _timeOfLastShot: Long = timeOfLastShot1
-  private var _pitchConstraintPositive: Float = 45f
-  private var _pitchConstraintNegative: Float = -10f
-  private var _yawConstraint: Float = 180f
-  private var _shoot: Boolean = false
-  private var _projectile: Symbol = 'Bullet
-  private var _power: Float = 30000
+  private var _pitchConstraintPositive: Float = pCP
+  private var _pitchConstraintNegative: Float = pCN
+  private var _yawConstraint: Float = yC
+  private var _shoot: Boolean = sh
+  private var _projectile: Symbol = pro
+  private var _power: Float = pw
 
   def power = _power
   def power_=(f:Float) = _power = f

@@ -6,7 +6,7 @@ import scala.collection.mutable
 import main.scala.tools.DC
 import org.lwjgl.opengl.Display
 import scala.reflect.ClassTag
-import scala.xml.NodeSeq
+import scala.xml.{Node, NodeSeq}
 
 /**
  * Created by Christian Treffs
@@ -158,6 +158,23 @@ object Input {
 }
 
 
+object Triggers {
+  def fromXML(xml: NodeSeq): Triggers = {
+
+    val k: String = (xml \ "key").text
+    val mB: String = (xml \ "mouse" \ "button").text
+    val mM: String = (xml \ "mouse" \ "movement").text
+
+    println(k,mB,mM)
+
+    val key: Key.Value = if(!k.isEmpty) Key.withName(k) else null
+    val mouseButton: MouseButton.Value = if(!mB.isEmpty) MouseButton.withName(mB) else null
+    val mouseMovement: MouseMovement.Value = if(!mM.isEmpty) MouseMovement.withName(mM) else null
+
+    new Triggers(key,mouseButton,mouseMovement)
+  }
+}
+
 case class Triggers(key1: Key.Value = null, mouseButton1: MouseButton.Value = null, mouseMovement1: MouseMovement.Value = null) {
 
 
@@ -173,6 +190,7 @@ case class Triggers(key1: Key.Value = null, mouseButton1: MouseButton.Value = nu
 
   def mouseMovement = _mouseMovement
   def mouseMovement_=(mv: MouseMovement.Value) = _mouseMovement = mv
+
 
   def toXML: NodeSeq = {
       <key>{if(key != null) key.toString}</key>

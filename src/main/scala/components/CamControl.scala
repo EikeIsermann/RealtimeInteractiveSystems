@@ -12,8 +12,23 @@ import main.scala.tools.Identifier
  */
 object CamControl extends ComponentCreator {
   override def fromXML(xml: Node): Option[CamControl] = {
-    //TODO
-    None
+    xmlToComp[CamControl](xml, "camControl", n => {
+
+      val fW: Triggers = Triggers.fromXML((n \ "forward").head)
+      val bW: Triggers = Triggers.fromXML((n \ "backward").head)
+      val l: Triggers = Triggers.fromXML((n \ "left").head)
+      val r: Triggers = Triggers.fromXML((n \ "right").head)
+      val pP: Triggers = Triggers.fromXML((n \ "pitchPositive").head)
+      val pN: Triggers = Triggers.fromXML((n \ "pitchNegative").head)
+      val yL: Triggers = Triggers.fromXML((n \ "yawLeft").head)
+      val yR: Triggers = Triggers.fromXML((n \ "yawRight").head)
+      val sU: Triggers = Triggers.fromXML((n \ "stepUp").head)
+      val sD: Triggers = Triggers.fromXML((n \ "stepDown").head)
+
+      //TODO: velocities
+
+      Some(new CamControl(fW,bW,l,r,pP,pN,yL,yR,sU,sD))
+    })
   }
 }
 
