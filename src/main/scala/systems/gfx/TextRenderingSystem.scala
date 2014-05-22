@@ -1,12 +1,9 @@
 package main.scala.systems.gfx
 
 import main.scala.architecture.{IntervalProcessingSystem, System, Node}
-import main.scala.engine.GameEngine
 import main.scala.nodes.TextNode
-import main.scala.components.{GameConsole, Placement}
+import main.scala.components.{Text, Placement}
 import main.scala.math.Mat4f
-import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.GL11
 
 /**
  * Created by Christian Treffs
@@ -44,19 +41,22 @@ class TextRenderingSystem(simSpeed: Int) extends IntervalProcessingSystem {
     node match {
       case tN: TextNode =>
 
+        val text: Text = tN -> classOf[Text]
         val placement: Placement = tN -> classOf[Placement]
-        val gameConsole: GameConsole = tN -> classOf[GameConsole]
 
 
-/*        val shader = Shader.get(gameConsole.shaderId)
+
+        val shader = Shader.get('default)
 
         val modelMatrix: Mat4f = placement.getMatrix
 
-        font.stringToDraw = gameConsole.stringBuffer.toString()
+
+        font.stringToDraw = text.text
+
 
         font.draw(shader, modelMatrix, ctx.viewMatrix, ctx.fieldOfView,ctx.aspect,ctx.nearPlane,ctx.farPlane)
 
-  */
+
       case _ =>
     }
   }

@@ -12,10 +12,11 @@ import main.scala.io.EntityTemplateLoader
  * Created by Christian Treffs
  * Date: 21.05.14 22:26
  */
-class GameConsole() extends Component {
+class Text() extends Component {
+
+  var text: String = ""
 
 
-
-  override def newInstance(identifier: Identifier): Component = new GameConsole()
+  override def newInstance(identifier: Identifier): Component = new Text()
   override def toXML: Node = ???
 }

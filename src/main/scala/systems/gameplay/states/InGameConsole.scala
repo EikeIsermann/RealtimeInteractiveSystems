@@ -5,7 +5,7 @@ import main.scala.engine.GameEngine
 import main.scala.architecture.System
 import main.scala.systems.gfx.{TextRenderingSystem, RenderingSystem}
 import main.scala.tools.DC
-import main.scala.components.Placement
+import main.scala.components.{Text, Placement}
 import main.scala.entities.Entity
 import main.scala.io.EntityTemplateLoader
 import main.scala.math.Vec3f
@@ -19,6 +19,7 @@ class InGameConsole extends GameState {
   private val validKeys: Seq[Key.Value] = Key.numbers ++ Key.literals ++ Seq(Key.Period, Key.Comma, Key.Space)
   private val stringBuffer: StringBuilder = new StringBuilder()
   private var f: Boolean = true
+  private var textEntity: Entity = null
 
   override def execute()(implicit owner: System): GameState = {
     // pause the systems
@@ -28,7 +29,11 @@ class InGameConsole extends GameState {
     first()
 
     processKeys()
-    processInput()
+
+    display()
+
+
+
 
     // return other states
     Input.keyDownOnceDo(Key.GameConsole, _ => {last();return new Playing}) // goto Playing
@@ -37,11 +42,21 @@ class InGameConsole extends GameState {
 
   private def first() {
     if(f) {
+      textEntity = Entity.create("GameConsoleText")
+      textEntity.add(new Text())
+      textEntity.add(new Placement(Vec3f(-0.1f,0.3f,-1f)))
       DC.log("Console","activated",3)
       print("> ")
       f = false
     }
   }
+
+  private def display() {
+     textEntity.getIfPresent(classOf[Text]).map(_.text = stringBuffer.toString())
+
+
+  }
+
 
   private def processKeys() {
 
@@ -81,6 +96,7 @@ class InGameConsole extends GameState {
   private def last() {
     println()
     DC.log("Console","deactivated",3)
+    textEntity.destroy()
     f = true
   }
 

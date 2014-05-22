@@ -175,9 +175,7 @@ object GameEngine extends Engine with EventReceiver{
 
 
 
-    val gc = Entity.create("GameConsole")
-    gc.add(new GameConsole)
-    gc.add(new Placement(Vec3f(-0.2f,0,-1f)))
+
 
 
     // creating Tank

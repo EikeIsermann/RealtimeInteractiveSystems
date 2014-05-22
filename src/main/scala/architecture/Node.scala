@@ -84,11 +84,11 @@ object Node {
         retVal.put(false, List())
       }
       case gameConsoleNode if gameConsoleNode == classOf[GameConsoleNode] => {
-        retVal.put(true, List(classOf[GameConsole]))
+        retVal.put(true, List(classOf[Text]))
         retVal.put(false, List())
       }
       case textNode if textNode == classOf[TextNode] => {
-        retVal.put(true, List(classOf[GameConsole],classOf[Placement]))
+        retVal.put(true, List(classOf[Text],classOf[Placement]))
         retVal.put(false, List())
       }
 

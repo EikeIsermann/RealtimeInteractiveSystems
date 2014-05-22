@@ -2,7 +2,7 @@ package main.scala.systems.input
 
 import main.scala.architecture.{VoidProcessingSystem, System, Node, ProcessingSystem}
 import main.scala.nodes.GameConsoleNode
-import main.scala.components.GameConsole
+import main.scala.components.Text
 import main.scala.engine.GameEngine
 import main.scala.systems.gfx.{TextRenderingSystem, RenderingSystem}
 import main.scala.tools.{DC, DisplayManager}
