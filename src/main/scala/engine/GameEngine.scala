@@ -6,7 +6,7 @@ import main.scala.tools.{DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.EntityTemplateLoader
-import main.scala.systems.gfx.{CameraSystem, RenderingSystem, Shader, Mesh}
+import main.scala.systems.gfx._
 import main.scala.components._
 import main.scala.event._
 import main.scala.systems.physics.{PhysicsSystem, CollisionSystem}
@@ -19,6 +19,12 @@ import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
 import main.scala.event.EntityCreated
 import main.scala.systems.gameplay.GunSystem
+import main.scala.components.GunControl
+import main.scala.event.EntityRemoved
+import main.scala.components.DriveControl
+import main.scala.components.Gun
+import main.scala.event.EntityCreated
+import main.scala.components.Vehicle
 
 /**
  * Created by Christian Treffs
@@ -37,6 +43,7 @@ object GameEngine extends Engine with EventReceiver{
   private var meshesDir:String = null
   var levelsDir: String = null
   var soundsDir: String = null
+  var fontsDir: String = null
 
 
   private val width = 1000
@@ -61,6 +68,7 @@ object GameEngine extends Engine with EventReceiver{
     meshesDir = assetsDir+"/meshes"
     levelsDir = assetsDir+"/levels"
     soundsDir = assetsDir+"/sounds"
+    fontsDir = assetsDir+"/fonts"
 
     this
 
@@ -141,7 +149,7 @@ object GameEngine extends Engine with EventReceiver{
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
 
-
+  /*
     val box1 = Entity.newInstanceOf('CollisionBox)
     val box2 = Entity.newInstanceOf('CollisionBox)
     //val box3 = Entity.newInstanceOf('CollisionBox)
@@ -154,7 +162,7 @@ object GameEngine extends Engine with EventReceiver{
     box1.getComponent(classOf[Physics]).addForce(Vec3f(-20000f,0,0))
     box2.getComponent(classOf[Physics]).addForce(Vec3f(0,0,0))
 
-
+    */
     //box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
     //box2.getComponent(classOf[Physics]).mass = 100000f
     //box2.getComponent(classOf[Physics]).acceleration = Vec3f(0,-9.81f,0)
@@ -167,10 +175,13 @@ object GameEngine extends Engine with EventReceiver{
 
 
 
-    Entity.create("GameConsole").add(new GameConsole)
+    val gc = Entity.create("GameConsole")
+    gc.add(new GameConsole)
+    gc.add(new Placement(Vec3f(-0.2f,0,-1f)))
 
 
     // creating Tank
+
 
     val tank = Entity.newInstanceOf('Tank)
 
@@ -196,9 +207,9 @@ object GameEngine extends Engine with EventReceiver{
         // creating Camera
     //val camEntity = Entity.newInstanceOf('Camera)
 
-    //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
-/*
-    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
+    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
+
+    //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
 
 
     //val camEntity = Entity.create("Camera")
@@ -210,16 +221,16 @@ object GameEngine extends Engine with EventReceiver{
     val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
       Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
       Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
-          */
 
 
 
-    //camEntity.add(camCon)
+
+    camEntity.add(camCon)
     //camEntity.add(motion)
     camEntity.add(cam)
     camEntity.add(camPos)
-*/
-    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
+      */
+    //val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
 
 
 
@@ -236,13 +247,15 @@ object GameEngine extends Engine with EventReceiver{
     add(new CameraSystem)
     add(new CamControlSystem)
     add(new RenderingSystem(prefFPS))
+    add(new TextRenderingSystem(prefFPS))
     add(new PhysicsSystem(200))
     add(new CollisionSystem(200))
     add(new GunSystem)
     add(new RelativePositionalSystem)
     add(new SoundSystem)
     add(new GunControlSystem)
-    add(new GameInputAndConsoleSystem)
+    add(new GameControlSystem)
+
 
 
     time = new StopWatch()

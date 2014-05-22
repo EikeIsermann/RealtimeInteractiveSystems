@@ -19,6 +19,8 @@ abstract class System /*extends ObservingActor*/ {
 
   override def toString = this.getClass.getSimpleName
 
+  implicit val owner: System = this
+
   var node: Class[_ <: Node]
   var priority: Int
   var active = false
@@ -270,12 +272,12 @@ abstract class FixedIntervalSystem extends System {
 abstract class VoidProcessingSystem extends System {
 
 
-  def update(ctx: SimulationContext) = {
-    processSystem(ctx)
+  override def update() = {
+    processSystem()
     this
   }
 
-  def processSystem(ctx: SimulationContext)
+  def processSystem()
 
 }
 

@@ -38,6 +38,7 @@ class RenderingSystem(simSpeed: Int) extends IntervalProcessingSystem {
         val modelMatrix: Mat4f = placementComp.getMatrix
 
         mesh.draw(shader, modelMatrix, ctx.viewMatrix, ctx.fieldOfView,ctx.aspect,ctx.nearPlane,ctx.farPlane)
+
       case _ => throw new IllegalArgumentException("not the right node")
     }
 

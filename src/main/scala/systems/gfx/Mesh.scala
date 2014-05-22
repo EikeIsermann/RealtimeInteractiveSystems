@@ -9,21 +9,7 @@ import org.lwjgl.BufferUtils
 import scala.collection.mutable
 import main.scala.io.Collada
 import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.GL12._
-import org.lwjgl.opengl.GL13._
-import org.lwjgl.opengl.GL14._
-import org.lwjgl.opengl.GL15._
 import org.lwjgl.opengl.GL20._
-import org.lwjgl.opengl.GL21._
-import org.lwjgl.opengl.GL30._
-import org.lwjgl.opengl.GL31._
-import org.lwjgl.opengl.GL32._
-import org.lwjgl.opengl.GL33._
-import org.lwjgl.opengl.GL40._
-import org.lwjgl.opengl.GL41._
-import org.lwjgl.opengl.GL42._
-import org.lwjgl.opengl.GL43._
-import org.lwjgl.opengl.GL44._
 
 
 /**
@@ -66,7 +52,7 @@ trait MatrixFunctions[T] {
   def mat(): T
 }
 
-class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh] {
+class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh] with DrawFunction {
 
 
   var groupId: Symbol = gId
@@ -257,7 +243,7 @@ class Mesh(gId: Symbol, iId: String, iName: String) extends MatrixFunctions[Mesh
 
 
 
-  def draw(shader: Shader = Mesh.defaultShader, modelTransformation: Mat4f, viewMatrix: Mat4f, fov: Float,aspect:Option[Float],zNear:Float,zFar:Float, beforeFunc: Unit => Unit = {Unit => Unit}, afterFunc: Unit => Unit = {Unit => Unit}) {
+  override def draw(shader: Shader = Mesh.defaultShader, modelTransformation: Mat4f, viewMatrix: Mat4f, fov: Float,aspect:Option[Float],zNear:Float,zFar:Float, beforeFunc: Unit => Unit = {Unit => Unit}, afterFunc: Unit => Unit = {Unit => Unit}) {
 
     //DC.log("Drawing at: \n" + modelTransformation.toString + " from \n" + viewMatrix.toString + "with \n" + projectionMatrix)
     beforeFunc()

@@ -87,6 +87,10 @@ object Node {
         retVal.put(true, List(classOf[GameConsole]))
         retVal.put(false, List())
       }
+      case textNode if textNode == classOf[TextNode] => {
+        retVal.put(true, List(classOf[GameConsole],classOf[Placement]))
+        retVal.put(false, List())
+      }
 
       case _ => DC.warn("No valid definition for " + cl.getClass.getSimpleName)
     }
