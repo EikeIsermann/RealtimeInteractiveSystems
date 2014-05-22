@@ -15,18 +15,18 @@ object NavigationMesh {
 
   //builds NavigationMesh based on all existing navigation components
 
-  def build(list: ListBuffer){
+/*  def build(list: ListBuffer){
 
       addCell()
       linkCells()
   }
 
-
+     */
   // create new Cell based on vertices
-  def addCell()
+ // def addCell()
 
   //iterate through cells and check/create links
-  def linkCells()
+//  def linkCells()
 
 
 
@@ -38,9 +38,9 @@ object NavigationMesh {
     retVal
   }
 
- def findClosestCell(point: Vec3f): NavigationCell =  {
+// def findClosestCell(point: Vec3f): NavigationCell =  {
 
- }
+ //}
 
 
 

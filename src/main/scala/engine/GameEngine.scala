@@ -139,42 +139,57 @@ object GameEngine extends Engine with EventReceiver{
 
 
     //create a level from current game with this name and save it to disk
-   //val lvl = new Level("TestLevel")
+    //val lvl = new Level("TestLevel")
     //lvl.save()
     //creating SkyBox
     Entity.newInstanceOf('SkyBox)
 
+    var tower =     Entity.newInstanceOf('Tower)
+
+    tower.getComponent(classOf[Placement]).position = Vec3f(0,0,0)
+
     //creating Floor
-     Entity.newInstanceOf('Floor)
+    Entity.newInstanceOf('FloorNE).getComponent(classOf[Placement]).position = Vec3f(0,0,0)
+    Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(0,0,2)
+    Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(0,0,4)
+    Entity.newInstanceOf('FloorNW).getComponent(classOf[Placement]).position = Vec3f(0,0,6)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(0,0,8)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(0,0,10)
 
-    Entity.newInstanceOf('Tower)
-    //Entity.newInstanceOf('CollisionBox)
-    //Entity.newInstanceOf('Bullet)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,0)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(2,0,2)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,4)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,6)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(2,0,8)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,10)
 
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,0)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(4,0,2)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,4)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,6)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(4,0,8)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,10)
 
-    val box1 = Entity.newInstanceOf('CollisionBox)
-    val box2 = Entity.newInstanceOf('CollisionBox)
-    //val box3 = Entity.newInstanceOf('CollisionBox)
-    //val box4 = Entity.newInstanceOf('CollisionBox)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(6,0,0)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(6,0,2)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(6,0,4)
+    Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(6,0,6)
+    Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(6,0,8)
+    Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(6,0,10)
 
+    Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(8,0,0)
+    Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(8,0,2)
+    Entity.newInstanceOf('FloorSW).getComponent(classOf[Placement]).position = Vec3f(8,0,4)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(8,0,6)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(8,0,8)
+    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(8,0,10)
 
-    box1.getComponent(classOf[Placement]).position = Vec3f(0,5,-10)
-    box2.getComponent(classOf[Placement]).position = Vec3f(0,0,-10)
-
-    box1.getComponent(classOf[Physics]).addForce(Vec3f(0,-200f,0))
-    box2.getComponent(classOf[Physics]).addForce(Vec3f(0,0,0))
-
-
-    //box2.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
-    //box2.getComponent(classOf[Physics]).mass = 100000f
-    //box2.getComponent(classOf[Physics]).acceleration = Vec3f(0,-9.81f,0)
-    //box2.getComponent(classOf[Physics]).damping_=(0.99f,0.8f)
-
-    //box3.getComponent(classOf[Placement]).position = Vec3f(0,4,-10)
-
-    //box4.getComponent(classOf[Placement]).position = Vec3f(0,10,-10)
-    //box4.getComponent(classOf[Physics]).gravity = Vec3f(0,-9.81f,0)
-
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,0)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,2)
+    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,4)
+    Entity.newInstanceOf('FloorSE).getComponent(classOf[Placement]).position = Vec3f(10,0,6)
+    Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(10,0,8)
+    Entity.newInstanceOf('FloorSW).getComponent(classOf[Placement]).position = Vec3f(10,0,10)
 
 
 
@@ -183,32 +198,6 @@ object GameEngine extends Engine with EventReceiver{
     // creating Tank
 
 
-    val tank = Entity.newInstanceOf('Tank)
-
-    Entity.newInstanceOf('Tank).getComponent(classOf[Placement]).position = Vec3f(3000,0,-3000)
-    //val tank2 = Entity.newInstanceOf('Tank)
-    val test = entities.apply("Turret:1")
-    test.add(new GunControl)
-    var test2 = new Gun
-    test.add(test2)
-
-    tank.add(new DriveControl)
-    tank.add(new Vehicle)
-    ent = tank
-    var phys = new Physics()
-    phys.canSleep = false
-    phys.mass = 60f
-    phys.gravity = Vec3f()
-    phys.damping_=(0.1f,0.1f)
-    phys.gravity_=(Vec3f(0,0,0))
-    tank.add(phys)
-    phys.canSleep = false
-    //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
-    //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
-        // creating Camera
-    //val camEntity = Entity.newInstanceOf('Camera)
-
-    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-20,0,0), 1.2f )
 
     val cam2 = new Camera(70f,None,0.1f,50f, false ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
 
@@ -225,7 +214,7 @@ object GameEngine extends Engine with EventReceiver{
 
 
 
-
+    cam2.active = true
     camEntity.add(camCon)
     //camEntity.add(motion)
     camEntity.add(cam2)
@@ -235,11 +224,7 @@ object GameEngine extends Engine with EventReceiver{
 
 
 
-    test.add(cam)
-    //box1.add(new Vehicle)
-    //box1.add(new DriveControl)
-    //println(camEntity.components.toList)
-
+   // test.add(cam)
 
 
     Input.init()
@@ -273,8 +258,8 @@ object GameEngine extends Engine with EventReceiver{
     DC.log("Game","initialized",3)
 
 
-   //val lvl = new Level("TestLevel")
-   //lvl.save()
+    //val lvl = new Level("TestLevel")
+    //lvl.save()
   }
 
 
@@ -298,7 +283,6 @@ object GameEngine extends Engine with EventReceiver{
       updateFPS() // update FPS Counter
 
       Display.update() // show changes
-      println(ent.getComponent(classOf[Placement]).getMatrix.getPosition)
 
     }
 
