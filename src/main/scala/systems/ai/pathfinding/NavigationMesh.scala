@@ -17,7 +17,17 @@ object NavigationMesh {
 
   def build(list: ListBuffer){
 
+      addCell()
+      linkCells()
   }
+
+
+  // create new Cell based on vertices
+  def addCell()
+
+  //iterate through cells and check/create links
+  def linkCells()
+
 
 
   //Returns path from starting position to destination
