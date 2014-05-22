@@ -37,10 +37,9 @@ class HealthSystem extends ProcessingSystem{
         }
 
         if(health.health <= 0) {
-          GameEngine.entities.get(owner.toString).map(e => {
-            DC.log(e.toString,"killed because 0 health",3)
-            e.destroy()
-          })
+          val e = GameEngine.entities(health.owner.toString)
+          DC.log("KILLED",e.toString,3)
+          e.destroy()
         }
 
       case _ =>

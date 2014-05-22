@@ -1,4 +1,5 @@
 <entityTemplate name="CollisionBox">
+    <health current="100" max="100" />
     <placement>
         <position x="0" y="0" z="0" />
         <rotation angleX="0" angleY="0" angleZ="0" />

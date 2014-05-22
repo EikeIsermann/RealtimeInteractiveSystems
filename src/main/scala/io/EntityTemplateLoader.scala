@@ -105,5 +105,6 @@ object EntityTemplateLoader {
     entity += Placement.fromXML(xml)
     entity += Collision.fromXML(xml)
     entity += Sound.fromXML(xml)
+    entity += Health.fromXML(xml)
   }
 }

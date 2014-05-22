@@ -92,6 +92,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     endedCollisions.foreach(handleEndedCollision)
 
     val stillActiveCollisions = activeCollisions.filter(collisions.contains)
+    stillActiveCollisions.foreach(handleActiveCollision)
 
     val newCollisions = collisions.filterNot(stillActiveCollisions.contains)
     newCollisions.foreach(handleNewCollision) //handle them
@@ -142,28 +143,34 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
     //println("FORCE: "+f1.inline,f2.inline)
 
-    /*e1Phys.velocity = Vec3f(0,0,0)
+    /*
+    e1Phys.velocity = Vec3f(0,0,0)
     e2Phys.velocity = Vec3f(0,0,0)
     e1Phys.acceleration = Vec3f(0,0,0)
-    e2Phys.acceleration = Vec3f(0,0,0)  */
+    e2Phys.acceleration = Vec3f(0,0,0)
 
-    //e1.getIfPresent(classOf[Physics]).get.addForce(f1)
-    //e2.getIfPresent(classOf[Physics]).get.addForce(f2)
+    e1.getIfPresent(classOf[Physics]).get.addForce(f1)
+    e2.getIfPresent(classOf[Physics]).get.addForce(f2)
 
-
-
-
+    */
 
     // play collision sound if there is a sound component with collision
     e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
     e2.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
 
+    e1.getIfPresent(classOf[Health]).map(_.damage(10))
+    e2.getIfPresent(classOf[Health]).map(_.damage(10))
+
     //e1.destroy()
     //e2.destroy()
   }
 
+  private def handleActiveCollision(pair: (Collision,Collision)) {
+
+  }
+
   private def handleEndedCollision(pair: (Collision,Collision)) {
-           println("CollisionEnded",pair)
+    println("CollisionEnded",pair)
   }
 
 
