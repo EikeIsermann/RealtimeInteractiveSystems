@@ -3,13 +3,23 @@ package main.scala.components
 import main.scala.architecture.{ComponentCreator, Component}
 import scala.xml.Node
 import main.scala.tools.Identifier
-import main.scala.math.{Mat4f, Vec3f}
+import main.scala.math.Vec3f
+import main.scala.systems.gfx.{Texture, Shader, DrawFunction}
+import org.lwjgl.opengl.GL11._
+import main.scala.math.Mat4f
+import org.lwjgl.opengl.GL20._
+import java.nio.FloatBuffer
+import org.lwjgl.BufferUtils
+import scala.collection.mutable
 
 /**
  * Created by Christian Treffs
  * Date: 01.04.14 14:14
  */
 object Collision extends ComponentCreator {
+
+  val t = Texture.load("src/main/resources/meshes/VolumeBoxTexture.png")
+  val texID = t.texId
 
   override def fromXML(xml: Node): Option[Collision] = xmlToComp[Collision](xml, "collision",n => {
 
@@ -79,7 +89,7 @@ object BoundingVolumeType extends Enumeration {
 
 
 
-trait BoundingVolume {
+trait BoundingVolume extends DrawFunction {
   def centroid(): Vec3f
 
   def center(a: Float, b: Float): Float = (a+b)/2f
@@ -101,6 +111,8 @@ case class Sphere(cent: Vec3f, radius: Float) extends BoundingVolume{
   override def owner: Collision = ???
 
   override def setOwner(own: Collision): Unit = ???
+
+  override def draw(shader: Shader, modelTransformation: Mat4f, viewMatrix: Mat4f, fov: Float, aspect: Option[Float], zNear: Float, zFar: Float, beforeFunc: (Unit) => Unit, afterFunc: (Unit) => Unit): Unit = ???
 }
 
 case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVolume {
@@ -164,6 +176,161 @@ case class AABB(leftBottomBack: Vec3f, rightTopFront: Vec3f) extends BoundingVol
 
   override def setOwner(own: Collision): Unit = {
     _owner = own
+  }
+
+  var posArray: mutable.ArrayBuffer[Float] = mutable.ArrayBuffer.empty[Float]
+  var texArray: mutable.ArrayBuffer[Float] = mutable.ArrayBuffer.empty[Float]
+  var positionsBuffer: FloatBuffer = null
+  var normalsBuffer: FloatBuffer = null
+  var texCoordsBuffer: FloatBuffer = null
+
+  override def draw(shader: Shader, modelTransformation: Mat4f, viewMatrix: Mat4f, fov: Float, aspect: Option[Float], zNear: Float, zFar: Float, beforeFunc: (Unit) => Unit, afterFunc: (Unit) => Unit): Unit = {
+
+    beforeFunc()
+
+    //    shader.useProgram(projectionMatrix, viewMatrix)
+    //shader.setModelMatrix(modelTransformation)
+
+    var posArray: mutable.ArrayBuffer[Float] = mutable.ArrayBuffer.empty[Float]
+    var texArray: mutable.ArrayBuffer[Float] = mutable.ArrayBuffer.empty[Float]
+    var positionsBuffer: FloatBuffer = null
+    var texCoordsBuffer: FloatBuffer = null
+
+
+    shader.useProgram(fov,aspect,zNear,zFar, viewMatrix)
+    shader.setModelMatrix(modelTransformation)
+
+    //glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT)
+    //glEnable(GL_CULL_FACE)
+
+    Texture.bind(Collision.texID)
+
+    // back
+    texArray += 0
+    texArray += 0
+    posArray += _lbb.x
+    posArray += _lbb.y
+    posArray += _lbb.z
+
+    texArray += 0
+    texArray += 1
+    posArray += _rtf.x
+    posArray += _lbb.y
+    posArray += _lbb.z
+
+    texArray += 1
+    texArray += 1
+    posArray += _rtf.x
+    posArray += _rtf.y
+    posArray += _lbb.z
+
+    texArray += 1
+    texArray += 0
+    posArray += _lbb.x
+    posArray += _rtf.y
+    posArray += _lbb.z
+
+    //right
+    texArray += 0
+    texArray += 0
+    posArray += _rtf.x
+    posArray += _lbb.y
+    posArray += _lbb.z
+
+    texArray += 0
+    texArray += 1
+    posArray += _rtf.x
+    posArray += _lbb.y
+    posArray += _rtf.z
+
+    texArray += 1
+    texArray += 1
+    posArray += _rtf.x
+    posArray += _rtf.y
+    posArray += _rtf.z
+
+    texArray += 1
+    texArray += 0
+    posArray += _rtf.x
+    posArray += _rtf.y
+    posArray += _lbb.z
+
+    //left
+    texArray += 0
+    texArray += 0
+    posArray += _lbb.x
+    posArray += _lbb.y
+    posArray += _rtf.z
+
+    texArray += 0
+    texArray += 1
+    posArray += _lbb.x
+    posArray += _lbb.y
+    posArray += _lbb.z
+
+    texArray += 1
+    texArray += 1
+    posArray += _lbb.x
+    posArray += _rtf.y
+    posArray += _lbb.z
+
+    texArray += 1
+    texArray += 0
+    posArray += _lbb.x
+    posArray += _rtf.y
+    posArray += _rtf.z
+
+
+    //front
+    texArray += 0
+    texArray += 0
+    posArray += _rtf.x
+    posArray += _lbb.y
+    posArray += _rtf.z
+
+    texArray += 0
+    texArray += 1
+    posArray += _lbb.x
+    posArray += _lbb.y
+    posArray += _rtf.z
+
+    texArray += 1
+    texArray += 1
+    posArray += _lbb.x
+    posArray += _rtf.y
+    posArray += _rtf.z
+
+    texArray += 1
+    texArray += 0
+    posArray += _rtf.x
+    posArray += _rtf.y
+    posArray += _rtf.z
+
+
+    positionsBuffer = BufferUtils.createFloatBuffer(posArray.length)
+    texCoordsBuffer = BufferUtils.createFloatBuffer(texArray.length)
+
+    positionsBuffer.put(posArray.toArray)
+    positionsBuffer.flip()
+
+    texCoordsBuffer.put(texArray.toArray)
+    texCoordsBuffer.flip()
+
+    glVertexAttribPointer(shader.vertexAttributeIndex, 3, false, 0, positionsBuffer)
+    glEnableVertexAttribArray(shader.vertexAttributeIndex)
+
+
+
+    glVertexAttribPointer(shader.texCoordsAttributeIndex, 2, true, 0, texCoordsBuffer)
+    glEnableVertexAttribArray(shader.texCoordsAttributeIndex)
+
+    //TODO: correct limit
+    glDrawArrays(GL_QUADS,0, texCoordsBuffer.limit/2)
+
+
+    afterFunc()
+
+
   }
 }
 

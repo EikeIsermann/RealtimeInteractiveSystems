@@ -97,6 +97,13 @@ class InGameConsole extends GameState {
 
         }
       }
+
+      if(s.length > 1 && s(0) == "box") {
+        if(s.length == 2 && !s(1).isEmpty) {
+          GameEngine.showCollisionBox = s(1).toBoolean
+          println(GameEngine.showCollisionBox)
+        }
+      }
     }
   }
 

@@ -6,8 +6,9 @@ import main.scala.components._
 import scala.collection.mutable
 import main.scala.components.AABB
 import main.scala.nodes.CollisionNode
-import main.scala.math.Vec3f
+import main.scala.math.{Mat4f, Vec3f}
 import main.scala.engine.GameEngine
+import main.scala.systems.gfx.{Texture, Shader}
 
 /**
  * Created by Christian Treffs
@@ -35,8 +36,11 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
   override var priority = 0
 
 
+
+
   def init(): System = {
     println(this,"interval:"+interval)
+
     this
   }
 
@@ -64,6 +68,11 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
           //println(placement.position.inline,placement.getMatrix.position.inline)
 
           collision.updateBoundingVolume(placement.getMatrix)
+
+
+          if(GameEngine.showCollisionBox) {
+            collision.boundingVolume.draw(Shader.get('default), Mat4f.identity, ctx.viewMatrix, ctx.fieldOfView,ctx.aspect,ctx.nearPlane,ctx.farPlane)
+          }
 
           collision.boundingVolume match {
             case a: AABB => addAABB2AxisArray(a)

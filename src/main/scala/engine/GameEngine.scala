@@ -36,6 +36,7 @@ object GameEngine extends Engine with EventReceiver{
   // set debug level
   DC.debugLevel = 3
 
+  var showCollisionBox: Boolean = true
   private var assetsDir: String = null
   private var gameTitle:String = null
   private var entitiesDir:String = null
@@ -144,7 +145,7 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('SkyBox)
 
     //creating Floor
-    Entity.newInstanceOf('Floor)
+     Entity.newInstanceOf('Floor)
 
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
