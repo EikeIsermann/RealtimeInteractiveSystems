@@ -39,7 +39,7 @@ class CameraSystem extends ProcessingSystem with EventReceiver {
       case camNode: CameraNode =>
         val pos: Placement = camNode -> classOf[Placement]
         val cam: Camera = camNode -> classOf[Camera]
-
+        //println(activeCam +" "+ cam.toXML)
         if(!activeCam.contains(cam)) activeCam = activeCam.:+(cam)
         if(cam.active && cam != activeCam.head) cam.active = false
         if(cam.active && cam == activeCam.head){
@@ -97,7 +97,7 @@ class CameraSystem extends ProcessingSystem with EventReceiver {
       }
       case rc: RemoveCam => {
         activeCam = activeCam.filterNot(c => c == rc.cam)
-        activeCam.head.active = true
+        if(!activeCam.isEmpty) activeCam.head.active = true
       }
       case ac: ActivateCam => {
         activeCam.head.active = false

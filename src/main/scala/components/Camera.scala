@@ -92,7 +92,7 @@ class Camera(fieldOfView1: Float = Camera.defaultFOV, aspect1:Option[Float] = Ca
   override def toXML: Node = {
     <camera>
       <fieldOfView>{fieldOfView.toString}</fieldOfView>
-      <aspect>{aspect.toString}</aspect>
+      <aspect>{if(aspect.isDefined) aspect.toString else ""}</aspect>
       <nearPlane>{nearPlane.toString}</nearPlane>
       <farPlane>{farPlane.toString}</farPlane>
       <active>{active.toString}</active>

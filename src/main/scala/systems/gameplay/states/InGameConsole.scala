@@ -7,7 +7,7 @@ import main.scala.systems.gfx.{TextRenderingSystem, RenderingSystem}
 import main.scala.tools.DC
 import main.scala.components.{Text, Placement}
 import main.scala.entities.Entity
-import main.scala.io.{Level, EntityTemplateLoader}
+import main.scala.io.{LevelLoader, Level, EntityTemplateLoader}
 import main.scala.math.Vec3f
 
 /**
@@ -87,6 +87,14 @@ class InGameConsole extends GameState {
           println("saveING")
           val lvl = new Level(s(1).trim)
           lvl.save()
+        }
+      }
+
+      if(s.length > 1 && s(0) == "load") {
+        if(s.length == 2 && !s(1).isEmpty) {
+          LevelLoader.load(s(1))
+          LevelLoader.get(Symbol(s(1))).initialize()
+
         }
       }
     }
