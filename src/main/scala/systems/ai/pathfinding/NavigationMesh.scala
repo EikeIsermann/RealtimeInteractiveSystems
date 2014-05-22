@@ -10,7 +10,7 @@ import main.scala.math.Vec3f
  * This is a RIS Project class
  */
 object NavigationMesh {
-
+       /*
   var cells: ListBuffer[NavigationCell] = new ListBuffer[NavigationCell]
 
   //builds NavigationMesh based on all existing navigation components
@@ -45,7 +45,7 @@ object NavigationMesh {
 
 
 
-
+                    */
 
 
 }

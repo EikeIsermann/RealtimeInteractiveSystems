@@ -147,6 +147,7 @@ object GameEngine extends Engine with EventReceiver{
     //creating Floor
      Entity.newInstanceOf('Floor)
 
+    Entity.newInstanceOf('Tower)
     //Entity.newInstanceOf('CollisionBox)
     //Entity.newInstanceOf('Bullet)
 

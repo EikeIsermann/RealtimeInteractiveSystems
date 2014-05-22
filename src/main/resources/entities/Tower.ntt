@@ -1,0 +1,14 @@
+<entityTemplate name="Tower">
+    <placement>
+        <position x="0" y="0" z="0" />
+        <rotation angleX="0" angleY="0" angleZ="0" />
+        <scale x="1" y="3" z="1" />
+    </placement>
+    <mesh>
+        <source>src/main/resources/meshes/Tower/Tower.dae</source>
+    </mesh>
+    <display>
+        <meshId>Tower</meshId>
+        <shaderId>default</shaderId>
+    </display>
+</entityTemplate>
