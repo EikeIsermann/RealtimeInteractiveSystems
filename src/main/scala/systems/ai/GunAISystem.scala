@@ -6,6 +6,6 @@ package main.scala.systems.ai
  * Time: 18:22
  * This is a RIS Project class
  */
-class TankAISystem {
+class GunAISystem {
 
 }
