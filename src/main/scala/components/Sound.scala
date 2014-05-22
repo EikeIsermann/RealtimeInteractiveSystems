@@ -15,17 +15,15 @@ import scala.collection.mutable.ArrayBuffer
 object Sound extends ComponentCreator {
 
   override def fromXML(xml: Node): Option[Sound] = {
-    xmlToComp[Sound](xml, "sound", n => {
+    xmlToComp[Sound](xml, "sounds", n => {
 
       val snd = mutable.HashMap.empty[Symbol,Symbol]
 
-
-       n.foreach(sound => {
-         val soundType: Symbol = Symbol(sound.label.trim)
-         val soundIdentifier: Symbol = Symbol(sound.text.trim)
+      (n \ "sound").foreach(s => {
+         val soundType: Symbol = Symbol((s \ "@type").text.trim)
+         val soundIdentifier: Symbol = Symbol(s.text.trim)
 
          snd += soundType -> soundIdentifier
-
        })
 
       Some(new Sound(snd))
@@ -53,9 +51,9 @@ case class Sound(soundIdentifier: mutable.HashMap[Symbol,Symbol] = mutable.HashM
 
   override def newInstance(identifier: Identifier): Component = new Sound(soundIdentifier) //TODO: not using all comps
 
-  //TODO:!!!
   override def toXML: Node = {
-    <sound>//TODO
-    </sound>
+    <sounds>
+      {soundIdentifier.map(a => <sound type={a._1.name}>{a._2.name}</sound>)}
+    </sounds>
   }
 }

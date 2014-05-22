@@ -71,3 +71,45 @@ http://entity-systems.wikidot.com/using-an-es-with-physics
 * Weapon
 * Velocity component
 * catapult control component
+
+Bullet
+  damage
+  range
+
+Display
+  object
+  layer
+
+Enemy
+  prey
+
+Gun
+  timeSinceLastShot
+  bulletLifetime
+
+Hero (marker class)
+
+HeroControl
+  leftKey, rightKey, upKey, downKey
+  attackKey, runKey
+  rotationSpeed
+
+Life
+  health, maxHealth
+  stamina, maxStamina
+
+Motion
+  velocityX, velocityY
+  friction
+
+Position
+  x, y, rotation
+
+Predator
+  prey
+
+Prey
+  predator
+
+Stalker
+  prey

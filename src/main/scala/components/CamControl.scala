@@ -1,7 +1,7 @@
 package main.scala.components
 
 import main.scala.architecture.{Component, ComponentCreator}
-import scala.xml.{Node, NodeBuffer, NodeSeq}
+import scala.xml.Node
 import main.scala.systems.input.Triggers
 import main.scala.math.Vec3f
 import main.scala.tools.Identifier
@@ -43,9 +43,22 @@ case class CamControl(triggerForward: Triggers,
   def yawVelocity: Float = _yawVel
   def yawVelocity_=(v: Float) = _yawVel = v
 
-  //override def toXML: NodeSeq = {<position x={vec.x} y={vec.y} z={vec.z} />}
   override def toXML: Node = {
-    <camControl>//TODO</camControl>
+    <camControl>
+      <forward>{triggerForward.toXML}</forward>
+      <backward>{triggerBackward.toXML}</backward>
+      <left>{triggerLeft.toXML}</left>
+      <right>{triggerRight.toXML}</right>
+      <pitchPositive>{triggerPitchPositive.toXML}</pitchPositive>
+      <pitchNegative>{triggerPitchNegative.toXML}</pitchNegative>
+      <yawLeft>{triggerYawLeft.toXML}</yawLeft>
+      <yawRight>{triggerYawRight.toXML}</yawRight>
+      <stepUp>{triggerStepUp.toXML}</stepUp>
+      <stepDown>{triggerStepDown.toXML}</stepDown>
+      <movementVel>{_movementVel.toString}</movementVel>
+      <pitchVel>{_pitchVel.toString}</pitchVel>
+      <yawVel>{_yawVel.toString}</yawVel>
+    </camControl>
   }
 
   override def newInstance(i:Identifier): Component = new CamControl(triggerForward,triggerBackward,triggerLeft,triggerRight,triggerPitchPositive, triggerPitchNegative,triggerYawLeft,triggerYawRight,triggerStepUp,triggerStepDown,velocities)

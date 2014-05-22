@@ -13,15 +13,25 @@ import scala.xml.Node
  */
 object Vehicle extends ComponentCreator {
   override def fromXML(xml: Node): Option[Vehicle] = {
-    //TODO
-    None
+    xmlToComp[Vehicle](xml, "vehicle", n => {
+
+      val pw: Float = (n \ "power").text.toFloat
+      val bo: Float = (n \ "boostFactor").text.toFloat
+      val ts: Float = (n \ "turnSpeed").text.toFloat
+
+      Some(new Vehicle(pw,bo,ts))
+    })
   }
 }
 
 case class Vehicle(power: Float = 100000, boostFactor:Float = 3f , turnSpeed: Float = 1f) extends Component {
-  def toXML: Node = {
-    null
-  }
-
   def newInstance(identifier: Identifier): Component = new Vehicle(power)
+
+  def toXML: Node = {
+    <vehicle>
+      <power>{power.toString}</power>
+      <boostFactor>{boostFactor.toString}</boostFactor>
+      <turnSpeed>{turnSpeed.toString}</turnSpeed>
+    </vehicle>
+  }
 }

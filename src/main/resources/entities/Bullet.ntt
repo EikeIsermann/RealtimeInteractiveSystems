@@ -28,7 +28,7 @@
             <rightTopFront x="1" y="1" z="1" />
         </AABB>
     </collision>
-    <sound>
-        <tankFire>tankFire</tankFire>
-    </sound>
+    <sounds>
+        <sound type="tankFire">tankFire</sound>
+    </sounds>
 </entityTemplate>

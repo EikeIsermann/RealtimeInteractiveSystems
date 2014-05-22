@@ -10,8 +10,10 @@ import main.scala.tools.Identifier
  */
 object Projectile extends ComponentCreator {
   override def fromXML(xml: Node): Option[Projectile] = {
-    //TODO
-    None
+    xmlToComp[Projectile](xml, "projectile", n => {
+      val damage: Float = (n \ "damage").text.toFloat
+      Some(new Projectile(damage))
+    })
   }
 }
 

@@ -6,6 +6,7 @@ import scala.collection.mutable
 import main.scala.tools.DC
 import org.lwjgl.opengl.Display
 import scala.reflect.ClassTag
+import scala.xml.NodeSeq
 
 /**
  * Created by Christian Treffs
@@ -172,6 +173,14 @@ case class Triggers(key1: Key.Value = null, mouseButton1: MouseButton.Value = nu
 
   def mouseMovement = _mouseMovement
   def mouseMovement_=(mv: MouseMovement.Value) = _mouseMovement = mv
+
+  def toXML: NodeSeq = {
+      <key>{if(key != null) key.toString}</key>
+      <mouse>
+        <button>{if(mouseButton != null) mouseButton.toString}</button>
+        <movement>{if(mouseMovement != null) mouseMovement.toString}</movement>
+      </mouse>
+  }
 }
 
 trait Trigger extends Enumeration {

@@ -266,7 +266,10 @@ class Physics(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1:
         <linear>{linearDamping.toString}</linear>
         <angular>{linearDamping.toString}</angular>
       </damping>
+      <forceAccum x={forceAccum.x.toString} y={forceAccum.y.toString} z={forceAccum.z.toString} />
       <inertia>{inertiaToXML()}</inertia>
+      <canSleep>{canSleep.toString}</canSleep>
+      <awake>{isAwake.toString}</awake>
     </physics>
   }
 

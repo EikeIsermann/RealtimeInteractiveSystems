@@ -19,16 +19,25 @@ object GunControl extends ComponentCreator {
   }
 }
 
-case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null,  MouseMovement.MovementX ), triggerYawRight: Triggers  = Triggers(Key.ArrowRight, null,MouseMovement.MovementX)
-                      , triggerPitchPositive: Triggers = Triggers(Key.ArrowUp, null, MouseMovement.MovementY),
-                  triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY), triggerFire: Triggers = Triggers(Key.CtrlRight ,MouseButton.Left, null ),
-                  triggerReload: Triggers = Triggers(), triggerSwitchAmmo: Triggers = Triggers()) extends Component {
+case class GunControl(triggerYawLeft: Triggers = Triggers(Key.ArrowLeft, null,  MouseMovement.MovementX ),
+                      triggerYawRight: Triggers  = Triggers(Key.ArrowRight, null,MouseMovement.MovementX),
+                      triggerPitchPositive: Triggers = Triggers(Key.ArrowUp, null, MouseMovement.MovementY),
+                      triggerPitchNegative: Triggers = Triggers(Key.ArrowDown, null, MouseMovement.MovementY),
+                      triggerFire: Triggers = Triggers(Key.CtrlRight ,MouseButton.Left, null ),
+                      triggerReload: Triggers = Triggers(), triggerSwitchAmmo: Triggers = Triggers()
+                       ) extends Component {
+
+
+  def newInstance(identifier: Identifier): Component = new GunControl(triggerYawLeft, triggerYawRight, triggerPitchPositive, triggerPitchNegative, triggerFire, triggerReload, triggerSwitchAmmo)
 
   def toXML: Node = {
-    null
+    <gunControl>
+      <yawLeft>{triggerYawLeft.toXML}</yawLeft>
+      <yawRight>{triggerYawRight.toXML}</yawRight>
+      <pitchPositive>{triggerPitchPositive.toXML}</pitchPositive>
+      <pitchNegative>{triggerPitchNegative.toXML}</pitchNegative>
+      <fire>{triggerFire.toXML}</fire>
+      <reload>{triggerReload.toXML}</reload>
+    </gunControl>
   }
-
-  def newInstance(identifier: Identifier): Component = new GunControl(triggerYawLeft, triggerYawRight, triggerPitchPositive,
-    triggerPitchNegative, triggerFire,
-    triggerReload, triggerSwitchAmmo)
 }

@@ -18,13 +18,22 @@ object DriveControl extends ComponentCreator {
   }
 }
 
-case class DriveControl(triggerForward: Triggers = Triggers(Key._W), triggerBackward: Triggers = Triggers(Key._S), triggerLeft: Triggers = Triggers(Key._A),
-                        triggerRight: Triggers = Triggers(Key._D), triggerBoost: Triggers = Triggers(Key.ShiftLeft)) extends Component {
+case class DriveControl(triggerForward: Triggers = Triggers(Key._W),
+                        triggerBackward: Triggers = Triggers(Key._S),
+                        triggerLeft: Triggers = Triggers(Key._A),
+                        triggerRight: Triggers = Triggers(Key._D),
+                        triggerBoost: Triggers = Triggers(Key.ShiftLeft)
+                         ) extends Component {
 
-  def newInstance(identifier: Identifier): Component = new DriveControl(triggerForward, triggerBackward,
-                  triggerLeft, triggerRight, triggerBoost)
+  def newInstance(identifier: Identifier): Component = new DriveControl(triggerForward, triggerBackward, triggerLeft, triggerRight, triggerBoost)
 
   def toXML: Node = {
-    <driveControl>//TODO</driveControl>
+    <driveControl>
+      <forward>{triggerForward.toXML}</forward>
+      <backward>{triggerBackward.toXML}</backward>
+      <left>{triggerLeft.toXML}</left>
+      <right>{triggerRight.toXML}</right>
+      <boost>{triggerBoost.toXML}</boost>
+    </driveControl>
   }
 }
