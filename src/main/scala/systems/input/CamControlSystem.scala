@@ -44,10 +44,12 @@ class CamControlSystem extends ProcessingSystem {
   override def processNode(node: Node): Unit = {
     node match {
         case camCon: CamControlNode =>
+
           val pos = node -> classOf[Placement]
           val control = node -> classOf[CamControl]
           val cam = node -> classOf[Camera]
 
+          if(cam.active) {
           val movementVelocity = control.movementVelocity * ctx.deltaT
           val pitchSensitivity = control.pitchVelocity
           val yawSensitivity = control.yawVelocity
@@ -135,9 +137,11 @@ class CamControlSystem extends ProcessingSystem {
 
           pos.position = Vec3f(x, y, z)
           pos.rotation = Vec3f(pitch, yaw, 0)
-        case _ =>
+          }
+            case _ =>
 
-    }
+
+  }
   }
 
 

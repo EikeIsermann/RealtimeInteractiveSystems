@@ -3,11 +3,16 @@ package main.scala.entities
 import main.scala.architecture.Component
 import main.scala.tools.{DC, Identifier}
 import main.scala.io.EntityTemplateLoader
-import main.scala.components.{isPartOf, Children, Parent, hasParts}
+import main.scala.components._
 import scala.xml.Elem
 import main.scala.event._
 import scala.collection.mutable.ArrayBuffer
 import main.scala.event.ComponentRemoved
+import scala.Some
+import main.scala.event.ComponentAdded
+import main.scala.event.EntityCreated
+import main.scala.event.ComponentRemoved
+import main.scala.event.EntityRemoved
 import scala.Some
 import main.scala.event.ComponentAdded
 import main.scala.event.EntityCreated
@@ -106,8 +111,11 @@ class Entity(idx: Identifier, template: Boolean = false) {
   def -=(component: Component): Entity = {
     _components -= component
 
-    EventDispatcher.dispatch(ComponentRemoved(this,component))
 
+    EventDispatcher.dispatch(ComponentRemoved(this,component))
+    component match {
+      case c: Camera => EventDispatcher.dispatch(new RemoveCam(c))
+    }
     this
   }
 
