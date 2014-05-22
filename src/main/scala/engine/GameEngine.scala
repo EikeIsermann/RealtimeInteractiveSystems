@@ -46,7 +46,6 @@ object GameEngine extends Engine with EventReceiver{
   var soundsDir: String = null
   var fontsDir: String = null
 
-
   private val width = 1000
   private val height = 600
   private val prefFPS = 60
@@ -56,6 +55,7 @@ object GameEngine extends Engine with EventReceiver{
   private var fps: Float = 0.0f /** frames per second */
   private var lastFPS: Long = -1 /** last fps time */
 
+  var ent: Entity = null
   var simulationContext: SimulationContext = null
   var time: StopWatch = null
 
@@ -184,6 +184,7 @@ object GameEngine extends Engine with EventReceiver{
 
     val tank = Entity.newInstanceOf('Tank)
 
+    Entity.newInstanceOf('Tank).getComponent(classOf[Placement]).position = Vec3f(3000,0,-3000)
     //val tank2 = Entity.newInstanceOf('Tank)
     val test = entities.apply("Turret:1")
     test.add(new GunControl)
@@ -192,7 +193,7 @@ object GameEngine extends Engine with EventReceiver{
 
     tank.add(new DriveControl)
     tank.add(new Vehicle)
-
+    ent = tank
     var phys = new Physics()
     phys.canSleep = false
     phys.mass = 60f
@@ -201,7 +202,6 @@ object GameEngine extends Engine with EventReceiver{
     phys.gravity_=(Vec3f(0,0,0))
     tank.add(phys)
     phys.canSleep = false
-
     //tank.getComponent(classOf[Placement]).position = new Vec3f(-30, 0, -500)
     //tank.getComponent(classOf[Placement]).rotation = new Vec3f(0,90,0)
         // creating Camera
@@ -297,6 +297,8 @@ object GameEngine extends Engine with EventReceiver{
       updateFPS() // update FPS Counter
 
       Display.update() // show changes
+      println(ent.getComponent(classOf[Placement]).getMatrix.getPosition)
+
     }
 
     shutdown()

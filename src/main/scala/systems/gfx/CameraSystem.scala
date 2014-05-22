@@ -3,11 +3,12 @@ import main.scala.architecture._
 import main.scala.tools.DC
 import main.scala.nodes.CameraNode
 import main.scala.math.{Mat4f, RISMath, Vec3f}
-import main.scala.components.{Camera, Placement}
+import main.scala.components.{Projectile, Camera, Placement}
 import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
 import main.scala.event._
 import main.scala.event.CycleCam
+import main.scala.engine.GameEngine
 
 
 /**
@@ -92,6 +93,8 @@ class CameraSystem extends ProcessingSystem with EventReceiver {
     event match {
       case cc: CycleCam => {
           activeCam = activeCam.tail.:+(activeCam.head)
+           var ent = GameEngine.entities.apply(activeCam.last.owner.toString)
+           if(ent.has(classOf[Projectile]))  {ent.remove(activeCam.last)}
           activeCam.head.active = true
           activeCam.last.active = false
       }

@@ -46,7 +46,7 @@ class GunSystem extends ProcessingSystem {
         var gun = node -> classOf[Gun]
         var pos = node -> classOf[Placement]
         if(gun.timeOfLastShot + gun.coolDown < System.currentTimeMillis() && gun.shoot){
-           var bullet = Entity.newInstanceOf(gun.projectile)
+          var bullet = Entity.newInstanceOf(gun.projectile)
           bullet.getComponent(classOf[Placement]).setTo(pos)
           bullet.add(new Projectile(100f))
           //bullet.getComponent(classOf[Placement]).scale = Vec3f(0.2f,0.2f,0.2f)
@@ -55,7 +55,8 @@ class GunSystem extends ProcessingSystem {
           bullet.getIfPresent(classOf[Sound]).map(_.playList += 'tankFire)
           val cam = new Camera(120f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0), 0.1f )
           bullet.add(cam)
-          EventDispatcher.dispatch(new ActivateCam(cam))
+          bullet.add(new Projectile(100))
+          //EventDispatcher.dispatch(new ActivateCam(cam))
             println(bullet.getIfPresent(classOf[Sound]))
           //bullphys.addForce(RISMath.DirFromRot(pos.rotation)*10000000)
            gun.shoot(false)
