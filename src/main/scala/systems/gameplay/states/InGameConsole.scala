@@ -58,6 +58,7 @@ class InGameConsole extends GameState {
   private def processKeys() {
 
     Input.keyDownOnceDo(Key.Enter, _ => {newLine(); processInput()})
+    Input.keyDownOnceDo(Key.BackSpace, _ => {remove()})
 
     validKeys.foreach(l => {
       Input.keyDownOnceDo(l,_ => add(Key.asChar(l).toString))
@@ -100,6 +101,13 @@ class InGameConsole extends GameState {
   private def add(s: String): Unit = {
     stringBuffer.append(s)
     print(s)
+  }
+
+  def remove() {
+    if(!stringBuffer.isEmpty) {
+      stringBuffer.deleteCharAt(stringBuffer.length-1)
+    }
+    display()
   }
 
   def clear() = stringBuffer.clear()
