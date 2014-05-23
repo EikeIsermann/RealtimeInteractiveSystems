@@ -5,7 +5,7 @@ import main.scala.event._
 import main.scala.nodes.GunAINode
 import main.scala.components.{GunAI, Gun, Placement}
 import main.scala.entities.Entity
-import main.scala.math.RISMath
+import main.scala.math.{Vec3f, RISMath}
 
 /**
  * User: uni
@@ -43,17 +43,43 @@ class gunTargetAcquired(enemy: Entity) extends AIState {
   def execute(node: Node)(implicit owner: System): AIState = {
     node match {
       case gai: GunAINode  =>
-      var pos = gai -> classOf[Placement]
-      var gun = gai -> classOf[Gun]
-      var gunai = gai -> classOf[GunAI]
-      var target = e.getComponent(classOf[Placement]).getMatrix.getPosition
-      var vectorAim = target.sub(pos.getMatrix.getPosition)
-      var vectorNow = RISMath.DirFromRot(pos.getUnscaledMatrix.rotation * pos.rotation)
-      println(target, pos.getMatrix.getPosition, vectorAim.normalize(), vectorNow.normalize)
+        val pos = gai -> classOf[Placement]
+        var gun = gai -> classOf[Gun]
+        var gunai = gai -> classOf[GunAI]
+        val target: Vec3f = e.getComponent(classOf[Placement]).getMatrix.position
+        val vectorAim: Vec3f = ( target -pos.getMatrix.position ).norm
+        val vectorNow: Vec3f = RISMath.DirFromRot(pos.getUnscaledMatrix.rotation * pos.rotation).norm
+
+
+
+
+
+
+        val angle = math.acos((vectorAim ° vectorNow)/vectorAim.magnitude*vectorNow.magnitude)
+
+        val cross: Vec3f = vectorAim % vectorNow
+
+        val angleDeg: Float = math.toDegrees(angle).toFloat
+        val factor: Float = 0.5f
+        val positive: Float = if(cross.y < 0) factor  else -factor
+        pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y+(positive), pos.rotation.z)
+        println(angleDeg)
+        if(angleDeg < 10) nextState = new gunTargetLocked(e)
+
+
+
+
+
+
+
+        //println(target, pos.getMatrix.getPosition, vectorAim.normalize(), vectorNow.normalize)
+
+
+
 
       case _ =>
     }
-    nextState
+  nextState
   }
 
   override def receive(event: Event): Unit = {
@@ -64,9 +90,17 @@ class gunTargetAcquired(enemy: Entity) extends AIState {
   }
 }
 
-class gunTargetLocked() extends AIState {
+class gunTargetLocked(e: Entity) extends AIState {
   nextState = this
   def execute(node: Node)(implicit owner: System): AIState = {
+    node match {
+      case gn: GunAINode => {
+        var gun = gn -> classOf[Gun]
+        gun.shoot(true)
+        nextState = new gunTargetAcquired(e)
+      }
+      case _ =>
+    }
     nextState
   }
 

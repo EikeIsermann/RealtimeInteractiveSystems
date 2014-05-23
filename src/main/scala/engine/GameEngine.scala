@@ -248,6 +248,8 @@ object GameEngine extends Engine with EventReceiver{
     test3.add(new Gun)
     test3.add(new GunAI)
 
+
+    /*
     var tank2 = Entity.newInstanceOf('Tank)
     tank2.getComponent(classOf[Placement]).position = Vec3f(2000,100,8000)
     GameEngine.entities("Turret:3").add(new GunAI)
@@ -269,7 +271,7 @@ object GameEngine extends Engine with EventReceiver{
     var tank6 = Entity.newInstanceOf('Tank)
     tank6.getComponent(classOf[Placement]).position = Vec3f(10000,100,6000)
 
-
+             */
 
 
     val cam2 = new Camera(70f,None,0.1f,50f, false ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
