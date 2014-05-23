@@ -1,6 +1,6 @@
 package main.scala.components
 
-import main.scala.systems.ai.aiStates.AIState
+import main.scala.systems.ai.aiStates.{gunSearching, AIState}
 import main.scala.architecture.Component
 import main.scala.tools.Identifier
 import scala.xml.Node
@@ -11,11 +11,12 @@ import scala.xml.Node
  * Time: 18:19
  * This is a RIS Project class
  */
-case class GunAI(state: AIState) extends Component {
+case class GunAI() extends Component {
 
+  var state: AIState = new gunSearching()
 
   def toXML: Node = {
-  null
+    null
   }
 
   def newInstance(identifier: Identifier): Component = {
