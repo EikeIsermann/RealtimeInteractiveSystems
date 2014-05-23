@@ -2,7 +2,7 @@ package main.scala.engine
 
 import main.scala.architecture.Engine
 import ogl.app.StopWatch
-import main.scala.tools.{DisplayManager, DC}
+import main.scala.tools.{AABB, DisplayManager, DC}
 import main.scala.systems.input._
 import org.lwjgl.opengl.{PixelFormat, GL11, Display}
 import main.scala.io.{LevelLoader, EntityTemplateLoader}
@@ -234,6 +234,8 @@ object GameEngine extends Engine with EventReceiver{
 
 
 
+
+
     test.add(cam)
 
 
@@ -243,11 +245,13 @@ object GameEngine extends Engine with EventReceiver{
     tank1.getComponent(classOf[Placement]).position = Vec3f(0,100,0)
     GameEngine.entities("Turret:2").add(new GunAI)
     GameEngine.entities("Turret:2").add(new Gun)
-    println(GameEngine.entities("Turret:2").components.toList)
+
 
 
     var tank2 = Entity.newInstanceOf('Tank)
     tank2.getComponent(classOf[Placement]).position = Vec3f(2000,100,8000)
+    GameEngine.entities("Turret:3").add(new GunAI)
+    GameEngine.entities("Turret:3").add(new Gun)
 
 
     var tank3 = Entity.newInstanceOf('Tank)

@@ -9,7 +9,7 @@ import main.scala.math.{Mat4f, Vec3f}
 import main.scala.engine.GameEngine
 import main.scala.systems.gfx.Shader
 import main.scala.entities.Entity
-import main.scala.event.{PlayerEnteredView, EventDispatcher}
+import main.scala.event.{PlayerLeftView, PlayerEnteredView, EventDispatcher}
 
 /**
  * Created by Christian Treffs
@@ -140,6 +140,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
 
 
+    // AI sees player
     if(either(e1,e2,classOf[GunAI],classOf[GunControl])) {
       EventDispatcher.dispatch(new PlayerEnteredView(whoHas(e1,e2,classOf[GunControl])))
     }
@@ -206,8 +207,14 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val e1 = GameEngine.entities(c1.owner.toString)
     val e2 = GameEngine.entities(c2.owner.toString)
 
+    // remove bullet after collision
     e1.hasAndThen(classOf[Projectile], e => {e.destroy()})
     e2.hasAndThen(classOf[Projectile], e => {e.destroy()})
+
+
+    if(either(e1,e2,classOf[GunAI],classOf[GunControl])) {
+      EventDispatcher.dispatch(new PlayerLeftView())
+    }
 
   }
 

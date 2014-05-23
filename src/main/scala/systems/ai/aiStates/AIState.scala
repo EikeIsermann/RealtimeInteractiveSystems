@@ -16,10 +16,12 @@ trait AIState extends EventReceiver {
 
   def execute(node: Node)(implicit owner: System): AIState
 
+  var nextState: AIState = null
 }
 
 class gunSearching() extends AIState{
-  var nextState: AIState = this
+
+  nextState = this
   def execute(node: Node)(implicit owner: System): AIState = {
          println("searching")
     nextState
@@ -33,19 +35,24 @@ class gunSearching() extends AIState{
   }
 }
 class gunTargetAcquired(enemy: Entity) extends AIState {
+  nextState = this
   def execute(node: Node)(implicit owner: System): AIState = {
     println("AQUIRING",enemy)
-    this
+    nextState
   }
 
   override def receive(event: Event): Unit = {
-         //TODO
+     event match {
+       case p: PlayerLeftView => nextState = new gunSearching()
+       case _ =>
+     }
   }
 }
 
 class gunTargetLocked() extends AIState {
+  nextState = this
   def execute(node: Node)(implicit owner: System): AIState = {
-    this
+    nextState
   }
 
   override def receive(event: Event): Unit = {
