@@ -2,11 +2,12 @@ package main.scala.systems.input
 
 import main.scala.architecture.{VoidProcessingSystem, System, Node, ProcessingSystem}
 import main.scala.nodes.GameConsoleNode
-import main.scala.components.Text
+import main.scala.components.{Sound, Text}
 import main.scala.engine.GameEngine
 import main.scala.systems.gfx.{TextRenderingSystem, RenderingSystem}
 import main.scala.tools.{DC, DisplayManager}
 import main.scala.systems.gameplay.states.{Playing, GameState}
+import scala.collection.mutable
 
 /**
  * Created by Christian Treffs
@@ -25,6 +26,9 @@ class GameControlSystem extends VoidProcessingSystem {
    */
   override def init(): System = {
     currentState = new Playing()
+
+    val sound = new Sound(mutable.HashMap('ost -> 'ost))
+    sound.play('ost)
     this
   }
 

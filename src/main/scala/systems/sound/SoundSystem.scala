@@ -16,6 +16,7 @@ class SoundSystem extends ProcessingSystem {
     Audio.init()
     // load sounds
     Audio.load()
+
     this
   }
 
@@ -34,6 +35,7 @@ class SoundSystem extends ProcessingSystem {
 
 
         sound.play()
+
 
         sound.playList.clear()
 

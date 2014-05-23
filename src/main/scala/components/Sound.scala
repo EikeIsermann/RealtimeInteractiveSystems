@@ -41,7 +41,8 @@ case class Sound(soundIdentifier: mutable.HashMap[Symbol,Symbol] = mutable.HashM
 
   def velocity_=(vel: Vec3f) = playList.foreach(get(_).velocity_=(vel))
 
-  def play(sT: Symbol) = get(sT).play()
+  def loop(sT: Symbol) = get(sT).loop(true)
+  def play(sT: Symbol) = if(sT.name == "ost" && get(sT).isStopped) {get(sT).play(); get(sT).loop(true)} else get(sT).play()
   def play() = playList.foreach(get(_).play())
   def pause(sT: Symbol) = get(sT).pause()
   def pause() = playList.foreach(get(_).pause())
