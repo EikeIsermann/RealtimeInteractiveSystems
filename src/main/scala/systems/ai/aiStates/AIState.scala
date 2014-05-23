@@ -2,12 +2,10 @@ package main.scala.systems.ai.aiStates
 
 import main.scala.architecture.{Node, System}
 import main.scala.event._
-import main.scala.entities.Entity
 import main.scala.nodes.GunAINode
 import main.scala.components.{GunAI, Gun, Placement}
 import main.scala.entities.Entity
 import main.scala.math.RISMath
-import main.scala.engine.GameEngine
 
 /**
  * User: uni
@@ -52,12 +50,6 @@ class gunTargetAcquired(enemy: Entity) extends AIState {
       var vectorAim = target.sub(pos.getMatrix.getPosition)
       var vectorNow = RISMath.DirFromRot(pos.getUnscaledMatrix.rotation * pos.rotation)
       println(target, pos.getMatrix.getPosition, vectorAim.normalize(), vectorNow.normalize)
-
-
-
-
-
-
 
       case _ =>
     }
