@@ -140,8 +140,8 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
 
 
-    if(either(e1,e2,classOf[GunAI],classOf[DriveControl])) {
-      EventDispatcher.dispatch(new PlayerEnteredView(whoHas(e1,e2,classOf[DriveControl])))
+    if(either(e1,e2,classOf[GunAI],classOf[GunControl])) {
+      EventDispatcher.dispatch(new PlayerEnteredView(whoHas(e1,e2,classOf[GunControl])))
     }
 
     println("Collision New",pair)
