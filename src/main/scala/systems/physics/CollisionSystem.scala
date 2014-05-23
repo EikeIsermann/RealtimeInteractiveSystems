@@ -1,14 +1,15 @@
 package main.scala.systems.physics
 
 import main.scala.architecture._
-import main.scala.tools.Identifier
+import main.scala.tools.{Sphere, BBEndPoint, AABB, Identifier}
 import main.scala.components._
 import scala.collection.mutable
-import main.scala.components.AABB
 import main.scala.nodes.CollisionNode
 import main.scala.math.{Mat4f, Vec3f}
 import main.scala.engine.GameEngine
-import main.scala.systems.gfx.{Texture, Shader}
+import main.scala.systems.gfx.Shader
+import main.scala.entities.Entity
+import main.scala.event.{PlayerEnteredView, EventDispatcher}
 
 /**
  * Created by Christian Treffs
@@ -126,6 +127,23 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val e1 = GameEngine.entities(c1.owner.toString)
     val e2 = GameEngine.entities(c2.owner.toString)
 
+    var skip: Boolean = false
+    if(e1.has(classOf[Children])) {
+       skip = e1.getComponent(classOf[Children]).children.contains(e2)
+    }
+    if(e2.has(classOf[Children])) {
+      skip = e2.getComponent(classOf[Children]).children.contains(e1)
+    }
+
+    if(skip) return
+
+
+
+
+    if(either(e1,e2,classOf[GunAI],classOf[DriveControl])) {
+      EventDispatcher.dispatch(new PlayerEnteredView(whoHas(e1,e2,classOf[DriveControl])))
+    }
+
     println("Collision New",pair)
     //println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
 
@@ -196,6 +214,12 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
   def deinit(): Unit = {}
 
+  private def whoHas(e1: Entity, e2: Entity, c: Class[_ <: Component]): Entity = {
+    if(e1.has(c)) e1
+    else e2
+  }
+
+  private def either(e1: Entity, e2: Entity, c1: Class[_ <: Component], c2: Class[_ <: Component]): Boolean = (e1.has(c1) && e2.has(c2)) || (e1.has(c2) && e2.has(c1))
 
   private def collisionPoint(v1: Vec3f,v2: Vec3f): Vec3f = 0.5f*(v2+v1)
 
@@ -223,7 +247,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
       var i = j - 1
       while (i >= 0 && axis(i).value > current.value) {
         val before: BBEndPoint = axis(i)
-        val pair = (current.owner(), before.owner())
+        val pair = (current.owner().asInstanceOf[Collision], before.owner().asInstanceOf[Collision])
         if (current.isMin && !before.isMin) {
           pairs.contains(pair) match {
             case true =>

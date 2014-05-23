@@ -12,4 +12,10 @@
         <rotation angleX="0" angleY="45" angleZ="0" />
         <scale x="1" y="1" z="1" />
     </placement>
+    <collision>
+        <AABB>
+            <leftBottomBack x="-3" y="2" z="-3" />
+            <rightTopFront x="3" y="3" z="3" />
+        </AABB>
+    </collision>
 </entityTemplate>

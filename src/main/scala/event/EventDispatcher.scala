@@ -47,7 +47,7 @@ object EventDispatcher {
  * the event receiver - must implement the receive method that is called on event reception
  */
 trait EventReceiver {
-  def receive(event: Event)
+  def receive(event: Event): Unit
 }
 
 /**
@@ -66,3 +66,6 @@ case class ComponentAdded(ent: Entity, comp: Component) extends Event
 case class CycleCam() extends Event
 case class RemoveCam(cam: Camera) extends Event
 case class ActivateCam(cam: Camera) extends Event
+
+case class PlayerEnteredView(enemy: Entity) extends Event
+case class PlayerLeftView() extends Event

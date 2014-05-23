@@ -96,8 +96,8 @@ object Node {
         retVal.put(false, List())
       }
       case gunainode if gunainode == classOf[GunAINode] => {
-        retVal.put(true, List(classOf[Gun], classOf[GunAI]))
-        retVal.put(true, List())
+        retVal.put(true, List(classOf[Gun], classOf[GunAI], classOf[Placement]))
+        retVal.put(false, List())
     }
 
 

@@ -38,6 +38,8 @@ case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 100, timeOfLastS
   private var _projectile: Symbol = pro
   private var _power: Float = pw
 
+
+
   def power = _power
   def power_=(f:Float) = _power = f
 

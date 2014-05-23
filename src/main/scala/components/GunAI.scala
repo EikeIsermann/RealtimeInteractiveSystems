@@ -4,6 +4,7 @@ import main.scala.systems.ai.aiStates.{gunSearching, AIState}
 import main.scala.architecture.Component
 import main.scala.tools.Identifier
 import scala.xml.Node
+import main.scala.event._
 
 /**
  * User: uni
@@ -12,6 +13,7 @@ import scala.xml.Node
  * This is a RIS Project class
  */
 case class GunAI() extends Component {
+
 
   var state: AIState = new gunSearching()
 
