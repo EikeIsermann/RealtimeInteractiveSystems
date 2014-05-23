@@ -208,8 +208,8 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val e2 = GameEngine.entities(c2.owner.toString)
 
     // remove bullet after collision
-    e1.hasAndThen(classOf[Projectile], e => {e.destroy()})
-    e2.hasAndThen(classOf[Projectile], e => {e.destroy()})
+    //e1.hasAndThen(classOf[Projectile], e => {e.destroy()})
+    //e2.hasAndThen(classOf[Projectile], e => {e.destroy()})
 
 
     if(either(e1,e2,classOf[GunAI],classOf[GunControl])) {

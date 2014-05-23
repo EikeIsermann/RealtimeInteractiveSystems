@@ -13,17 +13,18 @@
 * Camera
 * Save and Load Level via XML
 * Event System: Signaling/Event Dispatcher
+* Sound: OpenAL positional audio playback
+* Level loading and saving in Game
+* collision Box display
 
 ## Unfinished
 
-* Sound: OpenAL positional audio playback
 * InGame Terminal console
 * Display Text on Screen
 * Wavefront .obj Loader
+* AI System
 
 ## Not yet
-
-* AI System
 * Light
 
 
