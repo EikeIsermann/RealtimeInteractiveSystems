@@ -3,6 +3,7 @@ package main.scala.components
 import main.scala.architecture.{ComponentCreator, Component}
 import scala.xml.{Node, NodeBuffer, NodeSeq}
 import main.scala.tools.Identifier
+import main.scala.entities.Entity
 
 /**
  * Created by Christian Treffs
@@ -12,12 +13,12 @@ object Projectile extends ComponentCreator {
   override def fromXML(xml: Node): Option[Projectile] = {
     xmlToComp[Projectile](xml, "projectile", n => {
       val damage: Float = (n \ "damage").text.toFloat
-      Some(new Projectile(damage))
+      Some(new Projectile(null,damage))
     })
   }
 }
 
-case class Projectile(damage1: Float) extends Component {
+case class Projectile(var shotBy: Entity, damage1: Float) extends Component {
 
   private var _damage: Float = damage1
   def damage: Float = _damage
@@ -29,6 +30,6 @@ case class Projectile(damage1: Float) extends Component {
     </projectile>
   }
 
-  override def newInstance(i:Identifier): Component = new Projectile(damage)
+  override def newInstance(i:Identifier): Component = new Projectile(shotBy,damage)
 
 }

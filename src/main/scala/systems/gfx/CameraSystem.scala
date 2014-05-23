@@ -64,6 +64,7 @@ class CameraSystem extends ProcessingSystem with EventReceiver {
          var viewMat =  Mat4f.rotation(cam.offSetRot) * Mat4f.translation((RISMath.DirFromRot(cam.offSetRot,false)*cam.offSetDistance))
          viewMat = viewMat * pos.getUnscaledMatrix.getRotation * Mat4f.translation(pos.getMatrix.position)
         // set camera pos
+        ctx.setCameraIsAt(pos.getMatrix)
         ctx.setViewMatrix(viewMat.inverseRigid)
         //DC.log("Camera is at: ", pos.position.inline)
         }

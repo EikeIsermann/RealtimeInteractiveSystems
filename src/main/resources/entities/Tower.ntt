@@ -11,4 +11,25 @@
         <meshId>Tower</meshId>
         <shaderId>default</shaderId>
     </display>
+    <collision>
+        <AABB>
+            <leftBottomBack x="-1" y="-3" z="-1" />
+            <rightTopFront x="1" y="3" z="1" />
+        </AABB>
+    </collision>
+    <physics>
+        <mass>1</mass>
+        <gravity x="0" y="0" z="0" />
+        <velocity x="0" y="0" z="0" />
+        <acceleration x="0" y="0" z="0" />
+        <damping>
+            <linear>0.0</linear>
+            <angular>0.0</angular>
+        </damping>
+        <inertia>0 0 0 0 0 0 0 0 0</inertia>
+        <canSleep>false</canSleep>
+        <awake>false</awake>
+        <isSolid>true</isSolid>
+    </physics>
+    <health current="50" max="50" />
 </entityTemplate>

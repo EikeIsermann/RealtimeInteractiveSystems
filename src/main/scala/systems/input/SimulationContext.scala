@@ -14,6 +14,14 @@ import main.scala.components.Camera
  */
 class SimulationContext {
 
+  private var camMat = Mat4f.identity
+
+  def setCameraIsAt(mat4f: Mat4f) = {
+    camMat = mat4f
+  }
+  def camIsAt: Mat4f = camMat
+
+
   var shader: Shader = null
   var modelMatrix: Mat4f = Mat4f.identity
   var viewMatrix: Mat4f = Mat4f.identity

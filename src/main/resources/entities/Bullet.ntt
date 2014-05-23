@@ -23,11 +23,12 @@
         <inertia>0 0 0 0 0 0 0 0 0</inertia>
         <canSleep>false</canSleep>
         <awake>true</awake>
+        <isSolid>false</isSolid>
     </physics>
     <collision>
         <AABB>
-            <leftBottomBack x="-1" y="-1" z="-1" />
-            <rightTopFront x="1" y="1" z="1" />
+            <leftBottomBack x="-0.07" y="-0.07" z="-0.07" />
+            <rightTopFront x="0.07" y="0.07" z="0.07" />
         </AABB>
     </collision>
     <sounds>
@@ -36,4 +37,8 @@
     <projectile>
         <damage>100.0</damage>
     </projectile>
+    <lifeTime>
+        <time>3000</time>
+        <remaining>3000</remaining>
+    </lifeTime>
 </entityTemplate>

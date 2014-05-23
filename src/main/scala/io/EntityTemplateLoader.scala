@@ -108,7 +108,7 @@ object EntityTemplateLoader {
     entity += GunControl.fromXML(xml)
     entity += hasParts.fromXML(xml)
     entity += Health.fromXML(xml)
-    //entity += LifeTime.fromXML(xml)
+    entity += LifeTime.fromXML(xml)
     //entity += Light.fromXML(xml)
     entity += isPartOf.fromXML(xml)
     entity += Physics.fromXML(xml)

@@ -30,6 +30,7 @@
         <inertia>0 0 0 0 0 0 0 0 0</inertia>
         <canSleep>true</canSleep>
         <awake>true</awake>
+        <isSolid>false</isSolid>
     </physics>
     <sounds>
         <sound type="collision">collision</sound>

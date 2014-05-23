@@ -1,6 +1,6 @@
 package main.scala.nodes
 
-import main.scala.architecture.{Component, Node}
+import main.scala.architecture.Node
 import main.scala.components._
 
 /**

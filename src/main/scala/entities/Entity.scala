@@ -16,6 +16,7 @@ import main.scala.event.EntityRemoved
 import scala.Some
 import main.scala.event.ComponentAdded
 import main.scala.event.EntityCreated
+import scala.collection.mutable
 
 /**
  * Created by Christian Treffs
@@ -83,7 +84,7 @@ object Entity {
 class Entity(idx: Identifier, template: Boolean = false) {
 
   private val _components: ArrayBuffer[Component] = ArrayBuffer.empty[Component]
-
+   var destroying: Boolean = false
   private val _identifier: Identifier = idx
 
   def this(name1: String, template1: Boolean) = this(Identifier.create(name1),template1)
@@ -121,7 +122,9 @@ class Entity(idx: Identifier, template: Boolean = false) {
   }
 
   def has(componentClass: Class[_ <: Component]): Boolean = {
+
     !components(componentClass).isEmpty
+
   }
 
   def hasAndThen(componentClass: Class[_ <: Component], func: Entity => Unit) {
@@ -132,13 +135,28 @@ class Entity(idx: Identifier, template: Boolean = false) {
     if(!has(componentClass)) func.apply(this)
   }
 
-  def hasOrAncestor(c: Class[_ <: Component], e: Entity = this): Option[Entity] = {
-    if(e.has(c)) return Some(e)
+  def getMaster(): Entity = {
+    getMaster(this)
+  }
+  private def getMaster(e:Entity): Entity = {
+    if(e.has(classOf[Parent])) getMaster(e.getComponent(classOf[Parent]).entity)
+    else return e
+  }
 
-    e.hasAndThen(classOf[Children], e => e.getComponent(classOf[Children]).children.foreach(hasOrAncestor(c,_)))
-    e.hasAndThen(classOf[Parent],   e => hasOrAncestor(c, e.getComponent(classOf[Parent]).entity))
 
-    None
+  def hasOrAncestor(c: Class[_ <: Component], e: Entity = this, k: mutable.ArrayBuffer[Entity] = ArrayBuffer.empty[Entity], res: mutable.ArrayBuffer[Entity] = ArrayBuffer.empty[Entity]): Seq[Entity] = {
+
+    if(e.has(c)) {res += e }
+    else {
+      if(!k.contains(e)) {
+        k += e
+        e.hasAndThen(classOf[Children], e => e.getComponent(classOf[Children]).children.foreach(hasOrAncestor(c,_,k,res)))
+        e.hasAndThen(classOf[Parent],   e => hasOrAncestor(c, e.getComponent(classOf[Parent]).entity,k,res))
+
+      }
+
+      res
+    }
   }
 
 
@@ -165,8 +183,12 @@ class Entity(idx: Identifier, template: Boolean = false) {
 
   def kill() = destroy()
   def destroy() {
-     // remove my components
+    destroying = true
+    hasAndThen(classOf[Children], e => e.getComponent(classOf[Children]).children.foreach(_.destroy()))
+
+    // remove my components
     components.foreach(remove)
+
 
     // send remove myself from gameEngine event
     EventDispatcher.dispatch(EntityRemoved(this))

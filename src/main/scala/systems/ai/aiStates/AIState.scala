@@ -29,23 +29,23 @@ class gunTargetAcquired(enemy: Entity) extends AIState {
   var e = enemy
   def execute(node: Node)(implicit owner: System): AIState = {
     node match {
-      case gai: GunAINode  =>
+      case gai: GunAINode =>
         val pos = gai -> classOf[Placement]
         val gun = gai -> classOf[Gun]
-
+        if (!e.destroying) {
         val target: Vec3f = e.getComponent(classOf[Placement]).getMatrix.position
-        val vectorAim: Vec3f = ( target -pos.getMatrix.position ).norm
+        val vectorAim: Vec3f = (target - pos.getMatrix.position).norm
         val vectorNow: Vec3f = RISMath.DirFromRot(pos.getUnscaledMatrix.rotation * pos.rotation).norm
 
-        val angle = math.acos((vectorAim ° vectorNow)/vectorAim.magnitude*vectorNow.magnitude)
+        val angle = math.acos((vectorAim ° vectorNow) / vectorAim.magnitude * vectorNow.magnitude)
         val cross: Vec3f = vectorAim % vectorNow
 
         val angleDeg: Float = math.toDegrees(angle).toFloat
         val factor: Float = 0.5f
-        val turretRot: Float = if(cross.y < 0) factor  else -factor
-        pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y+ turretRot, pos.rotation.z)
-        if(angleDeg < gun.fireAngle) nextState = new gunTargetLocked(e)
-
+        val turretRot: Float = if (cross.y < 0) factor else -factor
+        pos.rotation = Vec3f(pos.rotation.x, pos.rotation.y + turretRot, pos.rotation.z)
+        if (angleDeg < gun.fireAngle) nextState = new gunTargetLocked(e)
+    }
       case _ =>
     }
   nextState

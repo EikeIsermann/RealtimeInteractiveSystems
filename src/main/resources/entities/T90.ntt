@@ -12,4 +12,11 @@
     <mesh>
         <source>src/main/resources/meshes/T-90/T-90.dae</source>
     </mesh>
+    <health current="200" max="200" />
+    <collision>
+        <AABB>
+            <leftBottomBack x="-1" y="1" z="-1" />
+            <rightTopFront x="1" y="1" z="1" />
+        </AABB>
+    </collision>
 </entityTemplate>

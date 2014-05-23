@@ -30,7 +30,7 @@ case class Health(health1: Int = 0, maxHealth1: Int = 0) extends Component {
 
   def damage(d: Int) {
     _health -= d
-    println("DAMAGE",health)
+    println("DAMAGE",health, owner)
   }
   def heal(h: Int){_health += h}
 

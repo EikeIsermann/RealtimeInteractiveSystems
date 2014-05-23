@@ -3,7 +3,8 @@ package main.scala.systems.gfx
 import main.scala.architecture.{IntervalProcessingSystem, System, Node}
 import main.scala.nodes.TextNode
 import main.scala.components.{Text, Placement}
-import main.scala.math.Mat4f
+import main.scala.math.{Vec3f, Mat4f}
+import main.scala.engine.GameEngine
 
 /**
  * Created by Christian Treffs
@@ -41,7 +42,8 @@ class TextRenderingSystem(simSpeed: Int) extends IntervalProcessingSystem {
         val text: Text = tN -> classOf[Text]
         val placement: Placement = tN -> classOf[Placement]
         val shader = Shader.get('default)    //TODO: get a useful shader
-        val modelMatrix: Mat4f = placement.getMatrix //TODO: placement is somewhere ?!
+
+        val modelMatrix: Mat4f = ctx.camIsAt.translation//*Mat4f.translation(Vec3f(0,0,1f)) //Mat4f.identity//placement.getMatrix //TODO: placement is somewhere ?!
         font.stringToDraw = text.text
         font.draw(shader, modelMatrix, ctx.viewMatrix, ctx.fieldOfView,ctx.aspect,ctx.nearPlane,ctx.farPlane)
       case _ =>

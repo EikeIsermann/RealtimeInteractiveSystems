@@ -39,11 +39,12 @@ class Collision(boundingVolume1: BoundingVolume = new AABB(Vec3f(),Vec3f())) ext
 
   def this(leftBottomBack: Vec3f, rightTopFront: Vec3f) = this(new AABB(leftBottomBack,rightTopFront))
 
-  private val _boundingVolume: BoundingVolume = boundingVolume1
+  private var _boundingVolume: BoundingVolume = boundingVolume1
   _boundingVolume.setOwner(this)
 
 
   def boundingVolume: BoundingVolume = _boundingVolume
+  def boundingVolume_=(bv:BoundingVolume) = _boundingVolume = bv
 
 
   def updateBoundingVolume(matrix: Mat4f) = {

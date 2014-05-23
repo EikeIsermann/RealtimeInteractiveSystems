@@ -9,7 +9,6 @@ import main.scala.math.{Mat4f, Vec3f}
 import main.scala.engine.GameEngine
 import main.scala.systems.gfx.Shader
 import main.scala.entities.Entity
-import main.scala.event.{PlayerLeftView, PlayerEnteredView, EventDispatcher}
 import main.scala.systems.ai.aiStates._
 
 /**
@@ -128,6 +127,8 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val e1 = GameEngine.entities(c1.owner.toString)
     val e2 = GameEngine.entities(c2.owner.toString)
 
+
+
     var skip: Boolean = false
     if(e1.has(classOf[Children])) {
        skip = e1.getComponent(classOf[Children]).children.contains(e2)
@@ -136,9 +137,42 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
       skip = e2.getComponent(classOf[Children]).children.contains(e1)
     }
 
-    if(skip) return
+    if(e1.has(classOf[Projectile])) {
+      skip = e2 == e1.getComponent(classOf[Projectile]).shotBy.getMaster()
+    }
+    if(e2.has(classOf[Projectile])) {
+      skip = e1 == e2.getComponent(classOf[Projectile]).shotBy.getMaster()
+    }
+
+    if(skip) {
+      //println("SKIPPING")
+      collisions -= pair
+      return
+    }
+
+    println("new Collision",e1,e2)
 
 
+    if(e1.has(classOf[MakeItSolid])) {
+      e2.hasOrAncestor(classOf[Physics]).map(b => {
+        println("STOPPING",e2)
+          val p1 = b.getComponent(classOf[Physics])
+          p1.velocity = Vec3f(0,0,0)
+          p1.acceleration = Vec3f(0,0,0)
+          p1.clearForceAccumulators()
+        })
+
+    }
+    if(e2.has(classOf[MakeItSolid])) {
+        e1.hasOrAncestor(classOf[Physics]).map(b => {
+          println("STOPPING",e1)
+          val p1 = b.getComponent(classOf[Physics])
+          p1.velocity = Vec3f(0,0,0)
+          p1.acceleration = Vec3f(0,0,0)
+          p1.clearForceAccumulators()
+        })
+
+    }
 
 
     // AI sees player
@@ -172,10 +206,10 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val f2: Vec3f = (-100f*a1*a1*m1)/m2
 
 
-*/
+
     //println("FORCE: "+f1.inline,f2.inline)
 
-    /*
+
     e1Phys.velocity = Vec3f(0,0,0)
     e2Phys.velocity = Vec3f(0,0,0)
     e1Phys.acceleration = Vec3f(0,0,0)
@@ -184,7 +218,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     e1.getIfPresent(classOf[Physics]).get.addForce(f1)
     e2.getIfPresent(classOf[Physics]).get.addForce(f2)
 
-    */
+        */
 
     // play collision sound if there is a sound component with collision
     e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
@@ -198,7 +232,38 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
   }
 
   private def handleActiveCollision(pair: (Collision,Collision)) {
+    val c1: Collision = pair._1
+    val c2: Collision = pair._2
 
+    val vecPair = pairVecs(pair)
+    val colPoint = collisionPoint(vecPair.vec1,vecPair.vec2)
+
+    val e1 = GameEngine.entities(c1.owner.toString)
+    val e2 = GameEngine.entities(c2.owner.toString)
+    if(e1.has(classOf[MakeItSolid])) {
+
+
+      e2.hasOrAncestor(classOf[Physics]).map(b => {
+        println("STOPPING",e2)
+        val p1 = b.getComponent(classOf[Physics])
+        p1.velocity = Vec3f(0,0,0)
+        p1.acceleration = Vec3f(0,0,0)
+        p1.clearForceAccumulators()
+      })
+
+    }
+    if(e2.has(classOf[MakeItSolid])) {
+
+
+      e1.hasOrAncestor(classOf[Physics]).map(b => {
+        println("STOPPING",e1)
+        val p1 = b.getComponent(classOf[Physics])
+        p1.velocity = Vec3f(0,0,0)
+        p1.acceleration = Vec3f(0,0,0)
+        p1.clearForceAccumulators()
+      })
+
+    }
   }
 
   private def handleEndedCollision(pair: (Collision,Collision)) {
@@ -209,8 +274,14 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     val e2 = GameEngine.entities(c2.owner.toString)
 
     // remove bullet after collision
-    //e1.hasAndThen(classOf[Projectile], e => {e.destroy()})
-    //e2.hasAndThen(classOf[Projectile], e => {e.destroy()})
+    e1.hasAndThen(classOf[Projectile], e => {
+      if(e1.getComponent(classOf[Projectile]).shotBy != e2)
+        e.destroy()
+    })
+    e2.hasAndThen(classOf[Projectile], e => {
+      if(e2.getComponent(classOf[Projectile]).shotBy != e1)
+      e.destroy()
+    })
 
 
 

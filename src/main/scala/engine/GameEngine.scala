@@ -18,7 +18,7 @@ import main.scala.components.CamControl
 import main.scala.event.EntityRemoved
 import main.scala.systems.input.Triggers
 import main.scala.event.EntityCreated
-import main.scala.systems.gameplay.{HealthSystem, GunSystem}
+import main.scala.systems.gameplay.{LifeTimeSystem, HealthSystem, GunSystem}
 import main.scala.components.GunControl
 import main.scala.event.EntityRemoved
 import main.scala.components.DriveControl
@@ -152,6 +152,7 @@ object GameEngine extends Engine with EventReceiver{
 
     var tower2 =     Entity.newInstanceOf('Tower)
     tower2.getComponent(classOf[Placement]).position = Vec3f(2,1f,2)
+    tower2.add(new MakeItSolid)
 
     var tower3 =     Entity.newInstanceOf('Tower)
     tower3.getComponent(classOf[Placement]).position = Vec3f(4,1f,8)
@@ -233,7 +234,9 @@ object GameEngine extends Engine with EventReceiver{
     phys.canSleep = false
     val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
 
-
+    val aabb = new AABB(Vec3f(-0.2f,-0.2f,-0.2f),Vec3f(0.2f,0.2f,0.2f))
+    aabb.setOwner(test.getComponent(classOf[Collision]))
+    test.getComponent(classOf[Collision]).boundingVolume = aabb
 
 
 
@@ -308,8 +311,9 @@ object GameEngine extends Engine with EventReceiver{
     add(new CamControlSystem)
     add(new RenderingSystem(prefFPS))
     add(new TextRenderingSystem(prefFPS))
-    add(new PhysicsSystem(200))
     add(new CollisionSystem(200))
+    add(new PhysicsSystem(200))
+
     add(new GunSystem)
     add(new RelativePositionalSystem)
     add(new SoundSystem)
@@ -317,6 +321,7 @@ object GameEngine extends Engine with EventReceiver{
     add(new GameControlSystem)
     add(new HealthSystem)
     add(new GunAISystem)
+    add(new LifeTimeSystem)
 
 
     time = new StopWatch()

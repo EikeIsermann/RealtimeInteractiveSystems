@@ -23,6 +23,8 @@ object Physics extends ComponentCreator {
       val linearDampening = (damp \ "linear").text.toFloat
       val angularDampening = (damp \ "angular").text.toFloat
 
+
+
       val inertia: Mat3f = {
         val arr = ine.text.split(" ")
         val aF = arr.map(_.toFloat)
@@ -34,6 +36,7 @@ object Physics extends ComponentCreator {
       }
       val phy = new Physics(velocity,acceleration,mass,linearDampening,inertia,angularDampening,gravity)
 
+      phy.isSolid = (n \ "isSolid").text.toBoolean
       phy.canSleep = (n \ "canSleep").text.toBoolean
       phy.awake((n \ "awake").text.toBoolean)
       Some(phy)
@@ -42,6 +45,8 @@ object Physics extends ComponentCreator {
 }
 
 class Physics(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1: Float = 1f, linearDampening1: Float = 0.99f, inertia1: Mat3f = Mat3f(), angularDampening1: Float = 0.8f, gravity1: Vec3f = Vec3f(0,-9.81f,0)) extends Component {
+
+  var isSolid: Boolean = false
 
   final val sleepEpsilon: Float = 0.3f
 
@@ -275,6 +280,7 @@ class Physics(velocity1: Vec3f = Vec3f(), acceleration1: Vec3f = Vec3f(), mass1:
       <inertia>{inertiaToXML()}</inertia>
       <canSleep>{canSleep.toString}</canSleep>
       <awake>{isAwake.toString}</awake>
+      <isSolid>{isSolid.toString}</isSolid>
     </physics>
   }
 
