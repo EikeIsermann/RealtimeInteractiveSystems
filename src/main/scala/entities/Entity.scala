@@ -34,7 +34,7 @@ object Entity {
     e
   }
 
-  def newInstanceOf(name: Symbol): Entity  = {
+  def  newInstanceOf(name: Symbol): Entity  = {
 
     val templateEntity = EntityTemplateLoader.get(name)
 

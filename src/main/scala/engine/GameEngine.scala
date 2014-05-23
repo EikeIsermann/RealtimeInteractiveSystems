@@ -132,13 +132,13 @@ object GameEngine extends Engine with EventReceiver{
 
     // load all entity templates  - needs to happen before level is loaded
     EntityTemplateLoader.load(entitiesDir)
-  /*
+
     // loading all level files - or one specific
     LevelLoader.load()
     // get the level and initialize it
-    LevelLoader.get('leveltest).initialize()
-*/
+    LevelLoader.get('test2).initialize()
 
+    /*
     //create a level from current game with this name and save it to disk
     //val lvl = new Level("TestLevel")
     //lvl.save()
@@ -316,7 +316,7 @@ object GameEngine extends Engine with EventReceiver{
    camEntity.add(cam2)
    camEntity.add(camPos)
 
-           //*/
+           */
 
    Input.init()
    //register systems with engine
