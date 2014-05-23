@@ -16,8 +16,7 @@ import main.scala.engine.GameEngine
 case class GunAI() extends Component {
 
 
-  var state: AIState = new gunTargetAcquired(GameEngine.entities.apply("Tank:1"))
-
+  var state: AIState = new gunSearching()
   def toXML: Node = {
     null
   }
