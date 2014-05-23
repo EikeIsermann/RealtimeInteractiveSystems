@@ -10,6 +10,7 @@ import main.scala.engine.GameEngine
 import main.scala.systems.gfx.Shader
 import main.scala.entities.Entity
 import main.scala.event.{PlayerLeftView, PlayerEnteredView, EventDispatcher}
+import main.scala.systems.ai.aiStates._
 
 /**
  * Created by Christian Treffs
@@ -142,10 +143,10 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
     // AI sees player
     if(either(e1,e2,classOf[GunAI],classOf[GunControl])) {
-      EventDispatcher.dispatch(new PlayerEnteredView(whoHas(e1,e2,classOf[GunControl])))
+      whoHas(e1,e2,classOf[GunAI]).getComponent(classOf[GunAI]).state = new gunTargetAcquired(whoHas(e1,e2,classOf[GunControl]))
     }
 
-    println("Collision New",pair)
+    //println("Collision New",pair)
     //println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
 
     /*
@@ -201,7 +202,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
   }
 
   private def handleEndedCollision(pair: (Collision,Collision)) {
-    println("CollisionEnded",pair)
+    //println("CollisionEnded",pair)
     val c1: Collision = pair._1
     val c2: Collision = pair._2
     val e1 = GameEngine.entities(c1.owner.toString)
@@ -212,8 +213,12 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     //e2.hasAndThen(classOf[Projectile], e => {e.destroy()})
 
 
+
+
+
     if(either(e1,e2,classOf[GunAI],classOf[GunControl])) {
-      EventDispatcher.dispatch(new PlayerLeftView())
+      println(e1,e2,"has left view")
+      whoHas(e1,e2,classOf[GunAI]).getIfPresent(classOf[GunAI]).map(_.state = new gunSearching())
     }
 
   }
@@ -227,6 +232,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
   }
 
   private def either(e1: Entity, e2: Entity, c1: Class[_ <: Component], c2: Class[_ <: Component]): Boolean = (e1.has(c1) && e2.has(c2)) || (e1.has(c2) && e2.has(c1))
+
 
   private def collisionPoint(v1: Vec3f,v2: Vec3f): Vec3f = 0.5f*(v2+v1)
 

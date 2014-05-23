@@ -55,7 +55,7 @@ class GunSystem extends ProcessingSystem {
           //val cam = new Camera(120f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0), 0.1f )
           //bullet.add(cam)
           //EventDispatcher.dispatch(new ActivateCam(cam))
-            println(bullet.getIfPresent(classOf[Sound]))
+            //println(bullet.getIfPresent(classOf[Sound]))
           //bullphys.addForce(RISMath.DirFromRot(pos.rotation)*10000000)
            gun.shoot(false)
            gun.timeOfLastShot = System.currentTimeMillis()

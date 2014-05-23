@@ -1,11 +1,9 @@
 package main.scala.components
 
-import main.scala.systems.ai.aiStates.{gunTargetAcquired, gunSearching, AIState}
-import main.scala.architecture.Component
+import main.scala.systems.ai.aiStates.{gunSearching, AIState}
+import main.scala.architecture.{ComponentCreator, Component}
 import main.scala.tools.Identifier
 import scala.xml.Node
-import main.scala.event._
-import main.scala.engine.GameEngine
 
 /**
  * User: uni
@@ -13,16 +11,19 @@ import main.scala.engine.GameEngine
  * Time: 18:19
  * This is a RIS Project class
  */
+object GunAI extends ComponentCreator {
+  override def fromXML(xml: Node): Option[GunAI] = xmlToComp[GunAI](xml, "gunAI", n => Some(new GunAI()))
+
+}
+
 case class GunAI() extends Component {
 
-
   var state: AIState = new gunSearching()
-  def toXML: Node = {
-    null
-  }
 
-  def newInstance(identifier: Identifier): Component = {
-     null
-      }
+  def newInstance(identifier: Identifier): Component = new GunAI()
+
+  def toXML: Node = {
+    <gunAI></gunAI>
+  }
 
 }

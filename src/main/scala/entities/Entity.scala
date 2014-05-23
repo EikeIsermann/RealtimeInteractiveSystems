@@ -128,6 +128,20 @@ class Entity(idx: Identifier, template: Boolean = false) {
     if(has(componentClass)) func.apply(this)
   }
 
+  def hasNotThen(componentClass: Class[_ <: Component], func: Entity => Unit) {
+    if(!has(componentClass)) func.apply(this)
+  }
+
+  def hasOrAncestor(c: Class[_ <: Component], e: Entity = this): Option[Entity] = {
+    if(e.has(c)) return Some(e)
+
+    e.hasAndThen(classOf[Children], e => e.getComponent(classOf[Children]).children.foreach(hasOrAncestor(c,_)))
+    e.hasAndThen(classOf[Parent],   e => hasOrAncestor(c, e.getComponent(classOf[Parent]).entity))
+
+    None
+  }
+
+
   def hasNodeAndThen(nodeClass: Class[_ <: Node], func: Entity => Unit) {
     val pos = Node.getDefinition(nodeClass)(true)
     val neg = Node.getDefinition(nodeClass)(false)

@@ -28,6 +28,9 @@ object Gun extends ComponentCreator {
 }
 
 case class Gun(lifetimeProjectile1: Long = 0, coolDown1: Long = 1000, timeOfLastShot1: Long = 0, pCP: Float = 45f, pCN: Float = -10f, yC: Float = 180f, sh: Boolean = false, pro: Symbol = 'Bullet, pw: Float=30000) extends Component {
+
+  val fireAngle = 10f
+
   private var _lifetimeProjectile: Long = lifetimeProjectile1
   private var _coolDown: Long = coolDown1
   private var _timeOfLastShot: Long = timeOfLastShot1
