@@ -244,7 +244,7 @@ object GameEngine extends Engine with EventReceiver{
     tank1.getComponent(classOf[Placement]).position = Vec3f(0,100,0)
     val test3 = entities.apply("Turret:2")
     test3.add(new Gun)
-    test3.add(new GunAI(new gunTargetAcquired))
+    test3.add(new GunAI)
 
     var tank2 = Entity.newInstanceOf('Tank)
     tank2.getComponent(classOf[Placement]).position = Vec3f(2000,100,8000)

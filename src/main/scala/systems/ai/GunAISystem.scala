@@ -15,15 +15,7 @@ class GunAISystem extends ProcessingSystem {
   override var node: Class[_ <: Node] = classOf[GunAINode]
   override var priority: Int = _
 
-  override def processNode(node: Node): Unit = {
-    node match {
-      case gn: GunAINode =>
-        (gn -> classOf[GunAI]).state.execute(gn)
 
-      case _ =>
-    }
-
-  }
 
   /**
    * called on system startup

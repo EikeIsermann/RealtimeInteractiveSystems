@@ -9,7 +9,7 @@
     </display>
     <placement>
         <position x="0" y="95" z="-190" />
-        <rotation angleX="0" angleY="45" angleZ="0" />
+        <rotation angleX="0" angleY="90" angleZ="0" />
         <scale x="1" y="1" z="1" />
     </placement>
     <collision>
