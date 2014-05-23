@@ -81,6 +81,7 @@ class Placement(position1: Vec3f = Vec3f(0,0,0), rotation1: Vec3f = Vec3f(0,0,0)
     orientation = p.orientation
     rotation = p.rotation
     _basePosition = p.basePosition
+    _unscaledBase = p._unscaledBase
   }
 
 

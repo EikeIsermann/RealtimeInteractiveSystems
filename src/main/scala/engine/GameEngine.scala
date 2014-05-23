@@ -38,7 +38,6 @@ object GameEngine extends Engine with EventReceiver{
   // set debug level
   DC.debugLevel = 3
 
-  var showCollisionBox: Boolean = true
   private var assetsDir: String = null
   private var gameTitle:String = null
   private var entitiesDir:String = null
@@ -133,285 +132,294 @@ object GameEngine extends Engine with EventReceiver{
 
     // load all entity templates  - needs to happen before level is loaded
     EntityTemplateLoader.load(entitiesDir)
-
+  /*
     // loading all level files - or one specific
-    //LevelLoader.load()
+    LevelLoader.load()
     // get the level and initialize it
-   // LevelLoader.get('testlevel).initialize()
-
+    LevelLoader.get('leveltest).initialize()
+*/
 
     //create a level from current game with this name and save it to disk
     //val lvl = new Level("TestLevel")
     //lvl.save()
     //creating SkyBox
-    Entity.newInstanceOf('SkyBox)
-
-    var tower =     Entity.newInstanceOf('Tower)
-    tower.getComponent(classOf[Placement]).position = Vec3f(0,1f,8)
-
-
-    var tower2 =     Entity.newInstanceOf('Tower)
-    tower2.getComponent(classOf[Placement]).position = Vec3f(2,1f,2)
-    tower2.add(new MakeItSolid)
+   Entity.newInstanceOf('SkyBox)
+
+   var tower =     Entity.newInstanceOf('Tower)
+   tower.getComponent(classOf[Placement]).position = Vec3f(0,1f,8)
+
+
+   var tower2 =     Entity.newInstanceOf('Tower)
+   tower2.getComponent(classOf[Placement]).position = Vec3f(2,1f,2)
+   tower2.add(new MakeItSolid)
+
+   var tower3 =     Entity.newInstanceOf('Tower)
+   tower3.getComponent(classOf[Placement]).position = Vec3f(4,1f,8)
+
+   var tower4 =     Entity.newInstanceOf('Tower)
+   tower4.getComponent(classOf[Placement]).position = Vec3f(6,1f,2)
 
-    var tower3 =     Entity.newInstanceOf('Tower)
-    tower3.getComponent(classOf[Placement]).position = Vec3f(4,1f,8)
+   var tower5 =     Entity.newInstanceOf('Tower)
+   tower5.getComponent(classOf[Placement]).position = Vec3f(8,1f,8)
 
-    var tower4 =     Entity.newInstanceOf('Tower)
-    tower4.getComponent(classOf[Placement]).position = Vec3f(6,1f,2)
+   var tower6 =     Entity.newInstanceOf('Tower)
+   tower6.getComponent(classOf[Placement]).position = Vec3f(10,1f,2)
+
+   //creating Floor
+   Entity.newInstanceOf('FloorNE).getComponent(classOf[Placement]).position = Vec3f(0,0,0)
+   Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(0,0,2)
+   Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(0,0,4)
+   Entity.newInstanceOf('FloorNW).getComponent(classOf[Placement]).position = Vec3f(0,0,6)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(0,0,8)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(0,0,10)
 
-    var tower5 =     Entity.newInstanceOf('Tower)
-    tower5.getComponent(classOf[Placement]).position = Vec3f(8,1f,8)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,0)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(2,0,2)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,4)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,6)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(2,0,8)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,10)
 
-    var tower6 =     Entity.newInstanceOf('Tower)
-    tower6.getComponent(classOf[Placement]).position = Vec3f(10,1f,2)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,0)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(4,0,2)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,4)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,6)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(4,0,8)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,10)
 
-    //creating Floor
-    Entity.newInstanceOf('FloorNE).getComponent(classOf[Placement]).position = Vec3f(0,0,0)
-    Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(0,0,2)
-    Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(0,0,4)
-    Entity.newInstanceOf('FloorNW).getComponent(classOf[Placement]).position = Vec3f(0,0,6)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(0,0,8)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(0,0,10)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(6,0,0)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(6,0,2)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(6,0,4)
+   Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(6,0,6)
+   Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(6,0,8)
+   Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(6,0,10)
 
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,0)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(2,0,2)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,4)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,6)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(2,0,8)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(2,0,10)
+   Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(8,0,0)
+   Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(8,0,2)
+   Entity.newInstanceOf('FloorSW).getComponent(classOf[Placement]).position = Vec3f(8,0,4)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(8,0,6)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(8,0,8)
+   Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(8,0,10)
 
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,0)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(4,0,2)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,4)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,6)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(4,0,8)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(4,0,10)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,0)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,2)
+   Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,4)
+   Entity.newInstanceOf('FloorSE).getComponent(classOf[Placement]).position = Vec3f(10,0,6)
+   Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(10,0,8)
+   Entity.newInstanceOf('FloorSW).getComponent(classOf[Placement]).position = Vec3f(10,0,10)
 
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(6,0,0)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(6,0,2)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(6,0,4)
-    Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(6,0,6)
-    Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(6,0,8)
-    Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(6,0,10)
+   val box1 = Entity.newInstanceOf('CollisionBox)
 
-    Entity.newInstanceOf('FloorNEWS).getComponent(classOf[Placement]).position = Vec3f(8,0,0)
-    Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(8,0,2)
-    Entity.newInstanceOf('FloorSW).getComponent(classOf[Placement]).position = Vec3f(8,0,4)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(8,0,6)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(8,0,8)
-    Entity.newInstanceOf('FloorNS).getComponent(classOf[Placement]).position = Vec3f(8,0,10)
+   val box2 = Entity.newInstanceOf('CollisionBox)
+   box2.getIfPresent(classOf[Placement]).get.position = Vec3f(0,6f,0)
+   box2.getIfPresent(classOf[Physics]).get.addForce(Vec3f(0,-1000f,0))
 
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,0)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,2)
-    Entity.newInstanceOf('FloorPLAZA).getComponent(classOf[Placement]).position = Vec3f(10,0,4)
-    Entity.newInstanceOf('FloorSE).getComponent(classOf[Placement]).position = Vec3f(10,0,6)
-    Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(10,0,8)
-    Entity.newInstanceOf('FloorSW).getComponent(classOf[Placement]).position = Vec3f(10,0,10)
 
-    val box1 = Entity.newInstanceOf('CollisionBox)
 
-    val box2 = Entity.newInstanceOf('CollisionBox)
-    box2.getIfPresent(classOf[Placement]).get.position = Vec3f(0,6f,0)
-    box2.getIfPresent(classOf[Physics]).get.addForce(Vec3f(0,-1000f,0))
+   // creating Tank
+   val tank = Entity.newInstanceOf('Tank)
 
+   //val tank2 = Entity.newInstanceOf('Tank)
+   val test = entities.apply("Turret:1")
+   test.add(new GunControl)
+   var test2 = new Gun
+   test.add(test2)
+   tank.getComponent(classOf[Placement]).position = Vec3f(0,100,10000)
+   tank.getComponent(classOf[Placement]).rotation = Vec3f(0,-90,0)
 
+   tank.add(new DriveControl)
+   tank.add(new Vehicle)
+   ent = tank
+   var phys = new Physics()
+   phys.canSleep = false
+   phys.mass = 60f
+   phys.gravity = Vec3f()
+   phys.damping_=(0.1f,0.1f)
+   phys.gravity_=(Vec3f(0,0,0))
+   tank.add(phys)
+   phys.canSleep = false
+   val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 0.7f )
 
-    // creating Tank
-    val tank = Entity.newInstanceOf('Tank)
+   val aabb = new AABB(Vec3f(-0.2f,-0.2f,-0.2f),Vec3f(0.2f,0.2f,0.2f))
+   aabb.setOwner(test.getComponent(classOf[Collision]))
+   test.getComponent(classOf[Collision]).boundingVolume = aabb
 
-    //val tank2 = Entity.newInstanceOf('Tank)
-    val test = entities.apply("Turret:1")
-    test.add(new GunControl)
-    var test2 = new Gun
-    test.add(test2)
-    tank.getComponent(classOf[Placement]).position = Vec3f(0,100,10000)
-    tank.getComponent(classOf[Placement]).rotation = Vec3f(0,-90,0)
+   var machinegun = GameEngine.entities.apply("MachineGun:1")
 
-    tank.add(new DriveControl)
-    tank.add(new Vehicle)
-    ent = tank
-    var phys = new Physics()
-    phys.canSleep = false
-    phys.mass = 60f
-    phys.gravity = Vec3f()
-    phys.damping_=(0.1f,0.1f)
-    phys.gravity_=(Vec3f(0,0,0))
-    tank.add(phys)
-    phys.canSleep = false
-    val cam = new Camera(70f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(-25,0,0), 1.2f )
 
-    val aabb = new AABB(Vec3f(-0.2f,-0.2f,-0.2f),Vec3f(0.2f,0.2f,0.2f))
-    aabb.setOwner(test.getComponent(classOf[Collision]))
-    test.getComponent(classOf[Collision]).boundingVolume = aabb
+    var gun = new Gun
 
+    gun.coolDown = 25
+    gun.power = 5000
+    machinegun.add(gun)
+   machinegun.add(new GunControl(Triggers(Key._I),Triggers(Key._O), Triggers(), Triggers(), Triggers(null,MouseButton.Right,null),Triggers()))
 
+   test.add(cam)
 
-    test.add(cam)
 
 
 
+   var tank1 = Entity.newInstanceOf('Tank)
+   tank1.getComponent(classOf[Placement]).position = Vec3f(0,100,0)
+   val test3 = entities.apply("Turret:2")
+   test3.add(new Gun)
+   test3.add(new GunAI)
 
-    var tank1 = Entity.newInstanceOf('Tank)
-    tank1.getComponent(classOf[Placement]).position = Vec3f(0,100,0)
-    val test3 = entities.apply("Turret:2")
-    test3.add(new Gun)
-    test3.add(new GunAI)
 
 
+   var tank2 = Entity.newInstanceOf('Tank)
+   tank2.getComponent(classOf[Placement]).position = Vec3f(2000,100,8000)
+   GameEngine.entities("Turret:3").add(new GunAI)
+   GameEngine.entities("Turret:3").add(new Gun)
 
-    var tank2 = Entity.newInstanceOf('Tank)
-    tank2.getComponent(classOf[Placement]).position = Vec3f(2000,100,8000)
-    GameEngine.entities("Turret:3").add(new GunAI)
-    GameEngine.entities("Turret:3").add(new Gun)
 
+   var tank3 = Entity.newInstanceOf('Tank)
+   tank3.getComponent(classOf[Placement]).position = Vec3f(4000,100,2000)
+   GameEngine.entities("Turret:4").add(new GunAI)
+   GameEngine.entities("Turret:4").add(new Gun)
 
-    var tank3 = Entity.newInstanceOf('Tank)
-    tank3.getComponent(classOf[Placement]).position = Vec3f(4000,100,2000)
-    GameEngine.entities("Turret:4").add(new GunAI)
-    GameEngine.entities("Turret:4").add(new Gun)
 
+   var tank4 = Entity.newInstanceOf('Tank)
+   tank4.getComponent(classOf[Placement]).position = Vec3f(6000,100,0)
+   GameEngine.entities("Turret:5").add(new GunAI)
+   GameEngine.entities("Turret:5").add(new Gun)
 
-    var tank4 = Entity.newInstanceOf('Tank)
-    tank4.getComponent(classOf[Placement]).position = Vec3f(6000,100,0)
-    GameEngine.entities("Turret:5").add(new GunAI)
-    GameEngine.entities("Turret:5").add(new Gun)
+   /*
+   var tank5 = Entity.newInstanceOf('Tank)
+   tank5.getComponent(classOf[Placement]).position = Vec3f(6000,100,6000)
 
-    /*
-    var tank5 = Entity.newInstanceOf('Tank)
-    tank5.getComponent(classOf[Placement]).position = Vec3f(6000,100,6000)
 
+   var tank6 = Entity.newInstanceOf('Tank)
+   tank6.getComponent(classOf[Placement]).position = Vec3f(10000,100,6000)
 
-    var tank6 = Entity.newInstanceOf('Tank)
-    tank6.getComponent(classOf[Placement]).position = Vec3f(10000,100,6000)
+         */
 
-          */
 
+   val cam2 = new Camera(70f,None,0.1f,50f, false ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
 
-    val cam2 = new Camera(70f,None,0.1f,50f, false ,Vec3f(0,0,0),Vec3f(0,0,0),0 )
 
+   val camEntity = Entity.create("Camera")
 
-    val camEntity = Entity.create("Camera")
+   val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
 
-    val camPos = new Placement(Vec3f(0,1,0),Vec3f(0,0,0))
 
 
+   val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
+     Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
+     Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
-    val camCon = new CamControl(Triggers(Key._W),Triggers(Key._S),Triggers(Key._A),Triggers(Key._D),
-      Triggers(null,null,MouseMovement.MovementY), Triggers(null,null,MouseMovement.MovementY),
-      Triggers(null,null, MouseMovement.MovementX), Triggers(null,null,MouseMovement.MovementX), Triggers(Key.Space, null, null), Triggers(Key.CtrlLeft,null,null))
 
 
+   cam2.active = true
+   camEntity.add(camCon)
+   //camEntity.add(motion)
+   camEntity.add(cam2)
+   camEntity.add(camPos)
 
-    cam2.active = true
-    camEntity.add(camCon)
-    //camEntity.add(motion)
-    camEntity.add(cam2)
-    camEntity.add(camPos)
+           //*/
 
+   Input.init()
+   //register systems with engine
+   add(new DriveControlSystem)
+   add(new CameraSystem)
+   add(new CamControlSystem)
+   add(new TextRenderingSystem(prefFPS))
+   add(new RenderingSystem(prefFPS))
 
+   add(new CollisionSystem(200))
+   add(new PhysicsSystem(200))
 
-    Input.init()
-    //register systems with engine
-    add(new DriveControlSystem)
-    add(new CameraSystem)
-    add(new CamControlSystem)
-    add(new RenderingSystem(prefFPS))
-    add(new TextRenderingSystem(prefFPS))
-    add(new CollisionSystem(200))
-    add(new PhysicsSystem(200))
+   add(new GunSystem)
+   add(new RelativePositionalSystem)
+   add(new SoundSystem)
+   add(new GunControlSystem)
+   add(new GameControlSystem)
+   add(new HealthSystem)
+   add(new GunAISystem)
+   add(new LifeTimeSystem)
 
-    add(new GunSystem)
-    add(new RelativePositionalSystem)
-    add(new SoundSystem)
-    add(new GunControlSystem)
-    add(new GameControlSystem)
-    add(new HealthSystem)
-    add(new GunAISystem)
-    add(new LifeTimeSystem)
 
+   time = new StopWatch()
 
-    time = new StopWatch()
 
+   // CREATE SIMULATION CONTEXT
+   simulationContext = new SimulationContext()
 
-    // CREATE SIMULATION CONTEXT
-    simulationContext = new SimulationContext()
+   //FPS
+   lastFPS = System.currentTimeMillis()
 
-    //FPS
-    lastFPS = System.currentTimeMillis()
 
+   DC.log("Game","initialized",3)
 
-    DC.log("Game","initialized",3)
 
+   //val lvl = new Level("TestLevel")
+   //lvl.save()
+ }
 
-    //val lvl = new Level("TestLevel")
-    //lvl.save()
-  }
 
 
 
+ override protected def gameLoop(): Unit = {
+   DC.logT('engineStartup,"Engine", "initialized", 3)
+   DC.log("Game","running...",3)
+   while (!Display.isCloseRequested) {
+     Display.sync(preferredFPS) //needs to be first
 
-  override protected def gameLoop(): Unit = {
-    DC.logT('engineStartup,"Engine", "initialized", 3)
-    DC.log("Game","running...",3)
-    while (!Display.isCloseRequested) {
-      Display.sync(preferredFPS) //needs to be first
+     // update the input
+     Input.update()
 
-      // update the input
-      Input.update()
+     // update the context
+     simulationContext.updateDeltaT(time.elapsed())
 
-      // update the context
-      simulationContext.updateDeltaT(time.elapsed())
+     //update all systems with sim-context
+     updateSystems(simulationContext)
 
-      //update all systems with sim-context
-      updateSystems(simulationContext)
+     updateFPS() // update FPS Counter
 
-      updateFPS() // update FPS Counter
+     Display.update() // show changes
 
-      Display.update() // show changes
+   }
 
-    }
+   shutdown()
+ }
 
-    shutdown()
-  }
+ override def shutdown(): Unit = {
+   DC.logT('engineShutdown,"Engine","shutting down",3)
 
-  override def shutdown(): Unit = {
-    DC.logT('engineShutdown,"Engine","shutting down",3)
+   // shut down all systems
+   systems.values.foreach(system => system.shutdown())
 
-    // shut down all systems
-    systems.values.foreach(system => system.shutdown())
+   Display.destroy()
+   DC.logT('engineShutdown,"Engine","ended",3)
+   System.exit(0)
+ }
 
-    Display.destroy()
-    DC.logT('engineShutdown,"Engine","ended",3)
-    System.exit(0)
-  }
+ def setGameTitle(fps: Float = 0, name: String = gameTitle, w: Int = Display.getWidth, h: Int = Display.getHeight) {
+   Display.setTitle(name +" @ "+w+"x"+h+" "+ fps +" fps")
+ }
 
-  def setGameTitle(fps: Float = 0, name: String = gameTitle, w: Int = Display.getWidth, h: Int = Display.getHeight) {
-    Display.setTitle(name +" @ "+w+"x"+h+" "+ fps +" fps")
-  }
 
+ /**
+  * Calculate the FPS and set it in the title bar
+  *
+  * http://www.lwjgl.org/wiki/index.php?title=LWJGL_Basics_4_(Timing)#Calculating_FPS
+  */
+ def updateFPS() {
+   if (System.currentTimeMillis() - lastFPS > 1000) {
+     setGameTitle(fps)
+     fps = 0 //reset the FPS counter
+     lastFPS += 1000 //add one second
+   }
+   fps = fps +1
+ }
 
-  /**
-   * Calculate the FPS and set it in the title bar
-   *
-   * http://www.lwjgl.org/wiki/index.php?title=LWJGL_Basics_4_(Timing)#Calculating_FPS
-   */
-  def updateFPS() {
-    if (System.currentTimeMillis() - lastFPS > 1000) {
-      setGameTitle(fps)
-      fps = 0 //reset the FPS counter
-      lastFPS += 1000 //add one second
-    }
-    fps = fps +1
-  }
+ override def receive(event: Event): Unit = {
+   event match {
+     case ec: EntityCreated => add(ec.ent)
+     case er: EntityRemoved => remove(er.ent)
+     case _ =>
 
-  override def receive(event: Event): Unit = {
-    event match {
-      case ec: EntityCreated => add(ec.ent)
-      case er: EntityRemoved => remove(er.ent)
-      case _ =>
-
-    }
-  }
+   }
+ }
 }
 

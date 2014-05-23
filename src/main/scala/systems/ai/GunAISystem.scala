@@ -3,6 +3,7 @@ package main.scala.systems.ai
 import main.scala.architecture.{System, Node, ProcessingSystem}
 import main.scala.nodes.GunAINode
 import main.scala.components.{GunAI, Gun}
+import main.scala.engine.GameEngine
 
 /**
  * User: uni
@@ -30,7 +31,6 @@ class GunAISystem extends ProcessingSystem {
   override def begin(): Unit = {}
 
   override def processNode(node: Node): Unit = {
-
     node match {
       case gN: GunAINode =>
         val ai: GunAI = gN -> classOf[GunAI]

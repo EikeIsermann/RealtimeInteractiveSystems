@@ -1,14 +1,15 @@
 package main.scala.systems.gameplay.states
 
-import main.scala.systems.input.{Key, Input}
+import main.scala.systems.input.{CamControlSystem, Key, Input}
 import main.scala.engine.GameEngine
 import main.scala.architecture.System
-import main.scala.systems.gfx.{TextRenderingSystem, RenderingSystem}
+import main.scala.systems.gfx.{CameraSystem, TextRenderingSystem, RenderingSystem}
 import main.scala.tools.DC
-import main.scala.components.{Text, Placement}
+import main.scala.components.{CamControl, Text, Placement}
 import main.scala.entities.Entity
 import main.scala.io.{LevelLoader, Level, EntityTemplateLoader}
 import main.scala.math.Vec3f
+import main.scala.systems.physics.CollisionSystem
 
 /**
  * Created by Christian Treffs
@@ -23,7 +24,7 @@ class InGameConsole extends GameState {
 
   override def execute()(implicit owner: System): GameState = {
     // pause the systems
-    GameEngine.pause(Seq(owner.getClass, classOf[RenderingSystem], classOf[TextRenderingSystem]))
+    GameEngine.pause(Seq(owner.getClass, classOf[RenderingSystem], classOf[TextRenderingSystem], classOf[CamControlSystem], classOf[CameraSystem]))
 
     // print console activated the first time
     first()
@@ -100,8 +101,8 @@ class InGameConsole extends GameState {
 
       if(s.length > 1 && s(0) == "box") {
         if(s.length == 2 && !s(1).isEmpty) {
-          GameEngine.showCollisionBox = s(1).toBoolean
-          println(GameEngine.showCollisionBox)
+          CollisionSystem.showCollisionBox = s(1).toBoolean
+
         }
       }
     }

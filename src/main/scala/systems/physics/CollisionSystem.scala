@@ -17,6 +17,14 @@ import main.scala.systems.ai.aiStates._
  */
 case class Pair(a: Identifier, b: Identifier)
 
+
+object CollisionSystem {
+
+  var showCollisionBox: Boolean = false
+  def toggleCollisionBoxes() {
+    showCollisionBox = !showCollisionBox
+  }
+}
 class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
   override var acc: Float = 0
@@ -71,7 +79,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
           collision.updateBoundingVolume(placement.getMatrix)
 
 
-          if(GameEngine.showCollisionBox) {
+          if(CollisionSystem.showCollisionBox) {
             collision.boundingVolume.draw(Shader.get('default), Mat4f.identity, ctx.viewMatrix, ctx.fieldOfView,ctx.aspect,ctx.nearPlane,ctx.farPlane)
           }
 

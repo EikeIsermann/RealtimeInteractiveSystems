@@ -26,7 +26,7 @@ class Font extends DrawFunction {
   private var tY: Array[Float] = null
 
   //http://www.webspaceworks.com/resources/fonts-web-typography/43/
-  def init(filePath: String = defaultFontImageFilePath, gridSize: Int = 16, aspect: Float = 0.52f, fontSize: Float = 0.3f) {
+  def init(filePath: String = defaultFontImageFilePath, gridSize: Int = 16, aspect: Float = 0.52f, fontSize: Float = 0.4f) {
 
     characterWidth = fontSize
     characterHeight = aspect * characterWidth
@@ -65,8 +65,9 @@ class Font extends DrawFunction {
     shader.useProgram(fov,aspect,zNear,zFar, viewMatrix)
     shader.setModelMatrix(modelTransformation)
 
+    /*
     glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT)
-    glEnable(GL_CULL_FACE)
+    glEnable(GL_CULL_FACE)   */
 
     Texture.bind(fontTextureId)
 

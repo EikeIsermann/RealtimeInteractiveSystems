@@ -48,15 +48,16 @@ class GunSystem extends ProcessingSystem {
         if(gun.timeOfLastShot + gun.coolDown < System.currentTimeMillis() && gun.shoot){
           var bullet = Entity.newInstanceOf(gun.projectile)
           bullet.getComponent(classOf[Placement]).setTo(pos)
+          bullet.getComponent(classOf[Placement]).position = bullet.getComponent(classOf[Placement]).position.add(RISMath.DirFromRot(pos.basePosition.rotation*pos.rotation)*5000)
+
           bullet.getComponent(classOf[Projectile]).shotBy = GameEngine.entities(gun.owner.toString)
           //bullet.getComponent(classOf[Placement]).scale = Vec3f(0.2f,0.2f,0.2f)
           var bullphys =  bullet.getComponent(classOf[Physics])
           bullphys.velocity = RISMath.DirFromRot(pos.basePosition.rotation*pos.rotation) * gun.power
-          bullet.getIfPresent(classOf[Sound]).map(_.playList += 'tankFire)
+          bullet.getIfPresent(classOf[Sound]).map(_.playList += 'tankFire2)
           if(GameEngine.entities.apply(gun.owner.toString).has(classOf[GunControl])){
           val cam = new Camera(100f,None,0.1f,50f, true ,Vec3f(0,0,0),Vec3f(0,0,0), 0.1f )
           bullet.add(cam)
-          EventDispatcher.dispatch(ActivateCam(cam))
           }
           //EventDispatcher.dispatch(new ActivateCam(cam))
             //println(bullet.getIfPresent(classOf[Sound]))

@@ -105,6 +105,7 @@ object EntityTemplateLoader {
     entity += Display.fromXML(xml)
     entity += DriveControl.fromXML(xml)
     entity += Gun.fromXML(xml)
+    entity += GunAI.fromXML(xml)
     entity += GunControl.fromXML(xml)
     entity += hasParts.fromXML(xml)
     entity += Health.fromXML(xml)

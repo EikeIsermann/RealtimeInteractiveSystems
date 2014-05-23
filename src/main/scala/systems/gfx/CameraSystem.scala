@@ -42,7 +42,10 @@ class CameraSystem extends ProcessingSystem with EventReceiver {
 
         val pos: Placement = camNode -> classOf[Placement]
         val cam: Camera = camNode -> classOf[Camera]
-        if(!activeCam.contains(cam)) activeCam = activeCam.:+(cam)
+        if(!activeCam.contains(cam)) {
+          activeCam = activeCam.filterNot(e => GameEngine.entities.apply(e.owner.toString).has(classOf[Projectile]))
+          activeCam = activeCam.:+(cam)
+        }
         if(cam.active && cam != activeCam.head) cam.active = false
         if(cam.active && cam == activeCam.head){
 
@@ -94,7 +97,7 @@ class CameraSystem extends ProcessingSystem with EventReceiver {
   def receive(event: Event): Unit = {
     event match {
       case cc: CycleCam => {
-          if(activeCam.nonEmpty){
+          if(activeCam.size > 1){
           activeCam = activeCam.tail.:+(activeCam.head)
            var ent = GameEngine.entities.apply(activeCam.last.owner.toString)
            if(ent.has(classOf[Projectile]))  {ent.remove(activeCam.last)}
