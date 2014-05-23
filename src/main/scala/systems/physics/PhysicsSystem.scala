@@ -47,7 +47,7 @@ class PhysicsSystem(simSpeed: Int) extends IntervalProcessingSystem {
 
     // Calculate linear acceleration from force inputs.
     // a2 = a0 + F/m
-    m.lastFrameAcceleration = m.acceleration + m.forceAccum * m.inverseMass
+    m.lastFrameAcceleration = m.gravity + m.acceleration + m.forceAccum * m.inverseMass
 
     // Calculate angular acceleration from torque inputs.
     m.angularAcceleration = m.inverseInertiaTensorWorld * m.torqueAccum

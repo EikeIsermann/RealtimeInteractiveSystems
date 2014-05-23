@@ -209,6 +209,13 @@ object GameEngine extends Engine with EventReceiver{
     Entity.newInstanceOf('FloorEW).getComponent(classOf[Placement]).position = Vec3f(10,0,8)
     Entity.newInstanceOf('FloorSW).getComponent(classOf[Placement]).position = Vec3f(10,0,10)
 
+    val box1 = Entity.newInstanceOf('CollisionBox)
+
+    val box2 = Entity.newInstanceOf('CollisionBox)
+    box2.getIfPresent(classOf[Placement]).get.position = Vec3f(0,6f,0)
+    box2.getIfPresent(classOf[Physics]).get.addForce(Vec3f(0,-1000f,0))
+
+
 
     // creating Tank
     val tank = Entity.newInstanceOf('Tank)

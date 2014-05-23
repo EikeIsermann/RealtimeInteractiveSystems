@@ -2,9 +2,10 @@ package main.scala.systems.gameplay
 
 import main.scala.architecture.{System, Node, ProcessingSystem}
 import main.scala.nodes.HealthNode
-import main.scala.components.Health
+import main.scala.components._
 import main.scala.engine.GameEngine
 import main.scala.tools.DC
+import main.scala.math.Vec3f
 
 /**
  * Created by Christian Treffs

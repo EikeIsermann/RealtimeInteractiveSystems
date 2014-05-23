@@ -175,6 +175,7 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     }
 
 
+
     // AI sees player
     if(either(e1,e2,classOf[GunAI],classOf[GunControl])) {
       whoHas(e1,e2,classOf[GunAI]).getComponent(classOf[GunAI]).state = new gunTargetAcquired(whoHas(e1,e2,classOf[GunControl]))
@@ -183,7 +184,8 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     //println("Collision New",pair)
     //println("Collision: "+e1.identifier+" & "+e2.identifier," collide @ "+colPoint.inline)
 
-    /*
+    /*if(e1.has(classOf[Physics]) && e2.has(classOf[Physics])) {
+
     val e1Phys = e1.getIfPresent(classOf[Physics]).get
     val e2Phys = e2.getIfPresent(classOf[Physics]).get
 
@@ -218,7 +220,8 @@ class CollisionSystem(simSpeed: Int) extends IntervalProcessingSystem {
     e1.getIfPresent(classOf[Physics]).get.addForce(f1)
     e2.getIfPresent(classOf[Physics]).get.addForce(f2)
 
-        */
+    }            */
+
 
     // play collision sound if there is a sound component with collision
     e1.getIfPresent(classOf[Sound]).map(_.playList += 'collision)
