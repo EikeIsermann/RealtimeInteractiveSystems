@@ -3,6 +3,11 @@ package main.scala.systems.ai.aiStates
 import main.scala.architecture.{Node, System}
 import main.scala.event._
 import main.scala.entities.Entity
+import main.scala.nodes.GunAINode
+import main.scala.components.{GunAI, Gun, Placement}
+import main.scala.entities.Entity
+import main.scala.math.RISMath
+import main.scala.engine.GameEngine
 
 /**
  * User: uni
@@ -35,9 +40,27 @@ class gunSearching() extends AIState{
   }
 }
 class gunTargetAcquired(enemy: Entity) extends AIState {
-  nextState = this
+  nextState = this    
+  var e = enemy
   def execute(node: Node)(implicit owner: System): AIState = {
-    println("AQUIRING",enemy)
+    node match {
+      case gai: GunAINode  =>
+      var pos = gai -> classOf[Placement]
+      var gun = gai -> classOf[Gun]
+      var gunai = gai -> classOf[GunAI]
+      var target = e.getComponent(classOf[Placement]).getMatrix.getPosition
+      var vectorAim = target.sub(pos.getMatrix.getPosition)
+      var vectorNow = RISMath.DirFromRot(pos.getUnscaledMatrix.rotation * pos.rotation)
+      println(target, pos.getMatrix.getPosition, vectorAim.normalize(), vectorNow.normalize)
+
+
+
+
+
+
+
+      case _ =>
+    }
     nextState
   }
 

@@ -25,6 +25,7 @@ import main.scala.components.DriveControl
 import main.scala.components.Gun
 import main.scala.event.EntityCreated
 import main.scala.components.Vehicle
+import main.scala.systems.ai.aiStates.gunTargetAcquired
 import main.scala.systems.ai.GunAISystem
 
 /**
@@ -243,10 +244,9 @@ object GameEngine extends Engine with EventReceiver{
 
     var tank1 = Entity.newInstanceOf('Tank)
     tank1.getComponent(classOf[Placement]).position = Vec3f(0,100,0)
-    GameEngine.entities("Turret:2").add(new GunAI)
-    GameEngine.entities("Turret:2").add(new Gun)
-
-
+    val test3 = entities.apply("Turret:2")
+    test3.add(new Gun)
+    test3.add(new GunAI)
 
     var tank2 = Entity.newInstanceOf('Tank)
     tank2.getComponent(classOf[Placement]).position = Vec3f(2000,100,8000)
@@ -311,7 +311,6 @@ object GameEngine extends Engine with EventReceiver{
     add(new GameControlSystem)
     add(new HealthSystem)
     add(new GunAISystem)
-
 
 
     time = new StopWatch()

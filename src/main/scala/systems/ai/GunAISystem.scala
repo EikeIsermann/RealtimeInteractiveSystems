@@ -16,19 +16,18 @@ class GunAISystem extends ProcessingSystem {
   override var priority: Int = _
 
 
+
   /**
    * called on system startup
    * @return
    */
-  override def init(): System = this
-
+  override def init(): System = {this}
 
 
   /**
    * executed before nodes are processed - every update
    */
   override def begin(): Unit = {}
-
 
   override def processNode(node: Node): Unit = {
 
